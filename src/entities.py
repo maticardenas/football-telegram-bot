@@ -85,16 +85,28 @@ class RemainingTime:
     hours: int
     minutes: int
 
+    def _get_days_union(self) -> str:
+        if self.hours and self.minutes:
+            days_union = ", "
+        elif (self.hours and not self.minutes) or (not self.hours and self.minutes):
+            days_union = " y "
+        else:
+            days_union = ""
+
+        return days_union
+
     def __str__(self):
         suf_faltan = "n" if self.days != 1 else ""
         suf_dias = "s" if self.days != 1 else ""
         suf_horas = "s" if self.hours != 1 else ""
         suf_minutos = "s" if self.minutes != 1 else ""
 
-        days_phrase = f"{self.days} día{suf_dias}, " if self.days > 0 else ""
-        hours_phrase = f"{self.hours} hora{suf_horas} y " if self.hours > 0 else ""
+        days_phrase = f"{self.days} día{suf_dias}{self._get_days_union()}" if self.days > 0 else ""
+        hours_union = " y " if self.minutes else ""
+        hours_phrase = f"{self.hours} hora{suf_horas}{hours_union}" if self.hours > 0 else ""
+        minutes_phrase = f"{self.minutes} minuto{suf_minutos}" if self.minutes > 0 else ""
 
-        return f"Falta{suf_faltan} {days_phrase}{hours_phrase}{self.minutes} minuto{suf_minutos}"
+        return f"Falta{suf_faltan} {days_phrase}{hours_phrase}{minutes_phrase}"
 
 
 @dataclass

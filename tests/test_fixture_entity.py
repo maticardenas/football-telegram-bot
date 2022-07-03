@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from src.entities import Fixture
+import pytest
+
+from src.entities import Fixture, RemainingTime
 from src.utils.date_utils import get_time_in_time_zone, TimeZones
 
 
@@ -82,3 +84,21 @@ def test_is_next_day_in_europe_true(fixture: Fixture):
 
     # when - then
     assert fixture._is_next_day_in_europe() == True
+
+
+@pytest.mark.parametrize(
+    "days, hours, minutes, expected_text",
+    [(0, 0, 5, "Faltan 5 minutos"),
+     (0, 2, 0, "Faltan 2 horas"),
+     (0, 2, 10, "Faltan 2 horas y 10 minutos"),
+     (3, 0, 0, "Faltan 3 días"),
+     (4, 0, 3, "Faltan 4 días y 3 minutos"),
+     (1, 5, 0, "Falta 1 día y 5 horas"),
+     (1, 7, 19, "Falta 1 día, 7 horas y 19 minutos")]
+)
+def test_remaining_time(days: int, hours: int, minutes: int, expected_text: str):
+    # given
+    remaining_time = RemainingTime(days, hours, minutes)
+
+    # when - then
+    assert str(remaining_time) == expected_text
