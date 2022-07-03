@@ -3,8 +3,9 @@ from datetime import datetime
 
 import pytest
 
-from src.entities import Fixture, Team, Championship, MatchScore
-from src.utils.date_utils import get_time_in_time_zone, TimeZones
+from src.entities import Championship, Fixture, MatchScore, Team
+from src.utils.date_utils import TimeZones, get_time_in_time_zone
+
 
 @pytest.fixture
 def team() -> Team:
@@ -12,8 +13,9 @@ def team() -> Team:
         id=435,
         name="River Plate",
         picture="https://media.api-sports.io/football/teams/435.png",
-        aliases={}
+        aliases={},
     )
+
 
 @pytest.fixture
 def league() -> Championship:
@@ -21,15 +23,14 @@ def league() -> Championship:
         league_id=483,
         name="Copa de la Superliga",
         country="Argentina",
-        logo="https://media.api-sports.io/football/leagues/483.png"
+        logo="https://media.api-sports.io/football/leagues/483.png",
     )
+
 
 @pytest.fixture
 def match_score() -> MatchScore:
-    return MatchScore(
-        home_score=3,
-        away_score=0
-    )
+    return MatchScore(home_score=3, away_score=0)
+
 
 @pytest.fixture
 def fixture(team: Team, league: Championship, match_score: MatchScore) -> Fixture:
@@ -53,5 +54,5 @@ def fixture(team: Team, league: Championship, match_score: MatchScore) -> Fixtur
         round="Primera Fecha",
         home_team=team,
         away_team=away_team,
-        match_score=match_score
+        match_score=match_score,
     )
