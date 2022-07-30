@@ -105,6 +105,11 @@
     "command": "inter"
   },
   {
+    "id": "197",
+    "name": "PSV Eindhoven",
+    "command": "psv"
+  },
+  {
     "id": "26",
     "name": "Argentina",
     "command": "argentina"
