@@ -44,9 +44,9 @@ async def help(update: Update, context):
         f"• /next_matches_league <league_id>: Partidos del día de los próximos partidos del torneo seleccionado.\n"
         f"• /last_match_league <league_id>: último partido jugado del torneo seleccionado.\n"
         f"• /available_leagues: torneos disponibles para consultar con sus respectivos ids.\n"
-        f"• /today_matches [opt]<league_id>: partidos de hoy (de los equipos disponibles).\n"
-        f"• /tomorrow_matches [opt]<league_id>: partidos de mañana (de los equipos disponibles).\n"
-        f"• /last_played_matches [opt]<league_id>: partidos jugados el día de ayer (de los equipos disponibles)."
+        f"• /today_matches [opt]<league_ids>: partidos de hoy.\n"
+        f"• /tomorrow_matches [opt]<league_ids>: partidos de mañana.\n"
+        f"• /last_played_matches [opt]<league_ids>: partidos jugados el día de ayer."
     )
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
