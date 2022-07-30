@@ -123,50 +123,27 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
         super().__init__()
         self._command_args = commands_args
         self._user = user
-        self._managed_league = None
-
-    def validate_command_input(self) -> str:
-        response = ""
-
-        if len(self._command_args) == 1:
-            self._managed_league = self.get_managed_league(
-                self._command_args[0].lower()
-            )
-        elif len(self._command_args) > 1:
-            response = "Sólo puedes ingresar uno (torneo) o ningún paramétro."
-        else:
-            pass
-
-        return response
 
     def today_games(self) -> Tuple[str, str]:
-        league_id = self._managed_league.id if self._managed_league else None
         today_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(0, league_id)
+            self._fixtures_db_manager.get_games_in_surrounding_n_days(0, self._command_args)
         )
-
-        league_text = f" en {self._managed_league.name}" if self._managed_league else ""
 
         if len(today_games_fixtures):
             converted_games = [
                 convert_db_fixture(fixture) for fixture in today_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_games)
-            today_games_text_intro = (
-                f"{Emojis.WAVING_HAND.value} Hola "
-                f"{self._user}, "
-                f"estos son los partidos de hoy{league_text}:\n\n"
-            )
-
-            texts[0] = f"{today_games_text_intro}{texts[0]}"
             leagues = [fixture.championship for fixture in converted_games]
             photo = random.choice([league.logo for league in leagues])
         else:
+            leagues_text = f" para las ligas seleccionadas ({', '.join(self._command_args)}) " \
+                            if len(self._command_args) else ""
             texts = [
                 (
                     f"{Emojis.WAVING_HAND.value} Hola "
                     f"{self._user}, lamentablemente hoy "
-                    f"no hay partidos{league_text} :("
+                    f"no hay partidos{leagues_text} :("
                 )
             ]
             photo = MESSI_PHOTO
@@ -174,32 +151,26 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
         return (texts, photo)
 
     def yesterday_games(self) -> Tuple[str, str]:
-        league_id = self._managed_league.id if self._managed_league else None
         played_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(-1, league_id)
+            self._fixtures_db_manager.get_games_in_surrounding_n_days(-1, self._command_args)
         )
 
-        league_text = f" en {self._managed_league.name}" if self._managed_league else ""
         if len(played_games_fixtures):
             converted_fixtures = [
                 convert_db_fixture(fixture) for fixture in played_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_fixtures, played=True)
-            played_games_text_intro = (
-                f"{Emojis.WAVING_HAND.value} Hola "
-                f"{self._user}, "
-                f"estos son los partidos jugados "
-                f"ayer{league_text}:\n\n"
-            )
-            texts[0] = f"{played_games_text_intro}{texts[0]}"
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
         else:
+            leagues_text = f" para las ligas seleccionadas (" \
+                           f"{', '.join(self._command_args)}) " \
+                          if len(self._command_args) else ""
             texts = [
                 (
                     f"{Emojis.WAVING_HAND.value} Hola "
                     f"{self._user}, lamentablemente "
-                    f"ayer no se jugaron partidos{league_text} :("
+                    f"ayer no se jugaron partidos{leagues_text} :("
                 )
             ]
             photo = MESSI_PHOTO
@@ -207,32 +178,26 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
         return (texts, photo)
 
     def tomorrow_games(self) -> Tuple[str, str]:
-        league_id = self._managed_league.id if self._managed_league else None
         tomorrow_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(1, league_id)
+            self._fixtures_db_manager.get_games_in_surrounding_n_days(1, self._command_args)
         )
-
-        league_text = f" en {self._managed_league.name}" if self._managed_league else ""
 
         if len(tomorrow_games_fixtures):
             converted_fixtures = [
                 convert_db_fixture(fixture) for fixture in tomorrow_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_fixtures)
-            tomorrow_games_text_intro = (
-                f"{Emojis.WAVING_HAND.value} Hola "
-                f"{self._user}, "
-                f"estos son los partidos de mañana{league_text}:\n\n"
-            )
-            texts[0] = f"{tomorrow_games_text_intro}{texts[0]}"
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
         else:
+            leagues_text = f" para las ligas seleccionadas (" \
+                           f"{', '.join(self._command_args)}) " \
+                          if len(self._command_args) else ""
             texts = [
                 (
                     f"{Emojis.WAVING_HAND.value} Hola "
                     f"{self._user}, lamentablemente mañana "
-                    f"no hay partidos{league_text} :("
+                    f"no hay partidos{leagues_text} :("
                 )
             ]
             photo = MESSI_PHOTO
