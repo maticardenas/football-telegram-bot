@@ -20,23 +20,27 @@ So far, it processes information about specific team's **fixtures**, informing p
 
 - `/help` - Information about bot's commands and what they provide.
 
-- `/available_teams` - Available team's that can be queried with the other commands.
+- `/search_team <team_name>` - Search for teams by name.
 
-- `/next_match <team>` - Retrieves information about next scheduled match for an specific team, including rival, date (in different timezones), league and round which is being played.
+- `/search_league <league_name>` - Search for leagues by name.
 
-- `/last_match <team>` - Retrieves information about last match played by the specific team, including  scores, rival, date (in different timezones), league, roung and highlights
+- `/available_leagues` - Available team's that can be queried with the other commands.
 
-- `/next_match_league <league>` - Retrieves information about next scheduled match for an specific tournament, including rival, date (in different timezones), league and round which is being played.
+- `/next_match <team_id>` - Retrieves information about next scheduled match for an specific team, including rival, date (in different timezones), league and round which is being played.
 
-- `/next_matches_league <league>` - Retrieves information about matches to be played on the day that the next match of a tournament is happening.
+- `/last_match <team_id>` - Retrieves information about last match played by the specific team, including  scores, rival, date (in different timezones), league, roung and highlights
 
-- `/last_match_league <league>` - Retrieves information about last match played by the specific tournament, including  scores, rival, date (in different timezones), league, roung and highlights
+- `/next_match_league <league_id>` - Retrieves information about next scheduled match for an specific tournament, including rival, date (in different timezones), league and round which is being played.
 
-- `/today_matches` - Retrieves information about matches to be played on the current day.
+- `/next_matches_league <league_id>` - Retrieves information about matches to be played on the day that the next match of a tournament is happening.
 
-- `/tomorrow_matches` - Retrieves information about matches to be played on the following day.
+- `/last_match_league <league_id>` - Retrieves information about last match played by the specific tournament, including  scores, rival, date (in different timezones), league, roung and highlights
 
-- `/last_played_matches` - Retrieves information about matches to be played on the previous day.
+- `/today_matches` - Retrieves information about matches to be played on the current day (optionally accepts a list of `leagues_ids`).
+
+- `/tomorrow_matches` - Retrieves information about matches to be played on the following day (optionally accepts a list of `leagues_ids`)..
+
+- `/last_played_matches` - Retrieves information about matches to be played on the previous day (optionally accepts a list of `leagues_ids`)..
 
 
 ## Implementation Overview
