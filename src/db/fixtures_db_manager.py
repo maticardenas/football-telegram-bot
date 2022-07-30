@@ -74,7 +74,7 @@ class FixturesDBManager:
             if len(leagues):
                 for league in leagues:
                     league_statement = statement.where(DBFixture.league == league)
-                    surrounding_fixtures += self._notifier_db_manager(league_statement)
+                    surrounding_fixtures += self._notifier_db_manager.select_records(league_statement)
             else:
                 surrounding_fixtures += self._notifier_db_manager.select_records(statement)
 
