@@ -78,7 +78,7 @@ class FixturesDBManager:
             else:
                 surrounding_fixtures += self._notifier_db_manager.select_records(statement).order_by(DBFixture.bsas_date)
 
-        surrounding_fixtures.sort(lambda fixture: fixture.bsas_date)
+        surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
 
         return surrounding_fixtures
 
