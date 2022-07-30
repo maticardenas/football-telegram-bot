@@ -52,7 +52,7 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(teams_statement)
 
     def get_games_in_surrounding_n_days(
-        self, days: int, league: str = ""
+        self, days: int, leagues: List[int] = []
     ) -> List[Optional[DBFixture]]:
         surrounding_fixtures = []
 
@@ -69,21 +69,17 @@ class FixturesDBManager:
             surrounding_day = bsas_today + timedelta(days=day)
             games_date = surrounding_day.strftime("%Y-%m-%d")
 
-            statement = (
-                select(DBFixture)
-                .where(DBFixture.bsas_date.contains(games_date))
-                .order_by(DBFixture.bsas_date)
-                if not league
-                else select(DBFixture)
-                .where(
-                    DBFixture.bsas_date.contains(games_date), DBFixture.league == league
-                )
-                .order_by(DBFixture.bsas_date)
-            )
+            statement = select(DBFixture).where(DBFixture.bsas_date.contains(games_date))
 
-            surrounding_fixtures += self._notifier_db_manager.select_records(statement)
+            if len(leagues):
+                for league in leagues:
+                    league_statement = statement.where(DBFixture.league == league)
+                    surrounding_fixtures += self._notifier_db_manager(league_statement)
+            else:
+                surrounding_fixtures += self._notifier_db_manager.select_records(statement)
 
         return surrounding_fixtures
+
 
     def get_fixtures_by_team(self, team_id: int) -> Optional[List[DBFixture]]:
         fixtures_statement = (

@@ -248,21 +248,14 @@ async def today_matches(update: Update, context):
         context.args, update.effective_user.first_name
     )
 
-    validated_input = command_handler.validate_command_input()
+    texts, photo = command_handler.today_games()
 
-    if validated_input:
+    for text in texts:
         await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input
+            chat_id=update.effective_chat.id,
+            text=text,
+            parse_mode="HTML",
         )
-    else:
-        texts, photo = command_handler.today_games()
-
-        for text in texts:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=text,
-                parse_mode="HTML",
-            )
 
 
 async def last_played_matches(update: Update, context):
@@ -273,21 +266,14 @@ async def last_played_matches(update: Update, context):
         context.args, update.effective_user.first_name
     )
 
-    validated_input = command_handler.validate_command_input()
+    texts, photo = command_handler.yesterday_games()
 
-    if validated_input:
+    for text in texts:
         await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input
+            chat_id=update.effective_chat.id,
+            text=text,
+            parse_mode="HTML",
         )
-    else:
-        texts, photo = command_handler.yesterday_games()
-
-        for text in texts:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=text,
-                parse_mode="HTML",
-            )
 
 
 async def tomorrow_matches(update: Update, context):
@@ -298,21 +284,14 @@ async def tomorrow_matches(update: Update, context):
         context.args, update.effective_user.first_name
     )
 
-    validated_input = command_handler.validate_command_input()
+    texts, photo = command_handler.tomorrow_games()
 
-    if validated_input:
+    for text in texts:
         await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input
+            chat_id=update.effective_chat.id,
+            text=text,
+            parse_mode="HTML",
         )
-    else:
-        texts, photo = command_handler.tomorrow_games()
-
-        for text in texts:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=text,
-                parse_mode="HTML",
-            )
 
 
 if __name__ == "__main__":
