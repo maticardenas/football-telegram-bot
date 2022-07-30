@@ -73,10 +73,10 @@ class FixturesDBManager:
 
             if len(leagues):
                 for league in leagues:
-                    league_statement = statement.where(DBFixture.league == league)
+                    league_statement = statement.where(DBFixture.league == league).order_by(DBFixture.bsas_date)
                     surrounding_fixtures += self._notifier_db_manager.select_records(league_statement)
             else:
-                surrounding_fixtures += self._notifier_db_manager.select_records(statement)
+                surrounding_fixtures += self._notifier_db_manager.select_records(statement).order_by(DBFixture.bsas_date)
 
         return surrounding_fixtures
 
