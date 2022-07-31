@@ -53,5 +53,5 @@ It consumes [RAPID API - API FOOTBALL](https://rapidapi.com/api-sports/api/api-f
 ## Requirements
 
 - Python 3.8+
-- [Docker](https://www.docker.com/
+- [Docker](https://www.docker.com)
 - [Telegram Bot Token](https://core.telegram.org/bots)
