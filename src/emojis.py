@@ -49,3 +49,6 @@ class Emojis(Enum):
     RED_CIRCLE = emoji.emojize(":red_circle:", use_aliases=True)
     RIGHT_FACING_FIST = emoji.emojize(":right-facing_fist:", use_aliases=True)
     LEFT_FACING_FIST = emoji.emojize(":left-facing_fist:", use_aliases=True)
+    SAD_FACE = emoji.emojize(":crying_face:", use_aliases=True)
+    STADIUM = emoji.emojize(":stadium:", use_aliases=True)
+    POLICE_WOMAN = emoji.emojize(":woman_police_officer:", use_aliases=True)
