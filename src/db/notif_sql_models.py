@@ -29,6 +29,9 @@ class Fixture(SQLModel, table=True):
     round: str
     home_team: int = Field(foreign_key="team.id")
     away_team: int = Field(foreign_key="team.id")
+    venue: str
+    match_status: str
+    referee: str
     home_score: Optional[int] = None
     away_score: Optional[int] = None
     highlights: Optional[List[str]]
