@@ -233,7 +233,7 @@ class Fixture:
             f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} para el partido.\n\n"
             f"{Emojis.SOCCER_BALL.value} "
             f"<strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
-            f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.name[:3].upper()})</strong>\n\n"
+            f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n\n"
             f"{self.head_to_head_text()}"
             # f"{Emojis.LIGHT_BULB.value} Posible alineación del equipo:\n\n"
             # f"{self.line_up_message() if self.line_up else ''}\n\n"
@@ -269,7 +269,7 @@ class Fixture:
         return (
             f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} [{self.match_score.home_score}] vs. "
             f" [{self.match_score.away_score}] {self.away_team.name}</strong>\n"
-            f"{Emojis.TROPHY.value} <strong>{self.championship.name}</strong>\n"
+            f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"
             f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n\n"
             # f"{Emojis.LIGHT_BULB.value} La alineación titular del equipo fue:\n\n"
             # f"{self.line_up_message()}"
