@@ -341,8 +341,11 @@ class FixturesDBManager:
                     round=conv_fix.round,
                     home_team=retrieved_home_team.id,
                     away_team=retrieved_away_team.id,
+                    match_status=conv_fix.match_status,
+                    referee=conv_fix.referee,
                     home_score=conv_fix.match_score.home_score,
                     away_score=conv_fix.match_score.away_score,
+                    venue=conv_fix.venue
                 )
             else:
                 logger.info(
@@ -355,10 +358,13 @@ class FixturesDBManager:
                 db_fixture.bsas_date = conv_fix.bsas_date
                 db_fixture.league = retrieved_league.id
                 db_fixture.round = conv_fix.round
+                db_fixture.match_status = conv_fix.match_status
+                db_fixture.referee = conv_fix.referee
                 db_fixture.home_team = retrieved_home_team.id
                 db_fixture.away_team = retrieved_away_team.id
                 db_fixture.home_score = conv_fix.match_score.home_score
                 db_fixture.away_score = conv_fix.match_score.away_score
+                db_fixture.venue = conv_fix.venue
 
             db_fixtures.append(db_fixture)
 

@@ -1,6 +1,6 @@
 import re
 import urllib
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple, Union
 from urllib.error import HTTPError
 
@@ -28,7 +28,7 @@ from src.entities import (
     TeamStanding,
 )
 from src.notifier_logger import get_logger
-from src.utils.date_utils import TimeZones, get_formatted_date, get_time_in_time_zone
+from src.utils.date_utils import TimeZones, get_time_in_time_zone
 from src.utils.message_utils import TEAMS_ALIASES
 
 
@@ -209,28 +209,6 @@ def get_last_fixture(
     )
 
 
-def get_team_standings_for_league(team_standings: dict, league_id: int) -> TeamStanding:
-    for team_standing in team_standings:
-        if team_standing["league"]["id"] == league_id:
-            return __convert_standing_response(team_standing)
-
-
-def __convert_standing_response(team_standing: dict) -> TeamStanding:
-    standing_desc = team_standing["league"]["standings"][0][0]
-    return TeamStanding(
-        Championship(
-            team_standing["league"]["id"],
-            team_standing["league"]["name"],
-            team_standing["league"]["country"],
-            team_standing["league"]["logo"],
-        ),
-        standing_desc["rank"],
-        standing_desc["points"],
-        standing_desc["goalsDiff"],
-        standing_desc["description"],
-    )
-
-
 def convert_db_fixture(fixture: DBFixture) -> Fixture:
     """
     Converts a fixture from database into a Fixture entity for notifying.
@@ -258,8 +236,8 @@ def convert_db_fixture(fixture: DBFixture) -> Fixture:
         ams_date,
         bsas_date,
         int(date_diff(fixture.utc_date).total_seconds()),
-        "",
-        "",
+        fixture.referee,
+        fixture.match_status,
         Championship(
             league.id,
             league.name,
@@ -280,6 +258,7 @@ def convert_db_fixture(fixture: DBFixture) -> Fixture:
             get_team_aliases(str(away_team.id)),
         ),
         MatchScore(fixture.home_score, fixture.away_score),
+        fixture.venue
     )
 
 
@@ -326,6 +305,7 @@ def convert_fixture_response(
         MatchScore(
             fixture_response["goals"]["home"], fixture_response["goals"]["away"]
         ),
+        f"{fixture_response['fixture'].get('venue').get('name')} ({fixture_response['fixture'].get('venue').get('city')})",
         # get_line_up(fixture_response["fixture"]["id"], team_id),
     )
 
@@ -372,6 +352,7 @@ def convert_fixture_response_to_db_fixture(fixture_response: Dict[str, Any]) -> 
         MatchScore(
             fixture_response["goals"]["home"], fixture_response["goals"]["away"]
         ),
+        fixture_response["fixture"]["venue"]["name"]
     )
 
 
@@ -395,6 +376,28 @@ def __is_team_or_league_for_spanish_translation(
     return fixture_response["league"][
         "country"
     ].lower() == "argentina" or __teams_contain(fixture_response, "argentina")
+
+
+def get_team_standings_for_league(team_standings: dict, league_id: int) -> TeamStanding:
+    for team_standing in team_standings:
+        if team_standing["league"]["id"] == league_id:
+            return __convert_standing_response(team_standing)
+
+
+def __convert_standing_response(team_standing: dict) -> TeamStanding:
+    standing_desc = team_standing["league"]["standings"][0][0]
+    return TeamStanding(
+        Championship(
+            team_standing["league"]["id"],
+            team_standing["league"]["name"],
+            team_standing["league"]["country"],
+            team_standing["league"]["logo"],
+        ),
+        standing_desc["rank"],
+        standing_desc["points"],
+        standing_desc["goalsDiff"],
+        standing_desc["description"],
+    )
 
 
 def __teams_contain(fixture_response: Dict[str, Any], text: str) -> bool:
