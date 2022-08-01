@@ -5,6 +5,7 @@ from typing import List
 from config.config_utils import get_managed_teams_config, get_managed_leagues_config
 from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
+from src.db.notif_sql_models import Team as DBTeam, League as DBLeague
 from src.entities import Fixture, FixtureForDB
 from src.notifier_logger import get_logger
 from src.utils.fixtures_utils import (
@@ -46,31 +47,42 @@ def populate_managed_leagues() -> None:
 
 
 def populate_team_fixtures(is_initial) -> None:
-    fixtures_client = FixturesClient()
     current_year = date.today().year
     last_year = current_year - 1
 
     for team in MANAGED_TEAMS:
-        logger.info(f"Saving fixtures for team {team.name}")
-
         if is_initial:
-            team_fixtures = fixtures_client.get_fixtures_by(str(last_year), team.id)
-            if "response" in team_fixtures.as_dict:
-                FIXTURES_DB_MANAGER.save_fixtures(
-                    convert_fixtures_response_to_db(team_fixtures.as_dict["response"])
-                )
+            populate_single_team_fixture(team, last_year)
 
-        team_fixtures = fixtures_client.get_fixtures_by(str(current_year), team.id)
-        if "response" in team_fixtures.as_dict:
-            FIXTURES_DB_MANAGER.save_fixtures(
-                convert_fixtures_response_to_db(team_fixtures.as_dict["response"])
-            )
+        populate_single_team_fixture(team, current_year)
         # to avoid reaching rate limit at API calls.
         time.sleep(2.5)
 
 
-def populate_league_fixtures() -> None:
+def populate_single_team_fixture(team: DBTeam, season: int) -> None:
+    logger.info(f"Saving fixtures for team {team.name} - season {season}")
     fixtures_client = FixturesClient()
+    team_fixtures = fixtures_client.get_fixtures_by(str(season), team.id)
+
+    if "response" in team_fixtures.as_dict:
+        FIXTURES_DB_MANAGER.save_fixtures(
+            convert_fixtures_response_to_db(team_fixtures.as_dict["response"])
+        )
+
+
+def populate_single_league_fixture(league_id: int, season: str, between_dates: tuple) -> None:
+    fixtures_client = FixturesClient()
+    league_fixtures = fixtures_client.get_fixtures_by(
+        season, league_id=league_id, between_dates=between_dates
+    )
+
+    if "response" in league_fixtures.as_dict:
+        FIXTURES_DB_MANAGER.save_fixtures(
+            convert_fixtures_response_to_db(league_fixtures.as_dict["response"])
+        )
+
+
+def populate_league_fixtures() -> None:
     current_year = date.today().year
     today = datetime.today()
     yesterday_date = today + timedelta(days=-1)
@@ -85,14 +97,7 @@ def populate_league_fixtures() -> None:
     for league in leagues:
         logger.info(f"Saving fixtures for league {league.name}")
 
-        league_fixtures = fixtures_client.get_fixtures_by(
-            str(current_year), league_id=league.id, between_dates=between_dates
-        )
-
-        if "response" in league_fixtures.as_dict:
-            FIXTURES_DB_MANAGER.save_fixtures(
-                convert_fixtures_response_to_db(league_fixtures.as_dict["response"])
-            )
+        populate_single_league_fixture(league.id, str(current_year), between_dates)
 
         # to avoid reaching rate limit at API calls.
         time.sleep(2.5)
