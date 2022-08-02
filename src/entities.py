@@ -194,7 +194,7 @@ class Fixture:
         return h2h_text
 
     def one_line_telegram_repr(self, played: bool = False, with_date: bool = False) -> str:
-        date_text = f"{Emojis.SPIRAL_CALENDAR.value} {str(self.bsas_date)[:10]}\n" if with_date else ""
+        date_text = f"<strong>{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}</strong>\n" if with_date else ""
         if played:
             if "finished" in self.match_status.lower():
                 repr = (
