@@ -106,7 +106,7 @@ class NotifierBotCommandsHandler:
         return [
             "\n\n".join(
                 [
-                    fitting_fixture.one_line_telegram_repr(played)
+                    fitting_fixture.one_line_telegram_repr(played, with_date)
                     for fitting_fixture in fitting_fixtures
                 ]
             )
