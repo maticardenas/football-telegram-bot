@@ -364,7 +364,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             ]
             introductory_text = f"{Emojis.WAVING_HAND.value} Hola {self._user}, " \
                                 f"los últimos partidos de {team.name} fueron:"
-            texts = self.get_fixtures_text(converted_fixtures, with_date=True)
+            texts = self.get_fixtures_text(converted_fixtures, played=True, with_date=True)
             texts.insert(0, introductory_text)
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
