@@ -45,7 +45,9 @@ async def help(update: Update, context):
         f"• /last_match_league <league_id>: último partido jugado del torneo seleccionado.\n"
         f"• /available_leagues: torneos disponibles para consultar con sus respectivos ids.\n"
         f"• /today_matches [opt]<league_ids>: partidos de hoy.\n"
+        f"• /upcoming_matches <team_id>: próximos partidos del equipo seleccionado.\n"
         f"• /tomorrow_matches [opt]<league_ids>: partidos de mañana.\n"
+        f"• /last_matches <team_id>: últimos partidos del equipo seleccionado.\n"
         f"• /last_played_matches [opt]<league_ids>: partidos jugados el día de ayer."
     )
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
@@ -258,6 +260,42 @@ async def today_matches(update: Update, context):
         )
 
 
+async def upcoming_matches(update: Update, context):
+    logger.info(
+        f"'upcoming_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NextAndLastMatchCommandHandler(
+        context.args, update.effective_user.first_name
+    )
+
+    texts, photo = command_handler.upcoming_matches()
+
+    for text in texts:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=text,
+            parse_mode="HTML",
+        )
+
+
+async def last_matches(update: Update, context):
+    logger.info(
+        f"'last_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NextAndLastMatchCommandHandler(
+        context.args, update.effective_user.first_name
+    )
+
+    texts, photo = command_handler.last_matches()
+
+    for text in texts:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=text,
+            parse_mode="HTML",
+        )
+
+
 async def last_played_matches(update: Update, context):
     logger.info(
         f"'last_played_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
@@ -300,7 +338,9 @@ if __name__ == "__main__":
     search_team_handler = CommandHandler("search_team", search_team)
     search_league_handler = CommandHandler("search_league", search_league)
     next_match_handler = CommandHandler("next_match", next_match)
+    upcoming_matches_handler = CommandHandler("upcoming_matches", upcoming_matches)
     last_match_handler = CommandHandler("last_match", last_match)
+    last_matches_handler = CommandHandler("last_matches", last_matches)
     next_match_league_handler = CommandHandler("next_match_league", next_match_league)
     next_matches_league_handler = CommandHandler(
         "next_matches_league", next_matches_league
@@ -316,7 +356,9 @@ if __name__ == "__main__":
 
     application.add_handler(start_handler)
     application.add_handler(next_match_handler)
+    application.add_handler(upcoming_matches_handler)
     application.add_handler(last_match_handler)
+    application.add_handler(last_matches_handler)
     application.add_handler(next_match_league_handler)
     application.add_handler(next_matches_league_handler)
     application.add_handler(last_match_league_handler)

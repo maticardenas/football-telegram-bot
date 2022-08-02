@@ -112,7 +112,7 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(fixtures_statement)
 
     def get_next_fixture(
-        self, team_id: int = None, league_id: int = None
+        self, team_id: int = None, league_id: int = None, number_of_fixtures: int = 1
     ) -> Optional[List[DBFixture]]:
         today = datetime.strftime(datetime.utcnow(), "%Y-%m-%dT%H:%M:%S")
 
@@ -130,10 +130,10 @@ class FixturesDBManager:
 
         next_fixtures = self._notifier_db_manager.select_records(statement)
 
-        return next_fixtures[0] if len(next_fixtures) else next_fixtures
+        return next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
 
     def get_last_fixture(
-        self, team_id: int = None, league_id: int = None
+        self, team_id: int = None, league_id: int = None, number_of_fixtures: int = 1
     ) -> Optional[List[DBFixture]]:
         today = datetime.strftime(datetime.utcnow(), "%Y-%m-%dT%H:%M:%S")
 
@@ -151,7 +151,7 @@ class FixturesDBManager:
 
         next_fixtures = self._notifier_db_manager.select_records(statement)
 
-        return next_fixtures[0] if len(next_fixtures) else next_fixtures
+        return next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
 
     def get_head_to_head_fixtures(self, team_1: str, team_2: str):
         statement = (
