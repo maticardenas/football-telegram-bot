@@ -193,10 +193,12 @@ class Fixture:
 
         return h2h_text
 
-    def one_line_telegram_repr(self, played: bool = False) -> str:
+    def one_line_telegram_repr(self, played: bool = False, with_date: bool = False) -> str:
+        date_text = f"{Emojis.SPIRAL_CALENDAR.value} {str(self.bsas_date)[:10]}\n" if with_date else ""
         if played:
             if "finished" in self.match_status.lower():
                 repr = (
+                    f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} "
                     f"<strong>{self.home_team.name} [{self.match_score.home_score}] vs. [{self.match_score.away_score}] {self.away_team.name}</strong> \n"
                     f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>"
@@ -204,6 +206,7 @@ class Fixture:
                 )
             else:
                 repr = (
+                    f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong> \n"
                     f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"
                     f"{Emojis.SAD_FACE.value} <strong>{self.match_status}</strong>"
@@ -211,6 +214,7 @@ class Fixture:
                 )
         else:
             repr = (
+                f"{date_text}"
                 f"{Emojis.SOCCER_BALL.value} "
                 f"<strong>{self.home_team.name} vs. {self.away_team.name}</strong> \n"
                 f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"

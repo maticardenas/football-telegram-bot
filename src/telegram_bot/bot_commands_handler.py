@@ -81,14 +81,14 @@ class NotifierBotCommandsHandler:
         return "\n".join(leagues_texts)
 
     @staticmethod
-    def get_fixtures_text(converted_fixtures: List[Fixture], played: bool = False) -> List[str]:
+    def get_fixtures_text(converted_fixtures: List[Fixture], played: bool = False, with_date: bool = False) -> List[str]:
         text_limit = 3500
         fixtures_text = ""
         all_fitting_fixtures = []
         current_fitting_fixtures = []
 
         for fixture in converted_fixtures:
-            fixture_text = fixture.one_line_telegram_repr(played)
+            fixture_text = fixture.one_line_telegram_repr(played, with_date)
 
             if len(f"{fixtures_text}\n\n{fixture_text}") > text_limit:
                 all_fitting_fixtures.append(current_fitting_fixtures)
@@ -335,7 +335,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             ]
             introductory_text = f"{Emojis.WAVING_HAND.value} Hola {self._user}, los próximos partidos " \
                                 f"de {team.name} son:"
-            texts = self.get_fixtures_text(converted_fixtures)
+            texts = self.get_fixtures_text(converted_fixtures, with_date=True)
             texts.insert(0, introductory_text)
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
@@ -364,7 +364,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             ]
             introductory_text = f"{Emojis.WAVING_HAND.value} Hola {self._user}, " \
                                 f"los últimos partidos de {team.name} fueron:"
-            texts = self.get_fixtures_text(converted_fixtures)
+            texts = self.get_fixtures_text(converted_fixtures, with_date=True)
             texts.insert(0, introductory_text)
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
