@@ -336,7 +336,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             introductory_text = f"{Emojis.WAVING_HAND.value} Hola {self._user}, los próximos partidos " \
                                 f"de {team.name} son:"
             texts = self.get_fixtures_text(converted_fixtures, with_date=True)
-            texts.insert(0, introductory_text)
+            texts[0] = f"{introductory_text}\n\n{texts[0]}"
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
         else:
@@ -365,7 +365,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             introductory_text = f"{Emojis.WAVING_HAND.value} Hola {self._user}, " \
                                 f"los últimos partidos de {team.name} fueron:"
             texts = self.get_fixtures_text(converted_fixtures, played=True, with_date=True)
-            texts.insert(0, introductory_text)
+            texts[0] = f"{introductory_text}\n\n{texts[0]}"
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
         else:
@@ -378,6 +378,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             photo = MESSI_PHOTO
 
         return (texts, photo)
+
 
 class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
     def __init__(self, commands_args: List[str], user: str):
