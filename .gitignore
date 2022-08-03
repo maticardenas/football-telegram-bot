@@ -131,3 +131,9 @@ dmypy.json
 # Data folders
 data/
 local_data/
+
+# IDE
+.idea/*
+
+# macOS
+.DS_Store
