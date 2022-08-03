@@ -31,7 +31,6 @@ from src.notifier_logger import get_logger
 from src.utils.date_utils import TimeZones, get_time_in_time_zone
 from src.utils.message_utils import TEAMS_ALIASES
 
-
 FIXTURES_DB_MANAGER = FixturesDBManager()
 FIXTURES_CLIENT = FixturesClient()
 

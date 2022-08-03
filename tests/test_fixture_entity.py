@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 
 from src.entities import Fixture, RemainingTime
-from src.utils.date_utils import get_time_in_time_zone, TimeZones
+from src.utils.date_utils import TimeZones, get_time_in_time_zone
 
 
 def test_fixture_post_init(fixture: Fixture):

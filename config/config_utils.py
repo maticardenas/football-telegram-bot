@@ -4,9 +4,9 @@ from typing import Any, Dict, List
 
 from config.config_entities import (
     EmailRecipient,
+    ManagedLeague,
     ManagedTeam,
     TelegramRecipient,
-    ManagedLeague,
 )
 
 TELEGRAM_RECIPIENTS_FILE = Path(__file__).parent.absolute() / "telegram_recipients.json"

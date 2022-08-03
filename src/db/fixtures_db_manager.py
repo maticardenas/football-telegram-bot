@@ -2,19 +2,17 @@ from datetime import datetime, timedelta
 from typing import List, Optional
 
 from sqlalchemy import asc, desc
-from sqlmodel import select, or_, func
+from sqlmodel import func, or_, select
 
 from src.db.db_manager import NotifierDBManager
-from src.db.notif_sql_models import (
-    Fixture as DBFixture,
-    Team as DBTeam,
-    League as DBLeague,
-    ManagedTeam as DBManagedTeam,
-    ManagedLeague as DBManagedLeague,
-)
-from src.entities import Championship, Team, FixtureForDB
+from src.db.notif_sql_models import Fixture as DBFixture
+from src.db.notif_sql_models import League as DBLeague
+from src.db.notif_sql_models import ManagedLeague as DBManagedLeague
+from src.db.notif_sql_models import ManagedTeam as DBManagedTeam
+from src.db.notif_sql_models import Team as DBTeam
+from src.entities import Championship, FixtureForDB, Team
 from src.notifier_logger import get_logger
-from src.utils.date_utils import get_time_in_time_zone, TimeZones
+from src.utils.date_utils import TimeZones, get_time_in_time_zone
 
 logger = get_logger(__name__)
 

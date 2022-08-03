@@ -28,8 +28,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
       - run: python -m pip install pipenv
-      - run: python -m pipenv install black
+      - run: python -m pipenv install black isort
       - run: python -m pipenv run python -m black --check .
+      - run: python -m pipenv run python -m isort --check-only .
 
   pytest:
     runs-on: ubuntu-latest
