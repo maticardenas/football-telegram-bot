@@ -31,7 +31,6 @@ from src.notifier_logger import get_logger
 from src.utils.date_utils import TimeZones, get_time_in_time_zone
 from src.utils.message_utils import TEAMS_ALIASES
 
-
 FIXTURES_DB_MANAGER = FixturesDBManager()
 FIXTURES_CLIENT = FixturesClient()
 
@@ -258,7 +257,7 @@ def convert_db_fixture(fixture: DBFixture) -> Fixture:
             get_team_aliases(str(away_team.id)),
         ),
         MatchScore(fixture.home_score, fixture.away_score),
-        fixture.venue
+        fixture.venue,
     )
 
 
@@ -352,7 +351,7 @@ def convert_fixture_response_to_db_fixture(fixture_response: Dict[str, Any]) -> 
         MatchScore(
             fixture_response["goals"]["home"], fixture_response["goals"]["away"]
         ),
-        fixture_response["fixture"]["venue"]["name"]
+        fixture_response["fixture"]["venue"]["name"],
     )
 
 

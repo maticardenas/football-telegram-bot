@@ -2,15 +2,14 @@ import time
 from datetime import date, datetime, timedelta
 from typing import List
 
-from config.config_utils import get_managed_teams_config, get_managed_leagues_config
+from config.config_utils import get_managed_leagues_config, get_managed_teams_config
 from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
-from src.db.notif_sql_models import Team as DBTeam, League as DBLeague
+from src.db.notif_sql_models import League as DBLeague
+from src.db.notif_sql_models import Team as DBTeam
 from src.entities import Fixture, FixtureForDB
 from src.notifier_logger import get_logger
-from src.utils.fixtures_utils import (
-    convert_fixtures_response_to_db,
-)
+from src.utils.fixtures_utils import convert_fixtures_response_to_db
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
 MANAGED_TEAMS = get_managed_teams_config()
@@ -71,7 +70,9 @@ def populate_single_team_fixture(team_id: int, season: int) -> None:
         )
 
 
-def populate_single_league_fixture(league_id: int, season: str, between_dates: tuple) -> None:
+def populate_single_league_fixture(
+    league_id: int, season: str, between_dates: tuple
+) -> None:
     fixtures_client = FixturesClient()
     league_fixtures = fixtures_client.get_fixtures_by(
         season, league_id=league_id, between_dates=between_dates

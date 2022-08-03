@@ -12,14 +12,14 @@ from src.senders.email_sender import send_email_html
 from src.senders.telegram_sender import send_telegram_message
 from src.utils.date_utils import get_date_spanish_text_format
 from src.utils.fixtures_utils import (
+    convert_db_fixture,
+    get_head_to_heads,
     get_image_search,
     get_last_fixture,
     get_last_fixture_db,
     get_next_fixture,
     get_next_fixture_db,
     get_youtube_highlights_videos,
-    convert_db_fixture,
-    get_head_to_heads,
 )
 from src.utils.message_utils import (
     get_first_phrase_msg,

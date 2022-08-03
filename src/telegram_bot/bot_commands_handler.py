@@ -1,35 +1,33 @@
 import random
 from datetime import datetime
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
-from src.db.notif_sql_models import (
-    Fixture,
-    ManagedTeam as DBManagedTeam,
-    ManagedLeague as DBManagedLeague,
-    Team as DBTeam,
-)
+from src.db.notif_sql_models import Fixture
+from src.db.notif_sql_models import ManagedLeague as DBManagedLeague
+from src.db.notif_sql_models import ManagedTeam as DBManagedTeam
+from src.db.notif_sql_models import Team as DBTeam
 from src.emojis import Emojis
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
 from src.utils.date_utils import get_date_spanish_text_format
-from src.utils.fixtures_utils import (
-    convert_db_fixture,
-    get_head_to_heads,
-)
+from src.utils.fixtures_utils import convert_db_fixture, get_head_to_heads
 from src.utils.notification_text_utils import (
     telegram_last_fixture_league_notification,
+    telegram_last_fixture_team_notification,
     telegram_next_league_fixture_notification,
     telegram_next_team_fixture_notification,
-    telegram_last_fixture_team_notification,
 )
 
 logger = get_logger(__name__)
 
+
 class NotifierBotCommandsHandler:
     def __init__(self):
         self._fixtures_db_manager: FixturesDBManager = FixturesDBManager()
-        self._managed_teams: List[DBManagedTeam] = self._fixtures_db_manager.get_managed_teams()
+        self._managed_teams: List[
+            DBManagedTeam
+        ] = self._fixtures_db_manager.get_managed_teams()
 
     def get_managed_team(self, command: str) -> DBManagedTeam:
         return next(
@@ -69,12 +67,15 @@ class NotifierBotCommandsHandler:
     def available_leagues_text(self) -> str:
         leagues = self.available_leagues()
         leagues_texts = [
-            f"<strong>{league.id}</strong> - {league.name} ({league.country})" for league in leagues
+            f"<strong>{league.id}</strong> - {league.name} ({league.country})"
+            for league in leagues
         ]
         return "\n".join(leagues_texts)
 
     @staticmethod
-    def get_fixtures_text(converted_fixtures: List[Fixture], played: bool = False, with_date: bool = False) -> List[str]:
+    def get_fixtures_text(
+        converted_fixtures: List[Fixture], played: bool = False, with_date: bool = False
+    ) -> List[str]:
         text_limit = 3500
         fixtures_text = ""
         all_fitting_fixtures = []
@@ -115,7 +116,9 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
 
     def today_games(self) -> Tuple[str, str]:
         today_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(0, self._command_args)
+            self._fixtures_db_manager.get_games_in_surrounding_n_days(
+                0, self._command_args
+            )
         )
 
         if len(today_games_fixtures):
@@ -126,8 +129,11 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             leagues = [fixture.championship for fixture in converted_games]
             photo = random.choice([league.logo for league in leagues])
         else:
-            leagues_text = f" para las ligas seleccionadas ({', '.join(self._command_args)}) " \
-                            if len(self._command_args) else ""
+            leagues_text = (
+                f" para las ligas seleccionadas ({', '.join(self._command_args)}) "
+                if len(self._command_args)
+                else ""
+            )
             texts = [
                 (
                     f"{Emojis.WAVING_HAND.value} Hola "
@@ -141,7 +147,9 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
 
     def yesterday_games(self) -> Tuple[str, str]:
         played_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(-1, self._command_args)
+            self._fixtures_db_manager.get_games_in_surrounding_n_days(
+                -1, self._command_args
+            )
         )
 
         if len(played_games_fixtures):
@@ -152,9 +160,11 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
         else:
-            leagues_text = f" para las ligas seleccionadas (" \
-                           f"{', '.join(self._command_args)}) " \
-                          if len(self._command_args) else ""
+            leagues_text = (
+                f" para las ligas seleccionadas (" f"{', '.join(self._command_args)}) "
+                if len(self._command_args)
+                else ""
+            )
             texts = [
                 (
                     f"{Emojis.WAVING_HAND.value} Hola "
@@ -168,7 +178,9 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
 
     def tomorrow_games(self) -> Tuple[str, str]:
         tomorrow_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(1, self._command_args)
+            self._fixtures_db_manager.get_games_in_surrounding_n_days(
+                1, self._command_args
+            )
         )
 
         if len(tomorrow_games_fixtures):
@@ -179,9 +191,11 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
         else:
-            leagues_text = f" para las ligas seleccionadas (" \
-                           f"{', '.join(self._command_args)}) " \
-                          if len(self._command_args) else ""
+            leagues_text = (
+                f" para las ligas seleccionadas (" f"{', '.join(self._command_args)}) "
+                if len(self._command_args)
+                else ""
+            )
             texts = [
                 (
                     f"{Emojis.WAVING_HAND.value} Hola "
@@ -318,16 +332,18 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         team_id = self._command_args[0]
         team = self._fixtures_db_manager.get_team(team_id)[0]
 
-        upcoming_team_fixtures = (
-            self._fixtures_db_manager.get_next_fixture(team_id=team_id, number_of_fixtures=5)
+        upcoming_team_fixtures = self._fixtures_db_manager.get_next_fixture(
+            team_id=team_id, number_of_fixtures=5
         )
 
         if len(upcoming_team_fixtures):
             converted_fixtures = [
                 convert_db_fixture(fixture) for fixture in upcoming_team_fixtures
             ]
-            introductory_text = f"{Emojis.WAVING_HAND.value} Hola {self._user}, los próximos partidos " \
-                                f"de {team.name} son:"
+            introductory_text = (
+                f"{Emojis.WAVING_HAND.value} Hola {self._user}, los próximos partidos "
+                f"de {team.name} son:"
+            )
             texts = self.get_fixtures_text(converted_fixtures, with_date=True)
             texts[0] = f"{introductory_text}\n\n{texts[0]}"
             leagues = [fixture.championship for fixture in converted_fixtures]
@@ -347,17 +363,21 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         team_id = self._command_args[0]
         team = self._fixtures_db_manager.get_team(team_id)[0]
 
-        last_team_fixtures = (
-            self._fixtures_db_manager.get_last_fixture(team_id=team_id, number_of_fixtures=5)
+        last_team_fixtures = self._fixtures_db_manager.get_last_fixture(
+            team_id=team_id, number_of_fixtures=5
         )
 
         if len(last_team_fixtures):
             converted_fixtures = [
                 convert_db_fixture(fixture) for fixture in last_team_fixtures
             ]
-            introductory_text = f"{Emojis.WAVING_HAND.value} Hola {self._user}, " \
-                                f"los últimos partidos de {team.name} fueron:"
-            texts = self.get_fixtures_text(converted_fixtures, played=True, with_date=True)
+            introductory_text = (
+                f"{Emojis.WAVING_HAND.value} Hola {self._user}, "
+                f"los últimos partidos de {team.name} fueron:"
+            )
+            texts = self.get_fixtures_text(
+                converted_fixtures, played=True, with_date=True
+            )
             texts[0] = f"{introductory_text}\n\n{texts[0]}"
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])

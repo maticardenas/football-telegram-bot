@@ -85,16 +85,36 @@ class RemainingTime:
     hours: int
     minutes: int
 
+    def _get_days_union(self) -> str:
+        if self.hours and self.minutes:
+            days_union = ", "
+        elif (self.hours and not self.minutes) or (not self.hours and self.minutes):
+            days_union = " y "
+        else:
+            days_union = ""
+
+        return days_union
+
     def __str__(self):
         suf_faltan = "n" if self.days != 1 else ""
         suf_dias = "s" if self.days != 1 else ""
         suf_horas = "s" if self.hours != 1 else ""
         suf_minutos = "s" if self.minutes != 1 else ""
 
-        days_phrase = f"{self.days} día{suf_dias}, " if self.days > 0 else ""
-        hours_phrase = f"{self.hours} hora{suf_horas} y " if self.hours > 0 else ""
+        days_phrase = (
+            f"{self.days} día{suf_dias}{self._get_days_union()}"
+            if self.days > 0
+            else ""
+        )
+        hours_union = " y " if self.minutes else ""
+        hours_phrase = (
+            f"{self.hours} hora{suf_horas}{hours_union}" if self.hours > 0 else ""
+        )
+        minutes_phrase = (
+            f"{self.minutes} minuto{suf_minutos}" if self.minutes > 0 else ""
+        )
 
-        return f"Falta{suf_faltan} {days_phrase}{hours_phrase}{self.minutes} minuto{suf_minutos}"
+        return f"Falta{suf_faltan} {days_phrase}{hours_phrase}{minutes_phrase}"
 
 
 @dataclass
@@ -193,8 +213,14 @@ class Fixture:
 
         return h2h_text
 
-    def one_line_telegram_repr(self, played: bool = False, with_date: bool = False) -> str:
-        date_text = f"<strong>{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}</strong>\n" if with_date else ""
+    def one_line_telegram_repr(
+        self, played: bool = False, with_date: bool = False
+    ) -> str:
+        date_text = (
+            f"<strong>{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}</strong>\n"
+            if with_date
+            else ""
+        )
         if played:
             if "finished" in self.match_status.lower():
                 repr = (
@@ -241,8 +267,16 @@ class Fixture:
         )
 
     def telegram_like_repr(self) -> str:
-        referee_line = f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n" if self.referee else ""
-        stadium_line = f"{Emojis.STADIUM.value} <strong>{self.venue}</strong>\n" if self.venue else ""
+        referee_line = (
+            f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n"
+            if self.referee
+            else ""
+        )
+        stadium_line = (
+            f"{Emojis.STADIUM.value} <strong>{self.venue}</strong>\n"
+            if self.venue
+            else ""
+        )
 
         telegram_like_text = (
             f"{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}</strong>\n"
@@ -253,14 +287,12 @@ class Fixture:
             f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"
             f"{stadium_line}"
             f"{referee_line}"
-            f"\n{self.head_to_head_text()}" \
-            f"{Emojis.TELEVISION.value} <a href='{self.futbol_libre_url}'>Streaming Online (FutbolLibre)</a>\n" \
+            f"\n{self.head_to_head_text()}"
+            f"{Emojis.TELEVISION.value} <a href='{self.futbol_libre_url}'>Streaming Online (FutbolLibre)</a>\n"
             f"{Emojis.TELEVISION.value} <a href='{self.futbol_libre_url}'>Streaming Online (FPT)</a>"
         )
 
         return telegram_like_text
-
-
 
     def line_up_message(self) -> str:
         return (
@@ -287,8 +319,16 @@ class Fixture:
         )
 
     def matched_played_telegram_like_repr(self) -> str:
-        referee_line = f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n\n" if self.referee else "\n"
-        stadium_line = f"{Emojis.STADIUM.value} <strong>{self.venue}</strong>\n" if self.venue else ""
+        referee_line = (
+            f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n\n"
+            if self.referee
+            else "\n"
+        )
+        stadium_line = (
+            f"{Emojis.STADIUM.value} <strong>{self.venue}</strong>\n"
+            if self.venue
+            else ""
+        )
         if "finished" in self.match_status.lower():
             match_notification = (
                 f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} [{self.match_score.home_score}] vs. "
@@ -313,7 +353,6 @@ class Fixture:
             )
 
         return match_notification
-
 
     def _is_next_day_in_europe(self) -> bool:
         return self.bsas_date.weekday() != self.ams_date.weekday()

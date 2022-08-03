@@ -9,10 +9,10 @@ from src.notifier_logger import get_logger
 from src.team_fixtures_manager import TeamFixturesManager
 from src.telegram_bot.bot_commands_handler import (
     NextAndLastMatchCommandHandler,
-    NotifierBotCommandsHandler,
-    SurroundingMatchesHandler,
     NextAndLastMatchLeagueCommandHandler,
+    NotifierBotCommandsHandler,
     SearchTeamLeagueCommandHandler,
+    SurroundingMatchesHandler,
 )
 from src.telegram_bot.bot_constants import MESSI_PHOTO
 

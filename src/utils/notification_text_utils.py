@@ -1,12 +1,11 @@
-from datetime import datetime
 import random
+from datetime import datetime
 from typing import List
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
 from src.entities import Fixture
 from src.utils.date_utils import get_date_spanish_text_format
-
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
 

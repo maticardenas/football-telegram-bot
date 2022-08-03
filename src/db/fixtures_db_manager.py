@@ -2,19 +2,17 @@ from datetime import datetime, timedelta
 from typing import List, Optional
 
 from sqlalchemy import asc, desc
-from sqlmodel import select, or_, func
+from sqlmodel import func, or_, select
 
 from src.db.db_manager import NotifierDBManager
-from src.db.notif_sql_models import (
-    Fixture as DBFixture,
-    Team as DBTeam,
-    League as DBLeague,
-    ManagedTeam as DBManagedTeam,
-    ManagedLeague as DBManagedLeague,
-)
-from src.entities import Championship, Team, FixtureForDB
+from src.db.notif_sql_models import Fixture as DBFixture
+from src.db.notif_sql_models import League as DBLeague
+from src.db.notif_sql_models import ManagedLeague as DBManagedLeague
+from src.db.notif_sql_models import ManagedTeam as DBManagedTeam
+from src.db.notif_sql_models import Team as DBTeam
+from src.entities import Championship, FixtureForDB, Team
 from src.notifier_logger import get_logger
-from src.utils.date_utils import get_time_in_time_zone, TimeZones
+from src.utils.date_utils import TimeZones, get_time_in_time_zone
 
 logger = get_logger(__name__)
 
@@ -69,19 +67,24 @@ class FixturesDBManager:
             surrounding_day = bsas_today + timedelta(days=day)
             games_date = surrounding_day.strftime("%Y-%m-%d")
 
-            statement = select(DBFixture).where(DBFixture.bsas_date.contains(games_date))
+            statement = select(DBFixture).where(
+                DBFixture.bsas_date.contains(games_date)
+            )
 
             if len(leagues):
                 for league in leagues:
                     league_statement = statement.where(DBFixture.league == league)
-                    surrounding_fixtures += self._notifier_db_manager.select_records(league_statement)
+                    surrounding_fixtures += self._notifier_db_manager.select_records(
+                        league_statement
+                    )
             else:
-                surrounding_fixtures += self._notifier_db_manager.select_records(statement)
+                surrounding_fixtures += self._notifier_db_manager.select_records(
+                    statement
+                )
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
 
         return surrounding_fixtures
-
 
     def get_fixtures_by_team(self, team_id: int) -> Optional[List[DBFixture]]:
         fixtures_statement = (
@@ -130,7 +133,9 @@ class FixturesDBManager:
 
         next_fixtures = self._notifier_db_manager.select_records(statement)
 
-        return next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
+        return (
+            next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
+        )
 
     def get_last_fixture(
         self, team_id: int = None, league_id: int = None, number_of_fixtures: int = 1
@@ -151,7 +156,9 @@ class FixturesDBManager:
 
         next_fixtures = self._notifier_db_manager.select_records(statement)
 
-        return next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
+        return (
+            next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
+        )
 
     def get_head_to_head_fixtures(self, team_1: str, team_2: str):
         statement = (
@@ -345,7 +352,7 @@ class FixturesDBManager:
                     referee=conv_fix.referee,
                     home_score=conv_fix.match_score.home_score,
                     away_score=conv_fix.match_score.away_score,
-                    venue=conv_fix.venue
+                    venue=conv_fix.venue,
                 )
             else:
                 logger.info(
