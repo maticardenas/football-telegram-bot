@@ -71,7 +71,9 @@ def populate_single_team_fixture(team_id: int, season: int) -> None:
         )
 
 
-def populate_single_league_fixture(league_id: int, season: str, between_dates: tuple) -> None:
+def populate_single_league_fixture(
+    league_id: int, season: str, between_dates: tuple
+) -> None:
     fixtures_client = FixturesClient()
     league_fixtures = fixtures_client.get_fixtures_by(
         season, league_id=league_id, between_dates=between_dates

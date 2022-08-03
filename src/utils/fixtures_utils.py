@@ -258,7 +258,7 @@ def convert_db_fixture(fixture: DBFixture) -> Fixture:
             get_team_aliases(str(away_team.id)),
         ),
         MatchScore(fixture.home_score, fixture.away_score),
-        fixture.venue
+        fixture.venue,
     )
 
 
@@ -352,7 +352,7 @@ def convert_fixture_response_to_db_fixture(fixture_response: Dict[str, Any]) -> 
         MatchScore(
             fixture_response["goals"]["home"], fixture_response["goals"]["away"]
         ),
-        fixture_response["fixture"]["venue"]["name"]
+        fixture_response["fixture"]["venue"]["name"],
     )
 
 

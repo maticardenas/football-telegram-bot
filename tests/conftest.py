@@ -55,5 +55,5 @@ def fixture(team: Team, league: Championship, match_score: MatchScore) -> Fixtur
         home_team=team,
         away_team=away_team,
         match_score=match_score,
-        venue="Estadio Monumental"
+        venue="Estadio Monumental",
     )

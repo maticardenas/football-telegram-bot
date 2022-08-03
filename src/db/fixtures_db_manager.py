@@ -69,19 +69,24 @@ class FixturesDBManager:
             surrounding_day = bsas_today + timedelta(days=day)
             games_date = surrounding_day.strftime("%Y-%m-%d")
 
-            statement = select(DBFixture).where(DBFixture.bsas_date.contains(games_date))
+            statement = select(DBFixture).where(
+                DBFixture.bsas_date.contains(games_date)
+            )
 
             if len(leagues):
                 for league in leagues:
                     league_statement = statement.where(DBFixture.league == league)
-                    surrounding_fixtures += self._notifier_db_manager.select_records(league_statement)
+                    surrounding_fixtures += self._notifier_db_manager.select_records(
+                        league_statement
+                    )
             else:
-                surrounding_fixtures += self._notifier_db_manager.select_records(statement)
+                surrounding_fixtures += self._notifier_db_manager.select_records(
+                    statement
+                )
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
 
         return surrounding_fixtures
-
 
     def get_fixtures_by_team(self, team_id: int) -> Optional[List[DBFixture]]:
         fixtures_statement = (
@@ -130,7 +135,9 @@ class FixturesDBManager:
 
         next_fixtures = self._notifier_db_manager.select_records(statement)
 
-        return next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
+        return (
+            next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
+        )
 
     def get_last_fixture(
         self, team_id: int = None, league_id: int = None, number_of_fixtures: int = 1
@@ -151,7 +158,9 @@ class FixturesDBManager:
 
         next_fixtures = self._notifier_db_manager.select_records(statement)
 
-        return next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
+        return (
+            next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
+        )
 
     def get_head_to_head_fixtures(self, team_1: str, team_2: str):
         statement = (
@@ -345,7 +354,7 @@ class FixturesDBManager:
                     referee=conv_fix.referee,
                     home_score=conv_fix.match_score.home_score,
                     away_score=conv_fix.match_score.away_score,
-                    venue=conv_fix.venue
+                    venue=conv_fix.venue,
                 )
             else:
                 logger.info(

@@ -50,7 +50,9 @@ def test_one_line_telegram_repr(fixture: Fixture):
 
 def test_telegram_like_repr(fixture: Fixture):
     # given - when - then
-    fixture.telegram_like_repr() == """🇪🇺 <strong>16:00 HS </strong>
+    assert (
+        fixture.telegram_like_repr()
+        == """🇪🇺 <strong>16:00 HS </strong>
 🇦🇷 <strong>12:00 HS</strong>
 
 ⏰ Faltan  para el partido.
@@ -62,16 +64,74 @@ def test_telegram_like_repr(fixture: Fixture):
 
 📺 <a href='https://futbollibre.net'>Streaming Online (FutbolLibre)</a>
 📺 <a href='https://futbollibre.net'>Streaming Online (FPT)</a>"""
+    )
 
 
-def test_matched_played_telegram_like_repr(fixture: Fixture):
+def test_matched_played_telegram_like_repr_not_finished(fixture: Fixture):
     # given - when - then
-    fixture.matched_played_telegram_like_repr() == """<strong>⚽ River Plate 
-    [3] vs.  [0] Boca Juniors</strong>
-🏆 <strong>Copa de la Superliga</strong>
+    assert (
+        fixture.matched_played_telegram_like_repr()
+        == """😢 <strong>Started</strong>
+
+<strong>⚽ River Plate vs. Boca Juniors</strong>
+🏆 <strong>Copa de la Superliga (ARG)</strong>
 📌 <strong>Primera Fecha</strong>
+🏟 <strong>Estadio Monumental</strong>
+👮‍♀️ <strong>Perluigi Colina</strong>
 
 """
+    )
+
+
+def test_matched_played_telegram_like_repr_match_finished(fixture: Fixture):
+    # given
+    fixture.match_status = "Match Finished"
+
+    # when - then
+    assert (
+        fixture.matched_played_telegram_like_repr()
+        == """<strong>⚽ River Plate [3] vs.  [0] Boca Juniors</strong>
+🏆 <strong>Copa de la Superliga (ARG)</strong>
+📌 <strong>Primera Fecha</strong>
+🏟 <strong>Estadio Monumental</strong>
+👮‍♀️ <strong>Perluigi Colina</strong>
+
+"""
+    )
+
+
+def test_matched_played_telegram_like_repr_match_finished_not_venue(fixture: Fixture):
+    # given
+    fixture.match_status = "Match Finished"
+    fixture.venue = ""
+
+    # when - then
+    assert (
+        fixture.matched_played_telegram_like_repr()
+        == """<strong>⚽ River Plate [3] vs.  [0] Boca Juniors</strong>
+🏆 <strong>Copa de la Superliga (ARG)</strong>
+📌 <strong>Primera Fecha</strong>
+👮‍♀️ <strong>Perluigi Colina</strong>
+
+"""
+    )
+
+
+def test_matched_played_telegram_like_repr_match_finished_not_referee(fixture: Fixture):
+    # given
+    fixture.match_status = "Match Finished"
+    fixture.referee = ""
+
+    # when - then
+    assert (
+        fixture.matched_played_telegram_like_repr()
+        == """<strong>⚽ River Plate [3] vs.  [0] Boca Juniors</strong>
+🏆 <strong>Copa de la Superliga (ARG)</strong>
+📌 <strong>Primera Fecha</strong>
+🏟 <strong>Estadio Monumental</strong>
+
+"""
+    )
 
 
 def test_is_next_day_in_europe(fixture: Fixture):
@@ -90,13 +150,15 @@ def test_is_next_day_in_europe_true(fixture: Fixture):
 
 @pytest.mark.parametrize(
     "days, hours, minutes, expected_text",
-    [(0, 0, 5, "Faltan 5 minutos"),
-     (0, 2, 0, "Faltan 2 horas"),
-     (0, 2, 10, "Faltan 2 horas y 10 minutos"),
-     (3, 0, 0, "Faltan 3 días"),
-     (4, 0, 3, "Faltan 4 días y 3 minutos"),
-     (1, 5, 0, "Falta 1 día y 5 horas"),
-     (1, 7, 19, "Falta 1 día, 7 horas y 19 minutos")]
+    [
+        (0, 0, 5, "Faltan 5 minutos"),
+        (0, 2, 0, "Faltan 2 horas"),
+        (0, 2, 10, "Faltan 2 horas y 10 minutos"),
+        (3, 0, 0, "Faltan 3 días"),
+        (4, 0, 3, "Faltan 4 días y 3 minutos"),
+        (1, 5, 0, "Falta 1 día y 5 horas"),
+        (1, 7, 19, "Falta 1 día, 7 horas y 19 minutos"),
+    ],
 )
 def test_remaining_time(days: int, hours: int, minutes: int, expected_text: str):
     # given
