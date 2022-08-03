@@ -52,17 +52,18 @@ def populate_team_fixtures(is_initial) -> None:
 
     for team in MANAGED_TEAMS:
         if is_initial:
-            populate_single_team_fixture(team, last_year)
+            logger.info(f"Saving fixtures for team {team.name} - season {last_year}")
+            populate_single_team_fixture(team.id, last_year)
 
-        populate_single_team_fixture(team, current_year)
+        logger.info(f"Saving fixtures for team {team.name} - season {current_year}")
+        populate_single_team_fixture(team.id, current_year)
         # to avoid reaching rate limit at API calls.
         time.sleep(2.5)
 
 
-def populate_single_team_fixture(team: DBTeam, season: int) -> None:
-    logger.info(f"Saving fixtures for team {team.name} - season {season}")
+def populate_single_team_fixture(team_id: int, season: int) -> None:
     fixtures_client = FixturesClient()
-    team_fixtures = fixtures_client.get_fixtures_by(str(season), team.id)
+    team_fixtures = fixtures_client.get_fixtures_by(str(season), team_id)
 
     if "response" in team_fixtures.as_dict:
         FIXTURES_DB_MANAGER.save_fixtures(
