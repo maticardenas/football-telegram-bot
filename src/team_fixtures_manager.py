@@ -60,8 +60,8 @@ class TeamFixturesManager:
 
         converted_fixture = None
 
-        if next_db_fixture:
-            converted_fixture = convert_db_fixture(next_db_fixture)
+        if len(next_db_fixture):
+            converted_fixture = convert_db_fixture(next_db_fixture[0])
             converted_fixture.head_to_head = get_head_to_heads(
                 converted_fixture.home_team.id, converted_fixture.away_team.id
             )
@@ -75,8 +75,8 @@ class TeamFixturesManager:
 
         converted_fixture = None
 
-        if last_db_fixture:
-            converted_fixture = convert_db_fixture(last_db_fixture)
+        if len(last_db_fixture):
+            converted_fixture = convert_db_fixture(last_db_fixture[0])
 
         return converted_fixture
 
