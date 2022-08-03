@@ -43,7 +43,7 @@ def test_one_line_telegram_repr(fixture: Fixture):
     assert (
         fixture.one_line_telegram_repr()
         == """⚽ <strong>River Plate vs. Boca Juniors</strong> 
-🏆 <strong>Copa de la Superliga</strong>
+🏆 <strong>Copa de la Superliga (ARG)</strong>
 ⏰ 🇪🇺 <strong>16:00 HS </strong> / 🇦🇷 <strong>12:00 HS</strong>"""
     )
 
@@ -53,10 +53,12 @@ def test_telegram_like_repr(fixture: Fixture):
     fixture.telegram_like_repr() == """🇪🇺 <strong>16:00 HS </strong>
 🇦🇷 <strong>12:00 HS</strong>
 
-⏰ Faltan 0 minutos para el partido.
+⏰ Faltan  para el partido.
 
 ⚽ <strong>River Plate vs. Boca Juniors</strong>
-🏆 <strong>Copa de la Superliga</strong>
+🏆 <strong>Copa de la Superliga (ARG)</strong>
+🏟 <strong>Estadio Monumental</strong>
+👮‍♀️ <strong>Perluigi Colina</strong>
 
 📺 <a href='https://futbollibre.net'>Streaming Online (FutbolLibre)</a>
 📺 <a href='https://futbollibre.net'>Streaming Online (FPT)</a>"""
