@@ -30,17 +30,10 @@ class NotifierBotCommandsHandler:
     def __init__(self):
         self._fixtures_db_manager: FixturesDBManager = FixturesDBManager()
         self._managed_teams: List[DBManagedTeam] = self._fixtures_db_manager.get_managed_teams()
-        self._managed_leagues: List[DBManagedLeague] = self._fixtures_db_manager.get_managed_leagues()
 
     def get_managed_team(self, command: str) -> DBManagedTeam:
         return next(
             (team for team in self._managed_teams if team.command == command),
-            None,
-        )
-
-    def get_managed_league(self, command: str) -> DBManagedLeague:
-        return next(
-            (league for league in self._managed_leagues if league.command == command),
             None,
         )
 

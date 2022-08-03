@@ -1,0 +1,33 @@
+name: notifier-tests
+
+on: [push, pull_request]
+
+env:
+  NEXT_MATCH_THRESHOLD: 3
+  LAST_MATCH_THRESHOLD_DAYS: -1
+  X_RAPIDAPI_HOST: "api-football-v1.p.rapidapi.com"
+  X_RAPIDAPI_IMG_SEARCH_HOST: "bing-image-search1.p.rapidapi.com"
+  X_RAPIDAPI_VIDEO_SEARCH_HOST: "free-football-soccer-videos.p.rapidapi.com"
+  X_YOUTUBE_SEARCH_HOST: "youtube-search3.p.rapidapi.com"
+  X_WORLDOMETERS_HOST: "worldometers.p.rapidapi.com"
+  X_RAPIDAPI_KEY: "RAPIDAPI-KEY"
+  TELEGRAM_TOKEN: "TELEGRAM-TOKEN"
+  SMTP_SERVER: "smtp.email.com"
+  GMAIL_SENDER: "test@email.com"
+  GMAIL_PASSWD: "email_password"
+  DB_HOST: "db"
+  DB_NAME: "notifier_db"
+  DB_USER: "postgres"
+  DB_PASS: "supersecretpassword"
+  POSTGRES_DB_URL: "postgresql://db:5432/notifier_db"
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - run: sudo chmod 777 -R /var/log/
+      - run: python -m pip install pipenv
+      - run: python -m pipenv install
+      - run: python -m pipenv run python -m pytest .
