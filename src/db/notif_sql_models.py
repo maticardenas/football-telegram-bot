@@ -49,3 +49,15 @@ class ManagedLeague(SQLModel, table=True):
     id: int = Field(primary_key=True)
     name: str
     command: str
+
+
+class FavouriteTeam(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    chat_id: str
+    team: int = Field(foreign_key="team.id")
+
+
+class FavouriteLeague(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    chat_id: str
+    league: int = Field(foreign_key="league.id")
