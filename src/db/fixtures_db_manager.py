@@ -5,6 +5,8 @@ from sqlalchemy import asc, desc
 from sqlmodel import func, or_, select
 
 from src.db.db_manager import NotifierDBManager
+from src.db.notif_sql_models import FavouriteLeague as DBFavouriteLeague
+from src.db.notif_sql_models import FavouriteTeam as DBFavouriteTeam
 from src.db.notif_sql_models import Fixture as DBFixture
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import ManagedLeague as DBManagedLeague
@@ -27,6 +29,20 @@ class FixturesDBManager:
     def get_team(self, team_id: int) -> Optional[DBTeam]:
         team_statement = select(DBTeam).where(DBTeam.id == team_id)
         return self._notifier_db_manager.select_records(team_statement)
+
+    def get_favourite_teams(self, chat_id: str) -> List[Optional[DBTeam]]:
+        favourite_teams_statement = select(DBFavouriteTeam.team).where(
+            DBFavouriteTeam.chat_id == chat_id
+        )
+
+        return self._notifier_db_manager.select_records(favourite_teams_statement)
+
+    def get_favourite_leagues(self, chat_id: str) -> List[Optional[DBTeam]]:
+        favourite_leagues_statement = select(DBFavouriteLeague.league).where(
+            DBFavouriteLeague.chat_id == chat_id
+        )
+
+        return self._notifier_db_manager.select_records(favourite_leagues_statement)
 
     def get_all_leagues(self) -> Optional[List[DBLeague]]:
         return self._notifier_db_manager.select_records(
@@ -298,6 +314,66 @@ class FixturesDBManager:
         # for later using it again
         return self._notifier_db_manager.select_records(league_statement)[0]
 
+    def insert_favourite_team(self, team_id: int, chat_id: str) -> DBFavouriteTeam:
+        team = self.get_team(team_id)
+
+        if not len(team):
+            raise Exception(f"Team {team_id} doesn't exist.")
+
+        favourite_team_statement = select(DBFavouriteTeam).where(
+            DBFavouriteTeam.team == team_id, DBFavouriteTeam.chat_id == chat_id
+        )
+
+        retrieved_favourite_team = self._notifier_db_manager.select_records(
+            favourite_team_statement
+        )
+
+        if not len(retrieved_favourite_team):
+            logger.info(
+                f"Inserting Favourite Team {team_id} for chat {chat_id}- it does not exist in "
+                f"the database"
+            )
+            db_favourite_team = DBFavouriteTeam(
+                team=team_id,
+                chat_id=chat_id,
+            )
+
+            self._notifier_db_manager.insert_record(db_favourite_team)
+        else:
+            raise Exception(f"You already have this team as favourite.")
+
+        return self._notifier_db_manager.select_records(favourite_team_statement)[0]
+
+    def insert_favourite_league(self, league_id: int, chat_id: str) -> DBFavouriteTeam:
+        league = self.get_league(league_id)
+
+        if not len(league):
+            raise Exception(f"League {league_id} doesn't exist.")
+
+        favourite_league_statement = select(DBFavouriteLeague).where(
+            DBFavouriteLeague.league == league_id, DBFavouriteLeague.chat_id == chat_id
+        )
+
+        retrieved_favourite_league = self._notifier_db_manager.select_records(
+            favourite_league_statement
+        )
+
+        if not len(retrieved_favourite_league):
+            logger.info(
+                f"Inserting Favourite League {league_id} for chat {chat_id}- it does not exist in "
+                f"the database"
+            )
+            db_favourite_league = DBFavouriteLeague(
+                league=league_id,
+                chat_id=chat_id,
+            )
+
+            self._notifier_db_manager.insert_record(db_favourite_league)
+        else:
+            raise Exception(f"You already have this league as favourite.")
+
+        return self._notifier_db_manager.select_records(favourite_league_statement)[0]
+
     def insert_team(self, fixture_team: Team) -> DBTeam:
         team_statement = select(DBTeam).where(DBTeam.id == fixture_team.id)
         retrieved_team = self._notifier_db_manager.select_records(team_statement)
@@ -384,3 +460,35 @@ class FixturesDBManager:
             db_fixtures.append(db_fixture)
 
         self._notifier_db_manager.insert_records(db_fixtures)
+
+    def remove_favourite_team(self, team_id: int, chat_id: str) -> None:
+        favourite_team_statement = select(DBFavouriteTeam).where(
+            DBFavouriteTeam.chat_id == chat_id, DBFavouriteTeam.team == team_id
+        )
+
+        favourite_team = self._notifier_db_manager.select_records(
+            favourite_team_statement
+        )
+
+        if not len(favourite_team):
+            raise Exception(f"You don't have that team added as a favourite.")
+
+        logger.info(f"Removing Favourite Team {team_id} for chat {chat_id}")
+
+        self._notifier_db_manager.delete_record(favourite_team[0])
+
+    def remove_favourite_league(self, league_id: int, chat_id: str) -> None:
+        favourite_league_statement = select(DBFavouriteLeague).where(
+            DBFavouriteLeague.chat_id == chat_id, DBFavouriteLeague.league == league_id
+        )
+
+        favourite_league = self._notifier_db_manager.select_records(
+            favourite_league_statement
+        )
+
+        if not len(favourite_league):
+            raise Exception(f"You don't have that league added as a favourite.")
+
+        logger.info(f"Removing Favourite League {league_id} for chat {chat_id}")
+
+        self._notifier_db_manager.delete_record(favourite_league[0])

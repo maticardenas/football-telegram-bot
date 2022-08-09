@@ -42,6 +42,11 @@ class NotifierDBManager:
                 session.add(db_object)
                 session.commit()
 
+    def delete_record(self, db_object: Any) -> None:
+        session = Session(self._engine)
+        session.delete(db_object)
+        session.commit()
+
     def select_records(self, statement):
         with Session(self._engine) as session:
             return session.exec(statement).all()
