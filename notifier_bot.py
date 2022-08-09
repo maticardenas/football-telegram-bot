@@ -8,6 +8,8 @@ from src.emojis import Emojis
 from src.notifier_logger import get_logger
 from src.team_fixtures_manager import TeamFixturesManager
 from src.telegram_bot.bot_commands_handler import (
+    FavouriteLeaguesCommandHandler,
+    FavouriteTeamsCommandHandler,
     NextAndLastMatchCommandHandler,
     NextAndLastMatchLeagueCommandHandler,
     NotifierBotCommandsHandler,
@@ -66,6 +68,142 @@ async def available_leagues(update: Update, context):
     await context.bot.send_message(
         chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
     )
+
+
+async def add_favourite_team(update: Update, context):
+    logger.info(
+        f"'add_favourite_team' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteTeamsCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.add_favourite_team()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def favourite_teams(update: Update, context):
+    logger.info(f"'favourite_teams' command executed - by {update.effective_user.name}")
+    commands_handler = FavouriteTeamsCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.get_favourite_teams()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def delete_favourite_team(update: Update, context):
+    logger.info(
+        f"'delete_favourite_team' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteTeamsCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.delete_favourite_team()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def add_favourite_league(update: Update, context):
+    logger.info(
+        f"'add_favourite_league' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteLeaguesCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.add_favourite_league()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def delete_favourite_league(update: Update, context):
+    logger.info(
+        f"'delete_favourite_league' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteLeaguesCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.delete_favourite_league()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def favourite_leagues(update: Update, context):
+    logger.info(
+        f"'favourite_leagues' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteLeaguesCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.get_favourite_leagues()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
 
 
 async def search_team(update: Update, context):
@@ -247,8 +385,10 @@ async def today_matches(update: Update, context):
         f"'today_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name, update.effective_chat.id
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
+
+    command_handler.validate_command_input()
 
     texts, photo = command_handler.today_games()
 
@@ -304,6 +444,8 @@ async def last_played_matches(update: Update, context):
         context.args, update.effective_user.first_name, update.effective_chat.id
     )
 
+    command_handler.validate_command_input()
+
     texts, photo = command_handler.yesterday_games()
 
     for text in texts:
@@ -319,8 +461,10 @@ async def tomorrow_matches(update: Update, context):
         f"'tomorrow_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name, update.effective_chat.id
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
+
+    command_handler.validate_command_input()
 
     texts, photo = command_handler.tomorrow_games()
 
@@ -352,6 +496,21 @@ if __name__ == "__main__":
         "last_played_matches", last_played_matches
     )
     available_leagues_handler = CommandHandler("available_leagues", available_leagues)
+    favourite_teams_handler = CommandHandler("favourite_teams", favourite_teams)
+    favourite_leagues_handler = CommandHandler("favourite_leagues", favourite_leagues)
+    add_favourite_team_handler = CommandHandler(
+        "add_favourite_team", add_favourite_team
+    )
+    add_favourite_league_handler = CommandHandler(
+        "add_favourite_league", add_favourite_league
+    )
+    remove_favourite_team_handler = CommandHandler(
+        "delete_favourite_team", delete_favourite_team
+    )
+    remove_favourite_league_handler = CommandHandler(
+        "delete_favourite_league", delete_favourite_league
+    )
+
     help_handler = CommandHandler("help", help)
 
     application.add_handler(start_handler)
@@ -369,5 +528,11 @@ if __name__ == "__main__":
     application.add_handler(available_leagues_handler)
     application.add_handler(search_team_handler)
     application.add_handler(search_league_handler)
+    application.add_handler(favourite_teams_handler)
+    application.add_handler(favourite_leagues_handler)
+    application.add_handler(add_favourite_team_handler)
+    application.add_handler(add_favourite_league_handler)
+    application.add_handler(remove_favourite_team_handler)
+    application.add_handler(remove_favourite_league_handler)
 
     application.run_polling()

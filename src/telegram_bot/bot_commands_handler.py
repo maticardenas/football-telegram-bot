@@ -529,14 +529,17 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
 
 class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
-    def __init__(self, commands_args: List[str], user: str, chat_id: str):
+    def __init__(
+        self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
+    ):
         super().__init__()
         self._command_args = commands_args
         self._user = user
         self._chat_id = chat_id
+        self._is_list = is_list
 
     def validate_command_input(self) -> str:
-        if len(self._command_args) < 1:
+        if len(self._command_args) < 1 and not self._is_list:
             response = "You must enter one team"
         elif len(self._command_args) > 1:
             response = "You must enter one team"
@@ -571,7 +574,7 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
             team = self._fixtures_db_manager.get_team(team_id)[0]
             response = f"Team '{team.name}' was added to your favourites successfully."
         except Exception as e:
-            response = e
+            response = str(e)
 
         return response
 
@@ -585,20 +588,23 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
                 f"Team '{team.name}' was removed from your favourites successfully."
             )
         except Exception as e:
-            response = e
+            response = str(e)
 
         return response
 
 
 class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
-    def __init__(self, commands_args: List[str], user: str, chat_id: str):
+    def __init__(
+        self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
+    ):
         super().__init__()
         self._command_args = commands_args
         self._user = user
         self._chat_id = chat_id
+        self._is_list = is_list
 
     def validate_command_input(self) -> str:
-        if len(self._command_args) < 1:
+        if len(self._command_args) < 1 and not self._is_list:
             response = "You must enter one league"
         elif len(self._command_args) > 1:
             response = "You must enter one league"
@@ -608,22 +614,25 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         return response
 
     def get_favourite_leagues(self) -> str:
-        favourite_teams = self._fixtures_db_manager.get_favourite_teams(self._chat_id)
+        favourite_leagues = self._fixtures_db_manager.get_favourite_leagues(
+            self._chat_id
+        )
 
-        if len(favourite_teams):
-            teams = [
-                self._fixtures_db_manager.get_team(team)[0] for team in favourite_teams
+        if len(favourite_leagues):
+            leagues = [
+                self._fixtures_db_manager.get_league(league)[0]
+                for league in favourite_leagues
             ]
 
-            favourite_teams_texts = [
-                f"<strong>{team.id}</strong> - {team.name}" for team in teams
+            favourite_leagues_texts = [
+                f"<strong>{league.id}</strong> - {league.name}" for league in leagues
             ]
 
-            response = "\n".join(favourite_teams_texts)
+            response = "\n".join(favourite_leagues_texts)
         else:
             response = (
                 f"Oops! It seems you don't have favourite leagues yet. Add them with "
-                f"<strong>/add_favourite_league/strong> command."
+                f"<strong>/add_favourite_league</strong> command."
             )
 
         return response
@@ -638,7 +647,7 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
                 f"League '{league.name}' was added to your favourites successfully."
             )
         except Exception as e:
-            response = e
+            response = str(e)
 
         return response
 
@@ -652,6 +661,6 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
                 f"League '{league.name}' was removed from your favourites successfully."
             )
         except Exception as e:
-            response = e
+            response = str(e)
 
         return response

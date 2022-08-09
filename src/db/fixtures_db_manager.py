@@ -32,14 +32,14 @@ class FixturesDBManager:
 
     def get_favourite_teams(self, chat_id: str) -> List[Optional[DBTeam]]:
         favourite_teams_statement = select(DBFavouriteTeam.team).where(
-            DBFavouriteTeam.chat_id == chat_id
+            DBFavouriteTeam.chat_id == str(chat_id)
         )
 
         return self._notifier_db_manager.select_records(favourite_teams_statement)
 
     def get_favourite_leagues(self, chat_id: str) -> List[Optional[DBTeam]]:
         favourite_leagues_statement = select(DBFavouriteLeague.league).where(
-            DBFavouriteLeague.chat_id == chat_id
+            DBFavouriteLeague.chat_id == str(chat_id)
         )
 
         return self._notifier_db_manager.select_records(favourite_leagues_statement)
