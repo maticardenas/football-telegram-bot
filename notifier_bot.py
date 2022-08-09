@@ -247,7 +247,7 @@ async def today_matches(update: Update, context):
         f"'today_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
 
     texts, photo = command_handler.today_games()
@@ -301,7 +301,7 @@ async def last_played_matches(update: Update, context):
         f"'last_played_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
 
     texts, photo = command_handler.yesterday_games()
@@ -319,7 +319,7 @@ async def tomorrow_matches(update: Update, context):
         f"'tomorrow_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
 
     texts, photo = command_handler.tomorrow_games()

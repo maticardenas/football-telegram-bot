@@ -461,7 +461,7 @@ class FixturesDBManager:
 
         self._notifier_db_manager.insert_records(db_fixtures)
 
-    def remove_favourite_team(self, team_id: int, chat_id: str) -> None:
+    def delete_favourite_team(self, team_id: int, chat_id: str) -> None:
         favourite_team_statement = select(DBFavouriteTeam).where(
             DBFavouriteTeam.chat_id == chat_id, DBFavouriteTeam.team == team_id
         )
@@ -477,7 +477,7 @@ class FixturesDBManager:
 
         self._notifier_db_manager.delete_record(favourite_team[0])
 
-    def remove_favourite_league(self, league_id: int, chat_id: str) -> None:
+    def delete_favourite_league(self, league_id: int, chat_id: str) -> None:
         favourite_league_statement = select(DBFavouriteLeague).where(
             DBFavouriteLeague.chat_id == chat_id, DBFavouriteLeague.league == league_id
         )
