@@ -50,7 +50,7 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(teams_statement)
 
     def get_games_in_surrounding_n_days(
-        self, days: int, leagues: List[int] = []
+        self, days: int, leagues: List[int] = [], teams: List[int] = []
     ) -> List[Optional[DBFixture]]:
         surrounding_fixtures = []
 
@@ -76,6 +76,14 @@ class FixturesDBManager:
                     league_statement = statement.where(DBFixture.league == league)
                     surrounding_fixtures += self._notifier_db_manager.select_records(
                         league_statement
+                    )
+            elif len(teams):
+                for team in teams:
+                    team_statement = statement.where(
+                        or_(DBFixture.home_team == team, DBFixture.away_team == team)
+                    )
+                    surrounding_fixtures += self._notifier_db_manager.select_records(
+                        team_statement
                     )
             else:
                 surrounding_fixtures += self._notifier_db_manager.select_records(
