@@ -375,9 +375,8 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 convert_db_fixture(fixture) for fixture in upcoming_fixtures
             ]
 
-            introductory_text = f"{Emojis.WAVING_HAND.value} Hi {self._user}, the upcoming matches are: "
+            converted_fixtures.sort(key=lambda fixture: fixture.bsas_date)
             texts = self.get_fixtures_text(converted_fixtures, with_date=True)
-            texts[0] = f"{introductory_text}\n\n{texts[0]}"
             leagues = [fixture.championship for fixture in converted_fixtures]
             photo = random.choice([league.logo for league in leagues])
         else:
