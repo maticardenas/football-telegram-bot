@@ -4,7 +4,6 @@ from typing import List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import Fixture
-from src.db.notif_sql_models import ManagedLeague as DBManagedLeague
 from src.db.notif_sql_models import ManagedTeam as DBManagedTeam
 from src.db.notif_sql_models import Team as DBTeam
 from src.emojis import Emojis
@@ -109,15 +108,39 @@ class NotifierBotCommandsHandler:
 
 
 class SurroundingMatchesHandler(NotifierBotCommandsHandler):
-    def __init__(self, commands_args: List[str], user: str):
+    def __init__(self, commands_args: List[str], user: str, chat_id: str):
         super().__init__()
         self._command_args = commands_args
+        self._teams = []
+        self._leagues = []
         self._user = user
+        self._chat_id = chat_id
+
+    def validate_command_input(self) -> None:
+        if len(self._command_args):
+            if str(self._command_args[0]).lower() in [
+                "fteams",
+                "ft",
+                "favourite_teams",
+            ]:
+                self._teams = self._fixtures_db_manager.get_favourite_teams(
+                    self._chat_id
+                )
+            elif str(self._command_args[0]).lower() in [
+                "fleagues",
+                "fl",
+                "favourite_leagues",
+            ]:
+                self._leagues = self._fixtures_db_manager.get_favourite_leagues(
+                    self._chat_id
+                )
+            else:
+                self._leagues = self._command_args
 
     def today_games(self) -> Tuple[str, str]:
         today_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                0, self._command_args
+                0, leagues=self._leagues, teams=self._teams
             )
         )
 
@@ -148,7 +171,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def yesterday_games(self) -> Tuple[str, str]:
         played_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                -1, self._command_args
+                -1, leagues=self._leagues, teams=self._teams
             )
         )
 
@@ -179,7 +202,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def tomorrow_games(self) -> Tuple[str, str]:
         tomorrow_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                1, self._command_args
+                1, leagues=self._leagues, teams=self._teams
             )
         )
 
@@ -438,7 +461,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
                 converted_fixture, league.name, self._user
             )
             if converted_fixture
-            else ("No se encontraron partidos.", None)
+            else ("No matches were found.", None)
         )
 
     def last_match_league_notif(self) -> Tuple[str, str]:
@@ -502,3 +525,141 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             telegram_messages = ["No se encontraron partidos."]
 
         return telegram_messages
+
+
+class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
+    def __init__(
+        self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
+    ):
+        super().__init__()
+        self._command_args = commands_args
+        self._user = user
+        self._chat_id = chat_id
+        self._is_list = is_list
+
+    def validate_command_input(self) -> str:
+        if len(self._command_args) < 1 and not self._is_list:
+            response = "You must enter one team"
+        elif len(self._command_args) > 1:
+            response = "You must enter one team"
+        else:
+            response = ""
+
+        return response
+
+    def get_favourite_teams(self) -> str:
+        favourite_teams = self._fixtures_db_manager.get_favourite_teams(self._chat_id)
+
+        if len(favourite_teams):
+            teams = [
+                self._fixtures_db_manager.get_team(team)[0] for team in favourite_teams
+            ]
+
+            favourite_teams_texts = [
+                f"<strong>{team.id}</strong> - {team.name}" for team in teams
+            ]
+
+            response = "\n".join(favourite_teams_texts)
+        else:
+            response = f"Oops! It seems you don't have favourite teams yet. Add them with <strong>/add_favourite_team</strong> command."
+
+        return response
+
+    def add_favourite_team(self) -> str:
+        team_id = self._command_args[0]
+
+        try:
+            self._fixtures_db_manager.insert_favourite_team(team_id, self._chat_id)
+            team = self._fixtures_db_manager.get_team(team_id)[0]
+            response = f"Team '{team.name}' was added to your favourites successfully."
+        except Exception as e:
+            response = str(e)
+
+        return response
+
+    def delete_favourite_team(self) -> str:
+        team_id = self._command_args[0]
+
+        try:
+            self._fixtures_db_manager.delete_favourite_team(team_id, self._chat_id)
+            team = self._fixtures_db_manager.get_team(team_id)[0]
+            response = (
+                f"Team '{team.name}' was removed from your favourites successfully."
+            )
+        except Exception as e:
+            response = str(e)
+
+        return response
+
+
+class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
+    def __init__(
+        self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
+    ):
+        super().__init__()
+        self._command_args = commands_args
+        self._user = user
+        self._chat_id = chat_id
+        self._is_list = is_list
+
+    def validate_command_input(self) -> str:
+        if len(self._command_args) < 1 and not self._is_list:
+            response = "You must enter one league"
+        elif len(self._command_args) > 1:
+            response = "You must enter one league"
+        else:
+            response = ""
+
+        return response
+
+    def get_favourite_leagues(self) -> str:
+        favourite_leagues = self._fixtures_db_manager.get_favourite_leagues(
+            self._chat_id
+        )
+
+        if len(favourite_leagues):
+            leagues = [
+                self._fixtures_db_manager.get_league(league)[0]
+                for league in favourite_leagues
+            ]
+
+            favourite_leagues_texts = [
+                f"<strong>{league.id}</strong> - {league.name}" for league in leagues
+            ]
+
+            response = "\n".join(favourite_leagues_texts)
+        else:
+            response = (
+                f"Oops! It seems you don't have favourite leagues yet. Add them with "
+                f"<strong>/add_favourite_league</strong> command."
+            )
+
+        return response
+
+    def add_favourite_league(self) -> str:
+        league_id = self._command_args[0]
+
+        try:
+            self._fixtures_db_manager.insert_favourite_league(league_id, self._chat_id)
+            league = self._fixtures_db_manager.get_league(league_id)[0]
+            response = (
+                f"League '{league.name}' was added to your favourites successfully."
+            )
+        except Exception as e:
+            response = str(e)
+
+        return response
+
+    def delete_favourite_league(self) -> str:
+        league_id = self._command_args[0]
+
+        try:
+            self._fixtures_db_manager.delete_favourite_league(league_id, self._chat_id)
+            league = self._fixtures_db_manager.get_league(league_id)[0]
+            response = (
+                f"League '{league.name}' was removed from your favourites successfully."
+            )
+        except Exception as e:
+            response = str(e)
+
+        return response

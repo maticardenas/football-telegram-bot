@@ -8,6 +8,8 @@ from src.emojis import Emojis
 from src.notifier_logger import get_logger
 from src.team_fixtures_manager import TeamFixturesManager
 from src.telegram_bot.bot_commands_handler import (
+    FavouriteLeaguesCommandHandler,
+    FavouriteTeamsCommandHandler,
     NextAndLastMatchCommandHandler,
     NextAndLastMatchLeagueCommandHandler,
     NotifierBotCommandsHandler,
@@ -34,23 +36,34 @@ async def start(update: Update, context):
 async def help(update: Update, context):
     logger.info(f"'help' command executed - by {update.effective_user.name}")
     text = (
-        f"{Emojis.WAVING_HAND.value}Hola {update.effective_user.first_name}!\n\n"
-        f" {Emojis.JOYSTICK.value} Estos son mis comandos disponibles (por ahora):\n\n"
-        f"• /search_team <team_name>: permite realizar una búsqueda de los equipos existentes y sus respectivos ids para ser usado en el resto de los comandos. \n"
-        f"• /search_league <league_name>: permite realizar una búsqueda los torneos existentes y sus respectivos ids para ser usado en el resto de los comandos. \n"
-        f"• /next_match <team>: próximo partido del equipo.\n"
-        f"• /last_match <team>: último partido jugado del equipo.\n"
-        f"• /next_match_league <league_id>: próximo partido del torneo seleccionado.\n"
-        f"• /next_matches_league <league_id>: Partidos del día de los próximos partidos del torneo seleccionado.\n"
-        f"• /last_match_league <league_id>: último partido jugado del torneo seleccionado.\n"
-        f"• /available_leagues: torneos disponibles para consultar con sus respectivos ids.\n"
-        f"• /today_matches [opt]<league_ids>: partidos de hoy.\n"
-        f"• /upcoming_matches <team_id>: próximos partidos del equipo seleccionado.\n"
-        f"• /tomorrow_matches [opt]<league_ids>: partidos de mañana.\n"
-        f"• /last_matches <team_id>: últimos partidos del equipo seleccionado.\n"
-        f"• /last_played_matches [opt]<league_ids>: partidos jugados el día de ayer."
+        f"{Emojis.WAVING_HAND.value}Hi {update.effective_user.first_name}!\n\n"
+        f" {Emojis.JOYSTICK.value} These are my available commands:\n\n"
+        f"• /search_team <em>team_name</em> - Searches teams by name (or part of it) and retrieves them, if found, with its corresponding <em>team_id</em> \n"
+        f"• /search_league <em>league_name</em> - Searches leagues by name (or part of it) and retrieves them, if found, with its corresponding <em>league_id</em>. \n"
+        f"• /favourite_teams - List of your favourite teams.\n"
+        f"• /favourite_leagues - List of your favourite leagues.\n"
+        f"• /add_favourite_team <em>team_id</em> - Adds a team to your favourites.\n"
+        f"• /add_favourite_league <em>league_id</em> - Adds a league to your favourites.\n"
+        f"• /delete_favourite_team <em>team_id</em> - Removes a team from your favourites.\n"
+        f"• /delete_favourite_league <em>league_id</em> - Removes a league from your favourites.\n"
+        f"• /next_match <em>team</em> - Next match of the specified team.\n"
+        f"• /last_match <em>team</em> - Last match of the specified team.\n"
+        f"• /next_match_league <em>league_id</em> - Next match of the specified league\n"
+        f"• /next_matches_league <em>league_id</em> - Search for the next day where there are matches for the specified league and informs all the matches of that day\n"
+        f"• /last_match_league <em>league_id</em> - Last match of the specified league.\n"
+        f"• /available_leagues - All available leagues.\n"
+        f"• /today_matches <em>[optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]</em> - Today's matches.\n"
+        f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your favourite teams or leagues.\n"
+        f"• /upcoming_matches <em>team_id</em> - List of upcoming matches of the specified team.\n"
+        f"• /tomorrow_matches <em>[optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]</em> -  Tomorrow's matches.\n"
+        f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your favourite teams or leagues.\n"
+        f"• /last_matches <em>team_id</em> - List of last matches of the specified team.\n"
+        f"• /last_played_matches <em>[optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]</em> - Yesterday's matches.\n"
+        f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your favourite teams or leagues.\n"
     )
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+    )
 
 
 async def available_leagues(update: Update, context):
@@ -66,6 +79,142 @@ async def available_leagues(update: Update, context):
     await context.bot.send_message(
         chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
     )
+
+
+async def add_favourite_team(update: Update, context):
+    logger.info(
+        f"'add_favourite_team' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteTeamsCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.add_favourite_team()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def favourite_teams(update: Update, context):
+    logger.info(f"'favourite_teams' command executed - by {update.effective_user.name}")
+    commands_handler = FavouriteTeamsCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.get_favourite_teams()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def delete_favourite_team(update: Update, context):
+    logger.info(
+        f"'delete_favourite_team' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteTeamsCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.delete_favourite_team()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def add_favourite_league(update: Update, context):
+    logger.info(
+        f"'add_favourite_league' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteLeaguesCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.add_favourite_league()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def delete_favourite_league(update: Update, context):
+    logger.info(
+        f"'delete_favourite_league' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteLeaguesCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.delete_favourite_league()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def favourite_leagues(update: Update, context):
+    logger.info(
+        f"'favourite_leagues' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = FavouriteLeaguesCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.get_favourite_leagues()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
 
 
 async def search_team(update: Update, context):
@@ -247,8 +396,10 @@ async def today_matches(update: Update, context):
         f"'today_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
+
+    command_handler.validate_command_input()
 
     texts, photo = command_handler.today_games()
 
@@ -301,8 +452,10 @@ async def last_played_matches(update: Update, context):
         f"'last_played_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
+
+    command_handler.validate_command_input()
 
     texts, photo = command_handler.yesterday_games()
 
@@ -319,8 +472,10 @@ async def tomorrow_matches(update: Update, context):
         f"'tomorrow_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
+
+    command_handler.validate_command_input()
 
     texts, photo = command_handler.tomorrow_games()
 
@@ -352,6 +507,21 @@ if __name__ == "__main__":
         "last_played_matches", last_played_matches
     )
     available_leagues_handler = CommandHandler("available_leagues", available_leagues)
+    favourite_teams_handler = CommandHandler("favourite_teams", favourite_teams)
+    favourite_leagues_handler = CommandHandler("favourite_leagues", favourite_leagues)
+    add_favourite_team_handler = CommandHandler(
+        "add_favourite_team", add_favourite_team
+    )
+    add_favourite_league_handler = CommandHandler(
+        "add_favourite_league", add_favourite_league
+    )
+    remove_favourite_team_handler = CommandHandler(
+        "delete_favourite_team", delete_favourite_team
+    )
+    remove_favourite_league_handler = CommandHandler(
+        "delete_favourite_league", delete_favourite_league
+    )
+
     help_handler = CommandHandler("help", help)
 
     application.add_handler(start_handler)
@@ -369,5 +539,11 @@ if __name__ == "__main__":
     application.add_handler(available_leagues_handler)
     application.add_handler(search_team_handler)
     application.add_handler(search_league_handler)
+    application.add_handler(favourite_teams_handler)
+    application.add_handler(favourite_leagues_handler)
+    application.add_handler(add_favourite_team_handler)
+    application.add_handler(add_favourite_league_handler)
+    application.add_handler(remove_favourite_team_handler)
+    application.add_handler(remove_favourite_league_handler)
 
     application.run_polling()
