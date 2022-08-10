@@ -264,7 +264,7 @@ async def next_match(update: Update, context):
         f"'next_match {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        context.args, update.effective_user.first_name, update.effective_chat.id
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
     validated_input = command_handler.validate_command_input()
 
@@ -291,7 +291,7 @@ async def last_match(update: Update, context):
         f"'last_match {' '.join(context.args)}' command executed - by {update.effective_user.first_name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        context.args, update.effective_user.first_name, update.effective_chat.id
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
     validated_input = command_handler.validate_command_input()
 
@@ -416,8 +416,10 @@ async def upcoming_matches(update: Update, context):
         f"'upcoming_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        context.args, update.effective_user.first_name, update.effective_chat.id
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
+
+    command_handler.validate_command_input()
 
     texts, photo = command_handler.upcoming_matches()
 
@@ -434,7 +436,7 @@ async def last_matches(update: Update, context):
         f"'last_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        context.args, update.effective_user.first_name, update.effective_chat.id
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
 
     texts, photo = command_handler.last_matches()
@@ -452,7 +454,7 @@ async def last_played_matches(update: Update, context):
         f"'last_played_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
-        context.args, update.effective_user.first_name, update.effective_chat.id
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
 
     command_handler.validate_command_input()
