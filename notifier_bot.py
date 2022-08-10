@@ -61,7 +61,9 @@ async def help(update: Update, context):
         f"• /last_played_matches <em>[optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]</em> - Yesterday's matches.\n"
         f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your favourite teams or leagues.\n"
     )
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=text, parse_mode="HTML")
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+    )
 
 
 async def available_leagues(update: Update, context):
