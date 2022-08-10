@@ -6,7 +6,6 @@ from telegram.ext import ApplicationBuilder, CommandHandler
 from config.notif_config import NotifConfig
 from src.emojis import Emojis
 from src.notifier_logger import get_logger
-from src.team_fixtures_manager import TeamFixturesManager
 from src.telegram_bot.bot_commands_handler import (
     FavouriteLeaguesCommandHandler,
     FavouriteTeamsCommandHandler,
@@ -54,7 +53,8 @@ async def help(update: Update, context):
         f"• /available_leagues - All available leagues.\n"
         f"• /today_matches <em>[optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]</em> - Today's matches.\n"
         f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your favourite teams or leagues.\n"
-        f"• /upcoming_matches <em>team_id</em> - List of upcoming matches of the specified team.\n"
+        f"• /upcoming_matches <em>[optional [team_id] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]</em> - List of upcoming matches.\n"
+        f" You can specify optionally specific <em>team_id</em> you want to filter for, or just filter by your favourite teams or leagues.\n"
         f"• /tomorrow_matches <em>[optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]</em> -  Tomorrow's matches.\n"
         f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your favourite teams or leagues.\n"
         f"• /last_matches <em>team_id</em> - List of last matches of the specified team.\n"
@@ -264,7 +264,7 @@ async def next_match(update: Update, context):
         f"'next_match {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
     validated_input = command_handler.validate_command_input()
 
@@ -291,7 +291,7 @@ async def last_match(update: Update, context):
         f"'last_match {' '.join(context.args)}' command executed - by {update.effective_user.first_name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
     validated_input = command_handler.validate_command_input()
 
@@ -416,7 +416,7 @@ async def upcoming_matches(update: Update, context):
         f"'upcoming_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
 
     texts, photo = command_handler.upcoming_matches()
@@ -434,7 +434,7 @@ async def last_matches(update: Update, context):
         f"'last_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
 
     texts, photo = command_handler.last_matches()

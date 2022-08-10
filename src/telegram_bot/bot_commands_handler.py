@@ -283,26 +283,43 @@ class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
 
 
 class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
-    def __init__(self, commands_args: List[str], user: str):
+    def __init__(self, commands_args: List[str], user: str, chat_id: str) -> None:
         super().__init__()
         self._command_args = commands_args
         self._user = user
+        self._team = None
+        self._favourite_teams = []
+        self._favourite_leagues = []
+        self._chat_id = chat_id
 
     def validate_command_input(self) -> str:
         response = ""
 
         if len(self._command_args) < 1:
-            response = "Debés ingresar al menos un equipo"
+            response = "You must enter one argument."
         elif len(self._command_args) > 1:
-            response = "Sólo puedes ingresar un equipo"
+            response = "You can only enter one argument."
         else:
-            team = self._command_args[0].lower()
-            if not self.is_available_team(team):
-                response = (
-                    f"Oops! '{team}' no está disponible :(\n\n"
-                    f"Los equipos disponibles son:\n\n"
-                    f"{self.available_teams_text()}"
+            if str(self._command_args[0]).lower() in [
+                "fteams",
+                "ft",
+                "favourite_teams",
+            ]:
+                self._favourite_teams = self._fixtures_db_manager.get_favourite_teams(
+                    self._chat_id
                 )
+            elif str(self._command_args[0]).lower() in [
+                "fleagues",
+                "fl",
+                "favourite_leagues",
+            ]:
+                self._favourite_leagues = (
+                    self._fixtures_db_manager.get_favourite_leagues(self._chat_id)
+                )
+            else:
+                self._team = self._command_args[0].lower()
+                if not self.is_available_team(self._team):
+                    response = f"Oops! '{self._team}' is not available :("
 
         return response
 
@@ -353,20 +370,30 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
 
     def upcoming_matches(self) -> Tuple[str, str]:
         team_id = self._command_args[0]
-        team = self._fixtures_db_manager.get_team(team_id)[0]
 
-        upcoming_team_fixtures = self._fixtures_db_manager.get_next_fixture(
-            team_id=team_id, number_of_fixtures=5
-        )
-
-        if len(upcoming_team_fixtures):
-            converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in upcoming_team_fixtures
-            ]
-            introductory_text = (
-                f"{Emojis.WAVING_HAND.value} Hola {self._user}, los próximos partidos "
-                f"de {team.name} son:"
+        if self._team:
+            upcoming_fixtures = self._fixtures_db_manager.get_next_fixture(
+                team_id=team_id, number_of_fixtures=5
             )
+        elif self._favourite_teams:
+            upcoming_fixtures = []
+            for fav_team in self._favourite_teams:
+                upcoming_fixtures += self._fixtures_db_manager.get_next_fixture(
+                    team_id=fav_team
+                )
+        else:
+            upcoming_fixtures = []
+            for fav_league in self._favourite_leagues:
+                upcoming_fixtures += self._fixtures_db_manager.get_next_fixture(
+                    league_id=fav_league
+                )
+
+        if len(upcoming_fixtures):
+            converted_fixtures = [
+                convert_db_fixture(fixture) for fixture in upcoming_fixtures
+            ]
+
+            introductory_text = f"{Emojis.WAVING_HAND.value} Hi {self._user}, the upcoming matches are: "
             texts = self.get_fixtures_text(converted_fixtures, with_date=True)
             texts[0] = f"{introductory_text}\n\n{texts[0]}"
             leagues = [fixture.championship for fixture in converted_fixtures]
@@ -374,8 +401,8 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         else:
             texts = [
                 (
-                    f"{Emojis.WAVING_HAND.value} Hola "
-                    f"{self._user}, lamentablemente no se encontraron próximos partidos para {team.name} :("
+                    f"{Emojis.WAVING_HAND.value} Hi "
+                    f"{self._user}, unfortunately there are no matches found. :("
                 )
             ]
             photo = MESSI_PHOTO
