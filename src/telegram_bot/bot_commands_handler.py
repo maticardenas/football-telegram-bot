@@ -458,8 +458,8 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
         converted_fixture = None
 
-        if next_league_db_fixture:
-            converted_fixture = convert_db_fixture(next_league_db_fixture)
+        if len(next_league_db_fixture):
+            converted_fixture = convert_db_fixture(next_league_db_fixture[0])
             converted_fixture.head_to_head = get_head_to_heads(
                 converted_fixture.home_team.id, converted_fixture.away_team.id
             )
@@ -476,14 +476,14 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         league_id = self._command_args[0]
         league = self._fixtures_db_manager.get_league(league_id)[0]
 
-        next_league_db_fixture = self._fixtures_db_manager.get_last_fixture(
+        last_league_db_fixture = self._fixtures_db_manager.get_last_fixture(
             league_id=league.id
         )
 
         converted_fixture = None
 
-        if next_league_db_fixture:
-            converted_fixture = convert_db_fixture(next_league_db_fixture)
+        if len(last_league_db_fixture):
+            converted_fixture = convert_db_fixture(last_league_db_fixture[0])
 
         return (
             telegram_last_fixture_league_notification(
