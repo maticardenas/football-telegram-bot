@@ -4,7 +4,6 @@ from typing import List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import Fixture
-from src.db.notif_sql_models import ManagedLeague as DBManagedLeague
 from src.db.notif_sql_models import ManagedTeam as DBManagedTeam
 from src.db.notif_sql_models import Team as DBTeam
 from src.emojis import Emojis
