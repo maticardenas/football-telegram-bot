@@ -152,16 +152,10 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             leagues = [fixture.championship for fixture in converted_games]
             photo = random.choice([league.logo for league in leagues])
         else:
-            leagues_text = (
-                f" para las ligas seleccionadas ({', '.join(self._command_args)}) "
-                if len(self._command_args)
-                else ""
-            )
             texts = [
                 (
-                    f"{Emojis.WAVING_HAND.value} Hola "
-                    f"{self._user}, lamentablemente hoy "
-                    f"no hay partidos{leagues_text} :("
+                    f"{Emojis.WAVING_HAND.value} Hi "
+                    f"{self._user}, there were not matches found :("
                 )
             ]
             photo = MESSI_PHOTO
