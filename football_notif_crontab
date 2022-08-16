@@ -1,6 +1,5 @@
 30 12 * * * /usr/football_api/dev_scripts/run_next_match_notifier.sh >> /var/log/cron_log.log 2>&1
 30 8 * * * /usr/football_api/dev_scripts/run_played_match_notifier.sh >> /var/log/cron_log.log 2>&1
 30 5 * * * /usr/football_api/dev_scripts/populate_database.sh >> /var/log/cron_log.log 2>&1
-00 10 * * * /usr/football_api/dev_scripts/partial_db_updater.sh >> /var/log/cron_log.log 2>&1
-50 5 */2 * * /usr/football_api/dev_scripts/update_head_to_heads.sh >> /var/log/cron_log.log 2>&1
+*/75 * * * * /usr/football_api/dev_scripts/partial_db_updater.sh >> /var/log/cron_log.log 2>&1
 # Extra valid line

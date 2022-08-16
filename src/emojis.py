@@ -52,3 +52,4 @@ class Emojis(Enum):
     SAD_FACE = emoji.emojize(":crying_face:", use_aliases=True)
     STADIUM = emoji.emojize(":stadium:", use_aliases=True)
     POLICE_WOMAN = emoji.emojize(":woman_police_officer:", use_aliases=True)
+    MAN_RUNNING = emoji.emojize(":man_running:", use_aliases=True)

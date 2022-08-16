@@ -222,12 +222,21 @@ class Fixture:
             else ""
         )
         if played:
-            if "finished" in self.match_status.lower():
+            if (
+                "finished" in self.match_status.lower()
+                or "half" in self.match_status.lower()
+            ):
+                match_in_progress_text = (
+                    f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong>"
+                    if "half" in self.match_status.lower()
+                    else ""
+                )
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} "
                     f"<strong>{self.home_team.name} [{self.match_score.home_score}] vs. [{self.match_score.away_score}] {self.away_team.name}</strong> \n"
                     f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>"
+                    f"{match_in_progress_text}"
                     # f"{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
                 )
             else:
