@@ -38,8 +38,12 @@ def test_time_telegram_text(fixture: Fixture):
     )
 
 
-def test_one_line_telegram_repr(fixture: Fixture):
-    # given - when - then
+def test_one_line_telegram_repr_not_played(fixture: Fixture):
+    # given
+    fixture.match_score.home_score = None
+    fixture.match_score.away_score = None
+
+    # when - then
     assert (
         fixture.one_line_telegram_repr()
         == """⚽ <strong>River Plate vs. Boca Juniors</strong> 
@@ -67,13 +71,18 @@ def test_telegram_like_repr(fixture: Fixture):
     )
 
 
-def test_matched_played_telegram_like_repr_not_finished(fixture: Fixture):
-    # given - when - then
+def test_matched_played_telegram_like_repr_half_time(fixture: Fixture):
+    # given
+    fixture.match_status = "First Half"
+
+    print(f"HALF TIME FIXTURE \n\n: {fixture.matched_played_telegram_like_repr()}")
+
+    # - when - then
     assert (
         fixture.matched_played_telegram_like_repr()
-        == """😢 <strong>Started</strong>
+        == """🏃‍♂️ <strong>First Half</strong>
 
-<strong>⚽ River Plate vs. Boca Juniors</strong>
+<strong>⚽ River Plate [3] vs.  [0] Boca Juniors</strong>
 🏆 <strong>Copa de la Superliga (ARG)</strong>
 📌 <strong>Primera Fecha</strong>
 🏟 <strong>Estadio Monumental</strong>
