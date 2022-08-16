@@ -1,11 +1,9 @@
-from datetime import date
 from typing import List
 
 from config.config_utils import get_managed_teams_config
 from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.notifier_logger import get_logger
-from src.team_fixtures_manager import TeamFixturesManager
 from src.utils.fixtures_utils import convert_fixtures_response_to_db
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
@@ -23,7 +21,7 @@ def update_fixtures() -> None:
     RAPID API hits per day, giving space to multiple other functionalities.
     """
     fixtures_client = FixturesClient()
-    fixtures_to_update = get_all_fixtures_to_update()
+    fixtures_to_update = get_all_fixtures_ids_to_update()
     lots_to_update = get_fixture_update_lots(fixtures_to_update)
 
     for lot in lots_to_update:
@@ -41,15 +39,10 @@ def get_fixture_update_lots(
         yield fixtures_to_update[i : i + lot_size]
 
 
-def get_all_fixtures_to_update() -> List["DBFixture"]:
-    all_fixtures_to_update = []
-    for team in MANAGED_TEAMS:
-        logger.info(f"Getting surrounding fixtures for team {team.name}")
-        team_fixtures_manager = TeamFixturesManager(date.today().year, team.id)
-        all_fixtures_to_update.append(team_fixtures_manager.get_next_team_fixture())
-        all_fixtures_to_update.append(team_fixtures_manager.get_last_team_fixture())
+def get_all_fixtures_ids_to_update() -> List["DBFixture"]:
+    todays_fixtures = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_days(0)
 
-    return [fixture.id for fixture in all_fixtures_to_update if fixture]
+    return [fixture.id for fixture in todays_fixtures if fixture]
 
 
 if __name__ == "__main__":

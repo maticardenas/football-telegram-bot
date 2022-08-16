@@ -106,7 +106,7 @@ def populate_league_fixtures() -> None:
 
 
 def populate_data(is_initial=False) -> None:
-    populate_managed_teams()
+    # populate_managed_teams()
     populate_team_fixtures(is_initial)
     populate_league_fixtures()
 
