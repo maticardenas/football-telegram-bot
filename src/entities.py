@@ -216,11 +216,18 @@ class Fixture:
     def one_line_telegram_repr(
         self, played: bool = False, with_date: bool = False
     ) -> str:
+        if (
+            self.match_score.away_score is not None
+            or self.match_score.home_score is not None
+        ):
+            played = True
+
         date_text = (
             f"<strong>{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}</strong>\n"
             if with_date
             else ""
         )
+
         if played:
             if (
                 "finished" in self.match_status.lower()
