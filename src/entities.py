@@ -190,8 +190,8 @@ class Fixture:
 
     def time_telegram_text(self) -> str:
         return (
-            f"{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}</strong> / "
-            f"{Emojis.ARGENTINA.value} <strong>{str(self.bsas_date)[11:16]} HS</strong>"
+            f"{Emojis.EUROPEAN_UNION.value} {str(self.ams_date)[11:16]} HS {self.is_next_day} / "
+            f"{Emojis.ARGENTINA.value} {str(self.bsas_date)[11:16]} HS"
         )
 
     def head_to_head_text(self) -> str:
@@ -242,7 +242,7 @@ class Fixture:
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} "
                     f"<strong>{self.home_team.name} [{self.match_score.home_score}] vs. [{self.match_score.away_score}] {self.away_team.name}</strong> \n"
-                    f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>"
+                    f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})"
                     f"{match_in_progress_text}"
                     # f"{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
                 )
@@ -250,16 +250,16 @@ class Fixture:
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong> \n"
-                    f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"
-                    f"{Emojis.SAD_FACE.value} <strong>{self.match_status}</strong>"
+                    f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})\n"
+                    f"{Emojis.SAD_FACE.value} {self.match_status}"
                     # f"{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
                 )
         else:
             repr = (
                 f"{date_text}"
                 f"{Emojis.SOCCER_BALL.value} "
-                f"<strong>{self.home_team.name} vs. {self.away_team.name}</strong> \n"
-                f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"
+                f"{self.home_team.name} vs. {self.away_team.name} \n"
+                f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})\n"
                 f"{Emojis.ALARM_CLOCK.value} {self.time_telegram_text()}"
             )
 
