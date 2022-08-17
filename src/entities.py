@@ -234,7 +234,7 @@ class Fixture:
                 or "half" in self.match_status.lower()
             ):
                 match_in_progress_text = (
-                    f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong>"
+                    f"\n{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong>"
                     if "half" in self.match_status.lower()
                     else ""
                 )
