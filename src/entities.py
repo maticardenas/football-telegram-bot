@@ -223,7 +223,7 @@ class Fixture:
             played = True
 
         date_text = (
-            f"<strong>{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}</strong>\n"
+            f"{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}\n"
             if with_date
             else ""
         )
@@ -234,14 +234,14 @@ class Fixture:
                 or "half" in self.match_status.lower()
             ):
                 match_in_progress_text = (
-                    f"\n{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong>"
+                    f"\n{Emojis.MAN_RUNNING.value} {self.match_status}"
                     if "half" in self.match_status.lower()
                     else ""
                 )
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} "
-                    f"<strong>{self.home_team.name} [{self.match_score.home_score}] vs. [{self.match_score.away_score}] {self.away_team.name}</strong> \n"
+                    f"{self.home_team.name} [{self.match_score.home_score}] vs. [{self.match_score.away_score}] {self.away_team.name} \n"
                     f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})"
                     f"{match_in_progress_text}"
                     # f"{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
@@ -249,7 +249,7 @@ class Fixture:
             else:
                 repr = (
                     f"{date_text}"
-                    f"{Emojis.SOCCER_BALL.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong> \n"
+                    f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name} \n"
                     f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})\n"
                     f"{Emojis.SAD_FACE.value} {self.match_status}"
                     # f"{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"

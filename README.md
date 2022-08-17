@@ -3,7 +3,6 @@
 # Football Telegram Bot
 
 
-
 ## Description
 
 This application consumes, stores and processes football information and informs it on demand through a Telegram bot.
