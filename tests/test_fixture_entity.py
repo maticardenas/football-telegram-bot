@@ -54,28 +54,26 @@ def test_one_line_telegram_repr_not_played(fixture: Fixture):
 
 def test_telegram_like_repr(fixture: Fixture):
     # given - when - then
+    print(fixture.telegram_like_repr())
     assert (
         fixture.telegram_like_repr()
         == """🇪🇺 <strong>16:00 HS </strong>
 🇦🇷 <strong>12:00 HS</strong>
 
-⏰ Faltan  para el partido.
+⏰  for the game.
 
 ⚽ <strong>River Plate vs. Boca Juniors</strong>
 🏆 <strong>Copa de la Superliga (ARG)</strong>
 🏟 <strong>Estadio Monumental</strong>
 👮‍♀️ <strong>Perluigi Colina</strong>
 
-📺 <a href='https://futbollibre.net'>Streaming Online (FutbolLibre)</a>
-📺 <a href='https://futbollibre.net'>Streaming Online (FPT)</a>"""
+"""
     )
 
 
 def test_matched_played_telegram_like_repr_half_time(fixture: Fixture):
     # given
     fixture.match_status = "First Half"
-
-    print(f"HALF TIME FIXTURE \n\n: {fixture.matched_played_telegram_like_repr()}")
 
     # - when - then
     assert (
@@ -160,13 +158,13 @@ def test_is_next_day_in_europe_true(fixture: Fixture):
 @pytest.mark.parametrize(
     "days, hours, minutes, expected_text",
     [
-        (0, 0, 5, "Faltan 5 minutos"),
-        (0, 2, 0, "Faltan 2 horas"),
-        (0, 2, 10, "Faltan 2 horas y 10 minutos"),
-        (3, 0, 0, "Faltan 3 días"),
-        (4, 0, 3, "Faltan 4 días y 3 minutos"),
-        (1, 5, 0, "Falta 1 día y 5 horas"),
-        (1, 7, 19, "Falta 1 día, 7 horas y 19 minutos"),
+        (0, 0, 5, "5 minutes"),
+        (0, 2, 0, "2 hours"),
+        (0, 2, 10, "2 hours and 10 minutes"),
+        (3, 0, 0, "3 days"),
+        (4, 0, 3, "4 days and 3 minutes"),
+        (1, 5, 0, "1 day and 5 hours"),
+        (1, 7, 19, "1 day, 7 hours and 19 minutes"),
     ],
 )
 def test_remaining_time(days: int, hours: int, minutes: int, expected_text: str):
