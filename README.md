@@ -2,16 +2,19 @@
 
 # Football Telegram Bot
 
+
+
 ## Description
 
-This application consumes, stores and processes football information and makes it available through a Telegram bot.
+This application consumes, stores and processes football information and informs it on demand through a Telegram bot.
 
-For adding this bot to telegram you should search it as `@card_football_bot`
+This bot is currently deployed and can be found in Telegram as `@card_football_bot`
 
 
 ## Main Functionalities
 
-So far, it processes information about specific team's **fixtures**, informing past and future games.
+This telegram bot informs of past and future fixtures for many different teams and leagues around the world.
+For more details on what can be configured and queried you can refer to the **commands** section below.
 
 
 ## Bot Commands
@@ -24,11 +27,25 @@ So far, it processes information about specific team's **fixtures**, informing p
 
 - `/search_league <league_name>` - Search for leagues by name.
 
+- `/favourite_teams` - List of user's favourite teams.
+
+- `/favourite_leagues` - List of user's favourite leagues.
+ 
+- `/add_favourite_team <team_id>` - Adds a team to user's favourites.
+
+- `/add_favourite_league <league_id>` - Adds a league to your favourites.
+
+- `/delete_favourite_team <team_id>` - Removes a team from your favourites.
+
+- `/delete_favourite_league <league_id>` - Removes a league from your favourites.
+
 - `/available_leagues` - Available team's that can be queried with the other commands.
 
 - `/next_match <team_id>` - Retrieves information about next scheduled match for an specific team, including rival, date (in different timezones), league and round which is being played.
 
 - `/last_match <team_id>` - Retrieves information about last match played by the specific team, including  scores, rival, date (in different timezones), league, roung and highlights
+
+- *`/upcoming_matches [optional [team_id] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - List of upcoming matches.
 
 - `/next_match_league <league_id>` - Retrieves information about next scheduled match for an specific tournament, including rival, date (in different timezones), league and round which is being played.
 
@@ -36,12 +53,13 @@ So far, it processes information about specific team's **fixtures**, informing p
 
 - `/last_match_league <league_id>` - Retrieves information about last match played by the specific tournament, including  scores, rival, date (in different timezones), league, roung and highlights
 
-- `/today_matches` - Retrieves information about matches to be played on the current day (optionally accepts a list of `leagues_ids`).
+- *`/today_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches to be played on the current day.
 
-- `/tomorrow_matches` - Retrieves information about matches to be played on the following day (optionally accepts a list of `leagues_ids`)..
+- *`/tomorrow_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches to be played on the following day.
 
-- `/last_played_matches` - Retrieves information about matches to be played on the previous day (optionally accepts a list of `leagues_ids`)..
+- *`/last_played_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches played on the previous day.
 
+*<em>For these commands is possible to optionally specify `leagues_id` or user's favourite teams or leagues.</em>
 
 ## Implementation Overview
 
