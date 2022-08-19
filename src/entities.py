@@ -2,19 +2,11 @@ import os
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
 from typing import List, Optional
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from src.emojis import Emojis
-
-
-class MatchPhase(Enum):
-    HALFTIME: "halftime"
-    FULLTIME: "fulltime"
-    EXTRATIME: "extratime"
-    PENALTIES: "penalty"
 
 
 @dataclass
@@ -89,32 +81,31 @@ class RemainingTime:
         if self.hours and self.minutes:
             days_union = ", "
         elif (self.hours and not self.minutes) or (not self.hours and self.minutes):
-            days_union = " y "
+            days_union = " and "
         else:
             days_union = ""
 
         return days_union
 
     def __str__(self):
-        suf_faltan = "n" if self.days != 1 else ""
-        suf_dias = "s" if self.days != 1 else ""
-        suf_horas = "s" if self.hours != 1 else ""
-        suf_minutos = "s" if self.minutes != 1 else ""
+        suf_days = "s" if self.days != 1 else ""
+        suf_hours = "s" if self.hours != 1 else ""
+        suf_minutes = "s" if self.minutes != 1 else ""
 
         days_phrase = (
-            f"{self.days} día{suf_dias}{self._get_days_union()}"
+            f"{self.days} day{suf_days}{self._get_days_union()}"
             if self.days > 0
             else ""
         )
-        hours_union = " y " if self.minutes else ""
+        hours_union = " and " if self.minutes else ""
         hours_phrase = (
-            f"{self.hours} hora{suf_horas}{hours_union}" if self.hours > 0 else ""
+            f"{self.hours} hour{suf_hours}{hours_union}" if self.hours > 0 else ""
         )
         minutes_phrase = (
-            f"{self.minutes} minuto{suf_minutos}" if self.minutes > 0 else ""
+            f"{self.minutes} minute{suf_minutes}" if self.minutes > 0 else ""
         )
 
-        return f"Falta{suf_faltan} {days_phrase}{hours_phrase}{minutes_phrase}"
+        return f"{days_phrase}{hours_phrase}{minutes_phrase}"
 
 
 @dataclass
@@ -174,7 +165,7 @@ class Fixture:
         return (
             f"{Emojis.EUROPEAN_UNION.value} *{str(self.ams_date)[11:16]} HS {self.is_next_day}*\n"
             f"{Emojis.ARGENTINA.value} *{str(self.bsas_date)[11:16]} HS*\n\n"
-            f"{Emojis.ALARM_CLOCK.value} _{str(self.remaining_time())} para el partido._\n\n"
+            f"{Emojis.ALARM_CLOCK.value} _{str(self.remaining_time())} left for the game._\n\n"
             f"{Emojis.SOCCER_BALL.value} *{self.home_team.name} vs. {self.away_team.name}*\n"
             f"{Emojis.TROPHY.value} *{self.championship.name}*\n"
             f"{Emojis.PUSHPIN.value} *{self.round}*"
@@ -252,7 +243,6 @@ class Fixture:
                     f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name} \n"
                     f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})\n"
                     f"{Emojis.SAD_FACE.value} {self.match_status}"
-                    # f"{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
                 )
         else:
             repr = (
@@ -269,17 +259,13 @@ class Fixture:
         return (
             f"<p>{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}<br />"
             f"{Emojis.ARGENTINA.value} <strong>{str(self.bsas_date)[11:16]} HS</strong><p>"
-            f"{Emojis.ALARM_CLOCK.value} <em>{str(self.remaining_time())} para el partido.</em><p>"
+            f"{Emojis.ALARM_CLOCK.value} <em>{str(self.remaining_time())} for the game.</em><p>"
             f"{Emojis.SOCCER_BALL.value} "
             f"<img src='{self.home_team.picture}' width='22' height='22'><strong> vs. "
             f"<img src='{self.away_team.picture}' width='22' height='22'></strong><br />"
             f"<img src='{self.championship.logo}' width='22' height='22'> <strong>{self.championship.name}</strong><br />"
             f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong><p>"
             f"{self.head_to_head_text()}"
-            # f"{Emojis.LIGHT_BULB.value} Posible alineación del equipo:<p>"
-            # f"{self.line_up_email_message()}<p>"
-            f"{Emojis.TELEVISION.value} <a href='{self.futbol_libre_url}'>Streaming Online (FutbolLibre)</a><br />"
-            f"{Emojis.TELEVISION.value} <a href='{self.futbol_libre_url}'>Streaming Online (FPT)</a>"
         )
 
     def telegram_like_repr(self) -> str:
@@ -297,15 +283,13 @@ class Fixture:
         telegram_like_text = (
             f"{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}</strong>\n"
             f"{Emojis.ARGENTINA.value} <strong>{str(self.bsas_date)[11:16]} HS</strong>\n\n"
-            f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} para el partido.\n\n"
+            f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} for the game.\n\n"
             f"{Emojis.SOCCER_BALL.value} "
             f"<strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
             f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"
             f"{stadium_line}"
             f"{referee_line}"
             f"\n{self.head_to_head_text()}"
-            f"{Emojis.TELEVISION.value} <a href='{self.futbol_libre_url}'>Streaming Online (FutbolLibre)</a>\n"
-            f"{Emojis.TELEVISION.value} <a href='{self.futbol_libre_url}'>Streaming Online (FPT)</a>"
         )
 
         return telegram_like_text
@@ -314,14 +298,12 @@ class Fixture:
         return (
             str(self.line_up)
             if self.line_up
-            else f"<strong>Todavía no disponible :(</strong>"
+            else f"<strong>Not yet available :(</strong>"
         )
 
     def line_up_email_message(self) -> str:
         return (
-            self.line_up.email_like_repr()
-            if self.line_up
-            else f"Todavía no disponible :("
+            self.line_up.email_like_repr() if self.line_up else f"Not yet available :("
         )
 
     def matched_played_email_like_repr(self) -> str:
@@ -330,8 +312,6 @@ class Fixture:
             f" {self.match_score.away_score} - <img src='{self.away_team.picture}' width='22' height='22'></strong><br />"
             f"<img src='{self.championship.logo}' width='25' height='25'> <strong>{self.championship.name}</strong><br />"
             f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong><br /><br />"
-            # f"{Emojis.LIGHT_BULB.value} La alineación titular del equipo fue:<p>"
-            # f"{self.line_up_email_message()}"
         )
 
     def matched_played_telegram_like_repr(self) -> str:
@@ -362,8 +342,6 @@ class Fixture:
                 f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
                 f"{stadium_line}"
                 f"{referee_line}"
-                # f"{Emojis.LIGHT_BULB.value} La alineación titular del equipo fue:\n\n"
-                # f"{self.line_up_message()}"
             )
         else:
             match_notification = (
@@ -373,8 +351,6 @@ class Fixture:
                 f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
                 f"{stadium_line}"
                 f"{referee_line}"
-                # f"{Emojis.LIGHT_BULB.value} La alineación titular del equipo fue:\n\n"
-                # f"{self.line_up_message()}"
             )
 
         return match_notification
@@ -393,25 +369,25 @@ class TeamStanding:
 
     def __str__(self):
         return (
-            f"{Emojis.CHART_INCREASING.value} Posición: *{self.position}*\n"
-            f"{Emojis.CHECK_MARK.value} Puntos: *{self.points}*\n"
-            f"{Emojis.GOAL_NET.value} Diferencia de gol: *{self.goal_difference}*\n"
-            f"{Emojis.GLOBE_WITH_MERIDIANS.value} Clasificación: *{self.current_condition}*"
+            f"{Emojis.CHART_INCREASING.value} Position: *{self.position}*\n"
+            f"{Emojis.CHECK_MARK.value} Points: *{self.points}*\n"
+            f"{Emojis.GOAL_NET.value} Goal difference: *{self.goal_difference}*\n"
+            f"{Emojis.GLOBE_WITH_MERIDIANS.value} Qualification: *{self.current_condition}*"
         )
 
     def email_like_repr(self) -> str:
         return (
-            f"<br /><br />{Emojis.CHART_INCREASING.value} Posición: <strong>{self.position}</strong><br />"
-            f"{Emojis.CHECK_MARK.value} Puntos: <strong>{self.points}</strong><br />"
-            f"{Emojis.GOAL_NET.value} Diferencia de gol: <strong>{self.goal_difference}</strong><br />"
-            f"{Emojis.GLOBE_WITH_MERIDIANS.value} Clasificación: <strong>{self.current_condition}</strong>"
+            f"<br /><br />{Emojis.CHART_INCREASING.value} Position: <strong>{self.position}</strong><br />"
+            f"{Emojis.CHECK_MARK.value} Points: <strong>{self.points}</strong><br />"
+            f"{Emojis.GOAL_NET.value} Goal difference: <strong>{self.goal_difference}</strong><br />"
+            f"{Emojis.GLOBE_WITH_MERIDIANS.value} Qualification: <strong>{self.current_condition}</strong>"
         )
 
     def telegram_like_repr(self) -> str:
         return (
-            f"{Emojis.CHART_INCREASING.value} Posición: <strong>{self.position}</strong>\n"
-            f"{Emojis.CHECK_MARK.value} Puntos: <strong>{self.points}</strong>\n"
-            f"{Emojis.GOAL_NET.value} Diferencia de gol: <strong>{self.goal_difference}</strong>"
+            f"{Emojis.CHART_INCREASING.value} Position: <strong>{self.position}</strong>\n"
+            f"{Emojis.CHECK_MARK.value} Points: <strong>{self.points}</strong>\n"
+            f"{Emojis.GOAL_NET.value} Goal difference: <strong>{self.goal_difference}</strong>"
         )
 
 
@@ -440,40 +416,4 @@ class PlayerStats:
             f"_Accuracy:_ *{self.accuracy}*\n\n"
             f"_Dribbles Attempts:_ *{self.dribbles_attempts}*\n"
             f"_Dribbles Success:_ *{self.dribbles_success}*"
-        )
-
-
-@dataclass
-class Country:
-    name: str
-    emoji: Emojis
-
-
-@dataclass
-class CovidStats:
-    country: Country
-    new_cases: str
-    new_deaths: str
-    new_recovered: str
-    total_population: str
-
-    def __str__(self):
-        return (
-            f"{self.country.emoji.value}\n\n{Emojis.FACE_WITH_MEDICAL_MASK.value} New Cases: <strong>{self.new_cases}</strong>\n"
-            f"{Emojis.SKULL.value} New Deaths: <strong>{self.new_deaths}</strong>\n"
-            f"{Emojis.FLEXED_BICEPS.value} New Recovered: <strong>{self.new_recovered}</strong>\n"
-            f"{Emojis.FAMILY.value} Total Population: <strong>{self.total_population}</strong>"
-        )
-
-    def email_like_repr(self) -> str:
-        return (
-            f"{self.country.emoji.value}<br /><br />"
-            f"{Emojis.FACE_WITH_MEDICAL_MASK.value} New Cases: <"
-            f"strong>{self.new_cases}</strong><br />"
-            f"{Emojis.SKULL.value} New Deaths: <strong>"
-            f"{self.new_deaths}</strong><br />"
-            f"{Emojis.FLEXED_BICEPS.value} New Recovered: <strong>"
-            f"{self.new_recovered}</strong><br />"
-            f"{Emojis.FAMILY.value} Total Population: <strong>"
-            f"{self.total_population}</strong>"
         )

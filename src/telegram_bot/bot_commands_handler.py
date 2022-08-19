@@ -12,10 +12,8 @@ from src.telegram_bot.bot_constants import MESSI_PHOTO
 from src.utils.date_utils import get_date_spanish_text_format
 from src.utils.fixtures_utils import convert_db_fixture, get_head_to_heads
 from src.utils.notification_text_utils import (
-    telegram_last_fixture_league_notification,
-    telegram_last_fixture_team_notification,
-    telegram_next_league_fixture_notification,
-    telegram_next_team_fixture_notification,
+    telegram_last_team_or_league_fixture_notification,
+    telegram_next_team_or_league_fixture_notification,
 )
 
 logger = get_logger(__name__)
@@ -222,11 +220,11 @@ class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
     def validate_command_input(self) -> str:
         response = ""
         if len(self._command_args) < 1:
-            response = "Debés ingresar un texto para la búsqueda"
+            response = "You must enter a search text."
         else:
             team = " ".join(self._command_args)
             if len(team) < 4:
-                response = "El texto de búsqueda debe tener al menos <strong>4</strong> caracteres de longitud."
+                response = "The search text should have at least <strong>4</strong> characters."
 
         return response
 
@@ -242,7 +240,7 @@ class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
             response = "\n".join(found_teams_texts)
         else:
             response = (
-                f"Oops! No hay equipos disponibles con el criterio de busqueda '{team}'"
+                f"Oops! There are no teams available with the search criteria '{team}'"
             )
 
         return response
@@ -259,7 +257,7 @@ class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
             ]
             response = "\n".join(found_teams_texts)
         else:
-            response = f"Oops! No hay torneos disponibles con el criterio de busqueda '{league}'"
+            response = f"Oops! There are no tournaments available with the search criteria '{league}'"
 
         return response
 
@@ -322,11 +320,11 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             )
 
         return (
-            telegram_next_team_fixture_notification(
+            telegram_next_team_or_league_fixture_notification(
                 converted_fixture, team.name, self._user
             )
             if converted_fixture
-            else ("No se encontraron partidos.", None)
+            else ("There were not matches found.", None)
         )
 
     def last_match_team_notif(self) -> Tuple[str, str]:
@@ -343,11 +341,11 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             converted_fixture = convert_db_fixture(last_team_db_fixture[0])
 
         return (
-            telegram_last_fixture_team_notification(
+            telegram_last_team_or_league_fixture_notification(
                 converted_fixture, team.name, self._user
             )
             if converted_fixture
-            else ("No se encontraron partidos.", None)
+            else ("There were not matches found.", None)
         )
 
     def upcoming_matches(self) -> Tuple[str, str]:
@@ -403,8 +401,8 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 convert_db_fixture(fixture) for fixture in last_team_fixtures
             ]
             introductory_text = (
-                f"{Emojis.WAVING_HAND.value} Hola {self._user}, "
-                f"los últimos partidos de {team.name} fueron:"
+                f"{Emojis.WAVING_HAND.value} Hi {self._user}, "
+                f"the last matches of {team.name} were:"
             )
             texts = self.get_fixtures_text(
                 converted_fixtures, played=True, with_date=True
@@ -415,8 +413,8 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         else:
             texts = [
                 (
-                    f"{Emojis.WAVING_HAND.value} Hola "
-                    f"{self._user}, lamentablemente no se encontraron últimos partidos para {team.name} :("
+                    f"{Emojis.WAVING_HAND.value} Hi "
+                    f"{self._user}, unfortunately there were not matches found for {team.name} :("
                 )
             ]
             photo = MESSI_PHOTO
@@ -434,15 +432,15 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         response = ""
 
         if len(self._command_args) < 1:
-            response = "Debés ingresar al menos un torneo"
+            response = "You must enter one tournament."
         elif len(self._command_args) > 1:
-            response = "Sólo puedes ingresar un torneo"
+            response = "You must enter only one tournament."
         else:
             league = self._command_args[0]
             if not self.is_available_league(league):
                 response = (
-                    f"Oops! '{league}' no está disponible :(\n\n"
-                    f"Los torneos disponibles son:\n\n"
+                    f"Oops! '{league}' is not available :(\n\n"
+                    f"The available leagues are:\n\n"
                     f"{self.available_leagues_text()}"
                 )
 
@@ -465,7 +463,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             )
 
         return (
-            telegram_next_league_fixture_notification(
+            telegram_next_team_or_league_fixture_notification(
                 converted_fixture, league.name, self._user
             )
             if converted_fixture
@@ -486,11 +484,11 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             converted_fixture = convert_db_fixture(last_league_db_fixture[0])
 
         return (
-            telegram_last_fixture_league_notification(
+            telegram_last_team_or_league_fixture_notification(
                 converted_fixture, league.name, self._user
             )
             if converted_fixture
-            else ("No se encontraron partidos.", None)
+            else ("There were not matches found.", None)
         )
 
     def next_matches_league_notif(self) -> str:

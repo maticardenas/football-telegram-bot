@@ -26,12 +26,8 @@ COPY ./tests ./tests
 COPY ./Pipfile ./Pipfile
 COPY ./Pipfile.lock ./Pipfile.lock
 COPY team_fixture_notifier.py .
-COPY db_initializer.py .
-COPY db_populator.py .
 COPY head_to_head_updater.py .
-COPY notifier_bot.py .
 COPY football_notifier.env .
-COPY partial_db_updater.py .
 
 RUN cat football_notifier.env >> /etc/environment
 
