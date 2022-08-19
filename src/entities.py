@@ -303,9 +303,7 @@ class Fixture:
 
     def line_up_email_message(self) -> str:
         return (
-            self.line_up.email_like_repr()
-            if self.line_up
-            else f"Not yet available :("
+            self.line_up.email_like_repr() if self.line_up else f"Not yet available :("
         )
 
     def matched_played_email_like_repr(self) -> str:
