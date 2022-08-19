@@ -1,9 +1,7 @@
-from datetime import date
-
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler
 
-from config.notif_config import NotifConfig
+from ..config.notif_config import NotifConfig
 from src.emojis import Emojis
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_commands_handler import (
