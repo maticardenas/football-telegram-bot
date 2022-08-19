@@ -12,10 +12,8 @@ from src.telegram_bot.bot_constants import MESSI_PHOTO
 from src.utils.date_utils import get_date_spanish_text_format
 from src.utils.fixtures_utils import convert_db_fixture, get_head_to_heads
 from src.utils.notification_text_utils import (
-    telegram_last_fixture_league_notification,
-    telegram_last_fixture_team_notification,
-    telegram_next_league_fixture_notification,
-    telegram_next_team_fixture_notification,
+    telegram_last_team_or_league_fixture_notification,
+    telegram_next_team_or_league_fixture_notification,
 )
 
 logger = get_logger(__name__)
@@ -322,7 +320,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             )
 
         return (
-            telegram_next_team_fixture_notification(
+            telegram_next_team_or_league_fixture_notification(
                 converted_fixture, team.name, self._user
             )
             if converted_fixture
@@ -343,7 +341,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             converted_fixture = convert_db_fixture(last_team_db_fixture[0])
 
         return (
-            telegram_last_fixture_team_notification(
+            telegram_last_team_or_league_fixture_notification(
                 converted_fixture, team.name, self._user
             )
             if converted_fixture
@@ -465,7 +463,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             )
 
         return (
-            telegram_next_league_fixture_notification(
+            telegram_next_team_or_league_fixture_notification(
                 converted_fixture, league.name, self._user
             )
             if converted_fixture
@@ -486,7 +484,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             converted_fixture = convert_db_fixture(last_league_db_fixture[0])
 
         return (
-            telegram_last_fixture_league_notification(
+            telegram_last_team_or_league_fixture_notification(
                 converted_fixture, league.name, self._user
             )
             if converted_fixture
