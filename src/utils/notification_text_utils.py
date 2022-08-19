@@ -20,9 +20,7 @@ def telegram_last_team_or_league_fixture_notification(
         f"{team_fixture.home_team.name}+vs+{team_fixture.away_team.name}+jugadas+resumen"
     )
 
-    highlights_text = (
-        f"{Emojis.FILM_PROJECTOR.value} <a href='{highlights_yt_url}'>HIGHLIGHTS</a>"
-    )
+    highlights_text = f"{Emojis.FILM_PROJECTOR.value} <a href='{highlights_yt_url}'>HIGHLIGHTS</a>"
 
     match_date = (
         "TODAY!"
@@ -64,8 +62,6 @@ def telegram_next_team_or_league_fixture_notification(
 def _get_match_images(fixture: Fixture) -> List[str]:
     home_team_image_url = FIXTURES_DB_MANAGER.get_team(fixture.home_team.id)[0].picture
     away_team_image_url = FIXTURES_DB_MANAGER.get_team(fixture.away_team.id)[0].picture
-    league_image_url = FIXTURES_DB_MANAGER.get_league(fixture.championship.league_id)[
-        0
-    ].logo
+    league_image_url = FIXTURES_DB_MANAGER.get_league(fixture.championship.league_id)[0].logo
 
     return [home_team_image_url, away_team_image_url, league_image_url]

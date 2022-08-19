@@ -27,14 +27,10 @@ def update_fixtures() -> None:
     for lot in lots_to_update:
         logger.info(f"Updating fixtures for lot {lot}")
         team_fixtures = fixtures_client.get_fixtures_by(ids=lot)
-        FIXTURES_DB_MANAGER.save_fixtures(
-            convert_fixtures_response_to_db(team_fixtures.as_dict["response"])
-        )
+        FIXTURES_DB_MANAGER.save_fixtures(convert_fixtures_response_to_db(team_fixtures.as_dict["response"]))
 
 
-def get_fixture_update_lots(
-    fixtures_to_update: List[int], lot_size: int = 20
-) -> List[List[int]]:
+def get_fixture_update_lots(fixtures_to_update: List[int], lot_size: int = 20) -> List[List[int]]:
     for i in range(0, len(fixtures_to_update), lot_size):
         yield fixtures_to_update[i : i + lot_size]
 

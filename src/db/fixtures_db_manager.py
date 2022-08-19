@@ -31,38 +31,28 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(team_statement)
 
     def get_favourite_teams(self, chat_id: str) -> List[Optional[DBTeam]]:
-        favourite_teams_statement = select(DBFavouriteTeam.team).where(
-            DBFavouriteTeam.chat_id == str(chat_id)
-        )
+        favourite_teams_statement = select(DBFavouriteTeam.team).where(DBFavouriteTeam.chat_id == str(chat_id))
 
         return self._notifier_db_manager.select_records(favourite_teams_statement)
 
     def get_favourite_leagues(self, chat_id: str) -> List[Optional[DBTeam]]:
-        favourite_leagues_statement = select(DBFavouriteLeague.league).where(
-            DBFavouriteLeague.chat_id == str(chat_id)
-        )
+        favourite_leagues_statement = select(DBFavouriteLeague.league).where(DBFavouriteLeague.chat_id == str(chat_id))
 
         return self._notifier_db_manager.select_records(favourite_leagues_statement)
 
     def get_all_leagues(self) -> Optional[List[DBLeague]]:
-        return self._notifier_db_manager.select_records(
-            select(DBLeague).order_by(DBLeague.id)
-        )
+        return self._notifier_db_manager.select_records(select(DBLeague).order_by(DBLeague.id))
 
     def get_league(self, league_id: int) -> Optional[DBLeague]:
         league_statement = select(DBLeague).where(DBLeague.id == league_id)
         return self._notifier_db_manager.select_records(league_statement)
 
     def get_leagues_by_name(self, name: str) -> Optional[DBTeam]:
-        teams_statement = select(DBLeague).where(
-            func.lower(DBLeague.name).ilike(f"%{name.lower()}%")
-        )
+        teams_statement = select(DBLeague).where(func.lower(DBLeague.name).ilike(f"%{name.lower()}%"))
         return self._notifier_db_manager.select_records(teams_statement)
 
     def get_teams_by_name(self, name: str) -> Optional[DBTeam]:
-        teams_statement = select(DBTeam).where(
-            func.lower(DBTeam.name).ilike(f"%{name.lower()}%")
-        )
+        teams_statement = select(DBTeam).where(func.lower(DBTeam.name).ilike(f"%{name.lower()}%"))
         return self._notifier_db_manager.select_records(teams_statement)
 
     def get_games_in_surrounding_n_days(
@@ -83,28 +73,18 @@ class FixturesDBManager:
             surrounding_day = bsas_today + timedelta(days=day)
             games_date = surrounding_day.strftime("%Y-%m-%d")
 
-            statement = select(DBFixture).where(
-                DBFixture.bsas_date.contains(games_date)
-            )
+            statement = select(DBFixture).where(DBFixture.bsas_date.contains(games_date))
 
             if len(leagues):
                 for league in leagues:
                     league_statement = statement.where(DBFixture.league == league)
-                    surrounding_fixtures += self._notifier_db_manager.select_records(
-                        league_statement
-                    )
+                    surrounding_fixtures += self._notifier_db_manager.select_records(league_statement)
             elif len(teams):
                 for team in teams:
-                    team_statement = statement.where(
-                        or_(DBFixture.home_team == team, DBFixture.away_team == team)
-                    )
-                    surrounding_fixtures += self._notifier_db_manager.select_records(
-                        team_statement
-                    )
+                    team_statement = statement.where(or_(DBFixture.home_team == team, DBFixture.away_team == team))
+                    surrounding_fixtures += self._notifier_db_manager.select_records(team_statement)
             else:
-                surrounding_fixtures += self._notifier_db_manager.select_records(
-                    statement
-                )
+                surrounding_fixtures += self._notifier_db_manager.select_records(statement)
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
 
@@ -124,15 +104,11 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(fixtures_statement)
 
-    def get_fixtures_by_league(
-        self, league_id: int, date: str = ""
-    ) -> Optional[List[DBFixture]]:
+    def get_fixtures_by_league(self, league_id: int, date: str = "") -> Optional[List[DBFixture]]:
         fixtures_statement = select(DBFixture).where(DBFixture.league == league_id)
 
         if date:
-            fixtures_statement = fixtures_statement.where(
-                DBFixture.bsas_date.contains(date)
-            )
+            fixtures_statement = fixtures_statement.where(DBFixture.bsas_date.contains(date))
 
         fixtures_statement = fixtures_statement.order_by(asc(DBFixture.bsas_date))
 
@@ -146,9 +122,7 @@ class FixturesDBManager:
         statement = select(DBFixture).where(DBFixture.utc_date >= today)
 
         if team_id:
-            statement = statement.where(
-                or_(DBFixture.home_team == team_id, DBFixture.away_team == team_id)
-            )
+            statement = statement.where(or_(DBFixture.home_team == team_id, DBFixture.away_team == team_id))
 
         if league_id:
             statement = statement.where(DBFixture.league == league_id)
@@ -157,9 +131,7 @@ class FixturesDBManager:
 
         next_fixtures = self._notifier_db_manager.select_records(statement)
 
-        return (
-            next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
-        )
+        return next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
 
     def get_last_fixture(
         self, team_id: int = None, league_id: int = None, number_of_fixtures: int = 1
@@ -169,9 +141,7 @@ class FixturesDBManager:
         statement = select(DBFixture).where(DBFixture.utc_date <= today)
 
         if team_id:
-            statement = statement.where(
-                or_(DBFixture.home_team == team_id, DBFixture.away_team == team_id)
-            )
+            statement = statement.where(or_(DBFixture.home_team == team_id, DBFixture.away_team == team_id))
 
         if league_id:
             statement = statement.where(DBFixture.league == league_id)
@@ -180,9 +150,7 @@ class FixturesDBManager:
 
         next_fixtures = self._notifier_db_manager.select_records(statement)
 
-        return (
-            next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
-        )
+        return next_fixtures[:number_of_fixtures] if len(next_fixtures) else next_fixtures
 
     def get_head_to_head_fixtures(self, team_1: str, team_2: str):
         statement = (
@@ -207,29 +175,18 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(statement)
 
     def insert_managed_league(self, managed_league: DBManagedLeague) -> DBManagedLeague:
-        managed_league_statement = select(DBManagedLeague).where(
-            DBManagedLeague.id == managed_league.id
-        )
-        retrieved_managed_league = self._notifier_db_manager.select_records(
-            managed_league_statement
-        )
+        managed_league_statement = select(DBManagedLeague).where(DBManagedLeague.id == managed_league.id)
+        retrieved_managed_league = self._notifier_db_manager.select_records(managed_league_statement)
 
         if not len(retrieved_managed_league):
-            logger.info(
-                f"Inserting Managed League '{managed_league.name}' - it does not exist "
-                f"in the database"
-            )
+            logger.info(f"Inserting Managed League '{managed_league.name}' - it does not exist " f"in the database")
             db_managed_league = DBManagedLeague(
                 id=managed_league.id,
                 name=managed_league.name,
                 command=managed_league.command,
             )
         else:
-            logger.info(
-                f"Updating Managed League '{managed_league.name}' - it already "
-                f"exists in "
-                f"the database"
-            )
+            logger.info(f"Updating Managed League '{managed_league.name}' - it already " f"exists in " f"the database")
             db_managed_league = retrieved_managed_league.pop()
             db_managed_league.id = (managed_league.id,)
             db_managed_league.name = (managed_league.name,)
@@ -243,29 +200,18 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(managed_league_statement)[0]
 
     def insert_managed_team(self, managed_team: DBManagedTeam) -> DBManagedTeam:
-        managed_team_statement = select(DBManagedTeam).where(
-            DBManagedTeam.id == managed_team.id
-        )
-        retrieved_managed_team = self._notifier_db_manager.select_records(
-            managed_team_statement
-        )
+        managed_team_statement = select(DBManagedTeam).where(DBManagedTeam.id == managed_team.id)
+        retrieved_managed_team = self._notifier_db_manager.select_records(managed_team_statement)
 
         if not len(retrieved_managed_team):
-            logger.info(
-                f"Inserting Managed Team '{managed_team.name}' - it does not exist "
-                f"in the database"
-            )
+            logger.info(f"Inserting Managed Team '{managed_team.name}' - it does not exist " f"in the database")
             db_managed_team = DBManagedTeam(
                 id=managed_team.id,
                 name=managed_team.name,
                 command=managed_team.command,
             )
         else:
-            logger.info(
-                f"Updating Managed Team '{managed_team.name}' - it already "
-                f"exists in "
-                f"the database"
-            )
+            logger.info(f"Updating Managed Team '{managed_team.name}' - it already " f"exists in " f"the database")
             db_managed_team = retrieved_managed_team.pop()
             db_managed_team.id = (managed_team.id,)
             db_managed_team.name = (managed_team.name,)
@@ -279,16 +225,11 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(managed_team_statement)[0]
 
     def insert_league(self, fixture_league: Championship) -> DBLeague:
-        league_statement = select(DBLeague).where(
-            DBLeague.id == fixture_league.league_id
-        )
+        league_statement = select(DBLeague).where(DBLeague.id == fixture_league.league_id)
         retrieved_league = self._notifier_db_manager.select_records(league_statement)
 
         if not len(retrieved_league):
-            logger.info(
-                f"Inserting League {fixture_league.name} - it does not exist "
-                f"in the database"
-            )
+            logger.info(f"Inserting League {fixture_league.name} - it does not exist " f"in the database")
             db_league = DBLeague(
                 id=fixture_league.league_id,
                 name=fixture_league.name,
@@ -296,11 +237,7 @@ class FixturesDBManager:
                 country=fixture_league.country,
             )
         else:
-            logger.info(
-                f"Updating League '{fixture_league.name}' - it already "
-                f"exists in "
-                f"the database"
-            )
+            logger.info(f"Updating League '{fixture_league.name}' - it already " f"exists in " f"the database")
             db_league = retrieved_league.pop()
             db_league.id = fixture_league.league_id
             db_league.name = fixture_league.name
@@ -324,15 +261,10 @@ class FixturesDBManager:
             DBFavouriteTeam.team == team_id, DBFavouriteTeam.chat_id == chat_id
         )
 
-        retrieved_favourite_team = self._notifier_db_manager.select_records(
-            favourite_team_statement
-        )
+        retrieved_favourite_team = self._notifier_db_manager.select_records(favourite_team_statement)
 
         if not len(retrieved_favourite_team):
-            logger.info(
-                f"Inserting Favourite Team {team_id} for chat {chat_id}- it does not exist in "
-                f"the database"
-            )
+            logger.info(f"Inserting Favourite Team {team_id} for chat {chat_id}- it does not exist in " f"the database")
             db_favourite_team = DBFavouriteTeam(
                 team=team_id,
                 chat_id=chat_id,
@@ -354,14 +286,11 @@ class FixturesDBManager:
             DBFavouriteLeague.league == league_id, DBFavouriteLeague.chat_id == chat_id
         )
 
-        retrieved_favourite_league = self._notifier_db_manager.select_records(
-            favourite_league_statement
-        )
+        retrieved_favourite_league = self._notifier_db_manager.select_records(favourite_league_statement)
 
         if not len(retrieved_favourite_league):
             logger.info(
-                f"Inserting Favourite League {league_id} for chat {chat_id}- it does not exist in "
-                f"the database"
+                f"Inserting Favourite League {league_id} for chat {chat_id}- it does not exist in " f"the database"
             )
             db_favourite_league = DBFavouriteLeague(
                 league=league_id,
@@ -379,10 +308,7 @@ class FixturesDBManager:
         retrieved_team = self._notifier_db_manager.select_records(team_statement)
 
         if not len(retrieved_team):
-            logger.info(
-                f"Inserting Team {fixture_team.name} - it does not exist in "
-                f"the database"
-            )
+            logger.info(f"Inserting Team {fixture_team.name} - it does not exist in " f"the database")
             db_team = DBTeam(
                 id=fixture_team.id,
                 name=fixture_team.name,
@@ -391,10 +317,7 @@ class FixturesDBManager:
             )
 
         else:
-            logger.info(
-                f"Updating Team '{fixture_team.name}' - it already exists in "
-                f"the database"
-            )
+            logger.info(f"Updating Team '{fixture_team.name}' - it already exists in " f"the database")
             db_team = retrieved_team.pop()
             db_team.id = fixture_team.id
             db_team.name = fixture_team.name
@@ -414,9 +337,7 @@ class FixturesDBManager:
             retrieved_away_team = self.insert_team(conv_fix.away_team)
 
             fixture_statement = select(DBFixture).where(DBFixture.id == conv_fix.id)
-            retrieved_fixture = self._notifier_db_manager.select_records(
-                fixture_statement
-            )
+            retrieved_fixture = self._notifier_db_manager.select_records(fixture_statement)
 
             if not len(retrieved_fixture):
                 logger.info(
@@ -439,10 +360,7 @@ class FixturesDBManager:
                     venue=conv_fix.venue,
                 )
             else:
-                logger.info(
-                    f"Updating Fixture {conv_fix.home_team.name} vs "
-                    f"{conv_fix.away_team.name}"
-                )
+                logger.info(f"Updating Fixture {conv_fix.home_team.name} vs " f"{conv_fix.away_team.name}")
                 db_fixture = retrieved_fixture.pop()
                 db_fixture.id = conv_fix.id
                 db_fixture.utc_date = conv_fix.utc_date
@@ -466,9 +384,7 @@ class FixturesDBManager:
             DBFavouriteTeam.chat_id == chat_id, DBFavouriteTeam.team == team_id
         )
 
-        favourite_team = self._notifier_db_manager.select_records(
-            favourite_team_statement
-        )
+        favourite_team = self._notifier_db_manager.select_records(favourite_team_statement)
 
         if not len(favourite_team):
             raise Exception(f"You don't have that team added as a favourite.")
@@ -482,9 +398,7 @@ class FixturesDBManager:
             DBFavouriteLeague.chat_id == chat_id, DBFavouriteLeague.league == league_id
         )
 
-        favourite_league = self._notifier_db_manager.select_records(
-            favourite_league_statement
-        )
+        favourite_league = self._notifier_db_manager.select_records(favourite_league_statement)
 
         if not len(favourite_league):
             raise Exception(f"You don't have that league added as a favourite.")

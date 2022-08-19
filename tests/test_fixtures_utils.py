@@ -27,9 +27,7 @@ def test_get_next_fixture():
         next_fixture = get_next_fixture(fixture_response, "435")
 
     # then
-    assert next_fixture.utc_date == datetime.strptime(
-        f"2021-09-29T18:45:00+00:00"[:-6], "%Y-%m-%dT%H:%M:%S"
-    )
+    assert next_fixture.utc_date == datetime.strptime(f"2021-09-29T18:45:00+00:00"[:-6], "%Y-%m-%dT%H:%M:%S")
     assert next_fixture.home_team.name == "Peterborough"
     assert next_fixture.away_team.name == "Bournemouth"
     assert next_fixture.championship.name == "Championship"

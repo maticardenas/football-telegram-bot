@@ -13,8 +13,7 @@ def test_fixture_post_init(fixture: Fixture):
     assert fixture.futbol_para_todos_url == "https://futbolparatodos.online/es/"
     assert fixture.line_up == None
     assert fixture.highlights == [
-        f"https://www.youtube.com/results?search_query=River Plate+vs+Boca "
-        f"Juniors+jugadas+resumen"
+        f"https://www.youtube.com/results?search_query=River Plate+vs+Boca " f"Juniors+jugadas+resumen"
     ]
     assert fixture.head_to_head == []
 
@@ -31,11 +30,7 @@ def test_matched_played_str(fixture: Fixture):
 
 def test_time_telegram_text(fixture: Fixture):
     # given - when - then
-    assert (
-        fixture.time_telegram_text()
-        == "🇪🇺 <strong>16:00 HS </strong> / 🇦🇷 <strong>12:00 "
-        "HS</strong>"
-    )
+    assert fixture.time_telegram_text() == "🇪🇺 16:00 HS  / 🇦🇷 12:00 HS"
 
 
 def test_one_line_telegram_repr_not_played(fixture: Fixture):
@@ -46,9 +41,9 @@ def test_one_line_telegram_repr_not_played(fixture: Fixture):
     # when - then
     assert (
         fixture.one_line_telegram_repr()
-        == """⚽ <strong>River Plate vs. Boca Juniors</strong> 
-🏆 <strong>Copa de la Superliga (ARG)</strong>
-⏰ 🇪🇺 <strong>16:00 HS </strong> / 🇦🇷 <strong>12:00 HS</strong>"""
+        == """⚽ River Plate vs. Boca Juniors 
+🏆 Copa de la Superliga (ARG)
+⏰ 🇪🇺 16:00 HS  / 🇦🇷 12:00 HS"""
     )
 
 
