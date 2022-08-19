@@ -198,7 +198,7 @@ class Fixture:
                 )
 
             h2h_text = (
-                f"{Emojis.RIGHT_FACING_FIST.value}{Emojis.LEFT_FACING_FIST.value} last clashes between the two:\n\n"
+                f"{Emojis.RIGHT_FACING_FIST.value}{Emojis.LEFT_FACING_FIST.value} Last clashes between the two teams:\n\n"
                 f"{head_to_head_list}"
             )
 
