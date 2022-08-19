@@ -50,13 +50,12 @@ def test_one_line_telegram_repr_not_played(fixture: Fixture):
 
 def test_telegram_like_repr(fixture: Fixture):
     # given - when - then
-    print(fixture.telegram_like_repr())
     assert (
         fixture.telegram_like_repr()
         == """🇪🇺 <strong>16:00 HS </strong>
 🇦🇷 <strong>12:00 HS</strong>
 
-⏰  for the game.
+⏰  left for the game.
 
 ⚽ <strong>River Plate vs. Boca Juniors</strong>
 🏆 <strong>Copa de la Superliga (ARG)</strong>

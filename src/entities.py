@@ -198,7 +198,7 @@ class Fixture:
                 )
 
             h2h_text = (
-                f"{Emojis.RIGHT_FACING_FIST.value}{Emojis.LEFT_FACING_FIST.value} Últimos enfrentamientos:\n\n"
+                f"{Emojis.RIGHT_FACING_FIST.value}{Emojis.LEFT_FACING_FIST.value} last clashes between the two:\n\n"
                 f"{head_to_head_list}"
             )
 
@@ -259,7 +259,7 @@ class Fixture:
         return (
             f"<p>{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}<br />"
             f"{Emojis.ARGENTINA.value} <strong>{str(self.bsas_date)[11:16]} HS</strong><p>"
-            f"{Emojis.ALARM_CLOCK.value} <em>{str(self.remaining_time())} for the game.</em><p>"
+            f"{Emojis.ALARM_CLOCK.value} <em>{str(self.remaining_time())} left for the game.</em><p>"
             f"{Emojis.SOCCER_BALL.value} "
             f"<img src='{self.home_team.picture}' width='22' height='22'><strong> vs. "
             f"<img src='{self.away_team.picture}' width='22' height='22'></strong><br />"
@@ -283,7 +283,7 @@ class Fixture:
         telegram_like_text = (
             f"{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}</strong>\n"
             f"{Emojis.ARGENTINA.value} <strong>{str(self.bsas_date)[11:16]} HS</strong>\n\n"
-            f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} for the game.\n\n"
+            f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game.\n\n"
             f"{Emojis.SOCCER_BALL.value} "
             f"<strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
             f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"
