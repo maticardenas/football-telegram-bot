@@ -41,15 +41,23 @@ def get_team_aliases(team_id: str) -> list:
     return TEAMS_ALIASES.get(team_id, [])
 
 
-def get_champions_league_fixtures(all_team_fixtures: Dict[str, Any]) -> List[Dict[str, str]]:
-    return [fixture for fixture in all_team_fixtures["response"] if fixture["league"]["id"] == 2]
+def get_champions_league_fixtures(
+    all_team_fixtures: Dict[str, Any]
+) -> List[Dict[str, str]]:
+    return [
+        fixture
+        for fixture in all_team_fixtures["response"]
+        if fixture["league"]["id"] == 2
+    ]
 
 
 def date_diff(date: str) -> datetime:
     return datetime.strptime(date[:-6], "%Y-%m-%dT%H:%M:%S") - datetime.utcnow()
 
 
-def get_next_fixture(team_fixtures: List[Dict[str, Any]], team_id: str) -> Optional[Fixture]:
+def get_next_fixture(
+    team_fixtures: List[Dict[str, Any]], team_id: str
+) -> Optional[Fixture]:
     min_fixture = None
     min_diff = 999999999
 
@@ -64,7 +72,11 @@ def get_next_fixture(team_fixtures: List[Dict[str, Any]], team_id: str) -> Optio
             min_fixture = fixture
             min_diff = fixture_date_diff
 
-    return convert_fixture_response(min_fixture, min_diff, team_id) if min_fixture else None
+    return (
+        convert_fixture_response(min_fixture, min_diff, team_id)
+        if min_fixture
+        else None
+    )
 
 
 def get_next_fixture_db(team_fixtures: List[DBFixture]) -> Optional[DBFixture]:
@@ -135,11 +147,16 @@ def insert_head_to_heads() -> Optional[List[Fixture]]:
             head_to_head_fixtures = head_to_head.as_dict["response"]
             if head_to_head_fixtures:
                 FIXTURES_DB_MANAGER.save_fixtures(
-                    [convert_fixture_response_to_db_fixture(fixture) for fixture in head_to_head_fixtures]
+                    [
+                        convert_fixture_response_to_db_fixture(fixture)
+                        for fixture in head_to_head_fixtures
+                    ]
                 )
 
 
-def convert_fixtures_response_to_db(fixtures_response: Union[List[dict], List[List[dict]]]) -> List[DBFixture]:
+def convert_fixtures_response_to_db(
+    fixtures_response: Union[List[dict], List[List[dict]]]
+) -> List[DBFixture]:
     """
     :param fixtures_response: "response" key from fixtures response. It can be either a list of individual fixtures
     or a list of lists (max 100) if response includes too many fixtures.
@@ -151,7 +168,9 @@ def convert_fixtures_response_to_db(fixtures_response: Union[List[dict], List[Li
     for item in fixtures_response:
         if isinstance(item, list):
             for fixture in item:
-                converted_db_fixtures.append(convert_fixture_response_to_db_fixture(fixture))
+                converted_db_fixtures.append(
+                    convert_fixture_response_to_db_fixture(fixture)
+                )
         else:
             converted_db_fixtures.append(convert_fixture_response_to_db_fixture(item))
 
@@ -159,11 +178,15 @@ def convert_fixtures_response_to_db(fixtures_response: Union[List[dict], List[Li
 
 
 def get_head_to_heads(team_1: str, team_2: str) -> Optional[List[Fixture]]:
-    head_to_head_fixtures = FIXTURES_DB_MANAGER.get_head_to_head_fixtures(team_1, team_2)
+    head_to_head_fixtures = FIXTURES_DB_MANAGER.get_head_to_head_fixtures(
+        team_1, team_2
+    )
     return [convert_db_fixture(fixture) for fixture in head_to_head_fixtures]
 
 
-def get_last_fixture(team_fixtures: List[Dict[str, Any]], team_id: str) -> Optional[Fixture]:
+def get_last_fixture(
+    team_fixtures: List[Dict[str, Any]], team_id: str
+) -> Optional[Fixture]:
     min_fixture = None
     min_diff = -999999999
 
@@ -178,7 +201,11 @@ def get_last_fixture(team_fixtures: List[Dict[str, Any]], team_id: str) -> Optio
             min_fixture = fixture
             min_diff = fixture_date_diff
 
-    return convert_fixture_response(min_fixture, min_diff, team_id) if min_fixture else None
+    return (
+        convert_fixture_response(min_fixture, min_diff, team_id)
+        if min_fixture
+        else None
+    )
 
 
 def convert_db_fixture(fixture: DBFixture) -> Fixture:
@@ -192,9 +219,15 @@ def convert_db_fixture(fixture: DBFixture) -> Fixture:
     # league_name, round_name = __get_translated_league_name_and_round(fixture)
     notifier_db_manager = NotifierDBManager()
 
-    league: DBLeague = notifier_db_manager.select_records(select(DBLeague).where(DBLeague.id == fixture.league))[0]
-    home_team: DBTeam = notifier_db_manager.select_records(select(DBTeam).where(DBTeam.id == fixture.home_team))[0]
-    away_team: DBTeam = notifier_db_manager.select_records(select(DBTeam).where(DBTeam.id == fixture.away_team))[0]
+    league: DBLeague = notifier_db_manager.select_records(
+        select(DBLeague).where(DBLeague.id == fixture.league)
+    )[0]
+    home_team: DBTeam = notifier_db_manager.select_records(
+        select(DBTeam).where(DBTeam.id == fixture.home_team)
+    )[0]
+    away_team: DBTeam = notifier_db_manager.select_records(
+        select(DBTeam).where(DBTeam.id == fixture.away_team)
+    )[0]
 
     return Fixture(
         fixture.id,
@@ -228,8 +261,12 @@ def convert_db_fixture(fixture: DBFixture) -> Fixture:
     )
 
 
-def convert_fixture_response(fixture_response: Dict[str, Any], date_diff: int, team_id: str = 1) -> Fixture:
-    utc_date = datetime.strptime(fixture_response["fixture"]["date"][:-6], "%Y-%m-%dT%H:%M:%S")
+def convert_fixture_response(
+    fixture_response: Dict[str, Any], date_diff: int, team_id: str = 1
+) -> Fixture:
+    utc_date = datetime.strptime(
+        fixture_response["fixture"]["date"][:-6], "%Y-%m-%dT%H:%M:%S"
+    )
     ams_date = get_time_in_time_zone(utc_date, TimeZones.AMSTERDAM)
     bsas_date = get_time_in_time_zone(utc_date, TimeZones.BSAS)
 
@@ -264,7 +301,9 @@ def convert_fixture_response(fixture_response: Dict[str, Any], date_diff: int, t
             fixture_response["teams"]["away"]["logo"],
             get_team_aliases(str(away_team_id)),
         ),
-        MatchScore(fixture_response["goals"]["home"], fixture_response["goals"]["away"]),
+        MatchScore(
+            fixture_response["goals"]["home"], fixture_response["goals"]["away"]
+        ),
         f"{fixture_response['fixture'].get('venue').get('name')} ({fixture_response['fixture'].get('venue').get('city')})",
         # get_line_up(fixture_response["fixture"]["id"], team_id),
     )
@@ -278,7 +317,9 @@ def convert_fixture_response_to_db_fixture(fixture_response: Dict[str, Any]) -> 
     home_team_id = fixture_response["teams"]["home"]["id"]
     away_team_id = fixture_response["teams"]["away"]["id"]
 
-    utc_date = datetime.strptime(fixture_response["fixture"]["date"][:-6], "%Y-%m-%dT%H:%M:%S")
+    utc_date = datetime.strptime(
+        fixture_response["fixture"]["date"][:-6], "%Y-%m-%dT%H:%M:%S"
+    )
     bsas_date = get_time_in_time_zone(utc_date, TimeZones.BSAS)
 
     return FixtureForDB(
@@ -307,12 +348,16 @@ def convert_fixture_response_to_db_fixture(fixture_response: Dict[str, Any]) -> 
             fixture_response["teams"]["away"]["logo"],
             get_team_aliases(str(away_team_id)),
         ),
-        MatchScore(fixture_response["goals"]["home"], fixture_response["goals"]["away"]),
+        MatchScore(
+            fixture_response["goals"]["home"], fixture_response["goals"]["away"]
+        ),
         fixture_response["fixture"]["venue"]["name"],
     )
 
 
-def __get_translated_league_name_and_round(fixture_response: Dict[str, Any]) -> Tuple[str, str]:
+def __get_translated_league_name_and_round(
+    fixture_response: Dict[str, Any]
+) -> Tuple[str, str]:
     if __is_team_or_league_for_spanish_translation(fixture_response):
         google_translator = GoogleTranslator(source="en", target="es")
         league_name = google_translator.translate(fixture_response["league"]["name"])
@@ -324,10 +369,12 @@ def __get_translated_league_name_and_round(fixture_response: Dict[str, Any]) -> 
     return (league_name, round_name)
 
 
-def __is_team_or_league_for_spanish_translation(fixture_response: Dict[str, Any]) -> bool:
-    return fixture_response["league"]["country"].lower() == "argentina" or __teams_contain(
-        fixture_response, "argentina"
-    )
+def __is_team_or_league_for_spanish_translation(
+    fixture_response: Dict[str, Any]
+) -> bool:
+    return fixture_response["league"][
+        "country"
+    ].lower() == "argentina" or __teams_contain(fixture_response, "argentina")
 
 
 def get_team_standings_for_league(team_standings: dict, league_id: int) -> TeamStanding:
@@ -396,7 +443,9 @@ def get_match_highlights(fixture: Fixture) -> List[MatchHighlights]:
     match_highlights = []
 
     for match in latest_videos.as_dict:
-        if is_corresponding_match_highlights(fixture.home_team, fixture.away_team, match["title"]):
+        if is_corresponding_match_highlights(
+            fixture.home_team, fixture.away_team, match["title"]
+        ):
             if -3 <= date_diff(match["date"]).days <= 0:
                 match_highlights = search_highlights_videos(match)
                 break
@@ -404,11 +453,18 @@ def get_match_highlights(fixture: Fixture) -> List[MatchHighlights]:
     return [convert_match_highlights(highlights) for highlights in match_highlights]
 
 
-def is_corresponding_match_highlights(home_team: Team, away_team: Team, match_title: str) -> bool:
+def is_corresponding_match_highlights(
+    home_team: Team, away_team: Team, match_title: str
+) -> bool:
     return (
         home_team.name.lower() in match_title.lower()
         or away_team.name.lower() in match_title.lower()
-        or any([team_alias.lower() == match_title.lower() for team_alias in home_team.aliases + away_team.aliases])
+        or any(
+            [
+                team_alias.lower() == match_title.lower()
+                for team_alias in home_team.aliases + away_team.aliases
+            ]
+        )
     )
 
 
@@ -419,10 +475,14 @@ def convert_match_highlights(highlights: dict) -> MatchHighlights:
 
 
 def search_highlights_videos(match_response):
-    return [video for video in match_response["videos"] if video["title"] == "Highlights"]
+    return [
+        video for video in match_response["videos"] if video["title"] == "Highlights"
+    ]
 
 
-def get_youtube_highlights_videos(home_team: Team, away_team: Team, number_of_options=3) -> List[str]:
+def get_youtube_highlights_videos(
+    home_team: Team, away_team: Team, number_of_options=3
+) -> List[str]:
     youtube_client = YoutubeSearchClient()
     response = youtube_client.search_videos_by_keywords(
         [home_team.name, away_team.name, "resumen", "jugadas"], "es", "ar"
@@ -479,7 +539,9 @@ def get_line_up(fixture_id: str, team_id: str) -> Optional[LineUp]:
 
 def get_players(start_xi: dict, position: str) -> List[Player]:
     return [
-        Player(player["player"]["id"], player["player"]["name"], player["player"]["pos"])
+        Player(
+            player["player"]["id"], player["player"]["name"], player["player"]["pos"]
+        )
         for player in start_xi
         if player["player"]["pos"] == position
     ]

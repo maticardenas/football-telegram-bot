@@ -34,7 +34,10 @@ def get_telegram_recipients_config() -> List[TelegramRecipient]:
 
 def get_email_recipients_config() -> List[EmailRecipient]:
     json_file_data = get_json_file_data(EMAIL_RECIPIENTS_FILE)
-    return [EmailRecipient(email_recipient["name"], email_recipient["email"]) for email_recipient in json_file_data]
+    return [
+        EmailRecipient(email_recipient["name"], email_recipient["email"])
+        for email_recipient in json_file_data
+    ]
 
 
 def get_managed_teams_config() -> List[ManagedTeam]:

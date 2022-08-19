@@ -92,10 +92,18 @@ class RemainingTime:
         suf_hours = "s" if self.hours != 1 else ""
         suf_minutes = "s" if self.minutes != 1 else ""
 
-        days_phrase = f"{self.days} day{suf_days}{self._get_days_union()}" if self.days > 0 else ""
+        days_phrase = (
+            f"{self.days} day{suf_days}{self._get_days_union()}"
+            if self.days > 0
+            else ""
+        )
         hours_union = " and " if self.minutes else ""
-        hours_phrase = f"{self.hours} hour{suf_hours}{hours_union}" if self.hours > 0 else ""
-        minutes_phrase = f"{self.minutes} minute{suf_minutes}" if self.minutes > 0 else ""
+        hours_phrase = (
+            f"{self.hours} hour{suf_hours}{hours_union}" if self.hours > 0 else ""
+        )
+        minutes_phrase = (
+            f"{self.minutes} minute{suf_minutes}" if self.minutes > 0 else ""
+        )
 
         return f"{days_phrase}{hours_phrase}{minutes_phrase}"
 
@@ -196,16 +204,30 @@ class Fixture:
 
         return h2h_text
 
-    def one_line_telegram_repr(self, played: bool = False, with_date: bool = False) -> str:
-        if self.match_score.away_score is not None or self.match_score.home_score is not None:
+    def one_line_telegram_repr(
+        self, played: bool = False, with_date: bool = False
+    ) -> str:
+        if (
+            self.match_score.away_score is not None
+            or self.match_score.home_score is not None
+        ):
             played = True
 
-        date_text = f"{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}\n" if with_date else ""
+        date_text = (
+            f"{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}\n"
+            if with_date
+            else ""
+        )
 
         if played:
-            if "finished" in self.match_status.lower() or "half" in self.match_status.lower():
+            if (
+                "finished" in self.match_status.lower()
+                or "half" in self.match_status.lower()
+            ):
                 match_in_progress_text = (
-                    f"\n{Emojis.MAN_RUNNING.value} {self.match_status}" if "half" in self.match_status.lower() else ""
+                    f"\n{Emojis.MAN_RUNNING.value} {self.match_status}"
+                    if "half" in self.match_status.lower()
+                    else ""
                 )
                 repr = (
                     f"{date_text}"
@@ -247,8 +269,16 @@ class Fixture:
         )
 
     def telegram_like_repr(self) -> str:
-        referee_line = f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n" if self.referee else ""
-        stadium_line = f"{Emojis.STADIUM.value} <strong>{self.venue}</strong>\n" if self.venue else ""
+        referee_line = (
+            f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n"
+            if self.referee
+            else ""
+        )
+        stadium_line = (
+            f"{Emojis.STADIUM.value} <strong>{self.venue}</strong>\n"
+            if self.venue
+            else ""
+        )
 
         telegram_like_text = (
             f"{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}</strong>\n"
@@ -265,10 +295,16 @@ class Fixture:
         return telegram_like_text
 
     def line_up_message(self) -> str:
-        return str(self.line_up) if self.line_up else f"<strong>Not yet available :(</strong>"
+        return (
+            str(self.line_up)
+            if self.line_up
+            else f"<strong>Not yet available :(</strong>"
+        )
 
     def line_up_email_message(self) -> str:
-        return self.line_up.email_like_repr() if self.line_up else f"Not yet available :("
+        return (
+            self.line_up.email_like_repr() if self.line_up else f"Not yet available :("
+        )
 
     def matched_played_email_like_repr(self) -> str:
         return (
@@ -279,9 +315,20 @@ class Fixture:
         )
 
     def matched_played_telegram_like_repr(self) -> str:
-        referee_line = f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n\n" if self.referee else "\n"
-        stadium_line = f"{Emojis.STADIUM.value} <strong>{self.venue}</strong>\n" if self.venue else ""
-        if "finished" in self.match_status.lower() or "half" in self.match_status.lower():
+        referee_line = (
+            f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n\n"
+            if self.referee
+            else "\n"
+        )
+        stadium_line = (
+            f"{Emojis.STADIUM.value} <strong>{self.venue}</strong>\n"
+            if self.venue
+            else ""
+        )
+        if (
+            "finished" in self.match_status.lower()
+            or "half" in self.match_status.lower()
+        ):
             match_in_progress_text = (
                 f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong>\n\n"
                 if "half" in self.match_status.lower()

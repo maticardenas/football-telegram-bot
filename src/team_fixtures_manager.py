@@ -54,7 +54,9 @@ class TeamFixturesManager:
         )
 
     def get_next_team_fixture(self) -> Optional[Fixture]:
-        next_db_fixture = self._fixtures_db_manager.get_next_fixture(team_id=self._team_id)
+        next_db_fixture = self._fixtures_db_manager.get_next_fixture(
+            team_id=self._team_id
+        )
 
         converted_fixture = None
 
@@ -67,7 +69,9 @@ class TeamFixturesManager:
         return converted_fixture
 
     def get_last_team_fixture(self) -> Optional[Fixture]:
-        last_db_fixture = self._fixtures_db_manager.get_last_fixture(team_id=self._team_id)
+        last_db_fixture = self._fixtures_db_manager.get_last_fixture(
+            team_id=self._team_id
+        )
 
         converted_fixture = None
 
@@ -80,7 +84,10 @@ class TeamFixturesManager:
         next_team_fixture = self.get_next_team_fixture()
 
         if next_team_fixture:
-            if next_team_fixture.remaining_time().days < NotifConfig.NEXT_MATCH_THRESHOLD:
+            if (
+                next_team_fixture.remaining_time().days
+                < NotifConfig.NEXT_MATCH_THRESHOLD
+            ):
                 self._perform_fixture_notification(next_team_fixture)
 
             logger.info(
@@ -90,24 +97,32 @@ class TeamFixturesManager:
         logger.info(f"Not next fixture found for team {self._team_id}")
 
     def notify_next_fixture(self) -> None:
-        team_fixtures = self._fixtures_client.get_fixtures_by(self._season, self._team_id)
+        team_fixtures = self._fixtures_client.get_fixtures_by(
+            self._season, self._team_id
+        )
 
         next_team_fixture = None
 
         if "response" in team_fixtures.as_dict:
-            next_team_fixture = get_next_fixture(team_fixtures.as_dict["response"], self._team_id)
+            next_team_fixture = get_next_fixture(
+                team_fixtures.as_dict["response"], self._team_id
+            )
 
         if next_team_fixture:
             if next_team_fixture.remaining_time().days < 500:
                 self._perform_fixture_notification(next_team_fixture)
 
     def notify_fixture_line_up_update(self) -> None:
-        team_fixtures = self._fixtures_client.get_fixtures_by(self._season, self._team_id)
+        team_fixtures = self._fixtures_client.get_fixtures_by(
+            self._season, self._team_id
+        )
 
         next_team_fixture = None
 
         if "response" in team_fixtures.as_dict:
-            next_team_fixture = get_next_fixture(team_fixtures.as_dict["response"], self._team_id)
+            next_team_fixture = get_next_fixture(
+                team_fixtures.as_dict["response"], self._team_id
+            )
 
         if next_team_fixture:
             if (
@@ -132,7 +147,11 @@ class TeamFixturesManager:
             last_team_fixture = get_last_fixture_db(team_fixtures)
 
         if last_team_fixture:
-            if NotifConfig.LAST_MATCH_THRESHOLD_DAYS <= last_team_fixture.remaining_time().days <= 0:
+            if (
+                NotifConfig.LAST_MATCH_THRESHOLD_DAYS
+                <= last_team_fixture.remaining_time().days
+                <= 0
+            ):
                 self._perform_last_fixture_notification(last_team_fixture)
             logger.info(
                 f"Last fixture found for team {self._team_id} has not been played in less than {abs(NotifConfig.LAST_MATCH_THRESHOLD_DAYS)} days, therefore not notifying"
@@ -141,24 +160,36 @@ class TeamFixturesManager:
         logger.info(f"Not last fixture found for team {self._team_id}")
 
     def notify_last_fixture(self) -> None:
-        team_fixtures = self._fixtures_client.get_fixtures_by(self._season, self._team_id)
+        team_fixtures = self._fixtures_client.get_fixtures_by(
+            self._season, self._team_id
+        )
 
-        last_team_fixture = get_last_fixture(team_fixtures.as_dict["response"], self._team_id)
+        last_team_fixture = get_last_fixture(
+            team_fixtures.as_dict["response"], self._team_id
+        )
 
         if last_team_fixture:
-            if -1 <= last_team_fixture.remaining_time().days <= NotifConfig.LAST_MATCH_THRESHOLD_DAYS:
+            if (
+                -1
+                <= last_team_fixture.remaining_time().days
+                <= NotifConfig.LAST_MATCH_THRESHOLD_DAYS
+            ):
                 last_team_fixture.highlights = get_youtube_highlights_videos(
                     last_team_fixture.home_team, last_team_fixture.away_team
                 )
                 self._perform_last_fixture_notification(last_team_fixture)
 
-    def _telegram_last_fixture_notification(self, team_fixture: Fixture, user: str = "") -> tuple:
+    def _telegram_last_fixture_notification(
+        self, team_fixture: Fixture, user: str = ""
+    ) -> tuple:
         match_images = self._get_match_images(team_fixture.championship.league_id)
         match_image_url = random.choice(match_images)
         spanish_format_date = get_date_spanish_text_format(team_fixture.bsas_date)
 
         team_intro_message = get_team_intro_message(
-            team_fixture.home_team if str(team_fixture.home_team.id) == str(self._team_id) else team_fixture.away_team
+            team_fixture.home_team
+            if str(team_fixture.home_team.id) == str(self._team_id)
+            else team_fixture.away_team
         )["last_match"]
 
         highlights_yt_url = f"https://www.youtube.com/results?search_query={team_fixture.home_team.name}+vs+{team_fixture.away_team.name}+jugadas+resumen"
@@ -174,7 +205,9 @@ class TeamFixturesManager:
 
         return (telegram_message, match_image_url)
 
-    def _telegram_next_fixture_notification(self, team_fixture: Fixture, is_on_demand: False, user: str = "") -> tuple:
+    def _telegram_next_fixture_notification(
+        self, team_fixture: Fixture, is_on_demand: False, user: str = ""
+    ) -> tuple:
         spanish_format_date = get_date_spanish_text_format(team_fixture.bsas_date)
         match_images = self._get_match_images(team_fixture.championship.league_id)
         match_image_url = random.choice(match_images)
@@ -186,7 +219,9 @@ class TeamFixturesManager:
 
         first_phrase = get_first_phrase_msg(True, is_on_demand)
         team_intro_message = get_team_intro_message(
-            team_fixture.home_team if str(team_fixture.home_team.id) == str(self._team_id) else team_fixture.away_team
+            team_fixture.home_team
+            if str(team_fixture.home_team.id) == str(self._team_id)
+            else team_fixture.away_team
         )["next_match"]
 
         intro_message = f"{first_phrase} {team_intro_message}"
@@ -198,7 +233,9 @@ class TeamFixturesManager:
 
         return (telegram_message, match_image_url)
 
-    def _perform_last_fixture_notification(self, team_fixture: Fixture, team_standing: TeamStanding = None) -> None:
+    def _perform_last_fixture_notification(
+        self, team_fixture: Fixture, team_standing: TeamStanding = None
+    ) -> None:
         match_images = self._get_match_images(team_fixture.championship.league_id)
         match_image_url = random.choice(match_images)
 
@@ -210,7 +247,9 @@ class TeamFixturesManager:
         # )
 
         team_intro_message = get_team_intro_message(
-            team_fixture.home_team if str(team_fixture.home_team.id) == str(self._team_id) else team_fixture.away_team
+            team_fixture.home_team
+            if str(team_fixture.home_team.id) == str(self._team_id)
+            else team_fixture.away_team
         )["last_match"]
 
         highlights_yt_url = f"https://www.youtube.com/results?search_query={team_fixture.home_team.name}+vs+{team_fixture.away_team.name}+jugadas+resumen"
@@ -272,7 +311,9 @@ class TeamFixturesManager:
 
         first_phrase = get_first_phrase_msg(True)
         team_intro_message = get_team_intro_message(
-            team_fixture.home_team if str(team_fixture.home_team.id) == str(self._team_id) else team_fixture.away_team
+            team_fixture.home_team
+            if str(team_fixture.home_team.id) == str(self._team_id)
+            else team_fixture.away_team
         )["next_match"]
 
         intro_message = f"{first_phrase} {team_intro_message}"

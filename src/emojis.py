@@ -31,7 +31,9 @@ class Emojis(Enum):
     JOYSTICK = emoji.emojize(":joystick:", use_aliases=True)
     SHIELD = emoji.emojize(":shield:", use_aliases=True)
     MAGIC_WAND = emoji.emojize(":magic_wand:", use_aliases=True)
-    SCORING = emoji.emojize(":person_playing_handball_dark_skin_tone:", use_aliases=True)
+    SCORING = emoji.emojize(
+        ":person_playing_handball_dark_skin_tone:", use_aliases=True
+    )
     LIGHT_BULB = emoji.emojize(":light_bulb:", use_aliases=True)
     SKULL = emoji.emojize(":skull:", use_aliases=True)
     NUMBERS = emoji.emojize(":input_numbers:", use_aliases=True)

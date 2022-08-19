@@ -7,9 +7,15 @@ from src.entities import Team
 TEAMS_ALIASES = {"85": ["PSG"]}
 
 
-def get_first_phrase_msg(is_group_notification: bool = False, is_on_demand: bool = False) -> str:
+def get_first_phrase_msg(
+    is_group_notification: bool = False, is_on_demand: bool = False
+) -> str:
     pronoun = "Les" if is_group_notification else "Te"
-    first_phrase = f"{pronoun} recuerdo que el próximo partido" if not is_on_demand else "El próximo partido"
+    first_phrase = (
+        f"{pronoun} recuerdo que el próximo partido"
+        if not is_on_demand
+        else "El próximo partido"
+    )
 
     return first_phrase
 
@@ -17,7 +23,8 @@ def get_first_phrase_msg(is_group_notification: bool = False, is_on_demand: bool
 def get_team_intro_message(team: Team):
     switch = {
         "85": {
-            "next_match": f"del PSG {Emojis.FRANCE.value}" f" de Lionel Messi {Emojis.GOAT.value}",
+            "next_match": f"del PSG {Emojis.FRANCE.value}"
+            f" de Lionel Messi {Emojis.GOAT.value}",
             "last_match": f"El PSG {Emojis.FRANCE.value} de Lionel Messi {Emojis.GOAT.value}",
         },
         "435": {
@@ -52,9 +59,7 @@ def get_highlights_text(highlights: List[str], email: bool = False) -> str:
     highlight_number = 1
 
     for highlight in highlights:
-        highlights_text += (
-            f"{Emojis.FILM_PROJECTOR.value} <a href='{highlight}'>HIGHLIGHTS [{highlight_number}]</a>{endline}"
-        )
+        highlights_text += f"{Emojis.FILM_PROJECTOR.value} <a href='{highlight}'>HIGHLIGHTS [{highlight_number}]</a>{endline}"
         highlight_number += 1
 
     return highlights_text

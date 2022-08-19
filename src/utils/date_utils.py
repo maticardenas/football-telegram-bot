@@ -34,7 +34,9 @@ def get_time_in_time_zone(utc_date: datetime, time_zone: TimeZones) -> datetime:
 
 
 def get_date_spanish_text_format(date: datetime) -> str:
-    return f"{DAYS[date.weekday()]} {date.day} de {MONTHS[date.month-1]} del {date.year}"
+    return (
+        f"{DAYS[date.weekday()]} {date.day} de {MONTHS[date.month-1]} del {date.year}"
+    )
 
 
 def get_formatted_date(date: str) -> datetime:

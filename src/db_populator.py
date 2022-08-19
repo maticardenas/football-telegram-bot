@@ -22,8 +22,14 @@ def get_converted_fixtures_to_db(fixtures: List[Fixture]) -> List[FixtureForDB]:
     converted_fixtures = []
     fix_nr = 1
     for fixture in fixtures:
-        fixture_match = f'{fixture["teams"]["home"]["name"]} vs. ' f'{fixture["teams"]["away"]["name"]}'
-        logger.info(f"Converting & populating fixture {fix_nr}/" f"{len(fixtures)} - {fixture_match}")
+        fixture_match = (
+            f'{fixture["teams"]["home"]["name"]} vs. '
+            f'{fixture["teams"]["away"]["name"]}'
+        )
+        logger.info(
+            f"Converting & populating fixture {fix_nr}/"
+            f"{len(fixtures)} - {fixture_match}"
+        )
         fix_nr += 1
 
     return converted_fixtures
@@ -59,15 +65,23 @@ def populate_single_team_fixture(team_id: int, season: int) -> None:
     team_fixtures = fixtures_client.get_fixtures_by(str(season), team_id)
 
     if "response" in team_fixtures.as_dict:
-        FIXTURES_DB_MANAGER.save_fixtures(convert_fixtures_response_to_db(team_fixtures.as_dict["response"]))
+        FIXTURES_DB_MANAGER.save_fixtures(
+            convert_fixtures_response_to_db(team_fixtures.as_dict["response"])
+        )
 
 
-def populate_single_league_fixture(league_id: int, season: str, between_dates: tuple) -> None:
+def populate_single_league_fixture(
+    league_id: int, season: str, between_dates: tuple
+) -> None:
     fixtures_client = FixturesClient()
-    league_fixtures = fixtures_client.get_fixtures_by(season, league_id=league_id, between_dates=between_dates)
+    league_fixtures = fixtures_client.get_fixtures_by(
+        season, league_id=league_id, between_dates=between_dates
+    )
 
     if "response" in league_fixtures.as_dict:
-        FIXTURES_DB_MANAGER.save_fixtures(convert_fixtures_response_to_db(league_fixtures.as_dict["response"]))
+        FIXTURES_DB_MANAGER.save_fixtures(
+            convert_fixtures_response_to_db(league_fixtures.as_dict["response"])
+        )
 
 
 def populate_league_fixtures() -> None:
