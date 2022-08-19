@@ -33,7 +33,7 @@ def telegram_last_fixture_team_notification(
     )
 
     telegram_message = (
-        f"{Emojis.WAVING_HAND.value}Hola {user}!\n\n"
+        f"{Emojis.WAVING_HAND.value}Hi {user}!\n\n"
         f"{team} jugó {match_date} \n\n"
         f"{team_fixture.matched_played_telegram_like_repr()}"
         f"{highlights_text}"
@@ -59,14 +59,14 @@ def telegram_last_fixture_league_notification(
     )
 
     match_date = (
-        "HOY!"
+        "TODAY!"
         if team_fixture.bsas_date.date() == datetime.today().date()
         else f"el {spanish_format_date}"
     )
 
     telegram_message = (
-        f"{Emojis.WAVING_HAND.value}Hola {user}!\n\n"
-        f"El último partido de {league} fué {match_date} \n\n"
+        f"{Emojis.WAVING_HAND.value}Hi {user}!\n\n"
+        f"The last game of {league} was {match_date} \n\n"
         f"{team_fixture.matched_played_telegram_like_repr()}"
         f"{highlights_text}"
     )
@@ -88,7 +88,7 @@ def telegram_next_team_fixture_notification(
     )
 
     telegram_message = (
-        f"{Emojis.WAVING_HAND.value}Hola {user}! "
+        f"{Emojis.WAVING_HAND.value}Hi {user}! "
         f"\n\nEl próximo partido de {team} es {match_date}\n\n"
         f"{team_fixture.telegram_like_repr()}"
     )
@@ -110,7 +110,7 @@ def telegram_next_league_fixture_notification(
     )
 
     telegram_message = (
-        f"{Emojis.WAVING_HAND.value}Hola {user}! "
+        f"{Emojis.WAVING_HAND.value}Hi {user}! "
         f"\n\nEl próximo partido de {league} es {match_date}\n\n"
         f"{team_fixture.telegram_like_repr()}"
     )
