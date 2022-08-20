@@ -24,7 +24,7 @@ def update_fixtures() -> None:
     fixtures_to_update = get_all_fixtures_ids_to_update()
     lots_to_update = list(get_fixture_update_lots(fixtures_to_update))
 
-    for lot in lots_to_update[:2]:
+    for lot in lots_to_update[:1]:
         logger.info(f"Updating fixtures for lot {lot}")
         team_fixtures = fixtures_client.get_fixtures_by(ids=lot)
         FIXTURES_DB_MANAGER.save_fixtures(
@@ -40,7 +40,9 @@ def get_fixture_update_lots(
 
 
 def get_all_fixtures_ids_to_update() -> List["DBFixture"]:
-    todays_fixtures = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(3)
+    todays_fixtures = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(
+        3, favourite=True
+    )
 
     return [fixture.id for fixture in todays_fixtures if fixture]
 

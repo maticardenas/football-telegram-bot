@@ -50,6 +50,11 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(favourite_leagues_statement)
 
+    def get_all_favourite_leagues(self) -> List[Optional[DBTeam]]:
+        favourite_leagues_statement = select(DBFavouriteLeague.league).distinct()
+
+        return self._notifier_db_manager.select_records(favourite_leagues_statement)
+
     def get_all_leagues(self) -> Optional[List[DBLeague]]:
         return self._notifier_db_manager.select_records(
             select(DBLeague).order_by(DBLeague.id)
@@ -116,10 +121,18 @@ class FixturesDBManager:
 
         return surrounding_fixtures
 
-    def get_games_in_surrounding_n_hours(self, hours: int) -> List[Optional[DBFixture]]:
+    def get_games_in_surrounding_n_hours(
+        self, hours: int, favourite: bool = False
+    ) -> List[Optional[DBFixture]]:
         surrounding_fixtures = []
 
         today_fixtures = self.get_games_in_surrounding_n_days(0)
+
+        if favourite:
+            favourite_leagues_in_db = self.get_all_favourite_leagues()
+            today_fixtures = filter(
+                lambda fixt: fixt.league in favourite_leagues_in_db, today_fixtures
+            )
 
         utc_time_now = datetime.utcnow()
         begin_time = (utc_time_now - timedelta(hours=hours)).time()
