@@ -14,7 +14,12 @@ from src.db.notif_sql_models import ManagedTeam as DBManagedTeam
 from src.db.notif_sql_models import Team as DBTeam
 from src.entities import Championship, FixtureForDB, Team
 from src.notifier_logger import get_logger
-from src.utils.date_utils import TimeZones, get_time_in_time_zone
+from src.utils.date_utils import (
+    TimeZones,
+    get_formatted_date,
+    get_time_in_time_zone,
+    is_time_between,
+)
 
 logger = get_logger(__name__)
 
@@ -105,6 +110,25 @@ class FixturesDBManager:
                 surrounding_fixtures += self._notifier_db_manager.select_records(
                     statement
                 )
+
+        surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
+
+        return surrounding_fixtures
+
+    def get_games_in_surrounding_n_hours(self, hours: int) -> List[Optional[DBFixture]]:
+        surrounding_fixtures = []
+
+        today_fixtures = self.get_games_in_surrounding_n_days(0)
+
+        utc_time_now = datetime.utcnow()
+        begin_time = (utc_time_now - timedelta(hours=hours)).time()
+        end_time = (utc_time_now + timedelta(hours=hours)).time()
+
+        for fixture in today_fixtures:
+            utc_date = get_formatted_date(fixture.utc_date)
+
+            if is_time_between(utc_date.time(), begin_time, end_time):
+                surrounding_fixtures.append(fixture)
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
 
