@@ -40,7 +40,7 @@ def get_fixture_update_lots(
 
 
 def get_all_fixtures_ids_to_update() -> List["DBFixture"]:
-    todays_fixtures = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_days(0)
+    todays_fixtures = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(2)
 
     return [fixture.id for fixture in todays_fixtures if fixture]
 

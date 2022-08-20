@@ -1,5 +1,6 @@
 from datetime import datetime
 from enum import Enum
+from time import time
 
 import pytz
 
@@ -41,3 +42,10 @@ def get_date_spanish_text_format(date: datetime) -> str:
 
 def get_formatted_date(date: str) -> datetime:
     return datetime.strptime(date[:-6], "%Y-%m-%dT%H:%M:%S")
+
+
+def is_time_between(check_time: time, begin_time: time, end_time: time):
+    if begin_time < end_time:
+        return check_time >= begin_time and check_time <= end_time
+    else:
+        return check_time >= begin_time or check_time <= end_time
