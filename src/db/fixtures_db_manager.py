@@ -1,3 +1,4 @@
+import random
 from datetime import datetime, timedelta
 from typing import List, Optional
 
@@ -130,7 +131,7 @@ class FixturesDBManager:
             if is_time_between(utc_date.time(), begin_time, end_time):
                 surrounding_fixtures.append(fixture)
 
-        surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
+        random.shuffle(surrounding_fixtures)
 
         return surrounding_fixtures
 

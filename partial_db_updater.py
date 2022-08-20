@@ -24,7 +24,7 @@ def update_fixtures() -> None:
     fixtures_to_update = get_all_fixtures_ids_to_update()
     lots_to_update = get_fixture_update_lots(fixtures_to_update)
 
-    for lot in lots_to_update:
+    for lot in lots_to_update[:2]:
         logger.info(f"Updating fixtures for lot {lot}")
         team_fixtures = fixtures_client.get_fixtures_by(ids=lot)
         FIXTURES_DB_MANAGER.save_fixtures(
