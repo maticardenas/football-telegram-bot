@@ -52,13 +52,15 @@ For more details on what can be configured and queried you can refer to the **co
 
 - `/last_match_league <league_id>` - Retrieves information about last match played by the specific tournament, including  scores, rival, date (in different timezones), league, roung and highlights
 
-- *`/today_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches to be played on the current day.
+- **`/today_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches to be played on the current day.
 
-- *`/tomorrow_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches to be played on the following day.
+- **`/tomorrow_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches to be played on the following day.
 
-- *`/last_played_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches played on the previous day.
+- **`/last_played_matches [optional [league_ids] [ft-fteams-favourite_teams] [fl-fleagues-favourite_leagues]]` - Retrieves information about matches played on the previous day.
 
-*<em>For these commands is possible to optionally specify `leagues_id` or user's favourite teams or leagues.</em>
+*<em>For this command is possible to optionally specify `team_id` or user's favourite teams or leagues.</em>
+
+**<em>For these commands is possible to optionally specify `leagues_id` or user's favourite teams or leagues.</em>
 
 ## Implementation Overview
 
