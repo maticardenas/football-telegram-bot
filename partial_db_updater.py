@@ -22,7 +22,7 @@ def update_fixtures() -> None:
     """
     fixtures_client = FixturesClient()
     fixtures_to_update = get_all_fixtures_ids_to_update()
-    lots_to_update = get_fixture_update_lots(fixtures_to_update)
+    lots_to_update = list(get_fixture_update_lots(fixtures_to_update))
 
     for lot in lots_to_update[:2]:
         logger.info(f"Updating fixtures for lot {lot}")
