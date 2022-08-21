@@ -20,6 +20,7 @@ from src.utils.date_utils import (
     get_formatted_date,
     get_time_in_time_zone,
     is_time_between,
+    is_time_in_surrounding_hours,
 )
 
 logger = get_logger(__name__)
@@ -134,14 +135,10 @@ class FixturesDBManager:
                 lambda fixt: fixt.league in favourite_leagues_in_db, today_fixtures
             )
 
-        utc_time_now = datetime.utcnow()
-        begin_time = (utc_time_now - timedelta(hours=hours)).time()
-        end_time = (utc_time_now + timedelta(hours=hours)).time()
-
         for fixture in today_fixtures:
             utc_date = get_formatted_date(fixture.utc_date)
 
-            if is_time_between(utc_date.time(), begin_time, end_time):
+            if is_time_in_surrounding_hours(utc_date.time(), hours):
                 surrounding_fixtures.append(fixture)
 
         random.shuffle(surrounding_fixtures)

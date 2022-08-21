@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 from time import time
 
@@ -42,6 +42,14 @@ def get_date_spanish_text_format(date: datetime) -> str:
 
 def get_formatted_date(date: str) -> datetime:
     return datetime.strptime(date[:-6], "%Y-%m-%dT%H:%M:%S")
+
+
+def is_time_in_surrounding_hours(check_time: time, hours: int) -> bool:
+    utc_time_now = datetime.utcnow()
+    begin_time = (utc_time_now - timedelta(hours=hours)).time()
+    end_time = (utc_time_now + timedelta(hours=hours)).time()
+
+    return is_time_between(check_time, begin_time, end_time)
 
 
 def is_time_between(check_time: time, begin_time: time, end_time: time):

@@ -5,15 +5,18 @@ from typing import List
 from config.config_utils import get_managed_leagues_config, get_managed_teams_config
 from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
-from src.db.notif_sql_models import League as DBLeague
-from src.db.notif_sql_models import Team as DBTeam
 from src.entities import Fixture, FixtureForDB
 from src.notifier_logger import get_logger
-from src.utils.fixtures_utils import convert_fixtures_response_to_db
+from src.utils.date_utils import get_formatted_date, is_time_in_surrounding_hours
+from src.utils.fixtures_utils import (
+    convert_fixture_response_to_db_fixture,
+    convert_fixtures_response_to_db,
+)
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
 MANAGED_TEAMS = get_managed_teams_config()
 MANAGED_LEAGUES = get_managed_leagues_config()
+FIXTURES_CLIENT = FixturesClient()
 
 logger = get_logger(__name__)
 
@@ -61,7 +64,6 @@ def populate_team_fixtures(is_initial) -> None:
 
 
 def populate_single_team_fixture(team_id: int, season: int) -> None:
-    fixtures_client = FixturesClient()
     team_fixtures = fixtures_client.get_fixtures_by(str(season), team_id)
 
     if "response" in team_fixtures.as_dict:
@@ -73,8 +75,7 @@ def populate_single_team_fixture(team_id: int, season: int) -> None:
 def populate_single_league_fixture(
     league_id: int, season: str, between_dates: tuple
 ) -> None:
-    fixtures_client = FixturesClient()
-    league_fixtures = fixtures_client.get_fixtures_by(
+    league_fixtures = FIXTURES_CLIENT.get_fixtures_by(
         season, league_id=league_id, between_dates=between_dates
     )
 
@@ -105,17 +106,10 @@ def populate_league_fixtures() -> None:
         time.sleep(2.5)
 
 
-def populate_data(is_initial=False) -> None:
-    # populate_managed_teams()
-    # populate_team_fixtures(is_initial)
+def populate_data() -> None:
     populate_league_fixtures()
 
 
 if __name__ == "__main__":
     logger.info("Populating data...")
-    fixtures = FIXTURES_DB_MANAGER.get_all_fixtures()
-    is_initial = True if not len(fixtures) else False
-
-    logger.info(f"IS_INITIAL -> {is_initial}")
-
-    populate_data(is_initial)
+    populate_data()

@@ -18,6 +18,7 @@ class FixturesClient(BaseClient):
         team_id: int = None,
         ids: List[int] = [],
         league_id: int = None,
+        date: str = "",
         between_dates: Tuple[str, str] = None,
     ) -> Dict[str, Any]:
         endpoint = "/v3/fixtures"
@@ -38,6 +39,9 @@ class FixturesClient(BaseClient):
         if between_dates:
             params["from"] = between_dates[0]
             params["to"] = between_dates[1]
+
+        if date:
+            params["date"] = date
 
         url = f"{self.base_url}{endpoint}"
 

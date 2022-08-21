@@ -1,13 +1,19 @@
+from datetime import datetime
 from typing import List
 
 from config.config_utils import get_managed_teams_config
 from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.notifier_logger import get_logger
-from src.utils.fixtures_utils import convert_fixtures_response_to_db
+from src.utils.date_utils import get_formatted_date, is_time_in_surrounding_hours
+from src.utils.fixtures_utils import (
+    convert_fixture_response_to_db_fixture,
+    convert_fixtures_response_to_db,
+)
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
 MANAGED_TEAMS = get_managed_teams_config()
+FIXTURES_CLIENT = FixturesClient()
 
 logger = get_logger(__name__)
 
@@ -47,5 +53,25 @@ def get_all_fixtures_ids_to_update() -> List["DBFixture"]:
     return [fixture.id for fixture in todays_fixtures if fixture]
 
 
+def populate_surrounding_fixtures() -> None:
+    today = datetime.now().strftime("%Y-%m-%d")
+    fixtures_response = FIXTURES_CLIENT.get_fixtures_by(date=today)
+
+    for item in fixtures_response.as_dict.get("response", []):
+        if isinstance(item, list):
+            for fixture in item:
+                check_time = get_formatted_date(fixture["fixture"]["date"]).time()
+                if is_time_in_surrounding_hours(check_time, hours=3):
+                    FIXTURES_DB_MANAGER.save_fixtures(
+                        [convert_fixture_response_to_db_fixture(fixture)]
+                    )
+        else:
+            check_time = get_formatted_date(item["fixture"]["date"]).time()
+            if is_time_in_surrounding_hours(check_time, hours=3):
+                FIXTURES_DB_MANAGER.save_fixtures(
+                    [convert_fixture_response_to_db_fixture(item)]
+                )
+
+
 if __name__ == "__main__":
-    update_fixtures()
+    populate_surrounding_fixtures()

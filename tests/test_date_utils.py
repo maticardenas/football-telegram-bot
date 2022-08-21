@@ -2,7 +2,11 @@ from datetime import datetime
 
 from freezegun import freeze_time
 
-from src.utils.date_utils import get_formatted_date, is_time_between
+from src.utils.date_utils import (
+    get_formatted_date,
+    is_time_between,
+    is_time_in_surrounding_hours,
+)
 
 
 def test_get_formatted_date():
@@ -39,3 +43,25 @@ def test_is_time_between_false():
 
         # when - then
         assert is_time_between(datetime.utcnow().time(), begin_time, end_time) is False
+
+
+def test_is_time_in_surrounding_hours():
+    with freeze_time("2021-09-29 18:30:00"):
+        # given
+        check_time = datetime.strptime(
+            "2021-09-29 16:30:00", "%Y-%m-%d %H:%M:%S"
+        ).time()
+
+        # when - then
+        assert is_time_in_surrounding_hours(check_time, hours=3) is True
+
+
+def test_is_time_in_surrounding_hours_false():
+    with freeze_time("2021-09-29 18:30:00"):
+        # given
+        check_time = datetime.strptime(
+            "2021-09-29 16:30:00", "%Y-%m-%d %H:%M:%S"
+        ).time()
+
+        # when - then
+        assert is_time_in_surrounding_hours(check_time, hours=1) is False
