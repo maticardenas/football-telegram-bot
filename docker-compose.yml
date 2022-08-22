@@ -11,7 +11,7 @@ services:
       - .:/usr/football_api
     depends_on:
       - db
-#    command: bash -c "python -m pipenv run python /usr/football_api/notifier_bot.py"
+    command: bash -c "python -m pipenv run python /usr/football_api/notifier_bot.py"
 #    command: bash -c "dev_scripts/initialize_database.sh && dev_scripts/populate_database.sh && python -m pipenv run python /usr/football_api/notifier_bot.py"
 
   db:
