@@ -54,19 +54,17 @@ def populate_single_league_fixture(
 
 
 def get_leagues_to_update():
-    initial_leagues = FIXTURES_DB_MANAGER.get_all_leagues(daily_update=True)
-    initial_leagues_ids = [league.id for league in initial_leagues]
+    leagues = FIXTURES_DB_MANAGER.get_all_leagues(daily_update=True)
+    initial_leagues_ids = [league.id for league in leagues]
     favourite_leagues = FIXTURES_DB_MANAGER.get_all_favourite_leagues()
-
-    leagues_to_update = []
 
     for fv_league in favourite_leagues:
         if fv_league in initial_leagues_ids:
             continue
         else:
-            leagues_to_update.append(FIXTURES_DB_MANAGER.get_league(fv_league.id)[0])
+            leagues.append(FIXTURES_DB_MANAGER.get_league(fv_league)[0])
 
-    return leagues_to_update
+    return leagues
 
 
 def populate_league_fixtures() -> None:
