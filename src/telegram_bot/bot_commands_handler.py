@@ -16,6 +16,8 @@ from src.utils.notification_text_utils import (
 
 logger = get_logger(__name__)
 
+MESSAGE_TEXT_LIMIT = 3500
+
 
 class NotifierBotCommandsHandler:
     def __init__(self):
@@ -39,19 +41,41 @@ class NotifierBotCommandsHandler:
     def available_leagues(self) -> List[str]:
         return self._fixtures_db_manager.get_all_leagues()
 
-    def available_leagues_text(self) -> str:
+    def get_list_of_fitting_texts(
+        self, list_of_texts: List[str], separator: str = f"\n"
+    ) -> List[List[str]]:
+        fitting_texts = []
+        current_fitting_texts = []
+        current_text = ""
+
+        for text in list_of_texts:
+            if len(f"{current_text}{separator}{text}") > MESSAGE_TEXT_LIMIT:
+                fitting_texts.append(current_fitting_texts)
+                current_text = ""
+                current_fitting_texts = []
+            else:
+                current_text += f"{separator}{text}"
+                current_fitting_texts.append(text)
+
+        if current_fitting_texts:
+            fitting_texts.append(current_fitting_texts)
+
+        return [f"{separator}".join(texts) for texts in fitting_texts]
+
+    def available_leagues_texts(self) -> List[str]:
         leagues = self.available_leagues()
         leagues_texts = [
             f"<strong>{league.id}</strong> - {league.name} ({league.country})"
             for league in leagues
         ]
-        return "\n".join(leagues_texts)
+
+        return self.get_list_of_fitting_texts(leagues_texts)
 
     @staticmethod
     def get_fixtures_text(
         converted_fixtures: List[Fixture], played: bool = False, with_date: bool = False
     ) -> List[str]:
-        text_limit = 3500
+
         fixtures_text = ""
         all_fitting_fixtures = []
         current_fitting_fixtures = []
@@ -59,7 +83,7 @@ class NotifierBotCommandsHandler:
         for fixture in converted_fixtures:
             fixture_text = fixture.one_line_telegram_repr(played, with_date)
 
-            if len(f"{fixtures_text}\n\n{fixture_text}") > text_limit:
+            if len(f"{fixtures_text}\n\n{fixture_text}") > MESSAGE_TEXT_LIMIT:
                 all_fitting_fixtures.append(current_fitting_fixtures)
                 fixtures_text = ""
                 current_fitting_fixtures = []
@@ -416,11 +440,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         else:
             league = self._command_args[0]
             if not self.is_available_league(league):
-                response = (
-                    f"Oops! '{league}' is not available :(\n\n"
-                    f"The available leagues are:\n\n"
-                    f"{self.available_leagues_text()}"
-                )
+                response = f"Oops! '{league}' is not available :(\n"
 
         return response
 

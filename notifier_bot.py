@@ -23,9 +23,8 @@ async def start(update: Update, context):
     await context.bot.send_photo(
         chat_id=update.effective_chat.id,
         photo=MESSI_PHOTO,
-        caption=f"{Emojis.WAVING_HAND.value} Hola {update.effective_user.first_name}, soy FootballNotifier bot!\n\n"
-        f"{Emojis.JOYSTICK.value} /help - Chequeá mis comandos disponibles ;) \n\n"
-        f"{Emojis.GOAT.value} {Emojis.ARGENTINA.value} Vamos Messi!",
+        caption=f"{Emojis.WAVING_HAND.value} Hi {update.effective_user.first_name}, I'm FootballNotifier!\n\n"
+        f"{Emojis.JOYSTICK.value} /help - Check my available commands ;)",
         parse_mode="HTML",
     )
 
@@ -80,14 +79,18 @@ async def available_leagues(update: Update, context):
         f"'available_leagues' command executed - by {update.effective_user.name}"
     )
     notifier_commands_handler = NotifierBotCommandsHandler()
-    text = (
-        f"{Emojis.WAVING_HAND.value}Hola {update.effective_user.first_name}!\n\n"
-        f" {Emojis.TELEVISION.value} Estos son los torneos disponibles:\n\n"
-        f"{notifier_commands_handler.available_leagues_text()}"
+    texts = notifier_commands_handler.available_leagues_texts()
+
+    intrductory_text = (
+        f"{Emojis.WAVING_HAND.value}Hi {update.effective_user.first_name}!\n\n"
+        f" {Emojis.TELEVISION.value} These are the available leagues:\n\n"
     )
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-    )
+    texts[0] = f"{intrductory_text}{texts[0]}"
+
+    for text in texts:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
 
 
 async def add_favourite_team(update: Update, context):
