@@ -9,6 +9,7 @@ class League(SQLModel, table=True):
     name: str
     country: str
     logo: str
+    daily_season_fixt_update: str
 
 
 class Team(SQLModel, table=True):

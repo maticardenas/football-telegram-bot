@@ -53,6 +53,22 @@ def populate_single_league_fixture(
         )
 
 
+def get_leagues_to_update():
+    initial_leagues = FIXTURES_DB_MANAGER.get_all_leagues(daily_update=True)
+    initial_leagues_ids = [league.id for league in initial_leagues]
+    favourite_leagues = FIXTURES_DB_MANAGER.get_all_favourite_leagues()
+
+    leagues_to_update = []
+
+    for fv_league in favourite_leagues:
+        if fv_league in initial_leagues_ids:
+            continue
+        else:
+            leagues_to_update.append(FIXTURES_DB_MANAGER.get_league(fv_league.id)[0])
+
+    return leagues_to_update
+
+
 def populate_league_fixtures() -> None:
     current_year = date.today().year
     today = datetime.today()
@@ -63,7 +79,7 @@ def populate_league_fixtures() -> None:
 
     between_dates = (from_date, to_date)
 
-    leagues = FIXTURES_DB_MANAGER.get_all_leagues()
+    leagues = get_leagues_to_update()
 
     for league in leagues:
         logger.info(f"Saving fixtures for league {league.name}")
