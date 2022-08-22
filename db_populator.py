@@ -7,6 +7,9 @@ from src.db.fixtures_db_manager import FixturesDBManager
 from src.entities import Fixture, FixtureForDB
 from src.notifier_logger import get_logger
 from src.utils.fixtures_utils import convert_fixtures_response_to_db
+from src.utils.fixtures_utils import (
+    convert_fixtures_response_to_db,
+)
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
 FIXTURES_CLIENT = FixturesClient()
@@ -41,7 +44,7 @@ def populate_single_team_fixture(team_id: int, season: int) -> None:
 
 
 def populate_single_league_fixture(
-    league_id: int, season: str, between_dates: tuple
+        league_id: int, season: str, between_dates: tuple
 ) -> None:
     league_fixtures = FIXTURES_CLIENT.get_fixtures_by(
         season, league_id=league_id, between_dates=between_dates
