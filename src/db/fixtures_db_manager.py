@@ -54,10 +54,15 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(favourite_leagues_statement)
 
-    def get_all_leagues(self) -> Optional[List[DBLeague]]:
-        return self._notifier_db_manager.select_records(
-            select(DBLeague).order_by(DBLeague.id)
-        )
+    def get_all_leagues(self, daily_update: bool = False) -> Optional[List[DBLeague]]:
+        statement = select(DBLeague)
+
+        if daily_update:
+            statement = statement.where(DBLeague.daily_season_fixt_update == "Y")
+
+        statement = statement.order_by(DBLeague.id)
+
+        return self._notifier_db_manager.select_records(statement)
 
     def get_league(self, league_id: int) -> Optional[DBLeague]:
         league_statement = select(DBLeague).where(DBLeague.id == league_id)
