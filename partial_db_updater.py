@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import List
 
-from config.config_utils import get_managed_teams_config
 from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.notifier_logger import get_logger
@@ -12,7 +11,6 @@ from src.utils.fixtures_utils import (
 )
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
-MANAGED_TEAMS = get_managed_teams_config()
 FIXTURES_CLIENT = FixturesClient()
 
 logger = get_logger(__name__)
@@ -20,11 +18,7 @@ logger = get_logger(__name__)
 
 def update_fixtures() -> None:
     """
-    This function updates only fixtures corresponding to the
-    last & next match for each managed team, given that this is
-    at the moment the only that the user can query, doesn't make sense to
-    query all the fixtures for all teams. This way we can save dozens of
-    RAPID API hits per day, giving space to multiple other functionalities.
+    This function updates only fixtures which are in surrounding current time for certain number of hours.
     """
     fixtures_client = FixturesClient()
     fixtures_to_update = get_all_fixtures_ids_to_update()

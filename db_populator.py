@@ -2,20 +2,13 @@ import time
 from datetime import date, datetime, timedelta
 from typing import List
 
-from config.config_utils import get_managed_leagues_config, get_managed_teams_config
 from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.entities import Fixture, FixtureForDB
 from src.notifier_logger import get_logger
-from src.utils.date_utils import get_formatted_date, is_time_in_surrounding_hours
-from src.utils.fixtures_utils import (
-    convert_fixture_response_to_db_fixture,
-    convert_fixtures_response_to_db,
-)
+from src.utils.fixtures_utils import convert_fixtures_response_to_db
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
-MANAGED_TEAMS = get_managed_teams_config()
-MANAGED_LEAGUES = get_managed_leagues_config()
 FIXTURES_CLIENT = FixturesClient()
 
 logger = get_logger(__name__)
@@ -38,33 +31,8 @@ def get_converted_fixtures_to_db(fixtures: List[Fixture]) -> List[FixtureForDB]:
     return converted_fixtures
 
 
-def populate_managed_teams() -> None:
-    for team in MANAGED_TEAMS:
-        FIXTURES_DB_MANAGER.insert_managed_team(team)
-
-
-def populate_managed_leagues() -> None:
-    for league in MANAGED_LEAGUES:
-        FIXTURES_DB_MANAGER.insert_managed_league(league)
-
-
-def populate_team_fixtures(is_initial) -> None:
-    current_year = date.today().year
-    last_year = current_year - 1
-
-    for team in MANAGED_TEAMS:
-        if is_initial:
-            logger.info(f"Saving fixtures for team {team.name} - season {last_year}")
-            populate_single_team_fixture(team.id, last_year)
-
-        logger.info(f"Saving fixtures for team {team.name} - season {current_year}")
-        populate_single_team_fixture(team.id, current_year)
-        # to avoid reaching rate limit at API calls.
-        time.sleep(2.5)
-
-
 def populate_single_team_fixture(team_id: int, season: int) -> None:
-    team_fixtures = fixtures_client.get_fixtures_by(str(season), team_id)
+    team_fixtures = FIXTURES_CLIENT.get_fixtures_by(str(season), team_id)
 
     if "response" in team_fixtures.as_dict:
         FIXTURES_DB_MANAGER.save_fixtures(
