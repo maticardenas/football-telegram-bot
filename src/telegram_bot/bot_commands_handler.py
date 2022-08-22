@@ -509,26 +509,22 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
                 convert_db_fixture(fixture) for fixture in next_matches
             ]
 
-            spanish_format_date = get_date_spanish_text_format(
-                converted_fixtures[0].bsas_date
-            )
-
             match_date = (
-                "HOY!"
+                "TODAY!"
                 if converted_fixtures[0].bsas_date.date() == datetime.today().date()
-                else f"el {Emojis.SPIRAL_CALENDAR.value}{spanish_format_date}"
+                else f"on {Emojis.SPIRAL_CALENDAR.value} {converted_fixtures[0].bsas_date.strftime('%d-%m-%Y')}"
             )
 
             telegram_messages = self.get_fixtures_text(converted_fixtures)
 
             intro_text = (
-                f"{Emojis.WAVING_HAND.value}Hola {self._user}! "
-                f"\n\nLos próximos partidos de <strong>{league.name} ({league.country[:3].upper()})</strong> son {match_date}\n\n"
+                f"{Emojis.WAVING_HAND.value}Hi {self._user}! "
+                f"\n\nThe next <strong>{league.name} ({league.country[:3].upper()})</strong> matches are {match_date}\n\n"
             )
 
             telegram_messages[0] = f"{intro_text}{telegram_messages[0]}"
         else:
-            telegram_messages = ["No se encontraron partidos."]
+            telegram_messages = ["There were not matches found."]
 
         return telegram_messages
 
