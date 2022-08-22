@@ -1,6 +1,5 @@
 from typing import List
 
-from config.config_entities import TelegramRecipient
 from src.emojis import Emojis
 from src.entities import Team
 
@@ -63,7 +62,3 @@ def get_highlights_text(highlights: List[str], email: bool = False) -> str:
         highlight_number += 1
 
     return highlights_text
-
-
-def is_subscripted_for_team(telegram_recipient: TelegramRecipient, team_id) -> bool:
-    return team_id in telegram_recipient.team_subscriptions

@@ -4,12 +4,10 @@ from typing import List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import Fixture
-from src.db.notif_sql_models import ManagedTeam as DBManagedTeam
 from src.db.notif_sql_models import Team as DBTeam
 from src.emojis import Emojis
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
-from src.utils.date_utils import get_date_spanish_text_format
 from src.utils.fixtures_utils import convert_db_fixture, get_head_to_heads
 from src.utils.notification_text_utils import (
     telegram_last_team_or_league_fixture_notification,
@@ -22,15 +20,6 @@ logger = get_logger(__name__)
 class NotifierBotCommandsHandler:
     def __init__(self):
         self._fixtures_db_manager: FixturesDBManager = FixturesDBManager()
-        self._managed_teams: List[
-            DBManagedTeam
-        ] = self._fixtures_db_manager.get_managed_teams()
-
-    def get_managed_team(self, command: str) -> DBManagedTeam:
-        return next(
-            (team for team in self._managed_teams if team.command == command),
-            None,
-        )
 
     def search_team(self, team_text: str) -> Optional[DBTeam]:
         return self._fixtures_db_manager.get_teams_by_name(team_text)
@@ -47,19 +36,8 @@ class NotifierBotCommandsHandler:
         league = self._fixtures_db_manager.get_league(league_id)
         return True if len(league) else False
 
-    def available_command_team_names(self) -> List[str]:
-        return [managed_team.command for managed_team in self._managed_teams]
-
     def available_leagues(self) -> List[str]:
         return self._fixtures_db_manager.get_all_leagues()
-
-    def available_teams_text(self) -> str:
-        return "\n".join(
-            [
-                f"• {available_team}"
-                for available_team in self.available_command_team_names()
-            ]
-        )
 
     def available_leagues_text(self) -> str:
         leagues = self.available_leagues()

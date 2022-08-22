@@ -1,11 +1,5 @@
 import os
 
-from config.config_utils import (
-    get_email_recipients_config,
-    get_managed_teams_config,
-    get_telegram_recipients_config,
-)
-
 
 class NotifConfig:
     # RAPID API
@@ -22,14 +16,11 @@ class NotifConfig:
 
     # TELEGRAM
     TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
-    TELEGRAM_RECIPIENTS = get_telegram_recipients_config()
-    MANAGED_TEAMS = get_managed_teams_config()
 
     # EMAIL
     SMTP_SERVER = os.environ.get("SMTP_SERVER")
     GMAIL_SENDER = os.environ.get("GMAIL_SENDER")
     GMAIL_PASSWD = os.environ.get("GMAIL_PASSWD")
-    EMAIL_RECIPIENTS = get_email_recipients_config()
 
     # DB
     DB_HOST = os.environ.get("DB_HOST")

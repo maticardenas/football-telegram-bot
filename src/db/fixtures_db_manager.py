@@ -10,8 +10,6 @@ from src.db.notif_sql_models import FavouriteLeague as DBFavouriteLeague
 from src.db.notif_sql_models import FavouriteTeam as DBFavouriteTeam
 from src.db.notif_sql_models import Fixture as DBFixture
 from src.db.notif_sql_models import League as DBLeague
-from src.db.notif_sql_models import ManagedLeague as DBManagedLeague
-from src.db.notif_sql_models import ManagedTeam as DBManagedTeam
 from src.db.notif_sql_models import Team as DBTeam
 from src.entities import Championship, FixtureForDB, Team
 from src.notifier_logger import get_logger
@@ -232,86 +230,6 @@ class FixturesDBManager:
         fixtures = self._notifier_db_manager.select_records(statement)
 
         return [fixture for fixture in fixtures if fixture.home_score is not None]
-
-    def get_managed_teams(self) -> List[DBManagedTeam]:
-        statement = select(DBManagedTeam)
-        return self._notifier_db_manager.select_records(statement)
-
-    def get_managed_leagues(self) -> List[DBManagedLeague]:
-        statement = select(DBManagedLeague)
-        return self._notifier_db_manager.select_records(statement)
-
-    def insert_managed_league(self, managed_league: DBManagedLeague) -> DBManagedLeague:
-        managed_league_statement = select(DBManagedLeague).where(
-            DBManagedLeague.id == managed_league.id
-        )
-        retrieved_managed_league = self._notifier_db_manager.select_records(
-            managed_league_statement
-        )
-
-        if not len(retrieved_managed_league):
-            logger.info(
-                f"Inserting Managed League '{managed_league.name}' - it does not exist "
-                f"in the database"
-            )
-            db_managed_league = DBManagedLeague(
-                id=managed_league.id,
-                name=managed_league.name,
-                command=managed_league.command,
-            )
-        else:
-            logger.info(
-                f"Updating Managed League '{managed_league.name}' - it already "
-                f"exists in "
-                f"the database"
-            )
-            db_managed_league = retrieved_managed_league.pop()
-            db_managed_league.id = (managed_league.id,)
-            db_managed_league.name = (managed_league.name,)
-            db_managed_league.command = (managed_league.command,)
-
-        self._notifier_db_manager.insert_record(db_managed_league)
-
-        # object needs to be queried again, as when we insert db_league we
-        # are closing the session and then it's out of scope
-        # for later using it again
-        return self._notifier_db_manager.select_records(managed_league_statement)[0]
-
-    def insert_managed_team(self, managed_team: DBManagedTeam) -> DBManagedTeam:
-        managed_team_statement = select(DBManagedTeam).where(
-            DBManagedTeam.id == managed_team.id
-        )
-        retrieved_managed_team = self._notifier_db_manager.select_records(
-            managed_team_statement
-        )
-
-        if not len(retrieved_managed_team):
-            logger.info(
-                f"Inserting Managed Team '{managed_team.name}' - it does not exist "
-                f"in the database"
-            )
-            db_managed_team = DBManagedTeam(
-                id=managed_team.id,
-                name=managed_team.name,
-                command=managed_team.command,
-            )
-        else:
-            logger.info(
-                f"Updating Managed Team '{managed_team.name}' - it already "
-                f"exists in "
-                f"the database"
-            )
-            db_managed_team = retrieved_managed_team.pop()
-            db_managed_team.id = (managed_team.id,)
-            db_managed_team.name = (managed_team.name,)
-            db_managed_team.command = (managed_team.command,)
-
-        self._notifier_db_manager.insert_record(db_managed_team)
-
-        # object needs to be queried again, as when we insert db_league we
-        # are closing the session and then it's out of scope
-        # for later using it again
-        return self._notifier_db_manager.select_records(managed_team_statement)[0]
 
     def insert_league(self, fixture_league: Championship) -> DBLeague:
         league_statement = select(DBLeague).where(

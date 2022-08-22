@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List, Optional
 
 from sqlmodel import Field, SQLModel
@@ -35,20 +34,6 @@ class Fixture(SQLModel, table=True):
     home_score: Optional[int] = None
     away_score: Optional[int] = None
     highlights: Optional[List[str]]
-
-
-class ManagedTeam(SQLModel, table=True):
-    __table_args__ = {"extend_existing": True}
-    id: int = Field(primary_key=True)
-    name: str
-    command: str
-
-
-class ManagedLeague(SQLModel, table=True):
-    __table_args__ = {"extend_existing": True}
-    id: int = Field(primary_key=True)
-    name: str
-    command: str
 
 
 class FavouriteTeam(SQLModel, table=True):
