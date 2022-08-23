@@ -116,7 +116,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
         self._user = user
         self._chat_id = chat_id
 
-    def validate_command_input(self) -> None:
+    def validate_command_input(self) -> Optional[str]:
         if len(self._command_args):
             if str(self._command_args[0]).lower() in [
                 "fteams",
@@ -136,6 +136,13 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                 )
             else:
                 self._leagues = self._command_args
+        else:
+            return (
+                "You must enter:\n"
+                " • At least one league\n"
+                " • Or reference to you favourite teams (<em>fteams/ft/favourite_teams</em>) "
+                "or leagues (<em>fleagues/fl/favourite_leagues</em>)"
+            )
 
     def today_games(self) -> Tuple[str, str]:
         today_games_fixtures = (
