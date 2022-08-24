@@ -20,6 +20,7 @@ from src.utils.date_utils import (
     is_time_between,
     is_time_in_surrounding_hours,
 )
+from src.utils.db_utils import remove_duplicate_fixtures
 
 logger = get_logger(__name__)
 
@@ -109,15 +110,14 @@ class FixturesDBManager:
                         league_statement
                     )
             elif len(teams):
+                fixtures = []
                 for team in teams:
                     team_statement = statement.where(
                         or_(DBFixture.home_team == team, DBFixture.away_team == team)
                     )
-                    fixtures = self._notifier_db_manager.select_records(team_statement)
-                    for fixture in fixtures:
-                        # Avoid inserting duplicated fixtures if any of the passed teams are playing against each other.
-                        if fixture.id not in [sf.id for sf in surrounding_fixtures]:
-                            surrounding_fixtures.append(fixture)
+                    fixtures += self._notifier_db_manager.select_records(team_statement)
+
+                surrounding_fixtures = remove_duplicate_fixtures(fixtures)
             else:
                 surrounding_fixtures += self._notifier_db_manager.select_records(
                     statement

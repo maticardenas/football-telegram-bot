@@ -41,16 +41,6 @@ def get_team_aliases(team_id: str) -> list:
     return TEAMS_ALIASES.get(team_id, [])
 
 
-def get_champions_league_fixtures(
-    all_team_fixtures: Dict[str, Any]
-) -> List[Dict[str, str]]:
-    return [
-        fixture
-        for fixture in all_team_fixtures["response"]
-        if fixture["league"]["id"] == 2
-    ]
-
-
 def date_diff(date: str) -> datetime:
     return datetime.strptime(date[:-6], "%Y-%m-%dT%H:%M:%S") - datetime.utcnow()
 

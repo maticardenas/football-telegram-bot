@@ -8,6 +8,7 @@ from src.db.notif_sql_models import Team as DBTeam
 from src.emojis import Emojis
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
+from src.utils.db_utils import remove_duplicate_fixtures
 from src.utils.fixtures_utils import convert_db_fixture, get_head_to_heads
 from src.utils.notification_text_utils import (
     telegram_last_team_or_league_fixture_notification,
@@ -378,9 +379,9 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 )
 
         if len(upcoming_fixtures):
-            converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in upcoming_fixtures
-            ]
+            fixtures = remove_duplicate_fixtures(upcoming_fixtures)
+
+            converted_fixtures = [convert_db_fixture(fixture) for fixture in fixtures]
 
             converted_fixtures.sort(key=lambda fixture: fixture.bsas_date)
             texts = self.get_fixtures_text(converted_fixtures, with_date=True)
