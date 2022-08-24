@@ -113,9 +113,13 @@ class FixturesDBManager:
                     team_statement = statement.where(
                         or_(DBFixture.home_team == team, DBFixture.away_team == team)
                     )
-                    surrounding_fixtures += self._notifier_db_manager.select_records(
+                    fixtures = self._notifier_db_manager.select_records(
                         team_statement
                     )
+                    for fixture in fixtures:
+                        # Avoid inserting duplicated fixtures if any of the passed teams are playing against each other.
+                        if fixture.id not in [sf.id for sf in surrounding_fixtures]:
+                            surrounding_fixtures.append(fixture)
             else:
                 surrounding_fixtures += self._notifier_db_manager.select_records(
                     statement
