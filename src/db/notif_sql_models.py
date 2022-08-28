@@ -80,3 +80,15 @@ class NotifConfig(SQLModel, table=True):
     notif_type: int = Field(foreign_key="notiftype.id", primary_key=True)
     status: bool = True
     time: str = ""
+
+
+class Language(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    short_name: str = Field(primary_key=True)
+    name: str
+
+
+class ConfigLanguage(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    chat_id: str = Field(primary_key=True)
+    language_short_name: str = Field(foreign_key="language.short_name", primary_key=True)

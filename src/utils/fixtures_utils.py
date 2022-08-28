@@ -6,7 +6,6 @@ from urllib.error import HTTPError
 
 from deep_translator import GoogleTranslator
 from sqlmodel import select
-
 from src.api.fixtures_client import FixturesClient
 from src.api.images_search_client import ImagesSearchClient
 from src.api.videos_search_client import VideosSearchClient
