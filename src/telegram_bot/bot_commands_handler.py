@@ -632,20 +632,23 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         self._is_list = is_list
 
     def validate_command_input(self) -> str:
-        if len(self._command_args) < 1 and not self._is_list:
-            response = "You must enter one league"
-        elif len(self._command_args) > 1:
-            response = "You must enter one league"
-        else:
-            league = self._command_args[0]
-            if not self.is_valid_id(league):
-                response = (
-                    "You must enter a valid league id, the command doesn't work with league's names.\n"
-                    "You can get your league's id by its name using /search_league command :)"
-                )
+        response = ""
 
-            if not self.is_available_league(league):
-                response = f"Oops! '{league}' is not available :(\n"
+        if not self._is_list:
+            if len(self._command_args) < 1 and not self._is_list:
+                response = "You must enter one league"
+            elif len(self._command_args) > 1:
+                response = "You must enter one league"
+            else:
+                league = self._command_args[0]
+                if not self.is_valid_id(league):
+                    response = (
+                        "You must enter a valid league id, the command doesn't work with league's names.\n"
+                        "You can get your league's id by its name using /search_league command :)"
+                    )
+
+                if not self.is_available_league(league):
+                    response = f"Oops! '{league}' is not available :(\n"
         return response
 
     def get_favourite_leagues(self) -> str:
