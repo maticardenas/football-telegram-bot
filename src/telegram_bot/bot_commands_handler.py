@@ -1,6 +1,6 @@
 import random
 from datetime import datetime
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import Fixture
@@ -106,6 +106,13 @@ class NotifierBotCommandsHandler:
             )
             for fitting_fixtures in all_fitting_fixtures
         ]
+
+    def is_valid_id(self, id: Any) -> bool:
+        try:
+            int_id = int(id)
+            return True
+        except:
+            return False
 
 
 class SurroundingMatchesHandler(NotifierBotCommandsHandler):
@@ -308,8 +315,11 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 )
             else:
                 self._team = self._command_args[0].lower()
-                if not self.is_available_team(self._team):
-                    response = f"Oops! '{self._team}' is not available :("
+                if not self.is_valid_id(self._team):
+                    response = (
+                        "You must enter a valid team id, the command doesn't work with team's name.\n"
+                        "You can get your team's id by its name using /search_team command :)"
+                    )
 
         return response
 
@@ -447,6 +457,12 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             response = "You must enter only one tournament."
         else:
             league = self._command_args[0]
+            if not self.is_valid_id(league):
+                response = (
+                    "You must enter a valid league id, the command doesn't work with league's names.\n"
+                    "You can get your league's id by its name using /search_league command :)"
+                )
+
             if not self.is_available_league(league):
                 response = f"Oops! '{league}' is not available :(\n"
 
@@ -546,12 +562,17 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
         self._is_list = is_list
 
     def validate_command_input(self) -> str:
+        response = ""
         if len(self._command_args) < 1 and not self._is_list:
             response = "You must enter one team"
         elif len(self._command_args) > 1:
             response = "You must enter one team"
         else:
-            response = ""
+            if not self.is_valid_id(self._command_args[0]):
+                response = (
+                    "You must enter a valid team id, the command doesn't work with team's name.\n"
+                    "You can get your team's id by its name using /search_team command :)"
+                )
 
         return response
 
@@ -616,8 +637,15 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         elif len(self._command_args) > 1:
             response = "You must enter one league"
         else:
-            response = ""
+            league = self._command_args[0]
+            if not self.is_valid_id(league):
+                response = (
+                    "You must enter a valid league id, the command doesn't work with league's names.\n"
+                    "You can get your league's id by its name using /search_league command :)"
+                )
 
+            if not self.is_available_league(league):
+                response = f"Oops! '{league}' is not available :(\n"
         return response
 
     def get_favourite_leagues(self) -> str:
