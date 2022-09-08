@@ -563,16 +563,18 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
 
     def validate_command_input(self) -> str:
         response = ""
-        if len(self._command_args) < 1 and not self._is_list:
-            response = "You must enter one team"
-        elif len(self._command_args) > 1:
-            response = "You must enter one team"
-        else:
-            if not self.is_valid_id(self._command_args[0]):
-                response = (
-                    "You must enter a valid team id, the command doesn't work with team's name.\n"
-                    "You can get your team's id by its name using /search_team command :)"
-                )
+
+        if not self._is_list:
+            if len(self._command_args) < 1 and not self._is_list:
+                response = "You must enter one team"
+            elif len(self._command_args) > 1:
+                response = "You must enter one team"
+            else:
+                if not self.is_valid_id(self._command_args[0]):
+                    response = (
+                        "You must enter a valid team id, the command doesn't work with team's name.\n"
+                        "You can get your team's id by its name using /search_team command :)"
+                    )
 
         return response
 
