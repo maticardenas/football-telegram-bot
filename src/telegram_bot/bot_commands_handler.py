@@ -410,7 +410,22 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
 
     def last_matches(self) -> Tuple[str, str]:
         team_id = self._command_args[0]
-        team = self._fixtures_db_manager.get_team(team_id)[0]
+
+        if not self.is_valid_id(team_id):
+            return (
+                [
+                    (
+                        "You must enter a valid team id, the command doesn't work with team's name.\n"
+                        "You can get your team's id by its name using /search_team command :)"
+                    )
+                ],
+                "",
+            )
+
+        try:
+            team = self._fixtures_db_manager.get_team(team_id)[0]
+        except IndexError:
+            return (["No team was found for the given id."], "")
 
         last_team_fixtures = self._fixtures_db_manager.get_last_fixture(
             team_id=team_id, number_of_fixtures=5
@@ -470,7 +485,11 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
     def next_match_league_notif(self) -> Tuple[str, str]:
         league_id = self._command_args[0]
-        league = self._fixtures_db_manager.get_league(league_id)[0]
+
+        try:
+            league = self._fixtures_db_manager.get_league(league_id)[0]
+        except IndexError:
+            return ("No league was found for the given id.", "")
 
         next_league_db_fixture = self._fixtures_db_manager.get_next_fixture(
             league_id=league.id
@@ -494,7 +513,11 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
     def last_match_league_notif(self) -> Tuple[str, str]:
         league_id = self._command_args[0]
-        league = self._fixtures_db_manager.get_league(league_id)[0]
+
+        try:
+            league = self._fixtures_db_manager.get_league(league_id)[0]
+        except IndexError:
+            return ("No league was found for the given id.", "")
 
         last_league_db_fixture = self._fixtures_db_manager.get_last_fixture(
             league_id=league.id
