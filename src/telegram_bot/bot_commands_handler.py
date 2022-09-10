@@ -269,7 +269,7 @@ class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
 
         if found_leagues:
             found_teams_texts = [
-                f"<strong>{league.id}</strong> - {league.name}"
+                f"<strong>{league.id}</strong> - {league.name} ({league.country[:3].upper()})"
                 for league in found_leagues
             ]
             response = "\n".join(found_teams_texts)
