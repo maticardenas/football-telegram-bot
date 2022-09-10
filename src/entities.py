@@ -4,19 +4,11 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional
 
+from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from src.emojis import Emojis
-
-NOT_PLAYED_OR_FINISHED_MATCH_STATUSES = [
-    "Match Abandoned",
-    "Match Suspended",
-    "Match Postponed",
-    "Technical loss",
-    "Walkover",
-    "Match Cancelled",
-    "Match Interrupted",
-]
 
 
 @dataclass
@@ -256,10 +248,8 @@ class Fixture:
                 )
         else:
             not_played_or_finished_match_text = (
-                f"\n{Emojis.MAN_RUNNING.value} {self.match_status}"
-                if self.match_status
-                in NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
-                in self.match_status.lower()
+                f"{Emojis.CROSS_MARK.value} {self.match_status}"
+                if self.match_status in NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
                 else ""
             )
 
