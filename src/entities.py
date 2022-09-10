@@ -8,6 +8,16 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from src.emojis import Emojis
 
+NOT_PLAYED_OR_FINISHED_MATCH_STATUSES = [
+    "Match Abandoned",
+    "Match Suspended",
+    "Match Postponed",
+    "Technical loss",
+    "Walkover",
+    "Match Cancelled",
+    "Match Interrupted",
+]
+
 
 @dataclass
 class MatchScore:
@@ -245,12 +255,25 @@ class Fixture:
                     f"{Emojis.SAD_FACE.value} {self.match_status}"
                 )
         else:
+            not_played_or_finished_match_text = (
+                f"\n{Emojis.MAN_RUNNING.value} {self.match_status}"
+                if self.match_status
+                in NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
+                in self.match_status.lower()
+                else ""
+            )
+
+            info_text = (
+                f"{Emojis.ALARM_CLOCK.value} {self.time_telegram_text()}"
+                if not not_played_or_finished_match_text
+                else not_played_or_finished_match_text
+            )
             repr = (
                 f"{date_text}"
                 f"{Emojis.SOCCER_BALL.value} "
                 f"{self.home_team.name} vs. {self.away_team.name} \n"
                 f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})\n"
-                f"{Emojis.ALARM_CLOCK.value} {self.time_telegram_text()}"
+                f"{info_text}"
             )
 
         return repr
