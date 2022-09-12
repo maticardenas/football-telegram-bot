@@ -6,6 +6,7 @@ from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import Fixture
 from src.db.notif_sql_models import Team as DBTeam
 from src.emojis import Emojis
+from src.notifier_constants import TELEGRAM_MSG_LENGTH_LIMIT
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
 from src.utils.db_utils import remove_duplicate_fixtures
@@ -16,8 +17,6 @@ from src.utils.notification_text_utils import (
 )
 
 logger = get_logger(__name__)
-
-MESSAGE_TEXT_LIMIT = 3500
 
 
 class NotifierBotCommandsHandler:
@@ -50,7 +49,7 @@ class NotifierBotCommandsHandler:
         current_text = ""
 
         for text in list_of_texts:
-            if len(f"{current_text}{separator}{text}") > MESSAGE_TEXT_LIMIT:
+            if len(f"{current_text}{separator}{text}") > TELEGRAM_MSG_LENGTH_LIMIT:
                 fitting_texts.append(current_fitting_texts)
                 current_text = ""
                 current_fitting_texts = []
@@ -84,7 +83,7 @@ class NotifierBotCommandsHandler:
         for fixture in converted_fixtures:
             fixture_text = fixture.one_line_telegram_repr(played, with_date)
 
-            if len(f"{fixtures_text}\n\n{fixture_text}") > MESSAGE_TEXT_LIMIT:
+            if len(f"{fixtures_text}\n\n{fixture_text}") > TELEGRAM_MSG_LENGTH_LIMIT:
                 all_fitting_fixtures.append(current_fitting_fixtures)
                 fixtures_text = ""
                 current_fitting_fixtures = []
