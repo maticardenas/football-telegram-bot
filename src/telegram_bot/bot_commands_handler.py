@@ -556,7 +556,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             match_date = (
                 "TODAY!"
                 if converted_fixtures[0].bsas_date.date() == datetime.today().date()
-                else f"on {Emojis.SPIRAL_CALENDAR.value} {converted_fixtures[0].bsas_date.strftime('%d-%m-%Y')}"
+                else f"on {Emojis.SPIRAL_CALENDAR.value} {converted_fixtures[0].bsas_date.strftime('%A')[:3]}. {converted_fixtures[0].bsas_date.strftime('%d-%m-%Y')}"
             )
 
             telegram_messages = self.get_fixtures_text(converted_fixtures)

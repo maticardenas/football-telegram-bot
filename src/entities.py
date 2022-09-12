@@ -216,7 +216,7 @@ class Fixture:
             played = True
 
         date_text = (
-            f"{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%d-%m-%Y')}\n"
+            f"{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%A')[:3]}. {self.bsas_date.strftime('%d-%m-%Y')}\n"
             if with_date
             else ""
         )

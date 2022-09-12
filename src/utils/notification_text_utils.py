@@ -27,7 +27,7 @@ def telegram_last_team_or_league_fixture_notification(
     match_date = (
         "TODAY!"
         if team_fixture.bsas_date.date() == datetime.today().date()
-        else f"on {Emojis.SPIRAL_CALENDAR.value} {team_fixture.bsas_date.strftime('%d-%m-%Y')}\n"
+        else f"on {Emojis.SPIRAL_CALENDAR.value} {team_fixture.bsas_date.strftime('%A')[:3]}. {team_fixture.bsas_date.strftime('%d-%m-%Y')}\n"
     )
 
     telegram_message = (
@@ -49,7 +49,7 @@ def telegram_next_team_or_league_fixture_notification(
     match_date = (
         "TODAY!"
         if team_fixture.bsas_date.date() == datetime.today().date()
-        else f"on {Emojis.SPIRAL_CALENDAR.value} {team_fixture.bsas_date.strftime('%d-%m-%Y')}\n"
+        else f"on {Emojis.SPIRAL_CALENDAR.value} {team_fixture.bsas_date.strftime('%A')[:3]}. {team_fixture.bsas_date.strftime('%d-%m-%Y')}\n"
     )
 
     telegram_message = (

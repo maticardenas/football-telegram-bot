@@ -436,16 +436,21 @@ async def upcoming_matches(update: Update, context):
         context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
 
-    command_handler.validate_command_input()
+    validated_input = command_handler.validate_command_input()
 
-    texts, photo = command_handler.upcoming_matches()
-
-    for text in texts:
+    if validated_input:
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=text,
-            parse_mode="HTML",
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
         )
+    else:
+        texts, photo = command_handler.upcoming_matches()
+
+        for text in texts:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=text,
+                parse_mode="HTML",
+            )
 
 
 async def last_matches(update: Update, context):
