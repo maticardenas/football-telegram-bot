@@ -18,6 +18,7 @@ from src.notifier_logger import get_logger
 from src.utils.date_utils import (
     get_formatted_date,
     get_time_in_time_zone,
+    get_time_in_time_zone_str,
     is_time_in_surrounding_hours,
 )
 from src.utils.db_utils import remove_duplicate_fixtures
@@ -116,7 +117,9 @@ class FixturesDBManager:
 
         for day in days_range:
             today = datetime.today()
-            tz_today = get_time_in_time_zone(today, time_zone) if time_zone else today
+            tz_today = (
+                get_time_in_time_zone_str(today, time_zone) if time_zone else today
+            )
             surrounding_day = tz_today + timedelta(days=day)
             games_date = surrounding_day.strftime("%Y-%m-%d")
 

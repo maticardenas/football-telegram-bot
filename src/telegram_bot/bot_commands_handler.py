@@ -144,7 +144,11 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             if len(main_time_zone):
                 main_time_zone = main_time_zone[0]
 
-        return main_time_zone
+        return (
+            self._fixtures_db_manager.get_time_zone(main_time_zone.time_zone)[0].name
+            if main_time_zone
+            else ""
+        )
 
     def validate_command_input(self) -> Optional[str]:
         if len(self._command_args):
