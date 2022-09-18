@@ -288,10 +288,15 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
         found_time_zones = self.search_league(time_zone_text)
 
         if found_time_zones:
-            found_time_zones_texts = [
-                f"<strong>{time_zone.id}</strong> - {time_zone.name} {get_emoji_text_by_name(time_zone.name)}"
-                for time_zone in found_time_zones
-            ]
+            found_time_zones_texts = []
+            for time_zone in found_time_zones:
+                emoji_text = (
+                    get_emoji_text_by_name(time_zone.name) if time_zone.emoji else ""
+                )
+                found_time_zones_texts.appen(
+                    f"<strong>{time_zone.id}</strong> - {time_zone.name} {emoji_text}"
+                )
+
             response = "\n".join(found_time_zones_texts)
         else:
             response = f"Oops! There are no time zones available with the search criteria '{time_zone_text}'"
@@ -742,6 +747,86 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
             league = self._fixtures_db_manager.get_league(league_id)[0]
             response = (
                 f"League '{league.name}' was removed from your favourites successfully."
+            )
+        except Exception as e:
+            response = str(e)
+
+        return response
+
+
+class TimeZonesCommandHandler(NotifierBotCommandsHandler):
+    def __init__(
+        self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
+    ):
+        super().__init__()
+        self._command_args = commands_args
+        self._user = user
+        self._chat_id = chat_id
+        self._is_list = is_list
+
+    def validate_command_input(self) -> str:
+        response = ""
+
+        if not self._is_list:
+            if len(self._command_args) < 1 and not self._is_list:
+                response = "You must enter one time zone"
+            elif len(self._command_args) > 1:
+                response = "You must enter one time zone"
+            else:
+                if not self.is_valid_id(self._command_args[0]):
+                    response = (
+                        "You must enter a valid time zone id, the command doesn't work with time zone's name.\n"
+                        "You can get your time zone's id by its name using /search_time_zone command :)"
+                    )
+
+        return response
+
+    def get_my_time_zones(self) -> str:
+        user_time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
+
+        if len(user_time_zones):
+            user_time_zones_texts = []
+            for user_time_zone in user_time_zones:
+                emoji_text = (
+                    f" {get_emoji_text_by_name(user_time_zone.emoji)}"
+                    if user_time_zone.emoji
+                    else ""
+                )
+                user_time_zones_texts.append(
+                    f"<strong>{user_time_zone.id}</strong> - {user_time_zone.name}{emoji_text} {'(main)' if user_time_zone.is_main_tz else ''}"
+                )
+
+            response = "\n".join(user_time_zones_texts)
+        else:
+            response = (
+                f"Oops! It seems you don't have time zones yet. This mean that by default you are using UTC as time zone."
+                f"You can add your main and additional time zones with <strong>/add_time_zone</strong> command."
+            )
+
+        return response
+
+    def add_time_zone(self, main: str = False) -> str:
+        time_zone_id = self._command_args[0]
+
+        try:
+            self._fixtures_db_manager.insert_user_time_zone(time_zone_id, self._chat_id)
+            time_zone = self._fixtures_db_manager.get_time_zone(time_zone_id)[0]
+            main_time_zone_text = " as your main time zone" if main else " time zone"
+            response = (
+                f"You have added '{time_zone.name}'{main_time_zone_text} successfully."
+            )
+        except Exception as e:
+            response = str(e)
+
+        return response
+
+    def delete_time_zone(self) -> str:
+        time_zone_id = self._command_args[0]
+
+        try:
+            self._fixtures_db_manager.delete_user_time_zone(time_zone_id, self._chat_id)
+            response = (
+                f"Time zone was removed from your configured ones successfully."
             )
         except Exception as e:
             response = str(e)

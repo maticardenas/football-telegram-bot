@@ -77,7 +77,18 @@ class FixturesDBManager:
         )
         return self._notifier_db_manager.select_records(teams_statement)
 
-    def get_time_zones_by_name(self, name: str) -> Optional[DBTeam]:
+    def get_time_zone(self, time_zone_id: int) -> Optional[DBTimeZone]:
+        time_zone_statement = select(DBTimeZone).where(DBTimeZone.id == time_zone_id)
+        return self._notifier_db_manager.select_records(time_zone_statement)
+
+    def get_user_time_zones(self, chat_id: str) -> List[Optional[DBTimeZone]]:
+        user_time_zones_statement = select(DBUserTimeZone).where(
+            DBUserTimeZone.chat_id == str(chat_id)
+        )
+
+        return self._notifier_db_manager.select_records(user_time_zones_statement)
+
+    def get_time_zones_by_name(self, name: str) -> Optional[DBTimeZone]:
         teams_statement = select(DBTimeZone).where(
             func.lower(DBTimeZone.name).ilike(f"%{name.lower()}%")
         )
@@ -372,6 +383,62 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(favourite_team_statement)[0]
 
+    def insert_user_time_zone(
+        self, time_zone_id: int, chat_id: str, main: bool = False
+    ) -> DBFavouriteTeam:
+        time_zone = self.get_time_zone(time_zone_id)
+
+        if not len(time_zone):
+            raise Exception(f"Time zone {time_zone} doesn't exist.")
+
+        user_time_zone_statement = select(DBUserTimeZone).where(
+            DBUserTimeZone.time_zone == time_zone_id, DBUserTimeZone.chat_id == chat_id
+        )
+
+        retrieved_user_time_zone = self._notifier_db_manager.select_records(
+            user_time_zone_statement
+        )
+
+        if (
+            len(retrieved_user_time_zone)
+            and retrieved_user_time_zone[0].is_main_tz == main
+        ):
+            raise Exception(f"You already have configured this time zone.")
+
+
+        if main:
+            main_user_time_zones_statement = select(DBUserTimeZone).where(
+                DBUserTimeZone.chat_id == chat_id, DBUserTimeZone.is_main_tz == True
+            )
+
+            user_main_time_zone = self._notifier_db_manager.select_records(
+                main_user_time_zones_statement
+            )
+
+            if len(user_main_time_zone):
+                logger.info(
+                    f"Deleting previously existing main User Time Zone '{user_main_time_zone[0].name}' for chat "
+                    f"{chat_id}"
+                )
+                self._notifier_db_manager.delete_record(user_main_time_zone[0])
+
+            if len(retrieved_user_time_zone):
+                logger.info(
+                    f"Deleting previously existing main User Time Zone '{retrieved_user_time_zone[0].name}' for chat "
+                    f"{chat_id}"
+                )
+                self._notifier_db_manager.delete_record(retrieved_user_time_zone[0])
+
+
+        logger.info(f"Inserting User Time Zone {time_zone_id} for chat {chat_id}")
+        db_user_time_zone = DBUserTimeZone(
+            time_zone=time_zone_id, chat_id=chat_id, main=main
+        )
+
+        self._notifier_db_manager.insert_record(db_user_time_zone)
+
+        return self._notifier_db_manager.select_records(user_time_zone_statement)[0]
+
     def insert_team(self, fixture_team: Team) -> DBTeam:
         team_statement = select(DBTeam).where(DBTeam.id == fixture_team.id)
         retrieved_team = self._notifier_db_manager.select_records(team_statement)
@@ -458,6 +525,22 @@ class FixturesDBManager:
             db_fixtures.append(db_fixture)
 
         self._notifier_db_manager.insert_records(db_fixtures)
+
+    def delete_user_time_zone(self, team_id: int, chat_id: str) -> None:
+        time_zone_statement = select(DBUserTimeZone).where(
+            DBUserTimeZone.chat_id == chat_id, DBUserTimeZone.team == team_id
+        )
+
+        user_time_zone = self._notifier_db_manager.select_records(
+            time_zone_statement
+        )
+
+        if not len(user_time_zone):
+            raise Exception(f"You don't have that time zone configured.")
+
+        logger.info(f"Removing User Time Zone '{user_time_zone[0].name}' for chat {chat_id}")
+
+        self._notifier_db_manager.delete_record(user_time_zone[0])
 
     def delete_favourite_team(self, team_id: int, chat_id: str) -> None:
         favourite_team_statement = select(DBFavouriteTeam).where(
