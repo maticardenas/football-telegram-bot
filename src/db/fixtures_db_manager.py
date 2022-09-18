@@ -81,7 +81,7 @@ class FixturesDBManager:
         time_zone_statement = select(DBTimeZone).where(DBTimeZone.id == time_zone_id)
         return self._notifier_db_manager.select_records(time_zone_statement)
 
-    def get_user_time_zones(self, chat_id: str) -> List[Optional[DBTimeZone]]:
+    def get_user_time_zones(self, chat_id: str) -> List[Optional[DBUserTimeZone]]:
         user_time_zones_statement = select(DBUserTimeZone).where(
             DBUserTimeZone.chat_id == str(chat_id)
         )
@@ -385,7 +385,7 @@ class FixturesDBManager:
 
     def insert_user_time_zone(
         self, time_zone_id: int, chat_id: str, main: bool = False
-    ) -> DBFavouriteTeam:
+    ) -> DBUserTimeZone:
         time_zone = self.get_time_zone(time_zone_id)
 
         if not len(time_zone):
@@ -399,12 +399,11 @@ class FixturesDBManager:
             user_time_zone_statement
         )
 
-        if (
-            len(retrieved_user_time_zone)
-            and retrieved_user_time_zone[0].is_main_tz == main
-        ):
-            raise Exception(f"You already have configured this time zone.")
-
+        if len(retrieved_user_time_zone):
+            if retrieved_user_time_zone[0].is_main_tz == main or (
+                retrieved_user_time_zone[0].is_main_tz == True and main == False
+            ):
+                raise Exception(f"You already have configured this time zone.")
 
         if main:
             main_user_time_zones_statement = select(DBUserTimeZone).where(
@@ -417,22 +416,21 @@ class FixturesDBManager:
 
             if len(user_main_time_zone):
                 logger.info(
-                    f"Deleting previously existing main User Time Zone '{user_main_time_zone[0].name}' for chat "
+                    f"Deleting previously existing main User Time Zone '{user_main_time_zone[0].time_zone}' for chat "
                     f"{chat_id}"
                 )
                 self._notifier_db_manager.delete_record(user_main_time_zone[0])
 
             if len(retrieved_user_time_zone):
                 logger.info(
-                    f"Deleting previously existing main User Time Zone '{retrieved_user_time_zone[0].name}' for chat "
+                    f"Deleting previously existing main User Time Zone '{retrieved_user_time_zone[0].time_zone}' for chat "
                     f"{chat_id}"
                 )
                 self._notifier_db_manager.delete_record(retrieved_user_time_zone[0])
 
-
         logger.info(f"Inserting User Time Zone {time_zone_id} for chat {chat_id}")
         db_user_time_zone = DBUserTimeZone(
-            time_zone=time_zone_id, chat_id=chat_id, main=main
+            time_zone=time_zone_id, chat_id=chat_id, is_main_tz=main
         )
 
         self._notifier_db_manager.insert_record(db_user_time_zone)
@@ -526,19 +524,19 @@ class FixturesDBManager:
 
         self._notifier_db_manager.insert_records(db_fixtures)
 
-    def delete_user_time_zone(self, team_id: int, chat_id: str) -> None:
+    def delete_user_time_zone(self, time_zone_id: int, chat_id: str) -> None:
         time_zone_statement = select(DBUserTimeZone).where(
-            DBUserTimeZone.chat_id == chat_id, DBUserTimeZone.team == team_id
+            DBUserTimeZone.chat_id == chat_id, DBUserTimeZone.time_zone == time_zone_id
         )
 
-        user_time_zone = self._notifier_db_manager.select_records(
-            time_zone_statement
-        )
+        user_time_zone = self._notifier_db_manager.select_records(time_zone_statement)
 
         if not len(user_time_zone):
             raise Exception(f"You don't have that time zone configured.")
 
-        logger.info(f"Removing User Time Zone '{user_time_zone[0].name}' for chat {chat_id}")
+        logger.info(
+            f"Removing User Time Zone '{user_time_zone[0].time_zone}' for chat {chat_id}"
+        )
 
         self._notifier_db_manager.delete_record(user_time_zone[0])
 

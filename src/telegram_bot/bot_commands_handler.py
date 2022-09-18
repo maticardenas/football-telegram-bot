@@ -285,7 +285,7 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
     def search_time_zone_notif(self) -> str:
         time_zone_text = " ".join(self._command_args)
 
-        found_time_zones = self.search_league(time_zone_text)
+        found_time_zones = self.search_time_zone(time_zone_text)
 
         if found_time_zones:
             found_time_zones_texts = []
@@ -293,7 +293,7 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
                 emoji_text = (
                     get_emoji_text_by_name(time_zone.name) if time_zone.emoji else ""
                 )
-                found_time_zones_texts.appen(
+                found_time_zones_texts.append(
                     f"<strong>{time_zone.id}</strong> - {time_zone.name} {emoji_text}"
                 )
 
@@ -787,20 +787,24 @@ class TimeZonesCommandHandler(NotifierBotCommandsHandler):
         if len(user_time_zones):
             user_time_zones_texts = []
             for user_time_zone in user_time_zones:
+                time_zone = self._fixtures_db_manager.get_time_zone(
+                    user_time_zone.time_zone
+                )[0]
                 emoji_text = (
-                    f" {get_emoji_text_by_name(user_time_zone.emoji)}"
-                    if user_time_zone.emoji
+                    f" {get_emoji_text_by_name(time_zone.emoji)}"
+                    if time_zone.emoji
                     else ""
                 )
                 user_time_zones_texts.append(
-                    f"<strong>{user_time_zone.id}</strong> - {user_time_zone.name}{emoji_text} {'(main)' if user_time_zone.is_main_tz else ''}"
+                    f"<strong>{time_zone.id}</strong> - {time_zone.name}{emoji_text} {'(main)' if user_time_zone.is_main_tz else ''}"
                 )
 
             response = "\n".join(user_time_zones_texts)
         else:
             response = (
                 f"Oops! It seems you don't have time zones yet. This mean that by default you are using UTC as time zone."
-                f"You can add your main and additional time zones with <strong>/add_time_zone</strong> command."
+                f"\nYou can add your main and additional time zones with <strong>/set_main_time_zone</strong> and "
+                f"<strong>/set_add_time_zone</strong> commands."
             )
 
         return response
@@ -809,7 +813,9 @@ class TimeZonesCommandHandler(NotifierBotCommandsHandler):
         time_zone_id = self._command_args[0]
 
         try:
-            self._fixtures_db_manager.insert_user_time_zone(time_zone_id, self._chat_id)
+            self._fixtures_db_manager.insert_user_time_zone(
+                time_zone_id, self._chat_id, main=main
+            )
             time_zone = self._fixtures_db_manager.get_time_zone(time_zone_id)[0]
             main_time_zone_text = " as your main time zone" if main else " time zone"
             response = (
@@ -825,9 +831,7 @@ class TimeZonesCommandHandler(NotifierBotCommandsHandler):
 
         try:
             self._fixtures_db_manager.delete_user_time_zone(time_zone_id, self._chat_id)
-            response = (
-                f"Time zone was removed from your configured ones successfully."
-            )
+            response = f"Time zone was removed from your configured ones successfully."
         except Exception as e:
             response = str(e)
 
