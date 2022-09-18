@@ -10,7 +10,7 @@ from src.telegram_bot.bot_commands_handler import (
     NextAndLastMatchCommandHandler,
     NextAndLastMatchLeagueCommandHandler,
     NotifierBotCommandsHandler,
-    SearchTeamLeagueCommandHandler,
+    SearchCommandHandler,
     SurroundingMatchesHandler,
 )
 from src.telegram_bot.bot_constants import MESSI_PHOTO
@@ -233,7 +233,7 @@ async def search_team(update: Update, context):
     logger.info(
         f"'search_team {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
-    command_handler = SearchTeamLeagueCommandHandler(
+    command_handler = SearchCommandHandler(
         context.args, update.effective_user.first_name
     )
     validated_input = command_handler.validate_command_input()
@@ -254,7 +254,7 @@ async def search_league(update: Update, context):
     logger.info(
         f"'search_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
-    command_handler = SearchTeamLeagueCommandHandler(
+    command_handler = SearchCommandHandler(
         context.args, update.effective_user.first_name
     )
     validated_input = command_handler.validate_command_input()

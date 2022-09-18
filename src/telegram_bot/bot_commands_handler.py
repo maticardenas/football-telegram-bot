@@ -4,8 +4,10 @@ from typing import Any, List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import Fixture
+from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
-from src.emojis import Emojis
+from src.db.notif_sql_models import TimeZone as DBTimeZone
+from src.emojis import Emojis, get_emoji_text_by_name
 from src.notifier_constants import TELEGRAM_MSG_LENGTH_LIMIT
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
@@ -26,8 +28,11 @@ class NotifierBotCommandsHandler:
     def search_team(self, team_text: str) -> Optional[DBTeam]:
         return self._fixtures_db_manager.get_teams_by_name(team_text)
 
-    def search_league(self, league_text: str) -> Optional[DBTeam]:
+    def search_league(self, league_text: str) -> Optional[DBLeague]:
         return self._fixtures_db_manager.get_leagues_by_name(league_text)
+
+    def search_time_zone(self, time_zone_text: str) -> Optional[DBTeam]:
+        return self._fixtures_db_manager.get_time_zones_by_name(time_zone_text)
 
     def is_available_team(self, team_id: int) -> bool:
         team = self._fixtures_db_manager.get_team(team_id)
@@ -227,7 +232,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
         return (texts, photo)
 
 
-class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
+class SearchCommandHandler(NotifierBotCommandsHandler):
     def __init__(self, commands_args: List[str], user: str):
         super().__init__()
         self._command_args = commands_args
@@ -274,6 +279,22 @@ class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
             response = "\n".join(found_teams_texts)
         else:
             response = f"Oops! There are no tournaments available with the search criteria '{league}'"
+
+        return response
+
+    def search_time_zone_notif(self) -> str:
+        time_zone_text = " ".join(self._command_args)
+
+        found_time_zones = self.search_league(time_zone_text)
+
+        if found_time_zones:
+            found_time_zones_texts = [
+                f"<strong>{time_zone.id}</strong> - {time_zone.name} {get_emoji_text_by_name(time_zone.name)}"
+                for time_zone in found_time_zones
+            ]
+            response = "\n".join(found_time_zones_texts)
+        else:
+            response = f"Oops! There are no time zones available with the search criteria '{time_zone_text}'"
 
         return response
 

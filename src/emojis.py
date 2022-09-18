@@ -3,6 +3,10 @@ from enum import Enum
 import emoji
 
 
+def get_emoji_text_by_name(name: str) -> str:
+    return emoji.emojize(f":{name}:", use_aliases=True)
+
+
 class Emojis(Enum):
     FRANCE = emoji.emojize(":France:", use_aliases=True)
     ARGENTINA = emoji.emojize(":Argentina:", use_aliases=True)
