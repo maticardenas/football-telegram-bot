@@ -16,10 +16,8 @@ from src.db.notif_sql_models import UserTimeZone as DBUserTimeZone
 from src.entities import Championship, FixtureForDB, Team
 from src.notifier_logger import get_logger
 from src.utils.date_utils import (
-    TimeZones,
     get_formatted_date,
     get_time_in_time_zone,
-    is_time_between,
     is_time_in_surrounding_hours,
 )
 from src.utils.db_utils import remove_duplicate_fixtures
@@ -101,7 +99,11 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(teams_statement)
 
     def get_games_in_surrounding_n_days(
-        self, days: int, leagues: List[int] = [], teams: List[int] = []
+        self,
+        days: int,
+        leagues: List[int] = [],
+        teams: List[int] = [],
+        time_zone: str = "",
     ) -> List[Optional[DBFixture]]:
         surrounding_fixtures = []
 
@@ -114,13 +116,11 @@ class FixturesDBManager:
 
         for day in days_range:
             today = datetime.today()
-            bsas_today = get_time_in_time_zone(today, TimeZones.BSAS)
-            surrounding_day = bsas_today + timedelta(days=day)
+            tz_today = get_time_in_time_zone(today, time_zone) if time_zone else today
+            surrounding_day = tz_today + timedelta(days=day)
             games_date = surrounding_day.strftime("%Y-%m-%d")
 
-            statement = select(DBFixture).where(
-                DBFixture.bsas_date.contains(games_date)
-            )
+            statement = select(DBFixture).where(DBFixture.utc_date.contains(games_date))
 
             if len(leagues):
                 for league in leagues:
@@ -142,7 +142,7 @@ class FixturesDBManager:
                     statement
                 )
 
-        surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
+        surrounding_fixtures.sort(key=lambda fixture: fixture.utc_date)
 
         return surrounding_fixtures
 
@@ -178,7 +178,7 @@ class FixturesDBManager:
                     DBFixture.away_team == team_id,
                 )
             )
-            .order_by(asc(DBFixture.bsas_date))
+            .order_by(asc(DBFixture.utc_date))
         )
 
         return self._notifier_db_manager.select_records(fixtures_statement)
@@ -190,10 +190,10 @@ class FixturesDBManager:
 
         if date:
             fixtures_statement = fixtures_statement.where(
-                DBFixture.bsas_date.contains(date)
+                DBFixture.utc_date.contains(date)
             )
 
-        fixtures_statement = fixtures_statement.order_by(asc(DBFixture.bsas_date))
+        fixtures_statement = fixtures_statement.order_by(asc(DBFixture.utc_date))
 
         return self._notifier_db_manager.select_records(fixtures_statement)
 

@@ -4,11 +4,13 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional
 
+from src.db.notif_sql_models import TimeZone
 from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
+from src.utils.date_utils import get_time_in_time_zone_str
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from src.emojis import Emojis
+from src.emojis import Emojis, get_emoji_text_by_name
 
 
 @dataclass
@@ -141,6 +143,7 @@ class Fixture:
     away_team: Team
     match_score: MatchScore
     venue: str
+    user_time_zones: List[TimeZone]
     line_up: Optional[LineUp] = field(init=False)
     is_next_day: str = field(init=False)
     highlights: List[str] = field(init=False)
@@ -206,6 +209,27 @@ class Fixture:
 
         return h2h_text
 
+    def fixtures_times_text(self, one_line: bool = False) -> str:
+        fixtures_texts = []
+        separator = "\n" if not one_line else " / "
+
+        if self.user_time_zones:
+            for time_zone in self.user_time_zones:
+                emoji_text = (
+                    get_emoji_text_by_name(time_zone.emoji)
+                    if time_zone.emoji
+                    else time_zone.name
+                )
+                date_in_time_zone = get_time_in_time_zone_str(
+                    self.utc_date, time_zone.name
+                )
+                time_text = f"{str(date_in_time_zone)[11:16]} HS"
+                fixtures_texts.append(f"{emoji_text} {time_text}")
+        else:
+            fixtures_texts = [f"{str(self.utc_date)[11:16]} HS (UTC)"]
+
+        return separator.join(fixtures_texts)
+
     def one_line_telegram_repr(
         self, played: bool = False, with_date: bool = False
     ) -> str:
@@ -216,7 +240,7 @@ class Fixture:
             played = True
 
         date_text = (
-            f"{Emojis.SPIRAL_CALENDAR.value} {self.bsas_date.strftime('%A')[:3]}. {self.bsas_date.strftime('%d-%m-%Y')}\n"
+            f"{Emojis.SPIRAL_CALENDAR.value} {self.utc_date.strftime('%A')[:3]}. {self.utc_date.strftime('%d-%m-%Y')}\n"
             if with_date
             else ""
         )
@@ -254,7 +278,7 @@ class Fixture:
             )
 
             info_text = (
-                f"{Emojis.ALARM_CLOCK.value} {self.time_telegram_text()}"
+                f"{Emojis.ALARM_CLOCK.value} {self.fixtures_times_text(one_line=True)}"
                 if not not_played_or_finished_match_text
                 else not_played_or_finished_match_text
             )
@@ -294,8 +318,7 @@ class Fixture:
         )
 
         telegram_like_text = (
-            f"{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}</strong>\n"
-            f"{Emojis.ARGENTINA.value} <strong>{str(self.bsas_date)[11:16]} HS</strong>\n\n"
+            f"{self.fixtures_times_text()}\n\n"
             f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game.\n\n"
             f"{Emojis.SOCCER_BALL.value} "
             f"<strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"

@@ -127,6 +127,24 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
         self._leagues = []
         self._user = user
         self._chat_id = chat_id
+        self._user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+            self._chat_id
+        )
+        self._user_main_time_zone = self._get_user_main_time_zone()
+
+    def _get_user_main_time_zone(self) -> str:
+        time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
+        main_time_zone = ""
+
+        if len(time_zones):
+            main_time_zone = [
+                time_zone for time_zone in time_zones if time_zone.is_main_tz
+            ]
+
+            if len(main_time_zone):
+                main_time_zone = main_time_zone[0]
+
+        return main_time_zone
 
     def validate_command_input(self) -> Optional[str]:
         if len(self._command_args):
@@ -159,13 +177,17 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def today_games(self) -> Tuple[str, str]:
         today_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                0, leagues=self._leagues, teams=self._teams
+                0,
+                leagues=self._leagues,
+                teams=self._teams,
+                time_zone=self._user_main_time_zone,
             )
         )
 
         if len(today_games_fixtures):
             converted_games = [
-                convert_db_fixture(fixture) for fixture in today_games_fixtures
+                convert_db_fixture(fixture, self._user_time_zones)
+                for fixture in today_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_games)
             leagues = [fixture.championship for fixture in converted_games]
@@ -184,13 +206,17 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def yesterday_games(self) -> Tuple[str, str]:
         played_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                -1, leagues=self._leagues, teams=self._teams
+                -1,
+                leagues=self._leagues,
+                teams=self._teams,
+                time_zone=self._user_main_time_zone,
             )
         )
 
         if len(played_games_fixtures):
             converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in played_games_fixtures
+                convert_db_fixture(fixture, self._user_time_zones)
+                for fixture in played_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_fixtures, played=True)
             leagues = [fixture.championship for fixture in converted_fixtures]
@@ -209,13 +235,17 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def tomorrow_games(self) -> Tuple[str, str]:
         tomorrow_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                1, leagues=self._leagues, teams=self._teams
+                1,
+                leagues=self._leagues,
+                teams=self._teams,
+                time_zone=self._user_main_time_zone,
             )
         )
 
         if len(tomorrow_games_fixtures):
             converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in tomorrow_games_fixtures
+                convert_db_fixture(fixture, self._user_time_zones)
+                for fixture in tomorrow_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_fixtures)
             leagues = [fixture.championship for fixture in converted_fixtures]
@@ -291,7 +321,7 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
             found_time_zones_texts = []
             for time_zone in found_time_zones:
                 emoji_text = (
-                    get_emoji_text_by_name(time_zone.name) if time_zone.emoji else ""
+                    get_emoji_text_by_name(time_zone.emoji) if time_zone.emoji else ""
                 )
                 found_time_zones_texts.append(
                     f"<strong>{time_zone.id}</strong> - {time_zone.name} {emoji_text}"
@@ -359,7 +389,12 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         converted_fixture = None
 
         if len(next_team_db_fixture):
-            converted_fixture = convert_db_fixture(next_team_db_fixture[0])
+            user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+                self._chat_id
+            )
+            converted_fixture = convert_db_fixture(
+                next_team_db_fixture[0], user_time_zones=user_time_zones
+            )
             converted_fixture.head_to_head = get_head_to_heads(
                 converted_fixture.home_team.id, converted_fixture.away_team.id
             )
@@ -383,7 +418,12 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         converted_fixture = None
 
         if len(last_team_db_fixture):
-            converted_fixture = convert_db_fixture(last_team_db_fixture[0])
+            user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+                self._chat_id
+            )
+            converted_fixture = convert_db_fixture(
+                last_team_db_fixture[0], user_time_zones=user_time_zones
+            )
 
         return (
             telegram_last_team_or_league_fixture_notification(
@@ -414,9 +454,15 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 )
 
         if len(upcoming_fixtures):
+            user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+                self._chat_id
+            )
+
             fixtures = remove_duplicate_fixtures(upcoming_fixtures)
 
-            converted_fixtures = [convert_db_fixture(fixture) for fixture in fixtures]
+            converted_fixtures = [
+                convert_db_fixture(fixture, user_time_zones) for fixture in fixtures
+            ]
 
             converted_fixtures.sort(key=lambda fixture: fixture.bsas_date)
             texts = self.get_fixtures_text(converted_fixtures, with_date=True)
@@ -457,8 +503,12 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         )
 
         if len(last_team_fixtures):
+            user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+                self._chat_id
+            )
             converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in last_team_fixtures
+                convert_db_fixture(fixture, user_time_zones)
+                for fixture in last_team_fixtures
             ]
             introductory_text = (
                 f"{Emojis.WAVING_HAND.value} Hi {self._user}, "

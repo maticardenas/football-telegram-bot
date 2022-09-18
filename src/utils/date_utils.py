@@ -20,12 +20,34 @@ MONTHS = [
     "Noviembre",
     "Diciembre",
 ]
-# DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+
+DAYS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+
+MONTHS = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+]
 
 
 class TimeZones(Enum):
     AMSTERDAM = "Europe/Amsterdam"
     BSAS = "America/Argentina/Buenos_Aires"
+
+
+def get_time_in_time_zone_str(utc_date: datetime, time_zone: str) -> datetime:
+    required_tz = pytz.timezone(time_zone)
+    required_tz_dt = utc_date.replace(tzinfo=pytz.utc).astimezone(required_tz)
+    return required_tz.normalize(required_tz_dt)
 
 
 def get_time_in_time_zone(utc_date: datetime, time_zone: TimeZones) -> datetime:

@@ -16,6 +16,7 @@ from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import Fixture as DBFixture
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
+from src.db.notif_sql_models import TimeZone
 from src.entities import (
     Championship,
     Fixture,
@@ -198,7 +199,9 @@ def get_last_fixture(
     )
 
 
-def convert_db_fixture(fixture: DBFixture) -> Fixture:
+def convert_db_fixture(
+    fixture: DBFixture, user_time_zones: Optional[List[TimeZone]] = []
+) -> Fixture:
     """
     Converts a fixture from database into a Fixture entity for notifying.
     """
@@ -208,6 +211,10 @@ def convert_db_fixture(fixture: DBFixture) -> Fixture:
 
     # league_name, round_name = __get_translated_league_name_and_round(fixture)
     notifier_db_manager = NotifierDBManager()
+    time_zones = [
+        FIXTURES_DB_MANAGER.get_time_zone(user_time_zone.time_zone)[0]
+        for user_time_zone in user_time_zones
+    ]
 
     league: DBLeague = notifier_db_manager.select_records(
         select(DBLeague).where(DBLeague.id == fixture.league)
@@ -248,6 +255,7 @@ def convert_db_fixture(fixture: DBFixture) -> Fixture:
         ),
         MatchScore(fixture.home_score, fixture.away_score),
         fixture.venue,
+        user_time_zones=time_zones,
     )
 
 
