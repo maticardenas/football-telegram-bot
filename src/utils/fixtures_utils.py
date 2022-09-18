@@ -303,6 +303,7 @@ def convert_fixture_response(
             fixture_response["goals"]["home"], fixture_response["goals"]["away"]
         ),
         f"{fixture_response['fixture'].get('venue').get('name')} ({fixture_response['fixture'].get('venue').get('city')})",
+        []
         # get_line_up(fixture_response["fixture"]["id"], team_id),
     )
 
