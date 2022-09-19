@@ -21,20 +21,42 @@ logger = get_logger(__name__)
 
 async def start(update: Update, context):
     logger.info(f"'start' command executed - by {update.effective_user.name}")
-    await context.bot.send_photo(
+    await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        photo=MESSI_PHOTO,
-        caption=f"{Emojis.WAVING_HAND.value} Hi {update.effective_user.first_name}, I'm FootballNotifier!\n\n"
-        f"{Emojis.JOYSTICK.value} /help - Check my available commands ;)",
+        # photo=MESSI_PHOTO,
+        text=f"{Emojis.WAVING_HAND.value} Hi {update.effective_user.first_name}, I'm FootballNotifier!\n\n"
+        f"{Emojis.RIGHT_FACING_FIST.value} /help - my available commands\n\n"
+        f"For using me, you can start by configuring your preferences. \n\n"
+        f"{Emojis.TELEVISION.value}<u><em>Favourite teams and leagues</em></u>\n\n"
+        f"Configuring your <em>favourite teams</em> and"
+        f"<em>favourite leagues</em> will give you the possibility to query fixtures by them and"
+        f"get more customized information according to you preferences. You can search teams and leagues with /search_team|/search_league commands, take the id"
+        f"of your favourite team or league and add them with /add_favourite_team|/add_favourite_league command.\n\n"
+        f"{Emojis.GLOBE_WITH_MERIDIANS.value}<u><em>Time Zones</em></u>\n\n"
+        f"Configuring your preferred time zone is also very important, as you will get date and times of matches according to it.\n"
+        f"You can have a <em>main</em> time zone and <em>additional</em> time zones. Your <em>main</em> is basically what will tell me "
+        f"which is your preferred base time to show you when informing matches (you can only have one configured). <em>additional</em> time zones, "
+        f"on the oher hand, are optional extra that you can have, when informing the matches I will put the time corresponding to your main time zone and "
+        f"also the additional ones as well, so that you can share the times that matches will take place with anyone in the world :).\n"
+        f"You can add you main time zone with /set_main_time_zone command, whereas for your additional ones you can use /set_add_time_zone.\n\n"
+        f"Enjoy and I hope you are well informed with me!",
         parse_mode="HTML",
     )
 
 
 async def help(update: Update, context):
     logger.info(f"'help' command executed - by {update.effective_user.name}")
+
     text = (
         f"{Emojis.WAVING_HAND.value}Hi {update.effective_user.first_name}!\n\n"
         f" {Emojis.JOYSTICK.value} These are my available commands:\n\n"
+        f"• /search_time_zone <em>timezone name</em> - Searches time zones by name (or part of it) and retrieves them, if found, "
+        f"with its corresponding <em>time_zone_id</em>\n"
+        f"• /set_main_time_zone <em>time_zone_id</em> - Sets your main time zone by id. Remember you can have only ONE main time zone.\n"
+        f"if you try to add another it will <u>replace</u> the existing main time zone.\n"
+        f"• /set_add_time_zone <em>time_zone_id</em> - Sets an additional time zone by id.\n"
+        f"• /my_time_zones - List of your configured time zones.\n"
+        f"• /delete_time_zone <em>time_zone_id</em> - Removes one of your configured time zones.\n"
         f"• /search_team <em>team_name</em> - Searches teams by name (or part of it) and retrieves them, if found, "
         f"with its corresponding <em>team_id</em> \n"
         f"• /search_league <em>league_name</em> - Searches leagues by name (or part of it) and retrieves them, "

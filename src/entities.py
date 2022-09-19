@@ -229,11 +229,11 @@ class Fixture:
         return separator.join(fixtures_texts)
 
     def one_line_telegram_repr(
-            self, played: bool = False, with_date: bool = False
+        self, played: bool = False, with_date: bool = False
     ) -> str:
         if (
-                self.match_score.away_score is not None
-                or self.match_score.home_score is not None
+            self.match_score.away_score is not None
+            or self.match_score.home_score is not None
         ):
             played = True
 
@@ -245,8 +245,8 @@ class Fixture:
 
         if played:
             if (
-                    "finished" in self.match_status.lower()
-                    or "half" in self.match_status.lower()
+                "finished" in self.match_status.lower()
+                or "half" in self.match_status.lower()
             ):
                 match_in_progress_text = (
                     f"\n{Emojis.MAN_RUNNING.value} {self.match_status}"
@@ -358,8 +358,8 @@ class Fixture:
             else ""
         )
         if (
-                "finished" in self.match_status.lower()
-                or "half" in self.match_status.lower()
+            "finished" in self.match_status.lower()
+            or "half" in self.match_status.lower()
         ):
             match_in_progress_text = (
                 f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong>\n\n"
@@ -397,7 +397,7 @@ class Fixture:
         return main_time_zone
 
     def _is_diff_day_than_main_zone(
-            self, time_in_time_zone: datetime, time_in_other_time_zone: datetime
+        self, time_in_time_zone: datetime, time_in_other_time_zone: datetime
     ) -> bool:
         return time_in_time_zone.weekday() != time_in_other_time_zone.weekday()
 
