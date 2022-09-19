@@ -54,17 +54,17 @@ def populate_surrounding_fixtures() -> None:
     for item in fixtures_response.as_dict.get("response", []):
         if isinstance(item, list):
             for fixture in item:
-                check_time = get_formatted_date(fixture["fixture"]["date"]).time()
-                if is_time_in_surrounding_hours(check_time, hours=3):
-                    FIXTURES_DB_MANAGER.save_fixtures(
-                        [convert_fixture_response_to_db_fixture(fixture)]
-                    )
-        else:
-            check_time = get_formatted_date(item["fixture"]["date"]).time()
-            if is_time_in_surrounding_hours(check_time, hours=3):
+                # check_time = get_formatted_date(fixture["fixture"]["date"]).time()
+                # if is_time_in_surrounding_hours(check_time, hours=3):
                 FIXTURES_DB_MANAGER.save_fixtures(
-                    [convert_fixture_response_to_db_fixture(item)]
+                    [convert_fixture_response_to_db_fixture(fixture)]
                 )
+        else:
+            # check_time = get_formatted_date(item["fixture"]["date"]).time()
+            # if is_time_in_surrounding_hours(check_time, hours=3):
+            FIXTURES_DB_MANAGER.save_fixtures(
+                [convert_fixture_response_to_db_fixture(item)]
+            )
 
 
 if __name__ == "__main__":
