@@ -4,13 +4,16 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional
 
-from src.db.notif_sql_models import TimeZone
+from src.db.fixtures_db_manager import FixturesDBManager
+from src.db.notif_sql_models import TimeZone, UserTimeZone
 from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
 from src.utils.date_utils import get_time_in_time_zone_str
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from src.emojis import Emojis, get_emoji_text_by_name
+
+FIXTURES_DB_MANAGER = FixturesDBManager()
 
 
 @dataclass
@@ -143,14 +146,13 @@ class Fixture:
     away_team: Team
     match_score: MatchScore
     venue: str
-    user_time_zones: List[TimeZone]
+    user_time_zones: List[UserTimeZone]
     line_up: Optional[LineUp] = field(init=False)
-    is_next_day: str = field(init=False)
     highlights: List[str] = field(init=False)
     head_to_head: List["Fixture"] = field(init=False)
 
     def __post_init__(self) -> None:
-        self.is_next_day = "(+1)" if self._is_next_day_in_europe() else ""
+        # self.is_next_day = "(+1)" if self._is_next_day_in_europe() else ""
         self.futbol_libre_url = "https://futbollibre.net"
         self.futbol_para_todos_url = "https://futbolparatodos.online/es/"
         self.line_up = None
@@ -168,8 +170,7 @@ class Fixture:
 
     def __str__(self):
         return (
-            f"{Emojis.EUROPEAN_UNION.value} *{str(self.ams_date)[11:16]} HS {self.is_next_day}*\n"
-            f"{Emojis.ARGENTINA.value} *{str(self.bsas_date)[11:16]} HS*\n\n"
+            f"{self.fixtures_times_text()}\n\n"
             f"{Emojis.ALARM_CLOCK.value} _{str(self.remaining_time())} left for the game._\n\n"
             f"{Emojis.SOCCER_BALL.value} *{self.home_team.name} vs. {self.away_team.name}*\n"
             f"{Emojis.TROPHY.value} *{self.championship.name}*\n"
@@ -182,12 +183,6 @@ class Fixture:
             f"vs. {self.match_score.away_score} - {self.away_team.name}*\n"
             f"{Emojis.TROPHY.value} *{self.championship.name}*\n"
             f"{Emojis.PUSHPIN.value} *{self.round}*"
-        )
-
-    def time_telegram_text(self) -> str:
-        return (
-            f"{Emojis.EUROPEAN_UNION.value} {str(self.ams_date)[11:16]} HS {self.is_next_day} / "
-            f"{Emojis.ARGENTINA.value} {str(self.bsas_date)[11:16]} HS"
         )
 
     def head_to_head_text(self) -> str:
@@ -214,7 +209,10 @@ class Fixture:
         separator = "\n" if not one_line else " / "
 
         if self.user_time_zones:
-            for time_zone in self.user_time_zones:
+            for user_time_zone in self.user_time_zones:
+                time_zone = FIXTURES_DB_MANAGER.get_time_zone(user_time_zone.time_zone)[
+                    0
+                ]
                 emoji_text = (
                     get_emoji_text_by_name(time_zone.emoji)
                     if time_zone.emoji
@@ -223,7 +221,7 @@ class Fixture:
                 date_in_time_zone = get_time_in_time_zone_str(
                     self.utc_date, time_zone.name
                 )
-                time_text = f"{str(date_in_time_zone)[11:16]} HS"
+                time_text = f"{str(date_in_time_zone)[11:16]} HS{self._diff_days_text(time_zone)}"
                 fixtures_texts.append(f"{emoji_text} {time_text}")
         else:
             fixtures_texts = [f"{str(self.utc_date)[11:16]} HS (UTC)"]
@@ -231,11 +229,11 @@ class Fixture:
         return separator.join(fixtures_texts)
 
     def one_line_telegram_repr(
-        self, played: bool = False, with_date: bool = False
+            self, played: bool = False, with_date: bool = False
     ) -> str:
         if (
-            self.match_score.away_score is not None
-            or self.match_score.home_score is not None
+                self.match_score.away_score is not None
+                or self.match_score.home_score is not None
         ):
             played = True
 
@@ -247,8 +245,8 @@ class Fixture:
 
         if played:
             if (
-                "finished" in self.match_status.lower()
-                or "half" in self.match_status.lower()
+                    "finished" in self.match_status.lower()
+                    or "half" in self.match_status.lower()
             ):
                 match_in_progress_text = (
                     f"\n{Emojis.MAN_RUNNING.value} {self.match_status}"
@@ -294,8 +292,6 @@ class Fixture:
 
     def email_like_repr(self) -> str:
         return (
-            f"<p>{Emojis.EUROPEAN_UNION.value} <strong>{str(self.ams_date)[11:16]} HS {self.is_next_day}<br />"
-            f"{Emojis.ARGENTINA.value} <strong>{str(self.bsas_date)[11:16]} HS</strong><p>"
             f"{Emojis.ALARM_CLOCK.value} <em>{str(self.remaining_time())} left for the game.</em><p>"
             f"{Emojis.SOCCER_BALL.value} "
             f"<img src='{self.home_team.picture}' width='22' height='22'><strong> vs. "
@@ -362,8 +358,8 @@ class Fixture:
             else ""
         )
         if (
-            "finished" in self.match_status.lower()
-            or "half" in self.match_status.lower()
+                "finished" in self.match_status.lower()
+                or "half" in self.match_status.lower()
         ):
             match_in_progress_text = (
                 f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong>\n\n"
@@ -391,8 +387,43 @@ class Fixture:
 
         return match_notification
 
-    def _is_next_day_in_europe(self) -> bool:
-        return self.bsas_date.weekday() != self.ams_date.weekday()
+    def _user_main_zone(self) -> Optional[TimeZone]:
+        main_time_zone = None
+
+        for time_zone in self.user_time_zones:
+            if time_zone.is_main_tz:
+                return FIXTURES_DB_MANAGER.get_time_zone(time_zone.time_zone)[0]
+
+        return main_time_zone
+
+    def _is_diff_day_than_main_zone(
+            self, time_in_time_zone: datetime, time_in_other_time_zone: datetime
+    ) -> bool:
+        return time_in_time_zone.weekday() != time_in_other_time_zone.weekday()
+
+    def _diff_days_text(self, time_zone: TimeZone) -> bool:
+        time_in_main_time_zone = self.utc_date
+        main_time_zone = self._user_main_zone()
+
+        time_in_time_zone = get_time_in_time_zone_str(self.utc_date, time_zone.name)
+
+        if main_time_zone:
+            time_in_main_time_zone = get_time_in_time_zone_str(
+                self.utc_date, main_time_zone.name
+            )
+
+        is_diff_day = self._is_diff_day_than_main_zone(
+            time_in_time_zone, time_in_main_time_zone
+        )
+
+        if is_diff_day:
+            return (
+                " (+1)"
+                if time_in_time_zone.date() > time_in_main_time_zone.date()
+                else " (-1)"
+            )
+
+        return ""
 
 
 @dataclass

@@ -1,6 +1,6 @@
 import random
 from datetime import datetime, timedelta
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlalchemy import asc, desc
 from sqlmodel import func, or_, select
@@ -13,7 +13,6 @@ from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
 from src.db.notif_sql_models import TimeZone as DBTimeZone
 from src.db.notif_sql_models import UserTimeZone as DBUserTimeZone
-from src.entities import Championship, FixtureForDB, Team
 from src.notifier_logger import get_logger
 from src.utils.date_utils import (
     get_formatted_date,
@@ -24,6 +23,10 @@ from src.utils.date_utils import (
 from src.utils.db_utils import remove_duplicate_fixtures
 
 logger = get_logger(__name__)
+
+
+if TYPE_CHECKING:
+    from src.entities import Championship, FixtureForDB, Team
 
 
 class FixturesDBManager:
@@ -260,7 +263,7 @@ class FixturesDBManager:
 
         return [fixture for fixture in fixtures if fixture.home_score is not None]
 
-    def insert_league(self, fixture_league: Championship) -> DBLeague:
+    def insert_league(self, fixture_league: "Championship") -> DBLeague:
         league_statement = select(DBLeague).where(
             DBLeague.id == fixture_league.league_id
         )
@@ -440,7 +443,7 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(user_time_zone_statement)[0]
 
-    def insert_team(self, fixture_team: Team) -> DBTeam:
+    def insert_team(self, fixture_team: "Team") -> DBTeam:
         team_statement = select(DBTeam).where(DBTeam.id == fixture_team.id)
         retrieved_team = self._notifier_db_manager.select_records(team_statement)
 
@@ -471,7 +474,7 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(team_statement)[0]
 
-    def save_fixtures(self, team_fixtures: List[FixtureForDB]) -> None:
+    def save_fixtures(self, team_fixtures: List["FixtureForDB"]) -> None:
         db_fixtures = []
 
         for conv_fix in team_fixtures:

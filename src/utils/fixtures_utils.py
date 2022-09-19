@@ -211,10 +211,6 @@ def convert_db_fixture(
 
     # league_name, round_name = __get_translated_league_name_and_round(fixture)
     notifier_db_manager = NotifierDBManager()
-    time_zones = [
-        FIXTURES_DB_MANAGER.get_time_zone(user_time_zone.time_zone)[0]
-        for user_time_zone in user_time_zones
-    ]
 
     league: DBLeague = notifier_db_manager.select_records(
         select(DBLeague).where(DBLeague.id == fixture.league)
@@ -255,7 +251,7 @@ def convert_db_fixture(
         ),
         MatchScore(fixture.home_score, fixture.away_score),
         fixture.venue,
-        user_time_zones=time_zones,
+        user_time_zones=user_time_zones,
     )
 
 
