@@ -54,3 +54,10 @@ class TimeZone(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     emoji: str = ""
+
+
+class UserTimeZone(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    chat_id: str = Field(primary_key=True)
+    time_zone: int = Field(foreign_key="timezone.id", primary_key=True)
+    is_main_tz: bool = False

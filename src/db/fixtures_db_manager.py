@@ -1,6 +1,6 @@
 import random
 from datetime import datetime, timedelta
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlalchemy import asc, desc
 from sqlmodel import func, or_, select
@@ -11,18 +11,22 @@ from src.db.notif_sql_models import FavouriteTeam as DBFavouriteTeam
 from src.db.notif_sql_models import Fixture as DBFixture
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
-from src.entities import Championship, FixtureForDB, Team
+from src.db.notif_sql_models import TimeZone as DBTimeZone
+from src.db.notif_sql_models import UserTimeZone as DBUserTimeZone
 from src.notifier_logger import get_logger
 from src.utils.date_utils import (
-    TimeZones,
     get_formatted_date,
     get_time_in_time_zone,
-    is_time_between,
+    get_time_in_time_zone_str,
     is_time_in_surrounding_hours,
 )
 from src.utils.db_utils import remove_duplicate_fixtures
 
 logger = get_logger(__name__)
+
+
+if TYPE_CHECKING:
+    from src.entities import Championship, FixtureForDB, Team
 
 
 class FixturesDBManager:
@@ -75,6 +79,23 @@ class FixturesDBManager:
         )
         return self._notifier_db_manager.select_records(teams_statement)
 
+    def get_time_zone(self, time_zone_id: int) -> Optional[DBTimeZone]:
+        time_zone_statement = select(DBTimeZone).where(DBTimeZone.id == time_zone_id)
+        return self._notifier_db_manager.select_records(time_zone_statement)
+
+    def get_user_time_zones(self, chat_id: str) -> List[Optional[DBUserTimeZone]]:
+        user_time_zones_statement = select(DBUserTimeZone).where(
+            DBUserTimeZone.chat_id == str(chat_id)
+        )
+
+        return self._notifier_db_manager.select_records(user_time_zones_statement)
+
+    def get_time_zones_by_name(self, name: str) -> Optional[DBTimeZone]:
+        teams_statement = select(DBTimeZone).where(
+            func.lower(DBTimeZone.name).ilike(f"%{name.lower()}%")
+        )
+        return self._notifier_db_manager.select_records(teams_statement)
+
     def get_teams_by_name(self, name: str) -> Optional[DBTeam]:
         teams_statement = select(DBTeam).where(
             func.lower(DBTeam.name).ilike(f"%{name.lower()}%")
@@ -82,7 +103,11 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(teams_statement)
 
     def get_games_in_surrounding_n_days(
-        self, days: int, leagues: List[int] = [], teams: List[int] = []
+        self,
+        days: int,
+        leagues: List[int] = [],
+        teams: List[int] = [],
+        time_zone: str = "",
     ) -> List[Optional[DBFixture]]:
         surrounding_fixtures = []
 
@@ -95,13 +120,13 @@ class FixturesDBManager:
 
         for day in days_range:
             today = datetime.today()
-            bsas_today = get_time_in_time_zone(today, TimeZones.BSAS)
-            surrounding_day = bsas_today + timedelta(days=day)
+            tz_today = (
+                get_time_in_time_zone_str(today, time_zone) if time_zone else today
+            )
+            surrounding_day = tz_today + timedelta(days=day)
             games_date = surrounding_day.strftime("%Y-%m-%d")
 
-            statement = select(DBFixture).where(
-                DBFixture.bsas_date.contains(games_date)
-            )
+            statement = select(DBFixture).where(DBFixture.utc_date.contains(games_date))
 
             if len(leagues):
                 for league in leagues:
@@ -123,7 +148,7 @@ class FixturesDBManager:
                     statement
                 )
 
-        surrounding_fixtures.sort(key=lambda fixture: fixture.bsas_date)
+        surrounding_fixtures.sort(key=lambda fixture: fixture.utc_date)
 
         return surrounding_fixtures
 
@@ -159,7 +184,7 @@ class FixturesDBManager:
                     DBFixture.away_team == team_id,
                 )
             )
-            .order_by(asc(DBFixture.bsas_date))
+            .order_by(asc(DBFixture.utc_date))
         )
 
         return self._notifier_db_manager.select_records(fixtures_statement)
@@ -171,10 +196,10 @@ class FixturesDBManager:
 
         if date:
             fixtures_statement = fixtures_statement.where(
-                DBFixture.bsas_date.contains(date)
+                DBFixture.utc_date.contains(date)
             )
 
-        fixtures_statement = fixtures_statement.order_by(asc(DBFixture.bsas_date))
+        fixtures_statement = fixtures_statement.order_by(asc(DBFixture.utc_date))
 
         return self._notifier_db_manager.select_records(fixtures_statement)
 
@@ -238,7 +263,7 @@ class FixturesDBManager:
 
         return [fixture for fixture in fixtures if fixture.home_score is not None]
 
-    def insert_league(self, fixture_league: Championship) -> DBLeague:
+    def insert_league(self, fixture_league: "Championship") -> DBLeague:
         league_statement = select(DBLeague).where(
             DBLeague.id == fixture_league.league_id
         )
@@ -334,7 +359,91 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(favourite_league_statement)[0]
 
-    def insert_team(self, fixture_team: Team) -> DBTeam:
+    def insert_favourite_team(self, team_id: int, chat_id: str) -> DBFavouriteTeam:
+        team = self.get_team(team_id)
+
+        if not len(team):
+            raise Exception(f"Team {team_id} doesn't exist.")
+
+        favourite_team_statement = select(DBFavouriteTeam).where(
+            DBFavouriteTeam.team == team_id, DBFavouriteTeam.chat_id == chat_id
+        )
+
+        retrieved_favourite_team = self._notifier_db_manager.select_records(
+            favourite_team_statement
+        )
+
+        if not len(retrieved_favourite_team):
+            logger.info(
+                f"Inserting Favourite Team {team_id} for chat {chat_id}- it does not exist in "
+                f"the database"
+            )
+            db_favourite_team = DBFavouriteTeam(
+                team=team_id,
+                chat_id=chat_id,
+            )
+
+            self._notifier_db_manager.insert_record(db_favourite_team)
+        else:
+            raise Exception(f"You already have this team as favourite.")
+
+        return self._notifier_db_manager.select_records(favourite_team_statement)[0]
+
+    def insert_user_time_zone(
+        self, time_zone_id: int, chat_id: str, main: bool = False
+    ) -> DBUserTimeZone:
+        time_zone = self.get_time_zone(time_zone_id)
+
+        if not len(time_zone):
+            raise Exception(f"Time zone {time_zone} doesn't exist.")
+
+        user_time_zone_statement = select(DBUserTimeZone).where(
+            DBUserTimeZone.time_zone == time_zone_id, DBUserTimeZone.chat_id == chat_id
+        )
+
+        retrieved_user_time_zone = self._notifier_db_manager.select_records(
+            user_time_zone_statement
+        )
+
+        if len(retrieved_user_time_zone):
+            if retrieved_user_time_zone[0].is_main_tz == main or (
+                retrieved_user_time_zone[0].is_main_tz == True and main == False
+            ):
+                raise Exception(f"You already have configured this time zone.")
+
+        if main:
+            main_user_time_zones_statement = select(DBUserTimeZone).where(
+                DBUserTimeZone.chat_id == chat_id, DBUserTimeZone.is_main_tz == True
+            )
+
+            user_main_time_zone = self._notifier_db_manager.select_records(
+                main_user_time_zones_statement
+            )
+
+            if len(user_main_time_zone):
+                logger.info(
+                    f"Deleting previously existing main User Time Zone '{user_main_time_zone[0].time_zone}' for chat "
+                    f"{chat_id}"
+                )
+                self._notifier_db_manager.delete_record(user_main_time_zone[0])
+
+            if len(retrieved_user_time_zone):
+                logger.info(
+                    f"Deleting previously existing main User Time Zone '{retrieved_user_time_zone[0].time_zone}' for chat "
+                    f"{chat_id}"
+                )
+                self._notifier_db_manager.delete_record(retrieved_user_time_zone[0])
+
+        logger.info(f"Inserting User Time Zone {time_zone_id} for chat {chat_id}")
+        db_user_time_zone = DBUserTimeZone(
+            time_zone=time_zone_id, chat_id=chat_id, is_main_tz=main
+        )
+
+        self._notifier_db_manager.insert_record(db_user_time_zone)
+
+        return self._notifier_db_manager.select_records(user_time_zone_statement)[0]
+
+    def insert_team(self, fixture_team: "Team") -> DBTeam:
         team_statement = select(DBTeam).where(DBTeam.id == fixture_team.id)
         retrieved_team = self._notifier_db_manager.select_records(team_statement)
 
@@ -365,7 +474,7 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(team_statement)[0]
 
-    def save_fixtures(self, team_fixtures: List[FixtureForDB]) -> None:
+    def save_fixtures(self, team_fixtures: List["FixtureForDB"]) -> None:
         db_fixtures = []
 
         for conv_fix in team_fixtures:
@@ -420,6 +529,22 @@ class FixturesDBManager:
             db_fixtures.append(db_fixture)
 
         self._notifier_db_manager.insert_records(db_fixtures)
+
+    def delete_user_time_zone(self, time_zone_id: int, chat_id: str) -> None:
+        time_zone_statement = select(DBUserTimeZone).where(
+            DBUserTimeZone.chat_id == chat_id, DBUserTimeZone.time_zone == time_zone_id
+        )
+
+        user_time_zone = self._notifier_db_manager.select_records(time_zone_statement)
+
+        if not len(user_time_zone):
+            raise Exception(f"You don't have that time zone configured.")
+
+        logger.info(
+            f"Removing User Time Zone '{user_time_zone[0].time_zone}' for chat {chat_id}"
+        )
+
+        self._notifier_db_manager.delete_record(user_time_zone[0])
 
     def delete_favourite_team(self, team_id: int, chat_id: str) -> None:
         favourite_team_statement = select(DBFavouriteTeam).where(

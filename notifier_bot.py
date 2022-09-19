@@ -10,8 +10,9 @@ from src.telegram_bot.bot_commands_handler import (
     NextAndLastMatchCommandHandler,
     NextAndLastMatchLeagueCommandHandler,
     NotifierBotCommandsHandler,
-    SearchTeamLeagueCommandHandler,
+    SearchCommandHandler,
     SurroundingMatchesHandler,
+    TimeZonesCommandHandler,
 )
 from src.telegram_bot.bot_constants import MESSI_PHOTO
 
@@ -20,20 +21,42 @@ logger = get_logger(__name__)
 
 async def start(update: Update, context):
     logger.info(f"'start' command executed - by {update.effective_user.name}")
-    await context.bot.send_photo(
+    await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        photo=MESSI_PHOTO,
-        caption=f"{Emojis.WAVING_HAND.value} Hi {update.effective_user.first_name}, I'm FootballNotifier!\n\n"
-        f"{Emojis.JOYSTICK.value} /help - Check my available commands ;)",
+        # photo=MESSI_PHOTO,
+        text=f"{Emojis.WAVING_HAND.value} Hi {update.effective_user.first_name}, I'm FootballNotifier!\n\n"
+        f"{Emojis.RIGHT_FACING_FIST.value} /help - my available commands\n\n"
+        f"For using me, you can start by configuring your preferences. \n\n"
+        f"{Emojis.TELEVISION.value}<u><em>Favourite teams and leagues</em></u>\n\n"
+        f"Configuring your <em>favourite teams</em> and"
+        f"<em>favourite leagues</em> will give you the possibility to query fixtures by them and"
+        f"get more customized information according to you preferences. You can search teams and leagues with /search_team|/search_league commands, take the id"
+        f"of your favourite team or league and add them with /add_favourite_team|/add_favourite_league command.\n\n"
+        f"{Emojis.GLOBE_WITH_MERIDIANS.value}<u><em>Time Zones</em></u>\n\n"
+        f"Configuring your preferred time zone is also very important, as you will get date and times of matches according to it.\n"
+        f"You can have a <em>main</em> time zone and <em>additional</em> time zones. Your <em>main</em> is basically what will tell me "
+        f"which is your preferred base time to show you when informing matches (you can only have one configured). <em>additional</em> time zones, "
+        f"on the oher hand, are optional extra that you can have, when informing the matches I will put the time corresponding to your main time zone and "
+        f"also the additional ones as well, so that you can share the times that matches will take place with anyone in the world :).\n"
+        f"You can add you main time zone with /set_main_time_zone command, whereas for your additional ones you can use /set_add_time_zone.\n\n"
+        f"Enjoy and I hope you are well informed with me!",
         parse_mode="HTML",
     )
 
 
 async def help(update: Update, context):
     logger.info(f"'help' command executed - by {update.effective_user.name}")
+
     text = (
         f"{Emojis.WAVING_HAND.value}Hi {update.effective_user.first_name}!\n\n"
         f" {Emojis.JOYSTICK.value} These are my available commands:\n\n"
+        f"• /search_time_zone <em>timezone name</em> - Searches time zones by name (or part of it) and retrieves them, if found, "
+        f"with its corresponding <em>time_zone_id</em>\n"
+        f"• /set_main_time_zone <em>time_zone_id</em> - Sets your main time zone by id. Remember you can have only ONE main time zone.\n"
+        f"if you try to add another it will <u>replace</u> the existing main time zone.\n"
+        f"• /set_add_time_zone <em>time_zone_id</em> - Sets an additional time zone by id.\n"
+        f"• /my_time_zones - List of your configured time zones.\n"
+        f"• /delete_time_zone <em>time_zone_id</em> - Removes one of your configured time zones.\n"
         f"• /search_team <em>team_name</em> - Searches teams by name (or part of it) and retrieves them, if found, "
         f"with its corresponding <em>team_id</em> \n"
         f"• /search_league <em>league_name</em> - Searches leagues by name (or part of it) and retrieves them, "
@@ -109,6 +132,95 @@ async def add_favourite_team(update: Update, context):
         )
     else:
         text = commands_handler.add_favourite_team()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def set_main_time_zone(update: Update, context):
+    logger.info(
+        f"'set_main_time_zone' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = TimeZonesCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.add_time_zone(main=True)
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def set_add_time_zone(update: Update, context):
+    logger.info(
+        f"'set_add_time_zone' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = TimeZonesCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.add_time_zone()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def my_time_zones(update: Update, context):
+    logger.info(f"'my_time_zones' command executed - by {update.effective_user.name}")
+    commands_handler = TimeZonesCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.get_my_time_zones()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def delete_time_zone(update: Update, context):
+    logger.info(
+        f"'delete_time_zone' command executed - by {update.effective_user.name}"
+    )
+    commands_handler = TimeZonesCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = commands_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = commands_handler.delete_time_zone()
 
         await context.bot.send_message(
             chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
@@ -233,7 +345,7 @@ async def search_team(update: Update, context):
     logger.info(
         f"'search_team {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
-    command_handler = SearchTeamLeagueCommandHandler(
+    command_handler = SearchCommandHandler(
         context.args, update.effective_user.first_name
     )
     validated_input = command_handler.validate_command_input()
@@ -254,7 +366,7 @@ async def search_league(update: Update, context):
     logger.info(
         f"'search_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
-    command_handler = SearchTeamLeagueCommandHandler(
+    command_handler = SearchCommandHandler(
         context.args, update.effective_user.first_name
     )
     validated_input = command_handler.validate_command_input()
@@ -266,6 +378,27 @@ async def search_league(update: Update, context):
     else:
         text = command_handler.search_league_notif()
         logger.info(f"Search League - text: {text}")
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
+async def search_time_zone(update: Update, context):
+    logger.info(
+        f"'search_time_zone {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = SearchCommandHandler(
+        context.args, update.effective_user.first_name
+    )
+    validated_input = command_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = command_handler.search_time_zone_notif()
+        logger.info(f"Search Time Zone - text: {text}")
         await context.bot.send_message(
             chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
         )
@@ -541,6 +674,13 @@ if __name__ == "__main__":
         "last_played_matches", last_played_matches
     )
     available_leagues_handler = CommandHandler("available_leagues", available_leagues)
+    search_time_zone_handler = CommandHandler("search_time_zone", search_time_zone)
+    my_time_zones_handler = CommandHandler("my_time_zones", my_time_zones)
+    set_add_time_zone_handler = CommandHandler("set_add_time_zone", set_add_time_zone)
+    set_main_time_zone_handler = CommandHandler(
+        "set_main_time_zone", set_main_time_zone
+    )
+    remove_time_zone_handler = CommandHandler("delete_time_zone", delete_time_zone)
     favourite_teams_handler = CommandHandler("favourite_teams", favourite_teams)
     favourite_leagues_handler = CommandHandler("favourite_leagues", favourite_leagues)
     add_favourite_team_handler = CommandHandler(
@@ -579,5 +719,10 @@ if __name__ == "__main__":
     application.add_handler(add_favourite_league_handler)
     application.add_handler(remove_favourite_team_handler)
     application.add_handler(remove_favourite_league_handler)
+    application.add_handler(search_time_zone_handler)
+    application.add_handler(set_main_time_zone_handler)
+    application.add_handler(set_add_time_zone_handler)
+    application.add_handler(my_time_zones_handler)
+    application.add_handler(remove_time_zone_handler)
 
     application.run_polling()

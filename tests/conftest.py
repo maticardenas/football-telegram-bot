@@ -3,6 +3,7 @@ from datetime import datetime
 
 import pytest
 
+from src.db.notif_sql_models import TimeZone
 from src.entities import Championship, Fixture, MatchScore, Team
 from src.utils.date_utils import TimeZones, get_time_in_time_zone
 
@@ -28,12 +29,28 @@ def league() -> Championship:
 
 
 @pytest.fixture
+def amsterdam_timezone() -> TimeZone:
+    return TimeZone(name="Europe/Amsterdam", emoji="European_Union")
+
+
+@pytest.fixture
+def bsas_timezone() -> TimeZone:
+    return TimeZone(name="America/Argentina/Buenos_Aires", emoji="Argentina")
+
+
+@pytest.fixture
 def match_score() -> MatchScore:
     return MatchScore(home_score=3, away_score=0)
 
 
 @pytest.fixture
-def fixture(team: Team, league: Championship, match_score: MatchScore) -> Fixture:
+def fixture(
+    team: Team,
+    league: Championship,
+    match_score: MatchScore,
+    amsterdam_timezone: TimeZone,
+    bsas_timezone: TimeZone,
+) -> Fixture:
     utc_date = datetime.strptime("2019-01-01T15:00:00", "%Y-%m-%dT%H:%M:%S")
     bsas_date = get_time_in_time_zone(utc_date, TimeZones.BSAS)
     ams_date = get_time_in_time_zone(utc_date, TimeZones.AMSTERDAM)
@@ -56,4 +73,5 @@ def fixture(team: Team, league: Championship, match_score: MatchScore) -> Fixtur
         away_team=away_team,
         match_score=match_score,
         venue="Estadio Monumental",
+        user_time_zones=[amsterdam_timezone, bsas_timezone],
     )

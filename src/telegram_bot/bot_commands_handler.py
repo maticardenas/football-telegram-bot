@@ -4,8 +4,10 @@ from typing import Any, List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import Fixture
+from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
-from src.emojis import Emojis
+from src.db.notif_sql_models import TimeZone as DBTimeZone
+from src.emojis import Emojis, get_emoji_text_by_name
 from src.notifier_constants import TELEGRAM_MSG_LENGTH_LIMIT
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
@@ -26,8 +28,11 @@ class NotifierBotCommandsHandler:
     def search_team(self, team_text: str) -> Optional[DBTeam]:
         return self._fixtures_db_manager.get_teams_by_name(team_text)
 
-    def search_league(self, league_text: str) -> Optional[DBTeam]:
+    def search_league(self, league_text: str) -> Optional[DBLeague]:
         return self._fixtures_db_manager.get_leagues_by_name(league_text)
+
+    def search_time_zone(self, time_zone_text: str) -> Optional[DBTeam]:
+        return self._fixtures_db_manager.get_time_zones_by_name(time_zone_text)
 
     def is_available_team(self, team_id: int) -> bool:
         team = self._fixtures_db_manager.get_team(team_id)
@@ -122,6 +127,28 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
         self._leagues = []
         self._user = user
         self._chat_id = chat_id
+        self._user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+            self._chat_id
+        )
+        self._user_main_time_zone = self._get_user_main_time_zone()
+
+    def _get_user_main_time_zone(self) -> str:
+        time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
+        main_time_zone = ""
+
+        if len(time_zones):
+            main_time_zone = [
+                time_zone for time_zone in time_zones if time_zone.is_main_tz
+            ]
+
+            if len(main_time_zone):
+                main_time_zone = main_time_zone[0]
+
+        return (
+            self._fixtures_db_manager.get_time_zone(main_time_zone.time_zone)[0].name
+            if main_time_zone
+            else ""
+        )
 
     def validate_command_input(self) -> Optional[str]:
         if len(self._command_args):
@@ -154,13 +181,17 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def today_games(self) -> Tuple[str, str]:
         today_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                0, leagues=self._leagues, teams=self._teams
+                0,
+                leagues=self._leagues,
+                teams=self._teams,
+                time_zone=self._user_main_time_zone,
             )
         )
 
         if len(today_games_fixtures):
             converted_games = [
-                convert_db_fixture(fixture) for fixture in today_games_fixtures
+                convert_db_fixture(fixture, self._user_time_zones)
+                for fixture in today_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_games)
             leagues = [fixture.championship for fixture in converted_games]
@@ -179,13 +210,17 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def yesterday_games(self) -> Tuple[str, str]:
         played_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                -1, leagues=self._leagues, teams=self._teams
+                -1,
+                leagues=self._leagues,
+                teams=self._teams,
+                time_zone=self._user_main_time_zone,
             )
         )
 
         if len(played_games_fixtures):
             converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in played_games_fixtures
+                convert_db_fixture(fixture, self._user_time_zones)
+                for fixture in played_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_fixtures, played=True)
             leagues = [fixture.championship for fixture in converted_fixtures]
@@ -204,13 +239,17 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def tomorrow_games(self) -> Tuple[str, str]:
         tomorrow_games_fixtures = (
             self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                1, leagues=self._leagues, teams=self._teams
+                1,
+                leagues=self._leagues,
+                teams=self._teams,
+                time_zone=self._user_main_time_zone,
             )
         )
 
         if len(tomorrow_games_fixtures):
             converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in tomorrow_games_fixtures
+                convert_db_fixture(fixture, self._user_time_zones)
+                for fixture in tomorrow_games_fixtures
             ]
             texts = self.get_fixtures_text(converted_fixtures)
             leagues = [fixture.championship for fixture in converted_fixtures]
@@ -227,7 +266,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
         return (texts, photo)
 
 
-class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
+class SearchCommandHandler(NotifierBotCommandsHandler):
     def __init__(self, commands_args: List[str], user: str):
         super().__init__()
         self._command_args = commands_args
@@ -274,6 +313,27 @@ class SearchTeamLeagueCommandHandler(NotifierBotCommandsHandler):
             response = "\n".join(found_teams_texts)
         else:
             response = f"Oops! There are no tournaments available with the search criteria '{league}'"
+
+        return response
+
+    def search_time_zone_notif(self) -> str:
+        time_zone_text = " ".join(self._command_args)
+
+        found_time_zones = self.search_time_zone(time_zone_text)
+
+        if found_time_zones:
+            found_time_zones_texts = []
+            for time_zone in found_time_zones:
+                emoji_text = (
+                    get_emoji_text_by_name(time_zone.emoji) if time_zone.emoji else ""
+                )
+                found_time_zones_texts.append(
+                    f"<strong>{time_zone.id}</strong> - {time_zone.name} {emoji_text}"
+                )
+
+            response = "\n".join(found_time_zones_texts)
+        else:
+            response = f"Oops! There are no time zones available with the search criteria '{time_zone_text}'"
 
         return response
 
@@ -333,7 +393,12 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         converted_fixture = None
 
         if len(next_team_db_fixture):
-            converted_fixture = convert_db_fixture(next_team_db_fixture[0])
+            user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+                self._chat_id
+            )
+            converted_fixture = convert_db_fixture(
+                next_team_db_fixture[0], user_time_zones=user_time_zones
+            )
             converted_fixture.head_to_head = get_head_to_heads(
                 converted_fixture.home_team.id, converted_fixture.away_team.id
             )
@@ -357,7 +422,12 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         converted_fixture = None
 
         if len(last_team_db_fixture):
-            converted_fixture = convert_db_fixture(last_team_db_fixture[0])
+            user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+                self._chat_id
+            )
+            converted_fixture = convert_db_fixture(
+                last_team_db_fixture[0], user_time_zones=user_time_zones
+            )
 
         return (
             telegram_last_team_or_league_fixture_notification(
@@ -388,9 +458,15 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 )
 
         if len(upcoming_fixtures):
+            user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+                self._chat_id
+            )
+
             fixtures = remove_duplicate_fixtures(upcoming_fixtures)
 
-            converted_fixtures = [convert_db_fixture(fixture) for fixture in fixtures]
+            converted_fixtures = [
+                convert_db_fixture(fixture, user_time_zones) for fixture in fixtures
+            ]
 
             converted_fixtures.sort(key=lambda fixture: fixture.bsas_date)
             texts = self.get_fixtures_text(converted_fixtures, with_date=True)
@@ -431,8 +507,12 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         )
 
         if len(last_team_fixtures):
+            user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+                self._chat_id
+            )
             converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in last_team_fixtures
+                convert_db_fixture(fixture, user_time_zones)
+                for fixture in last_team_fixtures
             ]
             introductory_text = (
                 f"{Emojis.WAVING_HAND.value} Hi {self._user}, "
@@ -722,6 +802,90 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
             response = (
                 f"League '{league.name}' was removed from your favourites successfully."
             )
+        except Exception as e:
+            response = str(e)
+
+        return response
+
+
+class TimeZonesCommandHandler(NotifierBotCommandsHandler):
+    def __init__(
+        self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
+    ):
+        super().__init__()
+        self._command_args = commands_args
+        self._user = user
+        self._chat_id = chat_id
+        self._is_list = is_list
+
+    def validate_command_input(self) -> str:
+        response = ""
+
+        if not self._is_list:
+            if len(self._command_args) < 1 and not self._is_list:
+                response = "You must enter one time zone"
+            elif len(self._command_args) > 1:
+                response = "You must enter one time zone"
+            else:
+                if not self.is_valid_id(self._command_args[0]):
+                    response = (
+                        "You must enter a valid time zone id, the command doesn't work with time zone's name.\n"
+                        "You can get your time zone's id by its name using /search_time_zone command :)"
+                    )
+
+        return response
+
+    def get_my_time_zones(self) -> str:
+        user_time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
+
+        if len(user_time_zones):
+            user_time_zones_texts = []
+            for user_time_zone in user_time_zones:
+                time_zone = self._fixtures_db_manager.get_time_zone(
+                    user_time_zone.time_zone
+                )[0]
+                emoji_text = (
+                    f" {get_emoji_text_by_name(time_zone.emoji)}"
+                    if time_zone.emoji
+                    else ""
+                )
+                user_time_zones_texts.append(
+                    f"<strong>{time_zone.id}</strong> - {time_zone.name}{emoji_text} {'(main)' if user_time_zone.is_main_tz else ''}"
+                )
+
+            response = "\n".join(user_time_zones_texts)
+        else:
+            response = (
+                f"Oops! It seems you don't have time zones yet. This mean that by default you are using UTC as time zone."
+                f"\nYou can add your main and additional time zones with <strong>/set_main_time_zone</strong> and "
+                f"<strong>/set_add_time_zone</strong> commands."
+            )
+
+        return response
+
+    def add_time_zone(self, main: str = False) -> str:
+        time_zone_id = self._command_args[0]
+
+        try:
+            self._fixtures_db_manager.insert_user_time_zone(
+                time_zone_id, self._chat_id, main=main
+            )
+            time_zone = self._fixtures_db_manager.get_time_zone(time_zone_id)[0]
+            main_time_zone_text = " as your main time zone" if main else " time zone"
+            response = (
+                f"You have added '{time_zone.name}'{main_time_zone_text} successfully."
+            )
+        except Exception as e:
+            response = str(e)
+
+        return response
+
+    def delete_time_zone(self) -> str:
+        time_zone_id = self._command_args[0]
+
+        try:
+            self._fixtures_db_manager.delete_user_time_zone(time_zone_id, self._chat_id)
+            response = f"Time zone was removed from your configured ones successfully."
         except Exception as e:
             response = str(e)
 
