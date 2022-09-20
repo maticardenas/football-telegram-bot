@@ -184,7 +184,6 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                 0,
                 leagues=self._leagues,
                 teams=self._teams,
-                time_zone=self._user_main_time_zone,
             )
         )
 
@@ -213,7 +212,6 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                 -1,
                 leagues=self._leagues,
                 teams=self._teams,
-                time_zone=self._user_main_time_zone,
             )
         )
 
@@ -242,7 +240,6 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                 1,
                 leagues=self._leagues,
                 teams=self._teams,
-                time_zone=self._user_main_time_zone,
             )
         )
 
