@@ -119,12 +119,9 @@ class FixturesDBManager:
             days_range = range(0, 1)
 
         for day in days_range:
-            today = datetime.today()
-            tz_today = (
-                get_time_in_time_zone_str(today, time_zone) if time_zone else today
-            )
-            surrounding_day = tz_today + timedelta(days=day)
-            games_date = surrounding_day.strftime("%Y-%m-%d")
+            utc_today = datetime.utcnow()
+            surrounding_day = utc_today + timedelta(days=day)
+            games_date = str(surrounding_day.date())
 
             statement = select(DBFixture).where(DBFixture.utc_date.contains(games_date))
 
@@ -149,6 +146,19 @@ class FixturesDBManager:
                 )
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.utc_date)
+
+        if time_zone:
+            filtered_fixtures = []
+            for fixture in surrounding_fixtures:
+                fixture_date_time = get_formatted_date(fixture.utc_date)
+                time_zone_date_time = get_time_in_time_zone_str(
+                    fixture_date_time, time_zone
+                )
+
+                if fixture_date_time.date() == time_zone_date_time.date():
+                    filtered_fixtures.append(fixture)
+
+            surrounding_fixtures = filtered_fixtures
 
         return surrounding_fixtures
 
