@@ -387,6 +387,15 @@ class Fixture:
 
         return match_notification
 
+    def get_time_in_main_zone(self) -> datetime:
+        main_time_zone = self._user_main_zone()
+
+        return (
+            get_time_in_time_zone_str(self.utc_date, main_time_zone.name)
+            if main_time_zone
+            else self.utc_date
+        )
+
     def _user_main_zone(self) -> Optional[TimeZone]:
         main_time_zone = None
 

@@ -485,7 +485,7 @@ async def next_match_league(update: Update, context):
         f"'next_match_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
 
     validated_input = command_handler.validate_command_input()
@@ -513,7 +513,7 @@ async def next_matches_league(update: Update, context):
         f"'next_matches_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
 
     validated_input = command_handler.validate_command_input()
@@ -536,7 +536,7 @@ async def last_match_league(update: Update, context):
         f"'last_match_league {' '.join(context.args)}' command executed - by {update.effective_user.first_name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        context.args, update.effective_user.first_name
+        context.args, update.effective_user.first_name, update.effective_chat.id
     )
     validated_input = command_handler.validate_command_input()
 

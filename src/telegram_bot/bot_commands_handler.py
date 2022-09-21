@@ -557,10 +557,14 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
 
 
 class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
-    def __init__(self, commands_args: List[str], user: str):
+    def __init__(self, commands_args: List[str], user: str, chat_id: str):
         super().__init__()
         self._command_args = commands_args
         self._user = user
+        self._chat_id = chat_id
+        self._user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+            self._chat_id
+        )
 
     def validate_command_input(self) -> str:
         response = ""
@@ -597,7 +601,9 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         converted_fixture = None
 
         if len(next_league_db_fixture):
-            converted_fixture = convert_db_fixture(next_league_db_fixture[0])
+            converted_fixture = convert_db_fixture(
+                next_league_db_fixture[0], user_time_zones=self._user_time_zones
+            )
             converted_fixture.head_to_head = get_head_to_heads(
                 converted_fixture.home_team.id, converted_fixture.away_team.id
             )
@@ -625,7 +631,9 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         converted_fixture = None
 
         if len(last_league_db_fixture):
-            converted_fixture = convert_db_fixture(last_league_db_fixture[0])
+            converted_fixture = convert_db_fixture(
+                last_league_db_fixture[0], user_time_zones=self._user_time_zones
+            )
 
         return (
             telegram_last_team_or_league_fixture_notification(
@@ -650,13 +658,15 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             )
 
             converted_fixtures = [
-                convert_db_fixture(fixture) for fixture in next_matches
+                convert_db_fixture(fixture, user_time_zones=self._user_time_zones)
+                for fixture in next_matches
             ]
 
             match_date = (
                 "TODAY!"
-                if converted_fixtures[0].bsas_date.date() == datetime.today().date()
-                else f"on {Emojis.SPIRAL_CALENDAR.value} {converted_fixtures[0].bsas_date.strftime('%A')[:3]}. {converted_fixtures[0].bsas_date.strftime('%d-%m-%Y')}"
+                if converted_fixtures[0].get_time_in_main_zone().date()
+                == datetime.today().date()
+                else f"on {Emojis.SPIRAL_CALENDAR.value} {converted_fixtures[0].get_time_in_main_zone().strftime('%A')[:3]}. {converted_fixtures[0].get_time_in_main_zone().strftime('%d-%m-%Y')}"
             )
 
             telegram_messages = self.get_fixtures_text(converted_fixtures)
