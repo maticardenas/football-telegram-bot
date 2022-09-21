@@ -31,8 +31,8 @@ class NotifierBotCommandsHandler:
     def search_league(self, league_text: str) -> Optional[DBLeague]:
         return self._fixtures_db_manager.get_leagues_by_name(league_text)
 
-    def search_league_by_country(self, country_text: str) -> Optional[DBLeague]:
-        return self._fixtures_db_manager.get_leagues_by_name(country_text)
+    def search_leagues_by_country(self, country_text: str) -> Optional[DBLeague]:
+        return self._fixtures_db_manager.get_leagues_by_country(country_text)
 
     def search_time_zone(self, time_zone_text: str) -> Optional[DBTeam]:
         return self._fixtures_db_manager.get_time_zones_by_name(time_zone_text)
@@ -315,10 +315,10 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
 
         return response
 
-    def search_league_by_country_notif(self) -> str:
+    def search_leagues_by_country_notif(self) -> str:
         country = " ".join(self._command_args)
 
-        found_leagues = self.search_league_by_country(country)
+        found_leagues = self.search_leagues_by_country(country)
 
         if found_leagues:
             response = self._found_leagues_notif(found_leagues)

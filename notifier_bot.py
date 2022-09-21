@@ -398,7 +398,7 @@ async def search_leagues_by_country(update: Update, context):
             chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
         )
     else:
-        text = command_handler.search_league_by_country_notif()
+        text = command_handler.search_leagues_by_country_notif()
         logger.info(f"Search Leagues by Country - text: {text}")
         await context.bot.send_message(
             chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
