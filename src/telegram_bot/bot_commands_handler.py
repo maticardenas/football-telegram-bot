@@ -31,6 +31,9 @@ class NotifierBotCommandsHandler:
     def search_league(self, league_text: str) -> Optional[DBLeague]:
         return self._fixtures_db_manager.get_leagues_by_name(league_text)
 
+    def search_league_by_country(self, country_text: str) -> Optional[DBLeague]:
+        return self._fixtures_db_manager.get_leagues_by_name(country_text)
+
     def search_time_zone(self, time_zone_text: str) -> Optional[DBTeam]:
         return self._fixtures_db_manager.get_time_zones_by_name(time_zone_text)
 
@@ -306,15 +309,32 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
         found_leagues = self.search_league(league)
 
         if found_leagues:
-            found_teams_texts = [
-                f"<strong>{league.id}</strong> - {league.name} ({league.country[:3].upper()})"
-                for league in found_leagues
-            ]
-            response = "\n".join(found_teams_texts)
+            response = self._found_leagues_notif(found_leagues)
         else:
             response = f"Oops! There are no tournaments available with the search criteria '{league}'"
 
         return response
+
+    def search_league_by_country_notif(self) -> str:
+        country = " ".join(self._command_args)
+
+        found_leagues = self.search_league_by_country(country)
+
+        if found_leagues:
+            response = self._found_leagues_notif(found_leagues)
+        else:
+            response = f"Oops! There are no tournaments available with the country search criteria '{country}'"
+
+        return response
+
+    @staticmethod
+    def _found_leagues_notif(found_leagues: list) -> str:
+        found_teams_texts = [
+            f"<strong>{league.id}</strong> - {league.name} ({league.country[:3].upper()})"
+            for league in found_leagues
+        ]
+
+        return "\n".join(found_teams_texts)
 
     def search_time_zone_notif(self) -> str:
         time_zone_text = " ".join(self._command_args)

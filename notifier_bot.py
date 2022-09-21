@@ -60,6 +60,8 @@ async def help(update: Update, context):
         f"with its corresponding <em>team_id</em> \n"
         f"• /search_league <em>league_name</em> - Searches leagues by name (or part of it) and retrieves them, "
         f"if found, with its corresponding <em>league_id</em>. \n"
+        f"• /search_leagues_by_country <em>country_name</em> - Searches leagues by country name (or part of it) and retrieves them, "
+        f"if found, with its corresponding <em>league_id</em>. \n"
         f"• /favourite_teams - List of your favourite teams.\n"
         f"• /favourite_leagues - List of your favourite leagues.\n"
         f"• /add_favourite_team <em>team_id</em> - Adds a team to your favourites.\n"
@@ -382,6 +384,27 @@ async def search_league(update: Update, context):
         )
 
 
+async def search_leagues_by_country(update: Update, context):
+    logger.info(
+        f"'search_leagues_by_country {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = SearchCommandHandler(
+        context.args, update.effective_user.first_name
+    )
+    validated_input = command_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+        )
+    else:
+        text = command_handler.search_league_by_country_notif()
+        logger.info(f"Search Leagues by Country - text: {text}")
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        )
+
+
 async def search_time_zone(update: Update, context):
     logger.info(
         f"'search_time_zone {' '.join(context.args)}' command executed - by {update.effective_user.name}"
@@ -658,6 +681,9 @@ if __name__ == "__main__":
     start_handler = CommandHandler("start", start)
     search_team_handler = CommandHandler("search_team", search_team)
     search_league_handler = CommandHandler("search_league", search_league)
+    search_leagues_by_country_handler = CommandHandler(
+        "search_leagues_by_country", search_leagues_by_country
+    )
     next_match_handler = CommandHandler("next_match", next_match)
     upcoming_matches_handler = CommandHandler("upcoming_matches", upcoming_matches)
     last_match_handler = CommandHandler("last_match", last_match)
@@ -712,6 +738,7 @@ if __name__ == "__main__":
     application.add_handler(available_leagues_handler)
     application.add_handler(search_team_handler)
     application.add_handler(search_league_handler)
+    application.add_handler(search_leagues_by_country_handler)
     application.add_handler(favourite_teams_handler)
     application.add_handler(favourite_leagues_handler)
     application.add_handler(add_favourite_team_handler)
