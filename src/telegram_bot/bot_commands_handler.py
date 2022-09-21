@@ -281,8 +281,8 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
             response = "You must enter a search text."
         else:
             team = " ".join(self._command_args)
-            if len(team) < 4:
-                response = "The search text should have at least <strong>4</strong> characters."
+            if len(team) < 3:
+                response = "The search text should have at least <strong>3</strong> characters."
 
         return response
 
