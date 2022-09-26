@@ -1,5 +1,7 @@
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler
+import asyncio
+
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandler
 
 from config.notif_config import NotifConfig
 from src.emojis import Emojis
@@ -558,29 +560,102 @@ async def last_match_league(update: Update, context):
             await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
+async def today_matches_callback_handler(update: Update, context) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+
+    await query.answer()
+
+    context.args = [query.data.split()[1]]
+
+    await today_matches(update, context)
+
+
+async def tomorrow_matches_callback_handler(update: Update, context) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+
+    await query.answer()
+
+    context.args = [query.data.split()[1]]
+
+    await tomorrow_matches(update, context)
+
+
+async def upcoming_matches_callback_handler(update: Update, context) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+
+    await query.answer()
+
+    context.args = [query.data.split()[1]]
+
+    await upcoming_matches(update, context)
+
+
+async def last_played_matches_callback_handler(update: Update, context) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+
+    await query.answer()
+
+    context.args = [query.data.split()[1]]
+
+    await last_played_matches(update, context)
+
+
+async def favourite_teams_and_leagues_inline_keyboard(
+    update: Update, context, command: str
+):
+    keyboard = [
+        [
+            InlineKeyboardButton("Favourite Leagues", callback_data=f"{command} fl"),
+            InlineKeyboardButton("Favourite Teams", callback_data=f"{command} ft"),
+        ]
+    ]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    text = f"Please choose the option you'd like to get <strong>{' '.join(command.split('_'))}</strong> for:"
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        reply_markup=reply_markup,
+        parse_mode="HTML",
+    )
+
+
 async def today_matches(update: Update, context):
     logger.info(
-        f"'today_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+        f"/today_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
         context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
 
-    validated_input = command_handler.validate_command_input()
-
-    if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+    if not len(context.args):
+        await favourite_teams_and_leagues_inline_keyboard(
+            update, context, "today_matches"
         )
     else:
-        texts, photo = command_handler.today_games()
+        validated_input = command_handler.validate_command_input()
 
-        for text in texts:
+        if validated_input:
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=text,
+                text=validated_input,
                 parse_mode="HTML",
             )
+        else:
+            texts, photo = command_handler.today_games()
+
+            for text in texts:
+                await context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=text,
+                    parse_mode="HTML",
+                )
 
 
 async def upcoming_matches(update: Update, context):
@@ -591,21 +666,28 @@ async def upcoming_matches(update: Update, context):
         context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
 
-    validated_input = command_handler.validate_command_input()
-
-    if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+    if not len(context.args):
+        await favourite_teams_and_leagues_inline_keyboard(
+            update, context, "upcoming_matches"
         )
     else:
-        texts, photo = command_handler.upcoming_matches()
+        validated_input = command_handler.validate_command_input()
 
-        for text in texts:
+        if validated_input:
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=text,
+                text=validated_input,
                 parse_mode="HTML",
             )
+        else:
+            texts, photo = command_handler.upcoming_matches()
+
+            for text in texts:
+                await context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=text,
+                    parse_mode="HTML",
+                )
 
 
 async def last_matches(update: Update, context):
@@ -634,21 +716,28 @@ async def last_played_matches(update: Update, context):
         context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
 
-    validated_input = command_handler.validate_command_input()
-
-    if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+    if not len(context.args):
+        await favourite_teams_and_leagues_inline_keyboard(
+            update, context, "last_played_matches"
         )
     else:
-        texts, photo = command_handler.yesterday_games()
+        validated_input = command_handler.validate_command_input()
 
-        for text in texts:
+        if validated_input:
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=text,
+                text=validated_input,
                 parse_mode="HTML",
             )
+        else:
+            texts, photo = command_handler.yesterday_games()
+
+            for text in texts:
+                await context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=text,
+                    parse_mode="HTML",
+                )
 
 
 async def tomorrow_matches(update: Update, context):
@@ -659,26 +748,34 @@ async def tomorrow_matches(update: Update, context):
         context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
 
-    validated_input = command_handler.validate_command_input()
-
-    if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
+    if not len(context.args):
+        await favourite_teams_and_leagues_inline_keyboard(
+            update, context, "tomorrow_matches"
         )
     else:
-        texts, photo = command_handler.tomorrow_games()
+        validated_input = command_handler.validate_command_input()
 
-        for text in texts:
+        if validated_input:
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=text,
+                text=validated_input,
                 parse_mode="HTML",
             )
+        else:
+            texts, photo = command_handler.tomorrow_games()
+
+            for text in texts:
+                await context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=text,
+                    parse_mode="HTML",
+                )
 
 
 if __name__ == "__main__":
     application = ApplicationBuilder().token(NotifConfig.TELEGRAM_TOKEN).build()
     start_handler = CommandHandler("start", start)
+
     search_team_handler = CommandHandler("search_team", search_team)
     search_league_handler = CommandHandler("search_league", search_league)
     search_leagues_by_country_handler = CommandHandler(
@@ -750,5 +847,25 @@ if __name__ == "__main__":
     application.add_handler(set_add_time_zone_handler)
     application.add_handler(my_time_zones_handler)
     application.add_handler(remove_time_zone_handler)
+    application.add_handler(
+        CallbackQueryHandler(
+            today_matches_callback_handler, pattern="^.*today_matches.*"
+        )
+    )
+    application.add_handler(
+        CallbackQueryHandler(
+            tomorrow_matches_callback_handler, pattern="^.*tomorrow_matches.*"
+        )
+    )
+    application.add_handler(
+        CallbackQueryHandler(
+            upcoming_matches_callback_handler, pattern="^.*upcoming_matches.*"
+        )
+    )
+    application.add_handler(
+        CallbackQueryHandler(
+            last_played_matches_callback_handler, pattern="^.*last_played_matches.*"
+        )
+    )
 
     application.run_polling()
