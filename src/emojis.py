@@ -58,3 +58,4 @@ class Emojis(Enum):
     POLICE_WOMAN = emoji.emojize(":woman_police_officer:", use_aliases=True)
     MAN_RUNNING = emoji.emojize(":man_running:", use_aliases=True)
     CROSS_MARK = emoji.emojize(":cross_mark:", use_aliases=True)
+    PARTYING_FACE = emoji.emojize(":partying_face:", use_aliases=True)

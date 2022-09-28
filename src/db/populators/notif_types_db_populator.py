@@ -12,21 +12,11 @@ sys.path.insert(2, project_dir)
 
 from src.db.db_manager import NotifierDBManager
 from src.db.notif_sql_models import NotifType
-
-notification_types = [
-    {"name": "FT Today", "description": "Favourite teams matches today."},
-    {"name": "FL Today", "description": "Favourite leagues matches today."},
-    {"name": "Upcoming FT", "description": "Upcoming favourite team match (<30 min.)."},
-    {
-        "name": "Played FT",
-        "description": "Played favourite team match with result after it finished.",
-    },
-]
-
+from src.notifier_constants import NOTIFICATION_TYPES
 
 notifier_db_manager = NotifierDBManager()
 
-for notification_type in notification_types:
+for notification_type in NOTIFICATION_TYPES:
     notif_type = NotifType(
         name=notification_type["name"], description=notification_type["description"]
     )

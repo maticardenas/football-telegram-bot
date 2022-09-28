@@ -661,3 +661,8 @@ class FixturesDBManager:
         statement = select(DBNotifType).where(DBNotifType.id == notif_type_id)
 
         return self._notifier_db_manager.select_records(statement)
+
+    def get_all_notif_types(self) -> List[DBNotifType]:
+        statement = select(DBNotifType).order_by(asc(DBNotifType.id))
+
+        return self._notifier_db_manager.select_records(statement)
