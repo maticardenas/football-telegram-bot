@@ -10,6 +10,8 @@ from src.db.notif_sql_models import FavouriteLeague as DBFavouriteLeague
 from src.db.notif_sql_models import FavouriteTeam as DBFavouriteTeam
 from src.db.notif_sql_models import Fixture as DBFixture
 from src.db.notif_sql_models import League as DBLeague
+from src.db.notif_sql_models import NotifConfig as DBNotifConfig
+from src.db.notif_sql_models import NotifType as DBNotifType
 from src.db.notif_sql_models import Team as DBTeam
 from src.db.notif_sql_models import TimeZone as DBTimeZone
 from src.db.notif_sql_models import UserTimeZone as DBUserTimeZone
@@ -43,6 +45,15 @@ class FixturesDBManager:
     def get_favourite_teams(self, chat_id: str) -> List[Optional[DBTeam]]:
         favourite_teams_statement = select(DBFavouriteTeam.team).where(
             DBFavouriteTeam.chat_id == str(chat_id)
+        )
+
+        return self._notifier_db_manager.select_records(favourite_teams_statement)
+
+    def get_favourite_teams_for_team(
+        self, team_id: int
+    ) -> List[Optional[DBFavouriteTeam]]:
+        favourite_teams_statement = select(DBFavouriteTeam).where(
+            DBFavouriteTeam.team == team_id
         )
 
         return self._notifier_db_manager.select_records(favourite_teams_statement)
@@ -605,5 +616,15 @@ class FixturesDBManager:
 
     def get_favourite_leagues_users(self) -> List[str]:
         statement = select(DBFavouriteLeague.chat_id).distinct()
+
+        return self._notifier_db_manager.select_records(statement)
+
+    def get_user_notif_config(self, chat_id: str) -> List[DBNotifConfig]:
+        statement = select(DBNotifConfig).where(DBNotifConfig.chat_id == chat_id)
+
+        return self._notifier_db_manager.select_records(statement)
+
+    def get_notif_type(self, notif_type_id: int) -> List[DBNotifType]:
+        statement = select(DBNotifType).where(DBNotifType.id == notif_type_id)
 
         return self._notifier_db_manager.select_records(statement)

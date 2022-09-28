@@ -14,7 +14,7 @@ class TelegramClient(BaseClient):
 
     def send_message(self, chat_id: str, msg: str) -> Dict[str, Any]:
         endpoint = f"/bot{self._token}/sendMessage"
-        params = {"chat_id": chat_id, "text": msg}
+        params = {"chat_id": chat_id, "text": msg, "parse_mode": "HTML"}
         url = f"{self.base_url}{endpoint}"
 
         return self.request.post(url, params, self.headers)
