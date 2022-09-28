@@ -3,11 +3,6 @@ import os
 import sys
 from datetime import datetime
 
-from src.utils.date_utils import get_time_in_time_zone_str, is_time_between
-from src.utils.notifier_utils import (
-    get_user_main_time_zone,
-    is_user_subscribed_to_notif,
-)
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
@@ -15,6 +10,11 @@ project_dir = os.path.join(parent_dir, "..")
 sys.path.insert(0, parent_dir)
 sys.path.insert(1, project_dir)
 
+from src.utils.date_utils import get_time_in_time_zone_str, is_time_between
+from src.utils.notifier_utils import (
+    get_user_main_time_zone,
+    is_user_subscribed_to_notif,
+)
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
 from src.senders.telegram_sender import send_telegram_message
