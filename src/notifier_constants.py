@@ -19,7 +19,7 @@ NOTIFICATION_TYPES = [
     },
     {
         "name": "Upcoming FT",
-        "description": "Upcoming favourite team match. (<30 min. to the match)",
+        "description": "Upcoming favourite team match. (30 min.)",
     },
     {
         "name": "Played FT",
