@@ -11,6 +11,7 @@ from src.telegram_bot.bot_commands_handler import (
     FavouriteTeamsCommandHandler,
     NextAndLastMatchCommandHandler,
     NextAndLastMatchLeagueCommandHandler,
+    NotifConfigCommandHandler,
     NotifierBotCommandsHandler,
     SearchCommandHandler,
     SurroundingMatchesHandler,
@@ -772,6 +773,26 @@ async def tomorrow_matches(update: Update, context):
                 )
 
 
+async def notif_config(update: Update, context):
+    logger.info(
+        f"'upcoming_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NotifConfigCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    text = command_handler.notif_config()
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        parse_mode="HTML",
+    )
+
+
 if __name__ == "__main__":
     application = ApplicationBuilder().token(NotifConfig.TELEGRAM_TOKEN).build()
     start_handler = CommandHandler("start", start)
@@ -817,6 +838,16 @@ if __name__ == "__main__":
     remove_favourite_league_handler = CommandHandler(
         "delete_favourite_league", delete_favourite_league
     )
+    notif_config_handler = CommandHandler("notif_config", notif_config)
+    # enable_notif_handler = CommandHandler(
+    #     "enable_notif", enable_notif
+    # )
+    # disable_notif_handler = CommandHandler(
+    #     "disable_notif", disable_notif
+    # )
+    # subscribe_to_notifications_handler = CommandHandler(
+    #     "subscribe_to_notifications", subscribe_to_notifications
+    # )
 
     help_handler = CommandHandler("help", help)
 
@@ -847,6 +878,10 @@ if __name__ == "__main__":
     application.add_handler(set_add_time_zone_handler)
     application.add_handler(my_time_zones_handler)
     application.add_handler(remove_time_zone_handler)
+    application.add_handler(notif_config_handler)
+    # application.add_handler(enable_notif_handler)
+    # application.add_handler(disable_notif_handler)
+    # application.add_handler(subscribe_to_notifications_handler)
     application.add_handler(
         CallbackQueryHandler(
             today_matches_callback_handler, pattern="^.*today_matches.*"

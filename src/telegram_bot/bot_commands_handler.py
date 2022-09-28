@@ -922,7 +922,7 @@ class TimeZonesCommandHandler(NotifierBotCommandsHandler):
         return response
 
 
-class NotifConfigCommandsHandler(NotifierBotCommandsHandler):
+class NotifConfigCommandHandler(NotifierBotCommandsHandler):
     def __init__(
         self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
     ):
