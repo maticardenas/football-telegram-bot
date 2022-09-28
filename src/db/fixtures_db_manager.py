@@ -597,3 +597,13 @@ class FixturesDBManager:
         logger.info(f"Removing Favourite League {league_id} for chat {chat_id}")
 
         self._notifier_db_manager.delete_record(favourite_league[0])
+
+    def get_favourite_teams_users(self) -> List[str]:
+        statement = select(DBFavouriteTeam.chat_id).distinct()
+
+        return self._notifier_db_manager.select_records(statement)
+
+    def get_favourite_leagues_users(self) -> List[str]:
+        statement = select(DBFavouriteLeague.chat_id).distinct()
+
+        return self._notifier_db_manager.select_records(statement)

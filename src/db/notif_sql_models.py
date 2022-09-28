@@ -65,8 +65,9 @@ class UserTimeZone(SQLModel, table=True):
 
 class NotifType(SQLModel, table=True):
     __table_args__ = {"extend_existing": True}
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     name: str
+    description: str
 
 
 class NotifConfig(SQLModel, table=True):
