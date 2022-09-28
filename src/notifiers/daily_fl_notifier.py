@@ -28,7 +28,7 @@ def notify_fl_leagues_playing() -> None:
 
     for user in users:
         if not is_user_subscribed_to_notif(user, 1):
-            break
+            continue
 
         user_fixtures_to_notif = []
         user_main_time_zone = get_user_main_time_zone(user)
@@ -45,7 +45,7 @@ def notify_fl_leagues_playing() -> None:
         )
 
         if not is_time_between(now.time(), begin_time, end_time):
-            break
+            continue
 
         favourite_leagues = fixtures_db_manager.get_favourite_leagues(user)
 
