@@ -61,3 +61,17 @@ class UserTimeZone(SQLModel, table=True):
     chat_id: str = Field(primary_key=True)
     time_zone: int = Field(foreign_key="timezone.id", primary_key=True)
     is_main_tz: bool = False
+
+
+class NotifType(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    description: str
+
+
+class NotifConfig(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    chat_id: int = Field(primary_key=True)
+    notif_type: int = Field(foreign_key="notiftype.id", primary_key=True)
+    status: bool = True

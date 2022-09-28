@@ -11,6 +11,7 @@ from src.telegram_bot.bot_commands_handler import (
     FavouriteTeamsCommandHandler,
     NextAndLastMatchCommandHandler,
     NextAndLastMatchLeagueCommandHandler,
+    NotifConfigCommandHandler,
     NotifierBotCommandsHandler,
     SearchCommandHandler,
     SurroundingMatchesHandler,
@@ -40,6 +41,10 @@ async def start(update: Update, context):
         f"on the other hand, are optional extra that you can have, when informing the matches I will put the time corresponding to your main time zone and "
         f"also the additional ones as well, so that you can share the times that matches will take place with anyone in the world :).\n"
         f"You can add you main time zone with /set_main_time_zone command, whereas for your additional ones you can use /set_add_time_zone.\n\n"
+        f"{Emojis.BELL.value}<u><em>Notifications</em></u>\n\n"
+        f"You can receive automatic notifications from me! Getting, for example, reminders when there are matches approaching corresponding to your favourite "
+        f"teams or leagues, or when a match was just played. First, you need to subscribe to notifications with /subscribe_to_notifications command, then you will"
+        f" be able to check them and their status with /notif_config and don't worry, you can enable/disable them as you please, with /enable_notif_config and /disable_notif_config commands.\n\n"
         f"{Emojis.SOCCER_BALL.value}Enjoy and I hope you are well informed with me!",
         parse_mode="HTML",
     )
@@ -58,6 +63,10 @@ async def help(update: Update, context):
         f"• /set_add_time_zone <em>time_zone_id</em> - Sets an additional time zone by id.\n"
         f"• /my_time_zones - List of your configured time zones.\n"
         f"• /delete_time_zone <em>time_zone_id</em> - Removes one of your configured time zones.\n"
+        f"• /subscribe_to_notifications - Subscribe to existing notification types.\n"
+        f"• /notif_config - Get your current notifications configuration.\n"
+        f"• /enable_notif_config <em>notif_type_id</em> - Enable a specific notification.\n"
+        f"• /disable_notif_config <em>notif_type_id</em> - Disable a specific notification.\n"
         f"• /search_team <em>team_name</em> - Searches teams by name (or part of it) and retrieves them, if found, "
         f"with its corresponding <em>team_id</em> \n"
         f"• /search_league <em>league_name</em> - Searches leagues by name (or part of it) and retrieves them, "
@@ -772,6 +781,93 @@ async def tomorrow_matches(update: Update, context):
                 )
 
 
+async def notif_config(update: Update, context):
+    logger.info(f"'notif_config' command executed - by {update.effective_user.name}")
+    command_handler = NotifConfigCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    text = command_handler.notif_config()
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        parse_mode="HTML",
+    )
+
+
+async def subscribe_to_notifications(update: Update, context):
+    logger.info(
+        f"'subscribe_to_notifications' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NotifConfigCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    text = command_handler.subscribe_to_notifications()
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        parse_mode="HTML",
+    )
+
+
+async def enable_notif_config(update: Update, context):
+    logger.info(
+        f"'enable_notif_config {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NotifConfigCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = command_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=validated_input,
+            parse_mode="HTML",
+        )
+    else:
+        text = command_handler.enable_notification()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=text,
+            parse_mode="HTML",
+        )
+
+
+async def disable_notif_config(update: Update, context):
+    logger.info(
+        f"'disable_notif_config {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NotifConfigCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    validated_input = command_handler.validate_command_input()
+
+    if validated_input:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=validated_input,
+            parse_mode="HTML",
+        )
+    else:
+        text = command_handler.disable_notification()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=text,
+            parse_mode="HTML",
+        )
+
+
 if __name__ == "__main__":
     application = ApplicationBuilder().token(NotifConfig.TELEGRAM_TOKEN).build()
     start_handler = CommandHandler("start", start)
@@ -817,6 +913,12 @@ if __name__ == "__main__":
     remove_favourite_league_handler = CommandHandler(
         "delete_favourite_league", delete_favourite_league
     )
+    notif_config_handler = CommandHandler("notif_config", notif_config)
+    enable_notif_handler = CommandHandler("enable_notif_config", enable_notif_config)
+    disable_notif_handler = CommandHandler("disable_notif_config", disable_notif_config)
+    subscribe_to_notifications_handler = CommandHandler(
+        "subscribe_to_notifications", subscribe_to_notifications
+    )
 
     help_handler = CommandHandler("help", help)
 
@@ -847,6 +949,10 @@ if __name__ == "__main__":
     application.add_handler(set_add_time_zone_handler)
     application.add_handler(my_time_zones_handler)
     application.add_handler(remove_time_zone_handler)
+    application.add_handler(notif_config_handler)
+    application.add_handler(enable_notif_handler)
+    application.add_handler(disable_notif_handler)
+    application.add_handler(subscribe_to_notifications_handler)
     application.add_handler(
         CallbackQueryHandler(
             today_matches_callback_handler, pattern="^.*today_matches.*"

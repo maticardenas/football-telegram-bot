@@ -10,6 +10,8 @@ from src.db.notif_sql_models import FavouriteLeague as DBFavouriteLeague
 from src.db.notif_sql_models import FavouriteTeam as DBFavouriteTeam
 from src.db.notif_sql_models import Fixture as DBFixture
 from src.db.notif_sql_models import League as DBLeague
+from src.db.notif_sql_models import NotifConfig as DBNotifConfig
+from src.db.notif_sql_models import NotifType as DBNotifType
 from src.db.notif_sql_models import Team as DBTeam
 from src.db.notif_sql_models import TimeZone as DBTimeZone
 from src.db.notif_sql_models import UserTimeZone as DBUserTimeZone
@@ -43,6 +45,15 @@ class FixturesDBManager:
     def get_favourite_teams(self, chat_id: str) -> List[Optional[DBTeam]]:
         favourite_teams_statement = select(DBFavouriteTeam.team).where(
             DBFavouriteTeam.chat_id == str(chat_id)
+        )
+
+        return self._notifier_db_manager.select_records(favourite_teams_statement)
+
+    def get_favourite_teams_for_team(
+        self, team_id: int
+    ) -> List[Optional[DBFavouriteTeam]]:
+        favourite_teams_statement = select(DBFavouriteTeam).where(
+            DBFavouriteTeam.team == team_id
         )
 
         return self._notifier_db_manager.select_records(favourite_teams_statement)
@@ -597,3 +608,61 @@ class FixturesDBManager:
         logger.info(f"Removing Favourite League {league_id} for chat {chat_id}")
 
         self._notifier_db_manager.delete_record(favourite_league[0])
+
+    def get_favourite_teams_users(self) -> List[str]:
+        statement = select(DBFavouriteTeam.chat_id).distinct()
+
+        return self._notifier_db_manager.select_records(statement)
+
+    def get_favourite_leagues_users(self) -> List[str]:
+        statement = select(DBFavouriteLeague.chat_id).distinct()
+
+        return self._notifier_db_manager.select_records(statement)
+
+    def get_user_notif_config(self, chat_id: str) -> List[DBNotifConfig]:
+        statement = select(DBNotifConfig).where(DBNotifConfig.chat_id == chat_id)
+
+        return self._notifier_db_manager.select_records(statement)
+
+    def insert_or_update_user_notif_config(
+        self, notif_type: int, chat_id: str, status: bool = True
+    ) -> None:
+        user_notif_config_statement = select(DBNotifConfig).where(
+            DBNotifConfig.chat_id == chat_id, DBNotifConfig.notif_type == notif_type
+        )
+
+        retrieved_user_notif_config = self._notifier_db_manager.select_records(
+            user_notif_config_statement
+        )
+
+        if not len(retrieved_user_notif_config):
+            logger.info(
+                f"Inserting User Notif Config '{chat_id}' - {notif_type} - it does not exist in "
+                f"the database"
+            )
+            db_notif_config = DBNotifConfig(
+                chat_id=chat_id,
+                notif_type=notif_type,
+                status=status,
+            )
+        else:
+            logger.info(
+                f"Updating User Notif Config '{chat_id}' - {notif_type} - it already exists in "
+                f"the database"
+            )
+            db_notif_config = retrieved_user_notif_config.pop()
+            db_notif_config.chat_id = chat_id
+            db_notif_config.notif_type = notif_type
+            db_notif_config.status = status
+
+        self._notifier_db_manager.insert_record(db_notif_config)
+
+    def get_notif_type(self, notif_type_id: int) -> List[DBNotifType]:
+        statement = select(DBNotifType).where(DBNotifType.id == notif_type_id)
+
+        return self._notifier_db_manager.select_records(statement)
+
+    def get_all_notif_types(self) -> List[DBNotifType]:
+        statement = select(DBNotifType).order_by(asc(DBNotifType.id))
+
+        return self._notifier_db_manager.select_records(statement)
