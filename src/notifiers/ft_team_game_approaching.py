@@ -42,7 +42,7 @@ def notify_ft_team_game_approaching() -> None:
                                 ft_record.chat_id
                             ),
                         )
-                        initial_notif_text = f"Hi! {Emojis.WAVING_HAND.value}\nYour favourite team is playing soon {Emojis.TELEVISION.value}"
+                        initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nYour favourite team is playing soon {Emojis.TELEVISION.value}"
                         notif_text = f"{initial_notif_text}\n\n{converted_fixture.telegram_like_repr()}"
                         send_telegram_message(
                             chat_id=ft_record.chat_id, message=notif_text

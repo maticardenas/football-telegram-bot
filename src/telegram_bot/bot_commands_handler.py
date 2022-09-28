@@ -931,21 +931,23 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
         self._user = user
         self._chat_id = chat_id
         self._is_list = is_list
+        self._notif_type_id = None
 
     def validate_command_input(self) -> str:
         response = ""
 
         if not self._is_list:
             if len(self._command_args) < 1 and not self._is_list:
-                response = "You must enter one time zone"
+                response = "You must enter one notification type."
             elif len(self._command_args) > 1:
-                response = "You must enter one time zone"
+                response = "You must enter one notification type"
             else:
                 if not self.is_valid_id(self._command_args[0]):
                     response = (
-                        "You must enter a valid time zone id, the command doesn't work with time zone's name.\n"
-                        "You can get your time zone's id by its name using /search_time_zone command :)"
+                        f"{Emojis.RED_EXCLAMATION_MARK.value} You must enter a valid notification type id.\n\n"
+                        "You can get the notification type id using the /notif_config command :)"
                     )
+                self._notif_type_id = self._command_args[0]
 
         return response
 
@@ -964,41 +966,41 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
                 notif_type.id, self._chat_id
             )
 
-        return f"{Emojis.PARTYING_FACE.value} You have successfully subscribed to notifications! \n\nFrom now on you can manage them through /notif_config, /enable_notif_config and /disable_notif_config commands."
+        return f"{Emojis.PARTYING_FACE.value} You have successfully subscribed to notifications! \n\n{Emojis.RIGHT_FACING_FIST.value} From now on you can manage them through /notif_config, /enable_notif_config and /disable_notif_config commands."
 
-    def disable_notification(self, notif_type_id: int) -> str:
+    def disable_notification(self) -> str:
         existing_subscriptions = self._fixtures_db_manager.get_user_notif_config(
             self._chat_id
         )
 
-        if notif_type_id not in [
+        if int(self._notif_type_id) not in [
             notif_config.notif_type for notif_config in existing_subscriptions
         ]:
             return "The provided notification type does not exist. Please check the available ones with /notif_config command."
 
-        self._fixtures_db_manager.insert_or_update_user_notif_confif(
-            notif_type_id, self._chat_id, False
+        self._fixtures_db_manager.insert_or_update_user_notif_config(
+            self._notif_type_id, self._chat_id, False
         )
 
-        notif_type = self._fixtures_db_manager.get_notif_type(notif_type_id)[0]
+        notif_type = self._fixtures_db_manager.get_notif_type(self._notif_type_id)[0]
 
         return f"You have successfully disabled '{notif_type.name}' notification. You can re-enable it at any time with /enable_notif_config command."
 
-    def enable_notification(self, notif_type_id: int) -> str:
+    def enable_notification(self) -> str:
         existing_subscriptions = self._fixtures_db_manager.get_user_notif_config(
             self._chat_id
         )
 
-        if notif_type_id not in [
-            notif_config.notif_type for notif_config in existing_subscriptions
+        if int(self._notif_type_id) not in [
+            int(notif_config.notif_type) for notif_config in existing_subscriptions
         ]:
             return "The provided notification type does not exist. Please check the available ones with /notif_config command."
 
-        self._fixtures_db_manager.insert_or_update_user_notif_confif(
-            notif_type_id, self._chat_id, True
+        self._fixtures_db_manager.insert_or_update_user_notif_config(
+            self._notif_type_id, self._chat_id, True
         )
 
-        notif_type = self._fixtures_db_manager.get_notif_type(notif_type_id)[0]
+        notif_type = self._fixtures_db_manager.get_notif_type(self._notif_type_id)[0]
 
         return f"You have successfully enabled '{notif_type.name}' notification. You can disable it at any time with /disable_notif_config command."
 
@@ -1008,7 +1010,7 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
         )
 
         if not len(existing_subscriptions):
-            return f"You are not subscribed to notifications yet. Please subscribe with /subscribe_to_notifications command first."
+            return f"{Emojis.RED_EXCLAMATION_MARK.value} You are not subscribed to notifications yet. \n\nPlease subscribe with /subscribe_to_notifications command first."
 
         notifications_config_text = ""
 
@@ -1016,7 +1018,11 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
             notif_type = self._fixtures_db_manager.get_notif_type(
                 subscription.notif_type
             )[0]
-            status = "[ON]" if subscription.status else "[OFF]"
-            notifications_config_text += f"<strong>{notif_type.id}</strong> - {notif_type.name} <em>{status}</em>\n"
+            status = (
+                Emojis.CHECK_MARK_BUTTON.value
+                if subscription.status
+                else Emojis.NO_ENTRY.value
+            )
+            notifications_config_text += f"<strong>{notif_type.id} - {notif_type.name}</strong> <em>{status}</em> - {notif_type.description}\n"
 
         return notifications_config_text
