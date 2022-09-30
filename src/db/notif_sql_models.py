@@ -32,9 +32,12 @@ class Fixture(SQLModel, table=True):
     venue: str
     match_status: str
     referee: str
+    played_notified: bool = False
     home_score: Optional[int] = None
     away_score: Optional[int] = None
-    highlights: Optional[List[str]]
+    penalty_home_score: Optional[int] = None
+    penalty_away_score: Optional[int] = None
+    highlights: Optional[List[str]] = None
 
 
 class FavouriteTeam(SQLModel, table=True):

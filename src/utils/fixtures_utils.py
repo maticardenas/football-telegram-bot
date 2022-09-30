@@ -249,7 +249,12 @@ def convert_db_fixture(
             away_team.picture,
             get_team_aliases(str(away_team.id)),
         ),
-        MatchScore(fixture.home_score, fixture.away_score),
+        MatchScore(
+            fixture.home_score,
+            fixture.away_score,
+            fixture.penalty_home_score,
+            fixture.penalty_away_score,
+        ),
         fixture.venue,
         user_time_zones=user_time_zones,
     )
@@ -296,7 +301,10 @@ def convert_fixture_response(
             get_team_aliases(str(away_team_id)),
         ),
         MatchScore(
-            fixture_response["goals"]["home"], fixture_response["goals"]["away"]
+            fixture_response["goals"]["home"],
+            fixture_response["goals"]["away"],
+            fixture_response["score"]["penalty"]["home"],
+            fixture_response["score"]["penalty"]["away"],
         ),
         f"{fixture_response['fixture'].get('venue').get('name')} ({fixture_response['fixture'].get('venue').get('city')})",
         []
