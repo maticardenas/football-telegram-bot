@@ -3,5 +3,5 @@
 0 * * * * /usr/football_api/dev_scripts/notify_daily_fl.sh >> /var/log/cron_log.log 2>&1
 0 * * * * /usr/football_api/dev_scripts/notify_daily_ft.sh >> /var/log/cron_log.log 2>&1
 0,10,20,30,40,50 * * * * /usr/football_api/dev_scripts/notify_ft_game_approaching.sh >> /var/log/cron_log.log 2>&1
-0,10,20,30,40,50 * * * * /usr/football_api/dev_scripts/notify_ft_game_played.sh >> /var/log/cron_log.log 2>&1
+0,10,20,30,40,50 * * * /usr/football_api/dev_scripts/notify_ft_game_played.sh >> /var/log/cron_log.log 2>&1
 # Extra valid line§
