@@ -62,3 +62,5 @@ class Emojis(Enum):
     NO_ENTRY = emoji.emojize(":no_entry:", use_aliases=True)
     CHECK_MARK_BUTTON = emoji.emojize(":check_mark_button:", use_aliases=True)
     BELL = emoji.emojize(":bell:", use_aliases=True)
+    SPEAKING_HEAD = emoji.emojize(":speaking_head:", use_aliases=True)
+    FOLDED_HANDS = emoji.emojize(":folded_hands:", use_aliases=True)
