@@ -67,7 +67,9 @@ def notify_fl_leagues_playing() -> None:
         )
 
         for fixture in today_matches:
-            converted_fixture = convert_db_fixture(fixture)
+            converted_fixture = convert_db_fixture(
+                fixture, user_time_zones=fixtures_db_manager.get_user_time_zones(user)
+            )
             user_fixtures_to_notif.append(converted_fixture)
 
         if user_fixtures_to_notif:

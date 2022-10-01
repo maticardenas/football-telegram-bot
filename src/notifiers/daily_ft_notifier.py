@@ -72,7 +72,10 @@ def notify_ft_teams_playing() -> None:
                 or fixture.home_team in favourite_teams
             ):
                 converted_fixture = convert_db_fixture(fixture)
-                user_fixtures_to_notif.append(converted_fixture)
+                user_fixtures_to_notif.append(
+                    converted_fixture,
+                    user_time_zones=fixtures_db_manager.get_user_time_zones(user),
+                )
 
         if user_fixtures_to_notif:
             notif_text = (
