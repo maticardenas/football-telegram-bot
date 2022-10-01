@@ -9,15 +9,15 @@ project_dir = os.path.join(parent_dir, "..")
 sys.path.insert(0, parent_dir)
 sys.path.insert(1, project_dir)
 
-from src.db.fixtures_db_manager import FixturesDBManager
-from src.emojis import Emojis
-from src.senders.telegram_sender import send_telegram_message
 from src.utils.date_utils import get_time_in_time_zone_str, is_time_between
-from src.utils.fixtures_utils import convert_db_fixture
 from src.utils.notifier_utils import (
     get_user_main_time_zone,
     is_user_subscribed_to_notif,
 )
+from src.db.fixtures_db_manager import FixturesDBManager
+from src.emojis import Emojis
+from src.senders.telegram_sender import send_telegram_message
+from src.utils.fixtures_utils import convert_db_fixture
 
 fixtures_db_manager = FixturesDBManager()
 
@@ -58,10 +58,7 @@ def notify_ft_teams_playing() -> None:
                 fixture.away_team in favourite_teams
                 or fixture.home_team in favourite_teams
             ):
-                converted_fixture = convert_db_fixture(
-                    fixture,
-                    user_time_zones=fixtures_db_manager.get_user_time_zones(user),
-                )
+                converted_fixture = convert_db_fixture(fixture)
                 user_fixtures_to_notif.append(converted_fixture)
 
         if user_fixtures_to_notif:
