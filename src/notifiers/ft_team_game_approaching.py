@@ -11,6 +11,7 @@ sys.path.insert(1, project_dir)
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
+from src.notifier_logger import get_logger
 from src.senders.telegram_sender import send_telegram_message
 from src.utils.date_utils import get_formatted_date, is_time_between
 from src.utils.fixtures_utils import convert_db_fixture
@@ -18,11 +19,14 @@ from src.utils.notifier_utils import is_user_subscribed_to_notif
 
 fixtures_db_manager = FixturesDBManager()
 
+logger = get_logger(__name__)
+
 
 def notify_ft_team_game_approaching() -> None:
     surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(0.5)
 
     for fixture in surrounding_fixtures:
+        logger.info(f"Checking game approaching notification for fixture {fixture.id}")
         fixture_time = get_formatted_date(fixture.utc_date).time()
 
         utc_now = datetime.utcnow()

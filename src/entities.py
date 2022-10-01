@@ -20,6 +20,20 @@ FIXTURES_DB_MANAGER = FixturesDBManager()
 class MatchScore:
     home_score: int
     away_score: int
+    penalty_home_score: Optional[int] = None
+    penalty_away_score: Optional[int] = None
+
+    def get_home_score(self) -> str:
+        penalty_score = (
+            f" ({self.penalty_home_score})" if self.penalty_home_score else ""
+        )
+        return f"[{self.home_score}]{penalty_score}"
+
+    def get_away_score(self) -> str:
+        penalty_score = (
+            f" ({self.penalty_away_score})" if self.penalty_away_score else ""
+        )
+        return f"[{self.away_score}]{penalty_score}"
 
 
 @dataclass
@@ -179,8 +193,8 @@ class Fixture:
 
     def matched_played_str(self) -> str:
         return (
-            f"{Emojis.SOCCER_BALL.value} *{self.home_team.name} - {self.match_score.home_score} "
-            f"vs. {self.match_score.away_score} - {self.away_team.name}*\n"
+            f"{Emojis.SOCCER_BALL.value} *{self.home_team.name} - {self.match_score.get_home_score()} "
+            f"vs. {self.match_score.get_away_score()} - {self.away_team.name}*\n"
             f"{Emojis.TROPHY.value} *{self.championship.name}*\n"
             f"{Emojis.PUSHPIN.value} *{self.round}*"
         )
@@ -256,7 +270,7 @@ class Fixture:
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} "
-                    f"{self.home_team.name} [{self.match_score.home_score}] vs. [{self.match_score.away_score}] {self.away_team.name} \n"
+                    f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name} \n"
                     f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})"
                     f"{match_in_progress_text}"
                     # f"{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
@@ -368,8 +382,8 @@ class Fixture:
             )
             match_notification = (
                 f"{match_in_progress_text}"
-                f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} [{self.match_score.home_score}] vs. "
-                f" [{self.match_score.away_score}] {self.away_team.name}</strong>\n"
+                f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. "
+                f" {self.match_score.get_away_score()} {self.away_team.name}</strong>\n"
                 f"{Emojis.TROPHY.value} <strong>{self.championship.name} ({self.championship.country[:3].upper()})</strong>\n"
                 f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
                 f"{stadium_line}"

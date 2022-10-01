@@ -3,31 +3,38 @@ import os
 import sys
 from datetime import datetime
 
-
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
 sys.path.insert(0, parent_dir)
 sys.path.insert(1, project_dir)
 
+from src.db.fixtures_db_manager import FixturesDBManager
+from src.emojis import Emojis
+from src.notifier_logger import get_logger
+from src.senders.telegram_sender import send_telegram_message
 from src.utils.date_utils import get_time_in_time_zone_str, is_time_between
+from src.utils.fixtures_utils import convert_db_fixture
 from src.utils.notifier_utils import (
     get_user_main_time_zone,
     is_user_subscribed_to_notif,
 )
-from src.db.fixtures_db_manager import FixturesDBManager
-from src.emojis import Emojis
-from src.senders.telegram_sender import send_telegram_message
-from src.utils.fixtures_utils import convert_db_fixture
 
 fixtures_db_manager = FixturesDBManager()
+
+logger = get_logger(__name__)
 
 
 def notify_fl_leagues_playing() -> None:
     users = fixtures_db_manager.get_favourite_leagues_users()
 
     for user in users:
-        if not is_user_subscribed_to_notif(user, 1):
+        logger.info(f"Favourite Leagues Games notifier for user {user}")
+
+        if not is_user_subscribed_to_notif(user, 2):
+            logger.info(
+                f"User {user} is not subscribed to notification type 2 - Skipping."
+            )
             continue
 
         user_fixtures_to_notif = []
@@ -35,6 +42,7 @@ def notify_fl_leagues_playing() -> None:
         now = datetime.utcnow()
 
         if user_main_time_zone:
+            logger.info(f"User main timezone - {user_main_time_zone.name}")
             now = get_time_in_time_zone_str(now, user_main_time_zone.name)
 
         begin_time = (
@@ -45,6 +53,9 @@ def notify_fl_leagues_playing() -> None:
         )
 
         if not is_time_between(now.time(), begin_time, end_time):
+            logger.info(
+                f"Current time in time zone {user_main_time_zone.name} ({now.time()}) is not between - {begin_time} and {end_time}"
+            )
             continue
 
         favourite_leagues = fixtures_db_manager.get_favourite_leagues(user)
@@ -71,4 +82,5 @@ def notify_fl_leagues_playing() -> None:
 
 
 if __name__ == "__main__":
+    logger.info("*** RUNNING Favourite Leagues Games Notifier ****")
     notify_fl_leagues_playing()

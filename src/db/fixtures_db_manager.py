@@ -505,6 +505,40 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(team_statement)[0]
 
+    def insert_or_update_fixture(self, fixture: DBFixture) -> None:
+        fixture_statement = select(DBFixture).where(DBFixture.id == fixture.id)
+
+        retrieved_fixture = self._notifier_db_manager.select_records(fixture_statement)
+
+        if not len(retrieved_fixture):
+            logger.info(
+                f"Inserting Fixture {fixture.id} - it does not exist in "
+                f"the database"
+            )
+            db_fixture = fixture
+        else:
+            logger.info(
+                f"Updating Fixture {fixture.id} - it already exists in " f"the database"
+            )
+            db_fixture = retrieved_fixture.pop()
+            db_fixture.id = fixture.id
+            db_fixture.utc_date = fixture.utc_date
+            db_fixture.bsas_date = fixture.bsas_date
+            db_fixture.league = fixture.league
+            db_fixture.round = fixture.round
+            db_fixture.match_status = fixture.match_status
+            db_fixture.referee = fixture.referee
+            db_fixture.home_team = fixture.home_team
+            db_fixture.away_team = fixture.away_team
+            db_fixture.home_score = fixture.home_score
+            db_fixture.away_score = fixture.away_score
+            db_fixture.penalty_home_score = fixture.penalty_home_score
+            db_fixture.penalty_away_score = fixture.penalty_away_score
+            db_fixture.venue = fixture.venue
+            db_fixture.played_notified = fixture.played_notified
+
+        self._notifier_db_manager.insert_record(db_fixture)
+
     def save_fixtures(self, team_fixtures: List["FixtureForDB"]) -> None:
         db_fixtures = []
 
@@ -536,6 +570,8 @@ class FixturesDBManager:
                     referee=conv_fix.referee,
                     home_score=conv_fix.match_score.home_score,
                     away_score=conv_fix.match_score.away_score,
+                    penalty_home_score=conv_fix.match_score.penalty_home_score,
+                    penalty_away_score=conv_fix.match_score.penalty_away_score,
                     venue=conv_fix.venue,
                 )
             else:
@@ -555,6 +591,8 @@ class FixturesDBManager:
                 db_fixture.away_team = retrieved_away_team.id
                 db_fixture.home_score = conv_fix.match_score.home_score
                 db_fixture.away_score = conv_fix.match_score.away_score
+                db_fixture.penalty_home_score = conv_fix.match_score.penalty_home_score
+                db_fixture.penalty_away_score = conv_fix.match_score.penalty_away_score
                 db_fixture.venue = conv_fix.venue
 
             db_fixtures.append(db_fixture)
