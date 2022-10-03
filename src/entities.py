@@ -242,6 +242,10 @@ class Fixture:
 
         return separator.join(fixtures_texts)
 
+    def get_html_highlights_text(self) -> str:
+        highlights_text_without_special_chars = self.highlights[0].replace("'", "")
+        return f"<a href='{highlights_text_without_special_chars}'>HIGHLIGHTS</a>"
+
     def one_line_telegram_repr(
         self, played: bool = False, with_date: bool = False
     ) -> str:
@@ -267,8 +271,9 @@ class Fixture:
                     if "half" in self.match_status.lower()
                     else ""
                 )
+
                 highlights_text = (
-                    f"\n{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
+                    f"\n{Emojis.FILM_PROJECTOR.value} {self.get_html_highlights_text()}"
                     if "finished" in self.match_status.lower()
                     else ""
                 )

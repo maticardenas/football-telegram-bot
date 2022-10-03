@@ -15,15 +15,6 @@ def telegram_last_team_or_league_fixture_notification(
     match_images = _get_match_images(team_fixture)
     match_image_url = random.choice(match_images)
 
-    highlights_yt_url = (
-        f"https://www.youtube.com/results?search_query="
-        f"{team_fixture.home_team.name}+vs+{team_fixture.away_team.name}+jugadas+resumen"
-    )
-
-    highlights_text = (
-        f"{Emojis.FILM_PROJECTOR.value} <a href='{highlights_yt_url}'>HIGHLIGHTS</a>"
-    )
-
     match_date = (
         "TODAY!"
         if team_fixture.bsas_date.date() == datetime.today().date()
@@ -34,7 +25,7 @@ def telegram_last_team_or_league_fixture_notification(
         f"{Emojis.WAVING_HAND.value}Hi {user}!\n\n"
         f"The last match of {team_or_league} was {match_date} \n\n"
         f"{team_fixture.matched_played_telegram_like_repr()}"
-        f"{highlights_text}"
+        f"{team_fixture.get_html_highlights_text()}"
     )
 
     return (telegram_message, match_image_url)
