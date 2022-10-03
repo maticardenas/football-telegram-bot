@@ -1,7 +1,7 @@
 import inspect
 import os
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
@@ -13,7 +13,7 @@ from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
 from src.notifier_logger import get_logger
 from src.senders.telegram_sender import send_telegram_message
-from src.utils.date_utils import get_formatted_date, is_time_between
+from src.utils.date_utils import get_formatted_date
 from src.utils.fixtures_utils import convert_db_fixture
 from src.utils.notifier_utils import is_user_subscribed_to_notif
 
@@ -23,7 +23,7 @@ logger = get_logger(__name__)
 
 
 def notify_ft_team_game_played() -> None:
-    surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(3)
+    surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(4)
 
     for fixture in surrounding_fixtures:
         logger.info(f"Checking notification for fixture {fixture.id}")
@@ -68,4 +68,5 @@ def notify_ft_team_game_played() -> None:
 
 
 if __name__ == "__main__":
+    logger.info("*** RUNNING Favourite Team Game Played Notifier ****")
     notify_ft_team_game_played()

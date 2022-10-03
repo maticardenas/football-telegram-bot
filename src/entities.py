@@ -171,7 +171,7 @@ class Fixture:
         self.futbol_para_todos_url = "https://futbolparatodos.online/es/"
         self.line_up = None
         self.highlights = [
-            f"https://www.youtube.com/results?search_query={self.home_team.name}+vs+{self.away_team.name}+jugadas+resumen"
+            f"https://www.youtube.com/results?search_query={self.home_team.name}+vs+{self.away_team.name}"
         ]
         self.head_to_head = []
 
@@ -252,7 +252,7 @@ class Fixture:
             played = True
 
         date_text = (
-            f"{Emojis.SPIRAL_CALENDAR.value} {self.utc_date.strftime('%A')[:3]}. {self.utc_date.strftime('%d-%m-%Y')}\n"
+            f"{Emojis.SPIRAL_CALENDAR.value} {self.get_time_in_main_zone().strftime('%A')[:3]}. {self.get_time_in_main_zone().strftime('%d-%m-%Y')}\n"
             if with_date
             else ""
         )
@@ -267,13 +267,18 @@ class Fixture:
                     if "half" in self.match_status.lower()
                     else ""
                 )
+                highlights_text = (
+                    f"\n{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
+                    if "finished" in self.match_status.lower()
+                    else ""
+                )
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} "
                     f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name} \n"
                     f"{Emojis.TROPHY.value} {self.championship.name} ({self.championship.country[:3].upper()})"
                     f"{match_in_progress_text}"
-                    # f"{Emojis.FILM_PROJECTOR.value} <a href='{self.highlights[0]}'>HIGHLIGHTS</a>"
+                    f"{highlights_text}"
                 )
             else:
                 repr = (

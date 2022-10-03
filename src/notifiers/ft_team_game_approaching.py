@@ -54,4 +54,5 @@ def notify_ft_team_game_approaching() -> None:
 
 
 if __name__ == "__main__":
+    logger.info("*** RUNNING Favourite Team Game Approaching ****")
     notify_ft_team_game_approaching()
