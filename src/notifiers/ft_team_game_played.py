@@ -57,7 +57,7 @@ def notify_ft_team_game_played() -> None:
                             if converted_fixture.home_team.id == ft_record.team
                             else converted_fixture.away_team.name
                         )
-                        initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nYour favourite team <strong>{team_name}</strong> just played! {Emojis.TELEVISION.value}"
+                        initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nYour favourite team <strong>{team_name}</strong> just played today! {Emojis.TELEVISION.value}"
                         notif_text = f"{initial_notif_text}\n\n{converted_fixture.matched_played_telegram_like_repr()}"
                         send_telegram_message(
                             chat_id=ft_record.chat_id, message=notif_text
