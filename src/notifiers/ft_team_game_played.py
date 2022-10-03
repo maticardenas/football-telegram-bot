@@ -44,6 +44,9 @@ def notify_ft_team_game_played() -> None:
             ) + fixtures_db_manager.get_favourite_teams_for_team(fixture.away_team)
 
             if len(favourite_teams_records):
+                logger.info(
+                    f"Notifying fixture {fixture.id} - {fixture.home_team} vs. {fixture.away_team}"
+                )
                 for ft_record in favourite_teams_records:
                     if is_user_subscribed_to_notif(ft_record.chat_id, 4):
                         converted_fixture = convert_db_fixture(
@@ -61,6 +64,10 @@ def notify_ft_team_game_played() -> None:
                         notif_text = f"{initial_notif_text}\n\n{converted_fixture.matched_played_telegram_like_repr()}"
                         send_telegram_message(
                             chat_id=ft_record.chat_id, message=notif_text
+                        )
+                    else:
+                        logger.info(
+                            f"User {ft_record.chat_id} is not subscribed to played games notifications."
                         )
 
             fixture.played_notified = True
