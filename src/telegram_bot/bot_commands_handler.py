@@ -97,6 +97,7 @@ class NotifierBotCommandsHandler:
                 current_fitting_fixtures = []
             else:
                 fixtures_text += "\n\n" + fixture_text
+                logger.info(f"Appended fixture text -> {fixtures_text}")
                 current_fitting_fixtures.append(fixture)
 
         if current_fitting_fixtures:
