@@ -381,6 +381,13 @@ class Fixture:
             if self.venue
             else ""
         )
+
+        highlights_text = (
+            f"{Emojis.FILM_PROJECTOR.value} {self.get_html_highlights_text()}"
+            if "finished" in self.match_status.lower()
+            else ""
+        )
+
         if (
             "finished" in self.match_status.lower()
             or "half" in self.match_status.lower()
@@ -398,6 +405,7 @@ class Fixture:
                 f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
                 f"{stadium_line}"
                 f"{referee_line}"
+                f"{highlights_text}"
             )
         else:
             match_notification = (
