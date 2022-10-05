@@ -122,21 +122,7 @@ class NotifierBotCommandsHandler:
         except:
             return False
 
-
-class SurroundingMatchesHandler(NotifierBotCommandsHandler):
-    def __init__(self, commands_args: List[str], user: str, chat_id: str):
-        super().__init__()
-        self._command_args = commands_args
-        self._teams = []
-        self._leagues = []
-        self._user = user
-        self._chat_id = chat_id
-        self._user_time_zones = self._fixtures_db_manager.get_user_time_zones(
-            self._chat_id
-        )
-        self._user_main_time_zone = self._get_user_main_time_zone()
-
-    def _get_user_main_time_zone(self) -> str:
+    def get_user_main_time_zone(self) -> str:
         time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
         main_time_zone = ""
 
@@ -153,6 +139,20 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             if main_time_zone
             else ""
         )
+
+
+class SurroundingMatchesHandler(NotifierBotCommandsHandler):
+    def __init__(self, commands_args: List[str], user: str, chat_id: str):
+        super().__init__()
+        self._command_args = commands_args
+        self._teams = []
+        self._leagues = []
+        self._user = user
+        self._chat_id = chat_id
+        self._user_time_zones = self._fixtures_db_manager.get_user_time_zones(
+            self._chat_id
+        )
+        self._user_main_time_zone = self.get_user_main_time_zone()
 
     def validate_command_input(self) -> Optional[str]:
         if len(self._command_args):
@@ -426,7 +426,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
 
         return (
             telegram_next_team_or_league_fixture_notification(
-                converted_fixture, team.name, self._user
+                converted_fixture, team.name, self._user, self.get_user_main_time_zone()
             )
             if converted_fixture
             else ("There were not matches found.", None)
@@ -452,7 +452,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
 
         return (
             telegram_last_team_or_league_fixture_notification(
-                converted_fixture, team.name, self._user
+                converted_fixture, team.name, self._user, self.get_user_main_time_zone()
             )
             if converted_fixture
             else ("There were not matches found.", None)
@@ -611,7 +611,10 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
         return (
             telegram_next_team_or_league_fixture_notification(
-                converted_fixture, league.name, self._user
+                converted_fixture,
+                league.name,
+                self._user,
+                self.get_user_main_time_zone(),
             )
             if converted_fixture
             else ("No matches were found.", None)
@@ -638,7 +641,10 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
         return (
             telegram_last_team_or_league_fixture_notification(
-                converted_fixture, league.name, self._user
+                converted_fixture,
+                league.name,
+                self._user,
+                self.get_user_main_time_zone(),
             )
             if converted_fixture
             else ("There were not matches found.", None)
