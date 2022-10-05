@@ -80,6 +80,7 @@ def notify_fl_leagues_playing() -> None:
             )
             final_text = f"{initial_notif_text}\n\n{fixtures_text}"
 
+            logger.info(f"Notifying FL Games Today to user {user} - text: {final_text}")
             send_telegram_message(user, final_text)
 
 

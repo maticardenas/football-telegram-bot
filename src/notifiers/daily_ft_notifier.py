@@ -30,7 +30,7 @@ def notify_ft_teams_playing() -> None:
     users = fixtures_db_manager.get_favourite_teams_users()
 
     for user in users:
-        logger.info(f"Favourite Leagues Games notifier for user {user}")
+        logger.info(f"Favourite Team Games notifier for user {user}")
 
         if not is_user_subscribed_to_notif(user, 1):
             logger.info(
@@ -71,7 +71,10 @@ def notify_ft_teams_playing() -> None:
                 fixture.away_team in favourite_teams
                 or fixture.home_team in favourite_teams
             ):
-                converted_fixture = convert_db_fixture(fixture)
+                converted_fixture = convert_db_fixture(
+                    fixture,
+                    user_time_zones=fixtures_db_manager.get_user_time_zones(user),
+                )
                 user_fixtures_to_notif.append(
                     converted_fixture,
                     user_time_zones=fixtures_db_manager.get_user_time_zones(user),
@@ -90,6 +93,7 @@ def notify_ft_teams_playing() -> None:
             )
             final_text = f"{initial_notif_text}\n\n{fixtures_text}"
 
+            logger.info(f"Notifying FT Games Today to user {user} - text: {final_text}")
             send_telegram_message(user, final_text)
 
 

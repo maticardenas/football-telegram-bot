@@ -62,6 +62,9 @@ def notify_ft_team_game_played() -> None:
                         )
                         initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nYour favourite team <strong>{team_name}</strong> just played today! {Emojis.TELEVISION.value}"
                         notif_text = f"{initial_notif_text}\n\n{converted_fixture.matched_played_telegram_like_repr()}"
+                        logger.info(
+                            f"Notifying FT Game Played to user {ft_record.chat_id} - text: {notif_text}"
+                        )
                         send_telegram_message(
                             chat_id=ft_record.chat_id, message=notif_text
                         )
