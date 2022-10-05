@@ -21,9 +21,18 @@ def telegram_last_team_or_league_fixture_notification(
         else f"on {Emojis.SPIRAL_CALENDAR.value} {team_fixture.bsas_date.strftime('%A')[:3]}. {team_fixture.bsas_date.strftime('%d-%m-%Y')}\n"
     )
 
+    if (
+        "first" in team_fixture.match_status.lower()
+        or "half" in team_fixture.match_status.lower()
+        or "second" in team_fixture.match_status.lower()
+    ):
+        match_text_content = f"The last match of {team_or_league} is being played! \n\n"
+    else:
+        match_text_content = f"The last match of {team_or_league} was {match_date} \n\n"
+
     telegram_message = (
         f"{Emojis.WAVING_HAND.value}Hi {user}!\n\n"
-        f"The last match of {team_or_league} was {match_date} \n\n"
+        f"{match_text_content}"
         f"{team_fixture.matched_played_telegram_like_repr()}"
         f"{team_fixture.get_html_highlights_text()}"
     )
