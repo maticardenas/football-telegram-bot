@@ -27,4 +27,12 @@ NOTIFICATION_TYPES = [
     },
 ]
 
+# Surrounding days to check when retrieving fixtures, for validating them against
+# the user's time zone
+SURROUNDING_INDEXES = {
+    "today": (-1, 0, 1),
+    "tomorrow": (0, 1, 2),
+    "yesterday": (-2, -1, 0),
+}
+
 TELEGRAM_MSG_LENGTH_LIMIT = 3500

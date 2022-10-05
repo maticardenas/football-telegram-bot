@@ -184,8 +184,8 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
 
     def today_games(self) -> Tuple[str, str]:
         today_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                0,
+            self._fixtures_db_manager.get_surround_games_in_time_zone(
+                "today",
                 leagues=self._leagues,
                 teams=self._teams,
                 time_zone=self._user_main_time_zone,
@@ -213,8 +213,8 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
 
     def yesterday_games(self) -> Tuple[str, str]:
         played_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                -1,
+            self._fixtures_db_manager.get_surround_games_in_time_zone(
+                "yesterday",
                 leagues=self._leagues,
                 teams=self._teams,
                 time_zone=self._user_main_time_zone,
@@ -242,8 +242,8 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
 
     def tomorrow_games(self) -> Tuple[str, str]:
         tomorrow_games_fixtures = (
-            self._fixtures_db_manager.get_games_in_surrounding_n_days(
-                1,
+            self._fixtures_db_manager.get_surround_games_in_time_zone(
+                "tomorrow",
                 leagues=self._leagues,
                 teams=self._teams,
                 time_zone=self._user_main_time_zone,

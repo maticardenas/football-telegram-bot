@@ -15,10 +15,10 @@ from src.db.notif_sql_models import NotifType as DBNotifType
 from src.db.notif_sql_models import Team as DBTeam
 from src.db.notif_sql_models import TimeZone as DBTimeZone
 from src.db.notif_sql_models import UserTimeZone as DBUserTimeZone
+from src.notifier_constants import SURROUNDING_INDEXES
 from src.notifier_logger import get_logger
 from src.utils.date_utils import (
     get_formatted_date,
-    get_time_in_time_zone,
     get_time_in_time_zone_str,
     is_time_in_surrounding_hours,
 )
@@ -168,20 +168,50 @@ class FixturesDBManager:
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.utc_date)
 
-        if time_zone:
-            filtered_fixtures = []
-            for fixture in surrounding_fixtures:
-                fixture_date_time = get_formatted_date(fixture.utc_date)
-                time_zone_date_time = get_time_in_time_zone_str(
-                    fixture_date_time, time_zone
-                )
-
-                if fixture_date_time.date() == time_zone_date_time.date():
-                    filtered_fixtures.append(fixture)
-
-            surrounding_fixtures = filtered_fixtures
-
         return surrounding_fixtures
+
+    def get_surround_games_in_time_zone(
+        self,
+        surround_type: str,
+        leagues: List[int] = [],
+        teams: List[int] = [],
+        time_zone: str = "",
+    ) -> List[Optional[DBFixture]]:
+
+        days_to_grab = SURROUNDING_INDEXES.get(surround_type)
+
+        utc_now = datetime.utcnow()
+        now_in_time_zone = get_time_in_time_zone_str(utc_now, time_zone)
+
+        dates_to_check = {
+            "today": now_in_time_zone.date(),
+            "tomorrow": (now_in_time_zone + timedelta(days=1)).date(),
+            "yesterday": (now_in_time_zone - timedelta(days=1)).date(),
+        }
+
+        date_to_check_in_time_zone = dates_to_check.get(surround_type)
+
+        logger.info(f"Date to check in time zone -> {date_to_check_in_time_zone}")
+
+        today_games = []
+
+        surrounding_fixtures = (
+            self.get_games_in_surrounding_n_days(days_to_grab[0], leagues, teams)
+            + self.get_games_in_surrounding_n_days(days_to_grab[1], leagues, teams)
+            + self.get_games_in_surrounding_n_days(days_to_grab[2], leagues, teams)
+        )
+
+        logger.info(f"Fixtures: {surrounding_fixtures}")
+
+        for fixture in surrounding_fixtures:
+            fixture_date_in_time_zone = get_time_in_time_zone_str(
+                get_formatted_date(fixture.utc_date), time_zone
+            ).date()
+
+            if date_to_check_in_time_zone == fixture_date_in_time_zone:
+                today_games.append(fixture)
+
+        return remove_duplicate_fixtures(today_games)
 
     def get_games_in_surrounding_n_hours(
         self, hours: int, favourite: bool = False
