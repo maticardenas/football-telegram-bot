@@ -128,7 +128,6 @@ class FixturesDBManager:
         days: int,
         leagues: List[int] = [],
         teams: List[int] = [],
-        time_zone: str = "",
     ) -> List[Optional[DBFixture]]:
         surrounding_fixtures = []
 
@@ -139,32 +138,28 @@ class FixturesDBManager:
         else:
             days_range = range(0, 1)
 
+        statement = select(DBFixture)
+
         for day in days_range:
             utc_today = datetime.utcnow()
             surrounding_day = utc_today + timedelta(days=day)
             games_date = str(surrounding_day.date())
+            statement = statement.where(DBFixture.utc_date.contains(games_date))
 
-            statement = select(DBFixture).where(DBFixture.utc_date.contains(games_date))
+        if len(leagues):
+            league_statement = statement.where(DBFixture.league.in_(leagues))
+            surrounding_fixtures += self._notifier_db_manager.select_records(
+                league_statement
+            )
+        elif len(teams):
+            team_statement = statement.where(
+                or_(DBFixture.home_team.in_(teams), DBFixture.away_team.in_(teams))
+            )
+            team_fixtures = self._notifier_db_manager.select_records(team_statement)
 
-            if len(leagues):
-                for league in leagues:
-                    league_statement = statement.where(DBFixture.league == league)
-                    surrounding_fixtures += self._notifier_db_manager.select_records(
-                        league_statement
-                    )
-            elif len(teams):
-                fixtures = []
-                for team in teams:
-                    team_statement = statement.where(
-                        or_(DBFixture.home_team == team, DBFixture.away_team == team)
-                    )
-                    fixtures += self._notifier_db_manager.select_records(team_statement)
-
-                surrounding_fixtures = remove_duplicate_fixtures(fixtures)
-            else:
-                surrounding_fixtures += self._notifier_db_manager.select_records(
-                    statement
-                )
+            surrounding_fixtures = remove_duplicate_fixtures(team_fixtures)
+        else:
+            surrounding_fixtures += self._notifier_db_manager.select_records(statement)
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.utc_date)
 

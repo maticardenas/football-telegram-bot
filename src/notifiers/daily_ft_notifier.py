@@ -62,8 +62,8 @@ def notify_ft_teams_playing() -> None:
         favourite_teams = [
             team for team in fixtures_db_manager.get_favourite_teams(user)
         ]
-        today_matches = fixtures_db_manager.get_games_in_surrounding_n_days(
-            0, time_zone=user_main_time_zone.name if user_main_time_zone else ""
+        today_matches = fixtures_db_manager.get_surround_games_in_time_zone(
+            "today", time_zone=user_main_time_zone.name if user_main_time_zone else ""
         )
 
         for fixture in today_matches:
@@ -75,10 +75,7 @@ def notify_ft_teams_playing() -> None:
                     fixture,
                     user_time_zones=fixtures_db_manager.get_user_time_zones(user),
                 )
-                user_fixtures_to_notif.append(
-                    converted_fixture,
-                    user_time_zones=fixtures_db_manager.get_user_time_zones(user),
-                )
+                user_fixtures_to_notif.append(converted_fixture)
 
         if user_fixtures_to_notif:
             notif_text = (

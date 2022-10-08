@@ -60,8 +60,8 @@ def notify_fl_leagues_playing() -> None:
 
         favourite_leagues = fixtures_db_manager.get_favourite_leagues(user)
 
-        today_matches = fixtures_db_manager.get_games_in_surrounding_n_days(
-            0,
+        today_matches = fixtures_db_manager.get_surround_games_in_time_zone(
+            "today",
             leagues=favourite_leagues,
             time_zone=user_main_time_zone.name if user_main_time_zone else "",
         )
