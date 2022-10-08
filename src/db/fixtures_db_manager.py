@@ -566,6 +566,7 @@ class FixturesDBManager:
             db_fixture.penalty_away_score = fixture.penalty_away_score
             db_fixture.venue = fixture.venue
             db_fixture.played_notified = fixture.played_notified
+            db_fixture.approach_notified = fixture.approach_notified
 
         self._notifier_db_manager.insert_record(db_fixture)
 

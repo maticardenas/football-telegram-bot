@@ -37,6 +37,10 @@ def notify_ft_team_game_approaching() -> None:
                 fixture.home_team
             ) + fixtures_db_manager.get_favourite_teams_for_team(fixture.away_team)
 
+            if fixture.approach_notified is True:
+                logger.info(f"Fixture {fixture.id} was already notified")
+                continue
+
             if len(favourite_teams_records):
                 for ft_record in favourite_teams_records:
                     if is_user_subscribed_to_notif(ft_record.chat_id, 3):
@@ -54,6 +58,9 @@ def notify_ft_team_game_approaching() -> None:
                         send_telegram_message(
                             chat_id=ft_record.chat_id, message=notif_text
                         )
+
+            fixture.approach_notified = True
+            fixtures_db_manager.insert_or_update_fixture(fixture)
 
 
 if __name__ == "__main__":

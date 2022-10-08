@@ -33,6 +33,7 @@ class Fixture(SQLModel, table=True):
     match_status: str
     referee: str
     played_notified: bool = False
+    approach_notified: bool = False
     home_score: Optional[int] = None
     away_score: Optional[int] = None
     penalty_home_score: Optional[int] = None
