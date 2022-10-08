@@ -47,7 +47,6 @@ def telegram_last_team_or_league_fixture_notification(
         f"{Emojis.WAVING_HAND.value}Hi {user}!\n\n"
         f"{match_text_content}"
         f"{team_fixture.matched_played_telegram_like_repr()}"
-        f"{Emojis.FILM_PROJECTOR.value} {team_fixture.get_html_highlights_text()}"
     )
 
     return (telegram_message, match_image_url)
