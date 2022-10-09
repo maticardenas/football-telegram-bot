@@ -54,7 +54,7 @@ def notify_fl_leagues_playing() -> None:
 
         if not is_time_between(now.time(), begin_time, end_time):
             logger.info(
-                f"Current time in time zone {user_main_time_zone.name} ({now.time()}) is not between - {begin_time} and {end_time}"
+                f"Current time in time zone {user_main_time_zone.name if user_main_time_zone else 'UTC'} ({now.time()}) is not between - {begin_time} and {end_time}"
             )
             continue
 
