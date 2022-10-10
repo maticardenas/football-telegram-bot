@@ -170,7 +170,7 @@ class FixturesDBManager:
         surround_type: str,
         leagues: List[int] = [],
         teams: List[int] = [],
-        time_zone: str = "",
+        time_zone: str = "UTC",
     ) -> List[Optional[DBFixture]]:
 
         days_to_grab = SURROUNDING_INDEXES.get(surround_type)
@@ -213,7 +213,9 @@ class FixturesDBManager:
     ) -> List[Optional[DBFixture]]:
         surrounding_fixtures = []
 
-        today_fixtures = self.get_games_in_surrounding_n_days(0)
+        today_fixtures = self.get_surround_games_in_time_zone(
+            "today"
+        ) + self.get_surround_games_in_time_zone("yesterday")
 
         if favourite:
             favourite_leagues_in_db = self.get_all_favourite_leagues()
