@@ -23,7 +23,7 @@ logger = get_logger(__name__)
 
 
 def notify_ft_team_game_played() -> None:
-    surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(10)
+    surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(4)
 
     for fixture in surrounding_fixtures:
         logger.info(f"Checking notification for fixture {fixture.id}")
