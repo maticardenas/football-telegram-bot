@@ -70,7 +70,8 @@ def notify_fl_leagues_playing() -> None:
             converted_fixture = convert_db_fixture(
                 fixture, user_time_zones=fixtures_db_manager.get_user_time_zones(user)
             )
-            user_fixtures_to_notif.append(converted_fixture)
+            if converted_fixture.get_time_in_main_zone() > now:
+                user_fixtures_to_notif.append(converted_fixture)
 
         if user_fixtures_to_notif:
             initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nThere are matches on your favourite leagues today {Emojis.TELEVISION.value}"

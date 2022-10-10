@@ -47,7 +47,7 @@ def notify_ft_teams_playing() -> None:
             now = get_time_in_time_zone_str(now, user_main_time_zone.name)
 
         begin_time = (
-            now.replace().replace(hour=7, minute=55, second=0, microsecond=0).time()
+            now.replace().replace(hour=5, minute=55, second=0, microsecond=0).time()
         )
         end_time = (
             now.replace().replace(hour=8, minute=5, second=0, microsecond=0).time()
@@ -75,7 +75,8 @@ def notify_ft_teams_playing() -> None:
                     fixture,
                     user_time_zones=fixtures_db_manager.get_user_time_zones(user),
                 )
-                user_fixtures_to_notif.append(converted_fixture)
+                if converted_fixture.get_time_in_main_zone() > now:
+                    user_fixtures_to_notif.append(converted_fixture)
 
         if user_fixtures_to_notif:
             notif_text = (
