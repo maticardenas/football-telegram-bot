@@ -47,7 +47,7 @@ def notify_ft_teams_playing() -> None:
             now = get_time_in_time_zone_str(now, user_main_time_zone.name)
 
         begin_time = (
-            now.replace().replace(hour=5, minute=55, second=0, microsecond=0).time()
+            now.replace().replace(hour=7, minute=55, second=0, microsecond=0).time()
         )
         end_time = (
             now.replace().replace(hour=8, minute=5, second=0, microsecond=0).time()
