@@ -73,11 +73,14 @@ class NotifierBotCommandsHandler:
     def available_leagues_texts(self) -> List[str]:
         leagues = self.available_leagues()
         leagues_texts = [
-            f"<strong>{league.id}</strong> - {league.name} ({league.country})"
+            f"<strong>{league.id}</strong> - {league.name}{self._get_country_text(league.country)}"
             for league in leagues
         ]
 
         return self.get_list_of_fitting_texts(leagues_texts)
+
+    def _get_country_text(self, country: str) -> str:
+        return f"({country[:3].upper()})" if country.lower() != "world" else ""
 
     @staticmethod
     def get_fixtures_text(
@@ -678,9 +681,15 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
             telegram_messages = self.get_fixtures_text(converted_fixtures)
 
+            country_text = (
+                f"({league.country[:3].upper()})"
+                if league.country.lower() != "world"
+                else ""
+            )
+
             intro_text = (
                 f"{Emojis.WAVING_HAND.value}Hi {self._user}! "
-                f"\n\nThe next <strong>{league.name} ({league.country[:3].upper()})</strong> matches are {match_date}\n\n"
+                f"\n\nThe next <strong>{league.name}{country_text}</strong> matches are {match_date}\n\n"
             )
 
             telegram_messages[0] = f"{intro_text}{telegram_messages[0]}"
