@@ -99,7 +99,7 @@ async def help(update: Update, context):
         f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your "
         f"favourite teams or leagues.\n"
         f"• /last_matches <em>team_id</em> - List of last matches of the specified team.\n"
-        f"• /last_played_matches <em>[optional [league_ids] [ft-fteams-favourite_teams] ["
+        f"• /yesterday_matches <em>[optional [league_ids] [ft-fteams-favourite_teams] ["
         f"fl-fleagues-favourite_leagues]]</em> - Yesterday's matches.\n"
         f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your "
         f"favourite teams or leagues.\n"
@@ -602,7 +602,7 @@ async def upcoming_matches_callback_handler(update: Update, context) -> None:
     await upcoming_matches(update, context)
 
 
-async def last_played_matches_callback_handler(update: Update, context) -> None:
+async def yesterday_matches_callback_handler(update: Update, context) -> None:
     """Parses the CallbackQuery and updates the message text."""
     query = update.callback_query
 
@@ -610,7 +610,7 @@ async def last_played_matches_callback_handler(update: Update, context) -> None:
 
     context.args = [query.data.split()[1]]
 
-    await last_played_matches(update, context)
+    await yesterday_matches(update, context)
 
 
 async def favourite_teams_and_leagues_inline_keyboard(
@@ -717,9 +717,9 @@ async def last_matches(update: Update, context):
         )
 
 
-async def last_played_matches(update: Update, context):
+async def yesterday_matches(update: Update, context):
     logger.info(
-        f"'last_played_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+        f"'yesterday_matches {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
     command_handler = SurroundingMatchesHandler(
         context.args, update.effective_user.first_name, str(update.effective_chat.id)
@@ -727,7 +727,7 @@ async def last_played_matches(update: Update, context):
 
     if not len(context.args):
         await favourite_teams_and_leagues_inline_keyboard(
-            update, context, "last_played_matches"
+            update, context, "yesterday_matches"
         )
     else:
         validated_input = command_handler.validate_command_input()
@@ -888,9 +888,7 @@ if __name__ == "__main__":
     last_match_league_handler = CommandHandler("last_match_league", last_match_league)
     today_matches_handler = CommandHandler("today_matches", today_matches)
     tomorrow_matches_handler = CommandHandler("tomorrow_matches", tomorrow_matches)
-    last_played_matches_handler = CommandHandler(
-        "last_played_matches", last_played_matches
-    )
+    yesterday_matches_handler = CommandHandler("yesterday_matches", yesterday_matches)
     available_leagues_handler = CommandHandler("available_leagues", available_leagues)
     search_time_zone_handler = CommandHandler("search_time_zone", search_time_zone)
     my_time_zones_handler = CommandHandler("my_time_zones", my_time_zones)
@@ -932,7 +930,7 @@ if __name__ == "__main__":
     application.add_handler(last_match_league_handler)
     application.add_handler(help_handler)
     application.add_handler(today_matches_handler)
-    application.add_handler(last_played_matches_handler)
+    application.add_handler(yesterday_matches_handler)
     application.add_handler(tomorrow_matches_handler)
     application.add_handler(available_leagues_handler)
     application.add_handler(search_team_handler)
@@ -970,7 +968,7 @@ if __name__ == "__main__":
     )
     application.add_handler(
         CallbackQueryHandler(
-            last_played_matches_callback_handler, pattern="^.*last_played_matches.*"
+            yesterday_matches_callback_handler, pattern="^.*yesterday_matches.*"
         )
     )
 
