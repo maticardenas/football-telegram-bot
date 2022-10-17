@@ -66,6 +66,10 @@ def get_formatted_date(date: str) -> datetime:
     return datetime.strptime(date[:-6], "%Y-%m-%dT%H:%M:%S")
 
 
+def get_date_diff(date: datetime) -> datetime:
+    return datetime.utcnow() - date
+
+
 def is_time_in_surrounding_hours(check_time: time, hours: float) -> bool:
     utc_time_now = datetime.utcnow()
     begin_time = (utc_time_now - timedelta(hours=hours)).time()
