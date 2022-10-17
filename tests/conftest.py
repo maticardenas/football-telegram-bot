@@ -73,5 +73,6 @@ def fixture(
         away_team=away_team,
         match_score=match_score,
         venue="Estadio Monumental",
-        user_time_zones=[amsterdam_timezone, bsas_timezone],
+        additional_time_zones=[bsas_timezone],
+        main_time_zone=amsterdam_timezone,
     )

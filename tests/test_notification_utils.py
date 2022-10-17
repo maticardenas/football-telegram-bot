@@ -34,6 +34,6 @@ def test_telegram_last_team_or_league_fixture_notification(
     assert telegram_last_team_or_league_fixture_notification(
         fixture, "River Plate"
     ) == (
-        "👋Hi !\n\nThe last match of River Plate was on 🗓 Tue. 01-01-2019\n \n\n😢 <strong>Started</strong>\n\n<strong>⚽ River Plate vs. Boca Juniors</strong>\n🏆 <strong>Copa de la Superliga (ARG)</strong>\n📌 <strong>Primera Fecha</strong>\n🏟 <strong>Estadio Monumental</strong>\n👮\u200d♀️ <strong>Perluigi Colina</strong>\n\n📽 <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors+jugadas+resumen'>HIGHLIGHTS</a>",
+        "👋Hi !\n\nThe last match of River Plate was on 🗓 Tue. 01-01-2019\n \n\n😢 <strong>Started</strong>\n\n<strong>⚽ River Plate vs. Boca Juniors</strong>\n🏆 <strong>Copa de la Superliga (ARG)</strong>\n📌 <strong>Primera Fecha</strong>\n🏟 <strong>Estadio Monumental</strong>\n👮\u200d♀️ <strong>Perluigi Colina</strong>\n\n",
         "image.jpg",
     )

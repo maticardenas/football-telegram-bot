@@ -1,20 +1,15 @@
-from datetime import datetime
-
 import pytest
 
 from src.entities import Fixture, RemainingTime
-from src.utils.date_utils import TimeZones, get_time_in_time_zone
 
 
 def test_fixture_post_init(fixture: Fixture):
     # given - when - then
-    assert fixture.is_next_day == ""
     assert fixture.futbol_libre_url == "https://futbollibre.net"
     assert fixture.futbol_para_todos_url == "https://futbolparatodos.online/es/"
     assert fixture.line_up == None
     assert fixture.highlights == [
-        f"https://www.youtube.com/results?search_query=River Plate+vs+Boca "
-        f"Juniors+jugadas+resumen"
+        f"https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors"
     ]
     assert fixture.head_to_head == []
 
@@ -23,15 +18,10 @@ def test_matched_played_str(fixture: Fixture):
     # given - when - then
     assert (
         fixture.matched_played_str()
-        == """⚽ *River Plate - 3 vs. 0 - Boca Juniors*
+        == """⚽ *River Plate - [3] vs. [0] - Boca Juniors*
 🏆 *Copa de la Superliga*
 📌 *Primera Fecha*"""
     )
-
-
-def test_time_telegram_text(fixture: Fixture):
-    # given - when - then
-    assert fixture.time_telegram_text() == "🇪🇺 16:00 HS  / 🇦🇷 12:00 HS"
 
 
 def test_one_line_telegram_repr_not_played(fixture: Fixture):
@@ -75,7 +65,7 @@ def test_matched_played_telegram_like_repr_half_time(fixture: Fixture):
         fixture.matched_played_telegram_like_repr()
         == """🏃‍♂️ <strong>First Half</strong>
 
-<strong>⚽ River Plate [3] vs.  [0] Boca Juniors</strong>
+<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>
 🏆 <strong>Copa de la Superliga (ARG)</strong>
 📌 <strong>Primera Fecha</strong>
 🏟 <strong>Estadio Monumental</strong>
@@ -92,13 +82,13 @@ def test_matched_played_telegram_like_repr_match_finished(fixture: Fixture):
     # when - then
     assert (
         fixture.matched_played_telegram_like_repr()
-        == """<strong>⚽ River Plate [3] vs.  [0] Boca Juniors</strong>
+        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>
 🏆 <strong>Copa de la Superliga (ARG)</strong>
 📌 <strong>Primera Fecha</strong>
 🏟 <strong>Estadio Monumental</strong>
 👮‍♀️ <strong>Perluigi Colina</strong>
 
-"""
+📽 <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
     )
 
 
@@ -110,12 +100,12 @@ def test_matched_played_telegram_like_repr_match_finished_not_venue(fixture: Fix
     # when - then
     assert (
         fixture.matched_played_telegram_like_repr()
-        == """<strong>⚽ River Plate [3] vs.  [0] Boca Juniors</strong>
+        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>
 🏆 <strong>Copa de la Superliga (ARG)</strong>
 📌 <strong>Primera Fecha</strong>
 👮‍♀️ <strong>Perluigi Colina</strong>
 
-"""
+📽 <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
     )
 
 
@@ -127,27 +117,13 @@ def test_matched_played_telegram_like_repr_match_finished_not_referee(fixture: F
     # when - then
     assert (
         fixture.matched_played_telegram_like_repr()
-        == """<strong>⚽ River Plate [3] vs.  [0] Boca Juniors</strong>
+        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>
 🏆 <strong>Copa de la Superliga (ARG)</strong>
 📌 <strong>Primera Fecha</strong>
 🏟 <strong>Estadio Monumental</strong>
 
-"""
+📽 <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
     )
-
-
-def test_is_next_day_in_europe(fixture: Fixture):
-    # given - when - then
-    assert fixture._is_next_day_in_europe() == False
-
-
-def test_is_next_day_in_europe_true(fixture: Fixture):
-    # given
-    next_day_date = datetime.strptime("2019-01-02T15:00:00", "%Y-%m-%dT%H:%M:%S")
-    fixture.ams_date = get_time_in_time_zone(next_day_date, TimeZones.AMSTERDAM)
-
-    # when - then
-    assert fixture._is_next_day_in_europe() == True
 
 
 @pytest.mark.parametrize(

@@ -17,27 +17,6 @@ TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(TESTS_DIR, "data")
 
 
-def test_get_next_fixture():
-    # given
-    fixture_response_json_file = "fixtures_response_sample.json"
-    fixture_response = get_sample_data_response(DATA_PATH, fixture_response_json_file)
-
-    # when
-    with freeze_time("2021-09-29 18:30:00"):
-        next_fixture = get_next_fixture(fixture_response, "435")
-
-    # then
-    assert next_fixture.utc_date == datetime.strptime(
-        f"2021-09-29T18:45:00+00:00"[:-6], "%Y-%m-%dT%H:%M:%S"
-    )
-    assert next_fixture.home_team.name == "Peterborough"
-    assert next_fixture.away_team.name == "Bournemouth"
-    assert next_fixture.championship.name == "Championship"
-    assert next_fixture.match_status == "Not Started"
-    assert next_fixture.referee == "A.  Woolmer"
-    assert next_fixture.round == "Regular Season - 10"
-
-
 def test_date_diff():
     # given
     date = "2021-09-30T18:45:00+00:00"
