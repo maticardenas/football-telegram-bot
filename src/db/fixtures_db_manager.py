@@ -18,6 +18,7 @@ from src.db.notif_sql_models import UserTimeZone as DBUserTimeZone
 from src.notifier_constants import SURROUNDING_INDEXES
 from src.notifier_logger import get_logger
 from src.utils.date_utils import (
+    get_date_diff,
     get_formatted_date,
     get_time_in_time_zone_str,
     is_time_in_surrounding_hours,
@@ -226,7 +227,9 @@ class FixturesDBManager:
         for fixture in today_fixtures:
             utc_date = get_formatted_date(fixture.utc_date)
 
-            if is_time_in_surrounding_hours(utc_date.time(), hours):
+            diff = get_date_diff(utc_date)
+
+            if diff.days == 0 and diff.seconds < (3600 * hours):
                 surrounding_fixtures.append(fixture)
 
         random.shuffle(surrounding_fixtures)
