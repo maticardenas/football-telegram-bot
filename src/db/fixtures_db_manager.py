@@ -21,7 +21,6 @@ from src.utils.date_utils import (
     get_date_diff,
     get_formatted_date,
     get_time_in_time_zone_str,
-    is_time_in_surrounding_hours,
 )
 from src.utils.db_utils import remove_duplicate_fixtures
 

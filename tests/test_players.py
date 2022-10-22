@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 
 from src.utils.players_utils import convert_player_stats
 from tests.utils.sample_data_utils import get_sample_data_response

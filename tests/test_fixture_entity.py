@@ -7,9 +7,9 @@ def test_fixture_post_init(fixture: Fixture):
     # given - when - then
     assert fixture.futbol_libre_url == "https://futbollibre.net"
     assert fixture.futbol_para_todos_url == "https://futbolparatodos.online/es/"
-    assert fixture.line_up == None
+    assert fixture.line_up is None
     assert fixture.highlights == [
-        f"https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors"
+        "https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors"
     ]
     assert fixture.head_to_head == []
 
@@ -30,6 +30,7 @@ def test_one_line_telegram_repr_not_played(fixture: Fixture):
     fixture.match_score.away_score = None
 
     # when - then
+    print(f"Notification\n{fixture.one_line_telegram_repr()}\n\n")
     assert (
         fixture.one_line_telegram_repr()
         == """⚽ River Plate vs. Boca Juniors 
