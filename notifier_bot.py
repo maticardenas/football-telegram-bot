@@ -707,14 +707,21 @@ async def last_matches(update: Update, context):
         context.args, update.effective_user.first_name, str(update.effective_chat.id)
     )
 
-    texts, photo = command_handler.last_matches()
+    validated_input = command_handler.validate_command_input()
 
-    for text in texts:
+    if validated_input:
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=text,
-            parse_mode="HTML",
+            chat_id=update.effective_chat.id, text=validated_input
         )
+    else:
+        texts, photo = command_handler.last_matches()
+
+        for text in texts:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=text,
+                parse_mode="HTML",
+            )
 
 
 async def yesterday_matches(update: Update, context):

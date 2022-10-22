@@ -67,7 +67,8 @@ def get_formatted_date(date: str) -> datetime:
 
 
 def get_date_diff(date: datetime) -> datetime:
-    return datetime.utcnow() - date
+    utc_now = datetime.utcnow()
+    return utc_now - date if utc_now > date else date - utc_now
 
 
 def is_time_in_surrounding_hours(check_time: time, hours: float) -> bool:

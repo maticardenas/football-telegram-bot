@@ -68,7 +68,7 @@ def test_is_time_in_surrounding_hours_false():
         assert is_time_in_surrounding_hours(check_time, hours=1) is False
 
 
-def test_get_date_diff():
+def test_get_date_diff_now_later():
     with freeze_time("2021-09-29 18:30:00"):
         # given
         check_time = datetime.strptime("2021-09-29 16:30:00", "%Y-%m-%d %H:%M:%S")
@@ -79,3 +79,16 @@ def test_get_date_diff():
         # then
         assert diff.days == 0
         assert diff.seconds == 7200
+
+
+def test_get_date_diff_now_earlier():
+    with freeze_time("2021-09-29 16:00:00"):
+        # given
+        check_time = datetime.strptime("2021-09-29 16:30:00", "%Y-%m-%d %H:%M:%S")
+
+        # when
+        diff = get_date_diff(check_time)
+
+        # then
+        assert diff.days == 0
+        assert diff.seconds == 1800
