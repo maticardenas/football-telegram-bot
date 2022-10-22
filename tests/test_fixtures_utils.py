@@ -6,10 +6,7 @@ from freezegun import freeze_time
 
 from src.entities import FixtureForDB
 from src.utils.date_utils import get_date_spanish_text_format
-from src.utils.fixtures_utils import (
-    convert_fixtures_response_to_db,
-    date_diff,
-)
+from src.utils.fixtures_utils import convert_fixtures_response_to_db, date_diff
 from tests.utils.sample_data_utils import get_sample_data_response
 
 TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
