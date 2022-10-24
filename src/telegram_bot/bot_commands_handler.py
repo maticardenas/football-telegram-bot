@@ -282,7 +282,7 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
     def validate_command_input(self) -> str:
         response = ""
         if len(self._command_args) < 1:
-            response = "You must enter a search text. For example <em>/search_team barcelona</em> or <em>/search_league premier</em>"
+            response = "You must enter a search text. For example '/search_team barcelona' or '/search_league premier'"
         else:
             team = " ".join(self._command_args)
             if len(team) < 3:
