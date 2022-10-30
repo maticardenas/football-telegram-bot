@@ -81,6 +81,19 @@ def test_get_date_diff_now_later():
         assert diff.seconds == 7200
 
 
+def test_get_date_diff_now_later_next_day():
+    with freeze_time("2021-09-30 16:30:00"):
+        # given
+        check_time = datetime.strptime("2021-09-29 14:30:00", "%Y-%m-%d %H:%M:%S")
+
+        # when
+        diff = get_date_diff(check_time)
+
+        # then
+        assert diff.days == 1
+        assert diff.seconds == 7200
+
+
 def test_get_date_diff_now_earlier():
     with freeze_time("2021-09-29 16:00:00"):
         # given

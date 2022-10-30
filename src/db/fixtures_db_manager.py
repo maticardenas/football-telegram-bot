@@ -228,7 +228,7 @@ class FixturesDBManager:
 
             diff = get_date_diff(utc_date)
 
-            if diff.seconds < (3600 * hours):
+            if diff.days == 0 and diff.seconds < (3600 * hours):
                 surrounding_fixtures.append(fixture)
 
         random.shuffle(surrounding_fixtures)
