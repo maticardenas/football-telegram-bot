@@ -1,8 +1,8 @@
-30 5 * * * /usr/football_api/dev_scripts/populate_database.sh >> /var/log/cron_log.log 2>&1
-0,15,30,45 11-23 * * * /usr/football_api/dev_scripts/partial_db_updater.sh >> /var/log/cron_log.log 2>&1
-0,20,40 0-3 * * * /usr/football_api/dev_scripts/partial_db_updater.sh >> /var/log/cron_log.log 2>&1
-0 * * * * /usr/football_api/dev_scripts/notify_daily_fl.sh >> /var/log/cron_log.log 2>&1
-0 * * * * /usr/football_api/dev_scripts/notify_daily_ft.sh >> /var/log/cron_log.log 2>&1
-* * * * * /usr/football_api/dev_scripts/notify_ft_game_approaching.sh >> /var/log/cron_log.log 2>&1
-* * * * * /usr/football_api/dev_scripts/notify_ft_game_played.sh >> /var/log/cron_log.log 2>&1
+30 5 * * * /usr/football_api/dev_scripts/populate_database.sh > /var/log/cron_populate_log.log 2>&1
+0,15,30,45 11-23 * * * /usr/football_api/dev_scripts/partial_db_updater.sh > /var/log/cron_partial_updater_log.log 2>&1
+0,20,40 0-3 * * * /usr/football_api/dev_scripts/partial_db_updater.sh > /var/log/cron_partial_updater_log.log 2>&1
+0 * * * * /usr/football_api/dev_scripts/notify_daily_fl.sh > /var/log/cron_notify_daily_fl_log.log 2>&1
+0 * * * * /usr/football_api/dev_scripts/notify_daily_ft.sh > /var/log/cron_notify_daily_ft_log.log 2>&1
+* * * * * /usr/football_api/dev_scripts/notify_ft_game_approaching.sh > /var/log/cron_notify_ft_game_approaching_log.log 2>&1
+* * * * * /usr/football_api/dev_scripts/notify_ft_game_played.sh > /var/log/cron_notify_ft_game_played_log.log 2>&1
 # Extra valid line§
