@@ -15,10 +15,33 @@ This bot is currently deployed and can be found in Telegram as `@card_football_b
 This telegram bot informs of past and future fixtures for many different teams and leagues around the world.
 For more details on what can be configured and queried you can refer to the **commands** section below.
 
+f"• /subscribe_to_notifications - Subscribe to existing notification types.\n"
+        f"• - Get your current notifications configuration.\n"
+        f"• /enable_notif_config <em>notif_type_id</em> - Enable a specific notification.\n"
+        f"• /disable_notif_config <em>notif_type_id</em> - Disable a specific notification.\n"
+
 
 ## Bot Commands
 
-- `/start` - Bot's introductory message.
+- `/start` - Bot's introduction and start tips :).
+
+- `/search_time_zone <timezone_name>` -  Searches time zones by name (or part of it) and retrieves them, if found, with its corresponding `time_zone_id`.
+
+- `/set_main_time_zone <timezone_id>` - Sets your main time zone by id. Remember you can have only ONE main time zone.
+
+- `/set_add_time_zone <timezone_id>` - Sets an additional time zone by id.
+
+- `/my_time_zones` - List of your configured time zones.
+
+- `/subscribe_to_notifications` - Subscribe to existing notification types.
+
+- `/notif_config` - Get your current notifications configuration.
+
+- `/enable_notif_config <notif_type_id>` - Enables a specific notification.
+
+- `/disable_notif_config <notif_type_id` - Disables a specific notification.
+
+- `/delete_time_zone <timezone_id>` - Removes one of your configured time zones.
 
 - `/help` - Information about bot's commands and what they provide.
 
@@ -62,9 +85,8 @@ For more details on what can be configured and queried you can refer to the **co
 
 **<em>For these commands is possible to optionally specify `leagues_id` or user's favourite teams or leagues.</em>
 
-## Implementation Overview
 
-Application is written in Python, as database engine uses PostgreSQL, jobs are scheduled using cronjob and it is finally deployed with Docker.
+## Implementation Overview
 
 It consumes [RAPID API - API FOOTBALL](https://rapidapi.com/api-sports/api/api-football) endpoints, processes its data and stores it to the database. This runs in cronjobs scheduled, and then on demand user can request the processed team's information through Telegram's commands.
 
