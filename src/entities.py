@@ -242,7 +242,11 @@ class Fixture:
         return f"<a href='{highlights_text_without_special_chars}'>HIGHLIGHTS</a>"
 
     def one_line_telegram_repr(
-        self, played: bool = False, with_date: bool = False
+        self,
+        played: bool = False,
+        with_date: bool = False,
+        with_league: bool = True,
+        with_round: bool = False,
     ) -> str:
         if (
             self.match_score.away_score is not None
@@ -261,6 +265,13 @@ class Fixture:
             if self.championship.country.lower() != "world"
             else ""
         )
+
+        league_text = (
+            f"\n{Emojis.TROPHY.value} {self.championship.name}{country_prefix}"
+            if with_league
+            else ""
+        )
+        round_text = f"\n{Emojis.PUSHPIN.value} {self.round}" if with_round else ""
 
         if played:
             if (
@@ -281,16 +292,18 @@ class Fixture:
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} "
-                    f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name} \n"
-                    f"{Emojis.TROPHY.value} {self.championship.name}{country_prefix}"
+                    f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
+                    f"{league_text}"
+                    f"{round_text}"
                     f"{match_in_progress_text}"
                     f"{highlights_text}"
                 )
             else:
                 repr = (
                     f"{date_text}"
-                    f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name} \n"
-                    f"{Emojis.TROPHY.value} {self.championship.name}{country_prefix}\n"
+                    f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
+                    f"{league_text}"
+                    f"{round_text}"
                     f"{Emojis.SAD_FACE.value} {self.match_status}"
                 )
         else:
@@ -301,15 +314,16 @@ class Fixture:
             )
 
             info_text = (
-                f"{Emojis.ALARM_CLOCK.value} {self.fixtures_times_text(one_line=True)}"
+                f"\n{Emojis.ALARM_CLOCK.value} {self.fixtures_times_text(one_line=True)}"
                 if not not_played_or_finished_match_text
                 else not_played_or_finished_match_text
             )
             repr = (
                 f"{date_text}"
                 f"{Emojis.SOCCER_BALL.value} "
-                f"{self.home_team.name} vs. {self.away_team.name} \n"
-                f"{Emojis.TROPHY.value} {self.championship.name}{country_prefix}\n"
+                f"{self.home_team.name} vs. {self.away_team.name}"
+                f"{league_text}"
+                f"{round_text}"
                 f"{info_text}"
             )
 
