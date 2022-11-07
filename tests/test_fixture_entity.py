@@ -33,7 +33,7 @@ def test_one_line_telegram_repr_not_played(fixture: Fixture):
     print(f"Notification\n{fixture.one_line_telegram_repr()}\n\n")
     assert (
         fixture.one_line_telegram_repr()
-        == """⚽ River Plate vs. Boca Juniors 
+        == """⚽ River Plate vs. Boca Juniors
 🏆 Copa de la Superliga (ARG)
 ⏰ 🇪🇺 16:00 HS / 🇦🇷 12:00 HS"""
     )
