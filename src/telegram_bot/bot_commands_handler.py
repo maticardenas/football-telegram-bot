@@ -1039,11 +1039,18 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
                 if subscription.status
                 else Emojis.NO_ENTRY.value
             )
-            notifications_config_text += f"<strong>{notif_type.id} - {notif_type.name}</strong> <em>{status}</em> - {notif_type.description}\n"
+
+            time_text = ""
+
+            if notif_type.id in [1, 2]:
+                time_text = subscription.time
+
+            notifications_config_text += f"<strong>{notif_type.id} - {notif_type.name}</strong> ({time_text}) <em>{status}</em> - {notif_type.description}\n"
 
         return notifications_config_text
 
-    def set_daily_notification_time(self, time: str) -> str:
+    def set_daily_notification_time(self) -> str:
+        time = self._command_args[0]
         existing_subscriptions = self._fixtures_db_manager.get_user_notif_config(
             self._chat_id
         )

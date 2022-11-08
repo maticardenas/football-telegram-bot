@@ -67,6 +67,7 @@ async def help(update: Update, context):
         f"• /notif_config - Get your current notifications configuration.\n"
         f"• /enable_notif_config <em>notif_type_id</em> - Enable a specific notification.\n"
         f"• /disable_notif_config <em>notif_type_id</em> - Disable a specific notification.\n"
+        f"• /set_daily_notif_time - Set time for your daily notifications.\n"
         f"• /search_team <em>team_name</em> - Searches teams by name (or part of it) and retrieves them, if found, "
         f"with its corresponding <em>team_id</em> \n"
         f"• /search_league <em>league_name</em> - Searches leagues by name (or part of it) and retrieves them, "
@@ -875,6 +876,63 @@ async def disable_notif_config(update: Update, context):
         )
 
 
+async def set_daily_notif_time(update: Update, context):
+    logger.info(
+        f"'set_daily_notif_time {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NotifConfigCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    if not len(context.args):
+        await set_daily_notification_times_inline_keyboard(update, context)
+    else:
+        text = command_handler.set_daily_notification_time()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=text,
+            parse_mode="HTML",
+        )
+
+
+async def set_daily_notif_time_callback_handler(update: Update, context) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+
+    await query.answer()
+
+    context.args = [query.data.split()[1]]
+
+    await set_daily_notif_time(update, context)
+
+
+async def set_daily_notification_times_inline_keyboard(
+    update: Update,
+    context,
+):
+    morning_times = ["5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00"]
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                morning_time, callback_data=f"set_daily_notif_time {morning_time}"
+            )
+            for morning_time in morning_times
+        ]
+    ]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    text = f"Please choose the time you'd like to set for your daily notifications:"
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        reply_markup=reply_markup,
+        parse_mode="HTML",
+    )
+
+
 if __name__ == "__main__":
     application = ApplicationBuilder().token(NotifConfig.TELEGRAM_TOKEN).build()
     start_handler = CommandHandler("start", start)
@@ -924,6 +982,9 @@ if __name__ == "__main__":
     subscribe_to_notifications_handler = CommandHandler(
         "subscribe_to_notifications", subscribe_to_notifications
     )
+    set_daily_notif_time_handler = CommandHandler(
+        "set_daily_notif_time", set_daily_notif_time
+    )
 
     help_handler = CommandHandler("help", help)
 
@@ -958,6 +1019,7 @@ if __name__ == "__main__":
     application.add_handler(enable_notif_handler)
     application.add_handler(disable_notif_handler)
     application.add_handler(subscribe_to_notifications_handler)
+    application.add_handler(set_daily_notif_time_handler)
     application.add_handler(
         CallbackQueryHandler(
             today_matches_callback_handler, pattern="^.*today_matches.*"
@@ -976,6 +1038,11 @@ if __name__ == "__main__":
     application.add_handler(
         CallbackQueryHandler(
             yesterday_matches_callback_handler, pattern="^.*yesterday_matches.*"
+        )
+    )
+    application.add_handler(
+        CallbackQueryHandler(
+            set_daily_notif_time_callback_handler, pattern="^.*set_daily_notif_time.*"
         )
     )
 
