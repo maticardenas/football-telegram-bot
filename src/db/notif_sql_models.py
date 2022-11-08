@@ -79,3 +79,4 @@ class NotifConfig(SQLModel, table=True):
     chat_id: int = Field(primary_key=True)
     notif_type: int = Field(foreign_key="notiftype.id", primary_key=True)
     status: bool = True
+    time: str = ""

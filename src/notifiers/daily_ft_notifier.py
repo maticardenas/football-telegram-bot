@@ -17,6 +17,7 @@ from src.utils.date_utils import get_time_in_time_zone_str, is_time_between
 from src.utils.fixtures_utils import convert_db_fixture
 from src.utils.notifier_utils import (
     get_user_main_time_zone,
+    get_user_notif_config,
     is_user_subscribed_to_notif,
 )
 
@@ -25,6 +26,8 @@ fixtures_db_manager = FixturesDBManager()
 
 logger = get_logger(__name__)
 
+NOTIF_TYPE = 1
+
 
 def notify_ft_teams_playing() -> None:
     users = fixtures_db_manager.get_favourite_teams_users()
@@ -32,11 +35,14 @@ def notify_ft_teams_playing() -> None:
     for user in users:
         logger.info(f"Favourite Team Games notifier for user {user}")
 
-        if not is_user_subscribed_to_notif(user, 1):
+        if not is_user_subscribed_to_notif(user, NOTIF_TYPE):
             logger.info(
                 f"User {user} is not subscribed to notification type 1 - Skipping."
             )
             continue
+
+        notif_config = get_user_notif_config(NOTIF_TYPE, user)
+        notif_hour = int(notif_config.time.split(":")[0])
 
         user_fixtures_to_notif = []
         user_main_time_zone = get_user_main_time_zone(user)
@@ -47,10 +53,14 @@ def notify_ft_teams_playing() -> None:
             now = get_time_in_time_zone_str(now, user_main_time_zone.name)
 
         begin_time = (
-            now.replace().replace(hour=7, minute=55, second=0, microsecond=0).time()
+            now.replace()
+            .replace(hour=notif_hour - 1, minute=55, second=0, microsecond=0)
+            .time()
         )
         end_time = (
-            now.replace().replace(hour=8, minute=5, second=0, microsecond=0).time()
+            now.replace()
+            .replace(hour=notif_hour, minute=5, second=0, microsecond=0)
+            .time()
         )
 
         if not is_time_between(now.time(), begin_time, end_time):

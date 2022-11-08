@@ -3,6 +3,8 @@ import os
 import sys
 from datetime import datetime
 
+from config.notif_config import NotifConfig
+
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
@@ -17,6 +19,7 @@ from src.utils.date_utils import get_time_in_time_zone_str, is_time_between
 from src.utils.fixtures_utils import convert_db_fixture
 from src.utils.notifier_utils import (
     get_user_main_time_zone,
+    get_user_notif_config,
     is_user_subscribed_to_notif,
 )
 
@@ -25,17 +28,23 @@ fixtures_db_manager = FixturesDBManager()
 logger = get_logger(__name__)
 
 
+NOTIF_TYPE = 2
+
+
 def notify_fl_leagues_playing() -> None:
     users = fixtures_db_manager.get_favourite_leagues_users()
 
     for user in users:
         logger.info(f"Favourite Leagues Games notifier for user {user}")
 
-        if not is_user_subscribed_to_notif(user, 2):
+        if not is_user_subscribed_to_notif(user, NOTIF_TYPE):
             logger.info(
                 f"User {user} is not subscribed to notification type 2 - Skipping."
             )
             continue
+
+        notif_config = get_user_notif_config(NOTIF_TYPE, user)
+        notif_hour = int(notif_config.time.split(":")[0])
 
         user_fixtures_to_notif = []
         user_main_time_zone = get_user_main_time_zone(user)
@@ -46,10 +55,14 @@ def notify_fl_leagues_playing() -> None:
             now = get_time_in_time_zone_str(now, user_main_time_zone.name)
 
         begin_time = (
-            now.replace().replace(hour=7, minute=55, second=0, microsecond=0).time()
+            now.replace()
+            .replace(hour=notif_hour - 1, minute=55, second=0, microsecond=0)
+            .time()
         )
         end_time = (
-            now.replace().replace(hour=8, minute=5, second=0, microsecond=0).time()
+            now.replace()
+            .replace(hour=notif_hour, minute=5, second=0, microsecond=0)
+            .time()
         )
 
         if not is_time_between(now.time(), begin_time, end_time):

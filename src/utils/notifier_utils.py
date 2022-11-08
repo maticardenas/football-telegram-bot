@@ -31,3 +31,13 @@ def get_user_main_time_zone(user: str) -> Optional[TimeZone]:
         )[0]
 
     return user_main_time_zone
+
+
+def get_user_notif_config(notif_type: int, user: str) -> NotifConfig:
+    user_notif_config = fixtures_db_manager.get_user_notif_config(user)
+
+    return [
+        user_config
+        for user_config in user_notif_config
+        if user_config.notif_type == notif_type
+    ][0]
