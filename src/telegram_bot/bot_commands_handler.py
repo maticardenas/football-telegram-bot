@@ -140,7 +140,7 @@ class NotifierBotCommandsHandler:
         return (
             self._fixtures_db_manager.get_time_zone(main_time_zone.time_zone)[0].name
             if main_time_zone
-            else ""
+            else "UTC"
         )
 
 
@@ -1042,3 +1042,33 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
             notifications_config_text += f"<strong>{notif_type.id} - {notif_type.name}</strong> <em>{status}</em> - {notif_type.description}\n"
 
         return notifications_config_text
+
+    def set_daily_notification_time(self, time: str) -> str:
+        existing_subscriptions = self._fixtures_db_manager.get_user_notif_config(
+            self._chat_id
+        )
+        user_main_time_zone = self.get_user_main_time_zone()
+
+        if not len(existing_subscriptions):
+            return (
+                f"{Emojis.RED_EXCLAMATION_MARK.value} You are not subscribed to notifications yet. \n\nPlease "
+                f"subscribe with /subscribe_to_notifications command first."
+            )
+
+        daily_subscriptions = [
+            sub for sub in existing_subscriptions if sub.notif_type in [1, 2]
+        ]
+
+        for daily_sub in daily_subscriptions:
+            daily_sub.time = time
+            self._fixtures_db_manager.insert_or_update_user_notif_config(
+                notif_type=daily_sub.notif_type,
+                chat_id=daily_sub.chat_id,
+                status=daily_sub.status,
+                time=daily_sub.time,
+            )
+
+        return (
+            f"{Emojis.CHECK_MARK_BUTTON.value} Your daily notifications have been set at <strong>{time}</strong>"
+            f" in your main time zone ({user_main_time_zone}) succesfully!"
+        )

@@ -693,7 +693,7 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(statement)
 
     def insert_or_update_user_notif_config(
-        self, notif_type: int, chat_id: str, status: bool = True
+        self, notif_type: int, chat_id: str, status: bool = True, time: str = "8:00"
     ) -> None:
         user_notif_config_statement = select(DBNotifConfig).where(
             DBNotifConfig.chat_id == chat_id, DBNotifConfig.notif_type == notif_type
@@ -712,6 +712,7 @@ class FixturesDBManager:
                 chat_id=chat_id,
                 notif_type=notif_type,
                 status=status,
+                time=time,
             )
         else:
             logger.info(
@@ -722,6 +723,7 @@ class FixturesDBManager:
             db_notif_config.chat_id = chat_id
             db_notif_config.notif_type = notif_type
             db_notif_config.status = status
+            db_notif_config.time = time
 
         self._notifier_db_manager.insert_record(db_notif_config)
 
