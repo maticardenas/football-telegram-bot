@@ -3,8 +3,6 @@ import os
 import sys
 from datetime import datetime
 
-from config.notif_config import NotifConfig
-
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
