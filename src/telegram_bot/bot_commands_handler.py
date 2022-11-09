@@ -1043,9 +1043,9 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
             time_text = ""
 
             if notif_type.id in [1, 2]:
-                time_text = subscription.time
+                time_text = f" ({subscription.time})"
 
-            notifications_config_text += f"<strong>{notif_type.id} - {notif_type.name}</strong> ({time_text}) <em>{status}</em> - {notif_type.description}\n"
+            notifications_config_text += f"<strong>{notif_type.id} - {notif_type.name}</strong>{time_text} <em>{status}</em> - {notif_type.description}\n"
 
         return notifications_config_text
 
