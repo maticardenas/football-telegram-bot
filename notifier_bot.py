@@ -789,24 +789,6 @@ async def tomorrow_matches(update: Update, context):
                 )
 
 
-async def notif_config(update: Update, context):
-    logger.info(f"'notif_config' command executed - by {update.effective_user.name}")
-    command_handler = NotifConfigCommandHandler(
-        context.args,
-        update.effective_user.first_name,
-        str(update.effective_chat.id),
-        is_list=True,
-    )
-
-    text = command_handler.notif_config()
-
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=text,
-        parse_mode="HTML",
-    )
-
-
 async def subscribe_to_notifications(update: Update, context):
     logger.info(
         f"'subscribe_to_notifications' command executed - by {update.effective_user.name}"
@@ -828,52 +810,66 @@ async def enable_notif_config(update: Update, context):
     logger.info(
         f"'enable_notif_config {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
-    command_handler = NotifConfigCommandHandler(
-        context.args, update.effective_user.first_name, str(update.effective_chat.id)
-    )
 
-    validated_input = command_handler.validate_command_input()
-
-    if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=validated_input,
-            parse_mode="HTML",
-        )
+    if not len(context.args):
+        await enable_or_disable_notif_config_inline_keyboard(update, context)
     else:
-        text = command_handler.enable_notification()
-
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=text,
-            parse_mode="HTML",
+        command_handler = NotifConfigCommandHandler(
+            context.args,
+            update.effective_user.first_name,
+            str(update.effective_chat.id),
         )
+
+        validated_input = command_handler.validate_command_input()
+
+        if validated_input:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=validated_input,
+                parse_mode="HTML",
+            )
+        else:
+            text = command_handler.enable_notification()
+
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=text,
+                parse_mode="HTML",
+            )
 
 
 async def disable_notif_config(update: Update, context):
     logger.info(
         f"'disable_notif_config {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
-    command_handler = NotifConfigCommandHandler(
-        context.args, update.effective_user.first_name, str(update.effective_chat.id)
-    )
 
-    validated_input = command_handler.validate_command_input()
-
-    if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=validated_input,
-            parse_mode="HTML",
+    if not len(context.args):
+        await enable_or_disable_notif_config_inline_keyboard(
+            update, context, enable=False
         )
     else:
-        text = command_handler.disable_notification()
-
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=text,
-            parse_mode="HTML",
+        command_handler = NotifConfigCommandHandler(
+            context.args,
+            update.effective_user.first_name,
+            str(update.effective_chat.id),
         )
+
+        validated_input = command_handler.validate_command_input()
+
+        if validated_input:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=validated_input,
+                parse_mode="HTML",
+            )
+        else:
+            text = command_handler.disable_notification()
+
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=text,
+                parse_mode="HTML",
+            )
 
 
 async def set_daily_notif_time(update: Update, context):
@@ -896,15 +892,27 @@ async def set_daily_notif_time(update: Update, context):
         )
 
 
-async def set_daily_notif_time_callback_handler(update: Update, context) -> None:
+async def notif_config_callback_handler(update: Update, context) -> None:
     """Parses the CallbackQuery and updates the message text."""
     query = update.callback_query
 
     await query.answer()
 
-    context.args = [query.data.split()[1]]
+    commands = {
+        "set_daily_notif_time": set_daily_notif_time,
+        "enable_notif_config": enable_notif_config,
+        "disable_notif_config": disable_notif_config,
+    }
 
-    await set_daily_notif_time(update, context)
+    split_query = query.data.split()
+    command = split_query[0]
+
+    try:
+        context.args = [split_query[1]]
+    except:
+        context.args = []
+
+    await commands[command](update, context)
 
 
 async def set_daily_notification_times_inline_keyboard(
@@ -924,6 +932,85 @@ async def set_daily_notification_times_inline_keyboard(
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     text = f"Please choose the time you'd like to set for your daily notifications:"
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        reply_markup=reply_markup,
+        parse_mode="HTML",
+    )
+
+
+async def notif_config_inline_keyboard(
+    update: Update,
+    context,
+):
+    logger.info(f"'notif_config' command executed - by {update.effective_user.name}")
+    command_handler = NotifConfigCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    text = command_handler.notif_config()
+
+    keyboard = [
+        [
+            InlineKeyboardButton("Enable notif.", callback_data=f"enable_notif_config"),
+            InlineKeyboardButton(
+                "Disable notif.", callback_data=f"disable_notif_config"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                "Set daily notif. time", callback_data=f"set_daily_notif_time"
+            )
+        ],
+    ]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        reply_markup=reply_markup,
+        parse_mode="HTML",
+    )
+
+
+async def enable_or_disable_notif_config_inline_keyboard(
+    update: Update, context, enable: bool = True
+):
+    command_handler = NotifConfigCommandHandler(
+        context.args,
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
+        is_list=True,
+    )
+
+    all_notif_types = command_handler._fixtures_db_manager.get_all_notif_types()
+
+    action = "enable" if enable else "disable"
+
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                notif_type.name, callback_data=f"{action}_notif_config {notif_type.id}"
+            )
+            for notif_type in all_notif_types[:2]
+        ],
+        [
+            InlineKeyboardButton(
+                notif_type.name, callback_data=f"{action}_notif_config {notif_type.id}"
+            )
+            for notif_type in all_notif_types[2:]
+        ],
+    ]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    text = f"Please select the notification type you would like to {action}:"
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -976,7 +1063,7 @@ if __name__ == "__main__":
     remove_favourite_league_handler = CommandHandler(
         "delete_favourite_league", delete_favourite_league
     )
-    notif_config_handler = CommandHandler("notif_config", notif_config)
+    notif_config_handler = CommandHandler("notif_config", notif_config_inline_keyboard)
     enable_notif_handler = CommandHandler("enable_notif_config", enable_notif_config)
     disable_notif_handler = CommandHandler("disable_notif_config", disable_notif_config)
     subscribe_to_notifications_handler = CommandHandler(
@@ -1042,7 +1129,8 @@ if __name__ == "__main__":
     )
     application.add_handler(
         CallbackQueryHandler(
-            set_daily_notif_time_callback_handler, pattern="^.*set_daily_notif_time.*"
+            notif_config_callback_handler,
+            pattern="^.*set_daily_notif_time|enable_notif_config|disable_notif_config.*",
         )
     )
 
