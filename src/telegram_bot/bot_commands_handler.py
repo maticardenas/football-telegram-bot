@@ -973,7 +973,7 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
         )
 
         if len(existing_subscriptions):
-            return f"You are already subscribed to notifications, so you can manage them through /notif_config, /enable_notif_config and /disable_notif_config commands."
+            return f"You are already subscribed to notifications, so you can manage them through /notif_config."
 
         notif_types = self._fixtures_db_manager.get_all_notif_types()
 
