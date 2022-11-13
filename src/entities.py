@@ -167,9 +167,6 @@ class Fixture:
     head_to_head: List["Fixture"] = field(init=False)
 
     def __post_init__(self) -> None:
-        # self.is_next_day = "(+1)" if self._is_next_day_in_europe() else ""
-        self.futbol_libre_url = "https://futbollibre.net"
-        self.futbol_para_todos_url = "https://futbolparatodos.online/es/"
         self.line_up = None
         self.highlights = [
             f"https://www.youtube.com/results?search_query={self.home_team.name}+vs+{self.away_team.name}"

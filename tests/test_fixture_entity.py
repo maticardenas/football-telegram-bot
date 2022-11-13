@@ -5,8 +5,6 @@ from src.entities import Fixture, RemainingTime
 
 def test_fixture_post_init(fixture: Fixture):
     # given - when - then
-    assert fixture.futbol_libre_url == "https://futbollibre.net"
-    assert fixture.futbol_para_todos_url == "https://futbolparatodos.online/es/"
     assert fixture.line_up is None
     assert fixture.highlights == [
         "https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors"
