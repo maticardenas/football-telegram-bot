@@ -42,22 +42,23 @@ def notify_ft_team_game_approaching() -> None:
                 continue
 
             if len(favourite_teams_records):
-                for ft_record in favourite_teams_records:
-                    if is_user_subscribed_to_notif(ft_record.chat_id, 3):
+                chat_ids_to_notify = list(
+                    set([ft.chat_id for ft in favourite_teams_records])
+                )
+                for chat_id in chat_ids_to_notify:
+                    if is_user_subscribed_to_notif(chat_id, 3):
                         converted_fixture = convert_db_fixture(
                             fixture,
                             user_time_zones=fixtures_db_manager.get_user_time_zones(
-                                ft_record.chat_id
+                                chat_id
                             ),
                         )
                         initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nYour favourite team is playing soon {Emojis.TELEVISION.value}"
                         notif_text = f"{initial_notif_text}\n\n{converted_fixture.telegram_like_repr()}"
                         logger.info(
-                            f"Notifying FT Game Approaching to user {ft_record.chat_id} - text: {notif_text}"
+                            f"Notifying FT Game Approaching to user {chat_id} - text: {notif_text}"
                         )
-                        send_telegram_message(
-                            chat_id=ft_record.chat_id, message=notif_text
-                        )
+                        send_telegram_message(chat_id=chat_id, message=notif_text)
 
             fixture.approach_notified = True
             fixtures_db_manager.insert_or_update_fixture(fixture)
