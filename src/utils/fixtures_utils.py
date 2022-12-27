@@ -363,7 +363,10 @@ def convert_fixture_response_to_db_fixture(fixture_response: Dict[str, Any]) -> 
             get_team_aliases(str(away_team_id)),
         ),
         MatchScore(
-            fixture_response["goals"]["home"], fixture_response["goals"]["away"]
+            fixture_response["goals"]["home"],
+            fixture_response["goals"]["away"],
+            fixture_response["score"]["penalty"]["home"],
+            fixture_response["score"]["penalty"]["away"],
         ),
         fixture_response["fixture"]["venue"]["name"],
     )
