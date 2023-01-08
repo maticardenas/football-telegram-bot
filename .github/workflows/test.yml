@@ -30,6 +30,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
       - run: python -m pip install pipenv
       - run: python -m pipenv install black isort
       - run: python -m pipenv run python -m black --check .
@@ -43,6 +45,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
       - run: sudo chmod 777 -R /var/log/
       - run: python -m pip install pipenv
       - run: python -m pipenv install
