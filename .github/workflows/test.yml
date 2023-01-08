@@ -24,6 +24,9 @@ env:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -34,6 +37,9 @@ jobs:
 
   pytest:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
