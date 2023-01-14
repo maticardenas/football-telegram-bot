@@ -12,13 +12,8 @@ This bot is currently deployed and can be found in Telegram as `@card_football_b
 
 ## Main Functionalities
 
-This telegram bot informs of past and future fixtures for many different teams and leagues around the world.
+This telegram bot informs of past and future fixtures for many teams and leagues around the world.
 For more details on what can be configured and queried you can refer to the **commands** section below.
-
-f"• /subscribe_to_notifications - Subscribe to existing notification types.\n"
-        f"• - Get your current notifications configuration.\n"
-        f"• /enable_notif_config <em>notif_type_id</em> - Enable a specific notification.\n"
-        f"• /disable_notif_config <em>notif_type_id</em> - Disable a specific notification.\n"
 
 
 ## Bot Commands
