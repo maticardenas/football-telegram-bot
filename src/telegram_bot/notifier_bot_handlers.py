@@ -45,7 +45,7 @@ from src.telegram_bot.time_zones_commands import (
     set_main_time_zone,
 )
 
-NOTOFIER_BOT_HANDLERS = [
+NOTIFIER_BOT_HANDLERS = [
     CommandHandler("start", start),
     CommandHandler("search_team", search_team),
     CommandHandler("search_league", search_league),

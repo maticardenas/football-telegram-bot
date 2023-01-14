@@ -1,7 +1,7 @@
 from telegram.ext import ApplicationBuilder
 from telegram.ext._application import Application
 
-from src.telegram_bot.notifier_bot_handlers import NOTOFIER_BOT_HANDLERS
+from src.telegram_bot.notifier_bot_handlers import NOTIFIER_BOT_HANDLERS
 
 
 class NotifBotAppBuilder:
@@ -11,7 +11,7 @@ class NotifBotAppBuilder:
     def build_application(self) -> Application:
         application = ApplicationBuilder().token(self._telegram_token).build()
 
-        for handler in NOTOFIER_BOT_HANDLERS:
+        for handler in NOTIFIER_BOT_HANDLERS:
             application.add_handler(handler)
 
         return application
