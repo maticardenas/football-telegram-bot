@@ -1,6 +1,8 @@
 from telegram import Update
+from telegram.ext import ConversationHandler
 
 from src.emojis import Emojis
+from src.notifier_constants import ADD_FAVOURITE_TEAM
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_commands_handler import (
     FavouriteLeaguesCommandHandler,
@@ -13,11 +15,23 @@ logger = get_logger(__name__)
 
 
 async def add_favourite_team(update: Update, context):
+    # context.user_data["entry_point_command"] = "add_favourite_team"
     logger.info(
         f"'add_favourite_team' command executed - by {update.effective_user.name}"
     )
+
+    await update.message.reply_text(
+        "Please insert the id of the team you would like me to add as your favourite.",
+    )
+
+    return ADD_FAVOURITE_TEAM
+
+
+async def add_favourite_team_handler(update: Update, context):
     commands_handler = FavouriteTeamsCommandHandler(
-        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+        [update.message.text],
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
     )
 
     validated_input = commands_handler.validate_command_input()

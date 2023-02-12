@@ -1,8 +1,16 @@
-from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandler
+from telegram.ext import (
+    ApplicationBuilder,
+    CallbackQueryHandler,
+    CommandHandler,
+    ConversationHandler,
+    MessageHandler,
+    filters,
+)
 
 from src.telegram_bot.fav_teams_and_leagues_commands import (
     add_favourite_league,
     add_favourite_team,
+    add_favourite_team_handler,
     available_leagues,
     delete_favourite_league,
     delete_favourite_team,
@@ -45,6 +53,15 @@ from src.telegram_bot.time_zones_commands import (
     set_main_time_zone,
 )
 
+
+async def cancel(update, context) -> int:
+    """Cancels and ends the conversation."""
+    # await update.message.reply_text(
+    #     f"Finished with {context.user_data['entry_point_command']}",
+    # )
+    return ConversationHandler.END
+
+
 NOTIFIER_BOT_HANDLERS = [
     CommandHandler("start", start),
     CommandHandler("search_team", search_team),
@@ -68,7 +85,6 @@ NOTIFIER_BOT_HANDLERS = [
     CommandHandler("delete_time_zone", delete_time_zone),
     CommandHandler("favourite_teams", favourite_teams),
     CommandHandler("favourite_leagues", favourite_leagues),
-    CommandHandler("add_favourite_team", add_favourite_team),
     CommandHandler("add_favourite_league", add_favourite_league),
     CommandHandler("delete_favourite_team", delete_favourite_team),
     CommandHandler("delete_favourite_league", delete_favourite_league),
@@ -91,5 +107,16 @@ NOTIFIER_BOT_HANDLERS = [
     CallbackQueryHandler(
         notif_config_callback_handler,
         pattern="^.*set_daily_notif_time|enable_notif_config|disable_notif_config.*",
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("add_favourite_team", add_favourite_team)],
+        states={
+            4: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, add_favourite_team_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
     ),
 ]
