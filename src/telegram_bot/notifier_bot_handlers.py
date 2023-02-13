@@ -12,7 +12,7 @@ from src.notifier_constants import (
     ADD_FAVOURITE_TEAM,
     SEARCH_LEAGUE,
     SEARCH_LEAGUES_BY_COUNTRY,
-    SEARCH_TEAM,
+    SEARCH_TEAM, NEXT_MATCH,
 )
 from src.telegram_bot.fav_teams_and_leagues_commands import (
     add_favourite_league,
@@ -47,7 +47,7 @@ from src.telegram_bot.matches_commands import (
     upcoming_matches,
     upcoming_matches_callback_handler,
     yesterday_matches,
-    yesterday_matches_callback_handler,
+    yesterday_matches_callback_handler, next_match_handler, last_match_handler,
 )
 from src.telegram_bot.notifications_commands import (
     disable_notif_config,
@@ -171,6 +171,32 @@ NOTIFIER_BOT_HANDLERS = [
             SEARCH_LEAGUES_BY_COUNTRY: [
                 MessageHandler(
                     filters.TEXT & ~filters.COMMAND, search_leagues_by_country_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[
+            CommandHandler("next_match", next_match)
+        ],
+        states={
+            NEXT_MATCH: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, next_match_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[
+            CommandHandler("last_match", last_match)
+        ],
+        states={
+            NEXT_MATCH: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, last_match_handler
                 )
             ]
         },
