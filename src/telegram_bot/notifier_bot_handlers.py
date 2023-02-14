@@ -100,7 +100,6 @@ NOTIFIER_BOT_HANDLERS = [
     CommandHandler("my_time_zones", my_time_zones),
     CommandHandler("delete_time_zone", delete_time_zone),
     CommandHandler("favourite_teams", favourite_teams),
-    CommandHandler("favourite_teams", favourite_teams),
     CommandHandler("favourite_leagues", favourite_leagues),
     CommandHandler("delete_favourite_team", delete_favourite_team),
     CommandHandler("delete_favourite_league", delete_favourite_league),
