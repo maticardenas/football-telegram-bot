@@ -10,9 +10,12 @@ from telegram.ext import (
 from src.notifier_constants import (
     ADD_FAVOURITE_LEAGUE,
     ADD_FAVOURITE_TEAM,
+    NEXT_MATCH,
     SEARCH_LEAGUE,
     SEARCH_LEAGUES_BY_COUNTRY,
-    SEARCH_TEAM, NEXT_MATCH,
+    SEARCH_TEAM,
+    SET_ADD_TIME_ZONE,
+    SET_MAIN_TIME_ZONE,
 )
 from src.telegram_bot.fav_teams_and_leagues_commands import (
     add_favourite_league,
@@ -35,9 +38,11 @@ from src.telegram_bot.fav_teams_and_leagues_commands import (
 )
 from src.telegram_bot.matches_commands import (
     last_match,
+    last_match_handler,
     last_match_league,
     last_matches,
     next_match,
+    next_match_handler,
     next_match_league,
     next_matches_league,
     today_matches,
@@ -47,7 +52,7 @@ from src.telegram_bot.matches_commands import (
     upcoming_matches,
     upcoming_matches_callback_handler,
     yesterday_matches,
-    yesterday_matches_callback_handler, next_match_handler, last_match_handler,
+    yesterday_matches_callback_handler,
 )
 from src.telegram_bot.notifications_commands import (
     disable_notif_config,
@@ -60,10 +65,13 @@ from src.telegram_bot.notifications_commands import (
 from src.telegram_bot.start_and_help_commands import help_cmd, start
 from src.telegram_bot.time_zones_commands import (
     delete_time_zone,
+    delete_time_zone_callback_handler,
     my_time_zones,
     search_time_zone,
     set_add_time_zone,
+    set_add_time_zone_handler,
     set_main_time_zone,
+    set_main_time_zone_handler,
 )
 
 
@@ -90,9 +98,8 @@ NOTIFIER_BOT_HANDLERS = [
     CommandHandler("available_leagues", available_leagues),
     CommandHandler("search_time_zone", search_time_zone),
     CommandHandler("my_time_zones", my_time_zones),
-    CommandHandler("set_add_time_zone", set_add_time_zone),
-    CommandHandler("set_main_time_zone", set_main_time_zone),
     CommandHandler("delete_time_zone", delete_time_zone),
+    CommandHandler("favourite_teams", favourite_teams),
     CommandHandler("favourite_teams", favourite_teams),
     CommandHandler("favourite_leagues", favourite_leagues),
     CommandHandler("delete_favourite_team", delete_favourite_team),
@@ -118,6 +125,9 @@ NOTIFIER_BOT_HANDLERS = [
     ),
     CallbackQueryHandler(
         delete_favourite_league_callback_handler, pattern="^.*delete_favourite_league.*"
+    ),
+    CallbackQueryHandler(
+        delete_time_zone_callback_handler, pattern="^.*delete_time_zone.*"
     ),
     CallbackQueryHandler(
         notif_config_callback_handler,
@@ -177,26 +187,40 @@ NOTIFIER_BOT_HANDLERS = [
         fallbacks=[MessageHandler(filters.COMMAND, cancel)],
     ),
     ConversationHandler(
-        entry_points=[
-            CommandHandler("next_match", next_match)
-        ],
+        entry_points=[CommandHandler("next_match", next_match)],
         states={
             NEXT_MATCH: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, next_match_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("last_match", last_match)],
+        states={
+            NEXT_MATCH: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, last_match_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("set_main_time_zone", set_main_time_zone)],
+        states={
+            SET_MAIN_TIME_ZONE: [
                 MessageHandler(
-                    filters.TEXT & ~filters.COMMAND, next_match_handler
+                    filters.TEXT & ~filters.COMMAND, set_main_time_zone_handler
                 )
             ]
         },
         fallbacks=[MessageHandler(filters.COMMAND, cancel)],
     ),
     ConversationHandler(
-        entry_points=[
-            CommandHandler("last_match", last_match)
-        ],
+        entry_points=[CommandHandler("set_add_time_zone", set_add_time_zone)],
         states={
-            NEXT_MATCH: [
+            SET_ADD_TIME_ZONE: [
                 MessageHandler(
-                    filters.TEXT & ~filters.COMMAND, last_match_handler
+                    filters.TEXT & ~filters.COMMAND, set_add_time_zone_handler
                 )
             ]
         },

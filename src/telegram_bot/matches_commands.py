@@ -1,6 +1,11 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
-from src.notifier_constants import NEXT_MATCH, LAST_MATCH, NEXT_MATCH_LEAGUE, LAST_MATCH_LEAGUE
+from src.notifier_constants import (
+    LAST_MATCH,
+    LAST_MATCH_LEAGUE,
+    NEXT_MATCH,
+    NEXT_MATCH_LEAGUE,
+)
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_commands_handler import (
     NextAndLastMatchCommandHandler,
@@ -12,21 +17,22 @@ logger = get_logger(__name__)
 
 
 async def next_match(update: Update, context):
-    logger.info(
-        f"'next_match initialized - by {update.effective_user.name}"
-    )
+    logger.info(f"'next_match initialized - by {update.effective_user.name}")
     await update.message.reply_text(
         "Please insert the id of the team for which you would like to get the next match:",
     )
 
     return NEXT_MATCH
 
+
 async def next_match_handler(update: Update, context):
     logger.info(
         f"'next_match {update.message.text}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        [update.message.text], update.effective_user.first_name, str(update.effective_chat.id)
+        [update.message.text],
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
     )
 
     validated_input = command_handler.validate_command_input()
@@ -48,10 +54,9 @@ async def next_match_handler(update: Update, context):
         else:
             context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
+
 async def last_match(update: Update, context):
-    logger.info(
-        f"'last_match initialized - by {update.effective_user.name}"
-    )
+    logger.info(f"'last_match initialized - by {update.effective_user.name}")
     await update.message.reply_text(
         "Please insert the id of the team for which you would like to get the last match.",
     )
@@ -64,7 +69,9 @@ async def last_match_handler(update: Update, context):
         f"'last_match {update.message.text}' command executed - by {update.effective_user.first_name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        [update.message.text], update.effective_user.first_name, str(update.effective_chat.id)
+        [update.message.text],
+        update.effective_user.first_name,
+        str(update.effective_chat.id),
     )
     validated_input = command_handler.validate_command_input()
 
@@ -97,12 +104,15 @@ async def next_match_league(update: Update, context):
 
     return NEXT_MATCH_LEAGUE
 
+
 async def next_match_league_handler(update: Update, context):
     logger.info(
         f"'next_match_league {update.message.text}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        [update.message.text], update.effective_user.first_name, update.effective_chat.id
+        [update.message.text],
+        update.effective_user.first_name,
+        update.effective_chat.id,
     )
 
     validated_input = command_handler.validate_command_input()
@@ -148,7 +158,6 @@ async def next_matches_league(update: Update, context):
             )
 
 
-
 async def last_match_league(update: Update, context):
     logger.info(
         f"/last_match_league initialized - by {update.effective_user.first_name}"
@@ -165,7 +174,9 @@ async def last_match_league(update: Update, context):
         f"'last_match_league {update.message.text}' command executed - by {update.effective_user.first_name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        [update.message.text], update.effective_user.first_name, update.effective_chat.id
+        [update.message.text],
+        update.effective_user.first_name,
+        update.effective_chat.id,
     )
     validated_input = command_handler.validate_command_input()
 

@@ -895,6 +895,14 @@ class TimeZonesCommandHandler(NotifierBotCommandsHandler):
 
         return response
 
+    def get_time_zones(self):
+        user_time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
+
+        return [
+            self._fixtures_db_manager.get_time_zone(user_tz.time_zone)[0]
+            for user_tz in user_time_zones
+        ]
+
     def get_my_time_zones(self) -> str:
         user_time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
 
