@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Any, List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
-from src.db.notif_sql_models import Fixture
+from src.db.notif_sql_models import FavouriteTeam, Fixture
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
 from src.db.notif_sql_models import TimeZone as DBTimeZone
@@ -726,12 +726,19 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
 
         return response
 
-    def get_favourite_teams(self) -> str:
+    def get_favourite_teams(self) -> List[FavouriteTeam]:
         favourite_teams = self._fixtures_db_manager.get_favourite_teams(self._chat_id)
+        return [
+            self._fixtures_db_manager.get_team(team_id)[0]
+            for team_id in favourite_teams
+        ]
 
+    def get_favourite_teams_response(self) -> str:
+        favourite_teams = self.get_favourite_teams()
         if len(favourite_teams):
             teams = [
-                self._fixtures_db_manager.get_team(team)[0] for team in favourite_teams
+                self._fixtures_db_manager.get_team(team.id)[0]
+                for team in favourite_teams
             ]
 
             favourite_teams_texts = [
@@ -796,24 +803,31 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
                         "You must enter a valid league id, the command doesn't work with league's names.\n"
                         "You can get your league's id by its name using /search_league command :)"
                     )
-
-                if not self.is_available_league(league):
+                elif not self.is_available_league(league):
                     response = f"Oops! '{league}' is not available :(\n"
         return response
 
-    def get_favourite_leagues(self) -> str:
+    def get_favourite_leagues(self) -> List[FavouriteTeam]:
         favourite_leagues = self._fixtures_db_manager.get_favourite_leagues(
             self._chat_id
         )
+        return [
+            self._fixtures_db_manager.get_league(league_id)[0]
+            for league_id in favourite_leagues
+        ]
+
+    def get_favourite_leagues_response(self) -> str:
+        favourite_leagues = self.get_favourite_leagues()
 
         if len(favourite_leagues):
-            leagues = [
-                self._fixtures_db_manager.get_league(league)[0]
-                for league in favourite_leagues
-            ]
+            # leagues = [
+            #     self._fixtures_db_manager.get_league(league.id)[0]
+            #     for league in favourite_leagues
+            # ]
 
             favourite_leagues_texts = [
-                f"<strong>{league.id}</strong> - {league.name}" for league in leagues
+                f"<strong>{league.id}</strong> - {league.name}"
+                for league in favourite_leagues
             ]
 
             response = "\n".join(favourite_leagues_texts)
@@ -880,6 +894,14 @@ class TimeZonesCommandHandler(NotifierBotCommandsHandler):
                     )
 
         return response
+
+    def get_time_zones(self):
+        user_time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
+
+        return [
+            self._fixtures_db_manager.get_time_zone(user_tz.time_zone)[0]
+            for user_tz in user_time_zones
+        ]
 
     def get_my_time_zones(self) -> str:
         user_time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)

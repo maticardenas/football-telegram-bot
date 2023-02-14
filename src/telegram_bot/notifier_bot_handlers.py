@@ -1,22 +1,48 @@
-from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandler
+from telegram.ext import (
+    ApplicationBuilder,
+    CallbackQueryHandler,
+    CommandHandler,
+    ConversationHandler,
+    MessageHandler,
+    filters,
+)
 
+from src.notifier_constants import (
+    ADD_FAVOURITE_LEAGUE,
+    ADD_FAVOURITE_TEAM,
+    NEXT_MATCH,
+    SEARCH_LEAGUE,
+    SEARCH_LEAGUES_BY_COUNTRY,
+    SEARCH_TEAM,
+    SET_ADD_TIME_ZONE,
+    SET_MAIN_TIME_ZONE,
+)
 from src.telegram_bot.fav_teams_and_leagues_commands import (
     add_favourite_league,
+    add_favourite_league_handler,
     add_favourite_team,
+    add_favourite_team_handler,
     available_leagues,
     delete_favourite_league,
+    delete_favourite_league_callback_handler,
     delete_favourite_team,
+    delete_favourite_team_callback_handler,
     favourite_leagues,
     favourite_teams,
     search_league,
+    search_league_handler,
     search_leagues_by_country,
+    search_leagues_by_country_handler,
     search_team,
+    search_team_handler,
 )
 from src.telegram_bot.matches_commands import (
     last_match,
+    last_match_handler,
     last_match_league,
     last_matches,
     next_match,
+    next_match_handler,
     next_match_league,
     next_matches_league,
     today_matches,
@@ -39,17 +65,26 @@ from src.telegram_bot.notifications_commands import (
 from src.telegram_bot.start_and_help_commands import help_cmd, start
 from src.telegram_bot.time_zones_commands import (
     delete_time_zone,
+    delete_time_zone_callback_handler,
     my_time_zones,
     search_time_zone,
     set_add_time_zone,
+    set_add_time_zone_handler,
     set_main_time_zone,
+    set_main_time_zone_handler,
 )
+
+
+async def cancel(update, context) -> int:
+    """Cancels and ends the conversation."""
+    # await update.message.reply_text(
+    #     f"Finished with {context.user_data['entry_point_command']}",
+    # )
+    return ConversationHandler.END
+
 
 NOTIFIER_BOT_HANDLERS = [
     CommandHandler("start", start),
-    CommandHandler("search_team", search_team),
-    CommandHandler("search_league", search_league),
-    CommandHandler("search_leagues_by_country", search_leagues_by_country),
     CommandHandler("next_match", next_match),
     CommandHandler("upcoming_matches", upcoming_matches),
     CommandHandler("last_match", last_match),
@@ -63,13 +98,10 @@ NOTIFIER_BOT_HANDLERS = [
     CommandHandler("available_leagues", available_leagues),
     CommandHandler("search_time_zone", search_time_zone),
     CommandHandler("my_time_zones", my_time_zones),
-    CommandHandler("set_add_time_zone", set_add_time_zone),
-    CommandHandler("set_main_time_zone", set_main_time_zone),
     CommandHandler("delete_time_zone", delete_time_zone),
     CommandHandler("favourite_teams", favourite_teams),
+    CommandHandler("favourite_teams", favourite_teams),
     CommandHandler("favourite_leagues", favourite_leagues),
-    CommandHandler("add_favourite_team", add_favourite_team),
-    CommandHandler("add_favourite_league", add_favourite_league),
     CommandHandler("delete_favourite_team", delete_favourite_team),
     CommandHandler("delete_favourite_league", delete_favourite_league),
     CommandHandler("notif_config", notif_config_inline_keyboard),
@@ -89,7 +121,109 @@ NOTIFIER_BOT_HANDLERS = [
         yesterday_matches_callback_handler, pattern="^.*yesterday_matches.*"
     ),
     CallbackQueryHandler(
+        delete_favourite_team_callback_handler, pattern="^.*delete_favourite_team.*"
+    ),
+    CallbackQueryHandler(
+        delete_favourite_league_callback_handler, pattern="^.*delete_favourite_league.*"
+    ),
+    CallbackQueryHandler(
+        delete_time_zone_callback_handler, pattern="^.*delete_time_zone.*"
+    ),
+    CallbackQueryHandler(
         notif_config_callback_handler,
         pattern="^.*set_daily_notif_time|enable_notif_config|disable_notif_config.*",
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("add_favourite_team", add_favourite_team)],
+        states={
+            ADD_FAVOURITE_TEAM: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, add_favourite_team_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("add_favourite_league", add_favourite_league)],
+        states={
+            ADD_FAVOURITE_LEAGUE: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, add_favourite_league_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("search_team", search_team)],
+        states={
+            SEARCH_TEAM: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("search_league", search_league)],
+        states={
+            SEARCH_LEAGUE: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[
+            CommandHandler("search_leagues_by_country", search_leagues_by_country)
+        ],
+        states={
+            SEARCH_LEAGUES_BY_COUNTRY: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, search_leagues_by_country_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("next_match", next_match)],
+        states={
+            NEXT_MATCH: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, next_match_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("last_match", last_match)],
+        states={
+            NEXT_MATCH: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, last_match_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("set_main_time_zone", set_main_time_zone)],
+        states={
+            SET_MAIN_TIME_ZONE: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, set_main_time_zone_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("set_add_time_zone", set_add_time_zone)],
+        states={
+            SET_ADD_TIME_ZONE: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, set_add_time_zone_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
     ),
 ]

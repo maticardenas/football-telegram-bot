@@ -11,7 +11,7 @@ class NotifBotAppBuilder:
     def build_application(self) -> Application:
         application = ApplicationBuilder().token(self._telegram_token).build()
 
-        for handler in NOTIFIER_BOT_HANDLERS:
-            application.add_handler(handler)
+        for count, handler in enumerate(NOTIFIER_BOT_HANDLERS):
+            application.add_handler(handler, count)
 
         return application
