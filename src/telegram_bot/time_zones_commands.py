@@ -3,7 +3,11 @@ from typing import List
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
 from src.db.notif_sql_models import TimeZone
-from src.notifier_constants import SET_ADD_TIME_ZONE, SET_MAIN_TIME_ZONE
+from src.notifier_constants import (
+    SEARCH_TIME_ZONE,
+    SET_ADD_TIME_ZONE,
+    SET_MAIN_TIME_ZONE,
+)
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_commands_handler import (
     SearchCommandHandler,
@@ -188,8 +192,19 @@ async def search_time_zone(update: Update, context):
     logger.info(
         f"'search_time_zone {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
+    await update.message.reply_text(
+        "Please insert the name (or part of the name) of the time zone you are looking for.",
+    )
+
+    return SEARCH_TIME_ZONE
+
+
+async def search_time_zone_handler(update: Update, context):
+    logger.info(
+        f"'search_time_zone {update.message.text}' command executed - by {update.effective_user.name}"
+    )
     command_handler = SearchCommandHandler(
-        context.args, update.effective_user.first_name
+        [update.message.text], update.effective_user.first_name
     )
     validated_input = command_handler.validate_command_input()
 

@@ -14,6 +14,7 @@ from src.notifier_constants import (
     SEARCH_LEAGUE,
     SEARCH_LEAGUES_BY_COUNTRY,
     SEARCH_TEAM,
+    SEARCH_TIME_ZONE,
     SET_ADD_TIME_ZONE,
     SET_MAIN_TIME_ZONE,
 )
@@ -68,6 +69,7 @@ from src.telegram_bot.time_zones_commands import (
     delete_time_zone_callback_handler,
     my_time_zones,
     search_time_zone,
+    search_time_zone_handler,
     set_add_time_zone,
     set_add_time_zone_handler,
     set_main_time_zone,
@@ -96,7 +98,6 @@ NOTIFIER_BOT_HANDLERS = [
     CommandHandler("tomorrow_matches", tomorrow_matches),
     CommandHandler("yesterday_matches", yesterday_matches),
     CommandHandler("available_leagues", available_leagues),
-    CommandHandler("search_time_zone", search_time_zone),
     CommandHandler("my_time_zones", my_time_zones),
     CommandHandler("delete_time_zone", delete_time_zone),
     CommandHandler("favourite_teams", favourite_teams),
@@ -220,6 +221,17 @@ NOTIFIER_BOT_HANDLERS = [
             SET_ADD_TIME_ZONE: [
                 MessageHandler(
                     filters.TEXT & ~filters.COMMAND, set_add_time_zone_handler
+                )
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("search_time_zone", search_time_zone)],
+        states={
+            SEARCH_TIME_ZONE: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND, search_time_zone_handler
                 )
             ]
         },
