@@ -6,9 +6,8 @@ from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import FavouriteTeam, Fixture
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
-from src.db.notif_sql_models import TimeZone as DBTimeZone
 from src.emojis import Emojis, get_emoji_text_by_name
-from src.notifier_constants import NOTIFICATION_TYPES, TELEGRAM_MSG_LENGTH_LIMIT
+from src.notifier_constants import TELEGRAM_MSG_LENGTH_LIMIT
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
 from src.utils.db_utils import remove_duplicate_fixtures
