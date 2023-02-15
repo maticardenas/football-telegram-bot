@@ -148,7 +148,7 @@ async def own_favourite_teams_inline_keyboard(
             ],
         ]
 
-    reply_markup = InlineKeyboardMarkup(keyboard)
+    reply_markup = InlineKeyboardMarkup(list(keyboard))
 
     text = f"Please choose the team you would like to remove from your favourites:"
 
@@ -200,7 +200,7 @@ async def own_favourite_leagues_inline_keyboard(
             ],
         ]
 
-    reply_markup = InlineKeyboardMarkup(keyboard)
+    reply_markup = InlineKeyboardMarkup(list(keyboard))
 
     text = f"Please choose the league you would like to remove from your favourites:"
 
