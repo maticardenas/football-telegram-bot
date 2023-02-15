@@ -123,7 +123,7 @@ async def delete_favourite_team_callback_handler(update: Update, context) -> Non
 async def own_favourite_teams_inline_keyboard(
     update: Update, context, teams: List[Team]
 ):
-    keyboard = (
+    keyboard = [
         [
             InlineKeyboardButton(
                 teams[i].name, callback_data=f"delete_favourite_team {teams[i].id}"
@@ -135,7 +135,7 @@ async def own_favourite_teams_inline_keyboard(
         ]
         for i in range(0, len(teams), 2)
         if i + 1 < len(teams)
-    )
+    ]
 
     if len(teams) % 2 != 0:
         keyboard = [
@@ -174,7 +174,7 @@ async def delete_favourite_league_callback_handler(update: Update, context) -> N
 async def own_favourite_leagues_inline_keyboard(
     update: Update, context, leagues: List[Team]
 ):
-    keyboard = (
+    keyboard = [
         [
             InlineKeyboardButton(
                 leagues[i].name,
@@ -187,7 +187,7 @@ async def own_favourite_leagues_inline_keyboard(
         ]
         for i in range(0, len(leagues), 2)
         if i + 1 < len(leagues)
-    )
+    ]
 
     if len(leagues) % 2 != 0:
         keyboard = [

@@ -169,7 +169,7 @@ async def last_match_league(update: Update, context):
     return LAST_MATCH_LEAGUE
 
 
-async def last_match_league(update: Update, context):
+async def last_match_league_handler(update: Update, context):
     logger.info(
         f"'last_match_league {update.message.text}' command executed - by {update.effective_user.first_name}"
     )

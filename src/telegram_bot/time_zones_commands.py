@@ -135,7 +135,7 @@ async def delete_time_zone(update: Update, context):
 async def own_time_zones_inline_keyboard(
     update: Update, context, time_zones: List[TimeZone]
 ):
-    keyboard = (
+    keyboard = [
         [
             InlineKeyboardButton(
                 time_zones[i].name,
@@ -148,7 +148,7 @@ async def own_time_zones_inline_keyboard(
         ]
         for i in range(0, len(time_zones), 2)
         if i + 1 < len(time_zones)
-    )
+    ]
 
     if len(time_zones) % 2 != 0:
         keyboard = [
