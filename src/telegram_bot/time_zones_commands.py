@@ -7,6 +7,7 @@ from src.notifier_constants import (
     SEARCH_TIME_ZONE,
     SET_ADD_TIME_ZONE,
     SET_MAIN_TIME_ZONE,
+    TIME_ZONES_PAGE_SIZE,
 )
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_commands_handler import (
@@ -22,15 +23,82 @@ async def set_main_time_zone(update: Update, context):
         f"'set_main_time_zone' command initialized - by {update.effective_user.name}"
     )
     await update.message.reply_text(
-        "Please insert the id of the time zone you would like to set as main.",
+        "Please insert the time zone you would like to set as main one.",
     )
 
-    return SET_MAIN_TIME_ZONE
+    context.user_data["command"] = "set_main_time_zone"
+
+    return SEARCH_TIME_ZONE
+
+
+async def show_time_zones(update, context, page):
+    time_zones = context.user_data["time_zones"]
+    pages = context.user_data["pages"]
+
+    start = page * TIME_ZONES_PAGE_SIZE
+    end = start + TIME_ZONES_PAGE_SIZE
+
+    time_zones_keyboard = [
+        [InlineKeyboardButton(tz.name, callback_data=f"time_zone:{tz.id}:{tz.name}")]
+        for tz in time_zones[start:end]
+    ]
+
+    prev_button = (
+        InlineKeyboardButton("Prev", callback_data=f"page:{page - 1}")
+        if page > 0
+        else None
+    )
+    next_button = (
+        InlineKeyboardButton("Next", callback_data=f"page:{page + 1}")
+        if page < pages - 1
+        else None
+    )
+
+    prev_next_row = []
+    if prev_button:
+        prev_next_row.append(prev_button)
+    if next_button:
+        prev_next_row.append(next_button)
+
+    keyboard = [*time_zones_keyboard, prev_next_row]
+
+    logger.info(f"KEYBOARD: {keyboard}")
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    if update.callback_query is None:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Time Zones: ",
+            reply_markup=reply_markup,
+        )
+    else:
+        await update.callback_query.edit_message_reply_markup(reply_markup=reply_markup)
+
+
+async def search_time_zones_callback_handler(update: Update, context) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+    data = query.data
+
+    if data.startswith("page:"):
+        page = int(data.split(":")[1])
+        await show_time_zones(update, context, page)
+    elif data.startswith("time_zone:"):
+        tz_data = data.split(":")[1:]
+        logger.info(f"TZ_DATA - {tz_data}")
+        commands = {
+            "set_add_time_zone": set_add_time_zone_handler,
+            "set_main_time_zone": set_main_time_zone_handler,
+        }
+        context.user_data["time_zone_id"] = tz_data[0]
+
+        await commands.get(context.user_data["command"])(update, context)
 
 
 async def set_main_time_zone_handler(update: Update, context):
     commands_handler = TimeZonesCommandHandler(
-        [update.message.text],
+        [context.user_data["time_zone_id"]],
         update.effective_user.first_name,
         str(update.effective_chat.id),
     )
@@ -54,18 +122,20 @@ async def set_add_time_zone(update: Update, context):
         f"'set_add_time_zone' command initialized - by {update.effective_user.name}"
     )
     await update.message.reply_text(
-        "Please insert the id of the time zone you would like to set as additional one.",
+        "Please insert the time zone you would like to set as additional one.",
     )
 
-    return SET_ADD_TIME_ZONE
+    context.user_data["command"] = "set_add_time_zone"
+
+    return SEARCH_TIME_ZONE
 
 
 async def set_add_time_zone_handler(update: Update, context):
     logger.info(
-        f"'set_add_time_zone' {update.message.text} command executed - by {update.effective_user.name}"
+        f"'set_add_time_zone' {context.user_data['time_zone_id']} command executed - by {update.effective_user.name}"
     )
     commands_handler = TimeZonesCommandHandler(
-        [update.message.text],
+        [context.user_data["time_zone_id"]],
         update.effective_user.first_name,
         str(update.effective_chat.id),
     )
@@ -213,8 +283,17 @@ async def search_time_zone_handler(update: Update, context):
             chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
         )
     else:
-        text = command_handler.search_time_zone_notif()
-        logger.info(f"Search Time Zone - text: {text}")
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        time_zones = command_handler.search_time_zone(update.message.text)
+
+        page = 0
+        pages = len(time_zones) // TIME_ZONES_PAGE_SIZE + (
+            1 if len(time_zones) % TIME_ZONES_PAGE_SIZE else 0
         )
+        context.user_data["time_zones"] = time_zones
+        context.user_data["pages"] = pages
+        context.user_data["start"] = True
+
+        await show_time_zones(update, context, page)
+        # await context.bot.send_message(
+        #     chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
+        # )

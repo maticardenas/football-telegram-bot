@@ -70,6 +70,7 @@ from src.telegram_bot.time_zones_commands import (
     my_time_zones,
     search_time_zone,
     search_time_zone_handler,
+    search_time_zones_callback_handler,
     set_add_time_zone,
     set_add_time_zone_handler,
     set_main_time_zone,
@@ -132,6 +133,10 @@ NOTIFIER_BOT_HANDLERS = [
     CallbackQueryHandler(
         notif_config_callback_handler,
         pattern="^.*set_daily_notif_time|enable_notif_config|disable_notif_config.*",
+    ),
+    CallbackQueryHandler(
+        search_time_zones_callback_handler,
+        pattern="^.*time_zone|page.*",
     ),
     ConversationHandler(
         entry_points=[CommandHandler("add_favourite_team", add_favourite_team)],
@@ -207,9 +212,9 @@ NOTIFIER_BOT_HANDLERS = [
     ConversationHandler(
         entry_points=[CommandHandler("set_main_time_zone", set_main_time_zone)],
         states={
-            SET_MAIN_TIME_ZONE: [
+            SEARCH_TIME_ZONE: [
                 MessageHandler(
-                    filters.TEXT & ~filters.COMMAND, set_main_time_zone_handler
+                    filters.TEXT & ~filters.COMMAND, search_time_zone_handler
                 )
             ]
         },
@@ -218,9 +223,9 @@ NOTIFIER_BOT_HANDLERS = [
     ConversationHandler(
         entry_points=[CommandHandler("set_add_time_zone", set_add_time_zone)],
         states={
-            SET_ADD_TIME_ZONE: [
+            SEARCH_TIME_ZONE: [
                 MessageHandler(
-                    filters.TEXT & ~filters.COMMAND, set_add_time_zone_handler
+                    filters.TEXT & ~filters.COMMAND, search_time_zone_handler
                 )
             ]
         },
