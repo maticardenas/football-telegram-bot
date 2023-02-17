@@ -135,15 +135,15 @@ NOTIFIER_BOT_HANDLERS = [
     ),
     CallbackQueryHandler(
         search_time_zones_callback_handler,
-        pattern="^.*time_zone|page.*",
+        pattern="^.*time_zone|tz_page.*",
     ),
     CallbackQueryHandler(
         search_team_callback_handler,
-        pattern="^.*team|page.*",
+        pattern="^.*team|team_page.*",
     ),
     CallbackQueryHandler(
         search_league_callback_handler,
-        pattern="^.*league|page.*",
+        pattern="^.*league|league_page.*",
     ),
     ConversationHandler(
         entry_points=[CommandHandler("add_favourite_team", add_favourite_team)],
