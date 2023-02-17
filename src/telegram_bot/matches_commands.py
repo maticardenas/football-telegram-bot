@@ -54,7 +54,7 @@ async def next_match_handler(update: Update, context):
                 parse_mode="HTML",
             )
         else:
-            context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+            await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
 async def last_match(update: Update, context):
@@ -94,7 +94,7 @@ async def last_match_handler(update: Update, context):
                 parse_mode="HTML",
             )
         else:
-            context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+            await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
 async def next_match_league(update: Update, context):
