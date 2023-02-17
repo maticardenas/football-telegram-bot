@@ -19,18 +19,20 @@ logger = get_logger(__name__)
 async def next_match(update: Update, context):
     logger.info(f"'next_match initialized - by {update.effective_user.name}")
     await update.message.reply_text(
-        "Please insert the id of the team for which you would like to get the next match:",
+        "Please enter the team's name (or part of) for which you would like to get the next match.",
     )
+
+    context.user_data["command"] = "next_match"
 
     return NEXT_MATCH
 
 
 async def next_match_handler(update: Update, context):
     logger.info(
-        f"'next_match {update.message.text}' command executed - by {update.effective_user.name}"
+        f"'next_match {context.user_data['team_id']}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        [update.message.text],
+        [context.user_data["team_id"]],
         update.effective_user.first_name,
         str(update.effective_chat.id),
     )
@@ -58,18 +60,20 @@ async def next_match_handler(update: Update, context):
 async def last_match(update: Update, context):
     logger.info(f"'last_match initialized - by {update.effective_user.name}")
     await update.message.reply_text(
-        "Please insert the id of the team for which you would like to get the last match.",
+        "Please enter the team's name (or part of) for which you would like to get the last match.",
     )
+
+    context.user_data["command"] = "last_match"
 
     return LAST_MATCH
 
 
 async def last_match_handler(update: Update, context):
     logger.info(
-        f"'last_match {update.message.text}' command executed - by {update.effective_user.first_name}"
+        f"'last_match {context.user_data['team_id']}' command executed - by {update.effective_user.first_name}"
     )
     command_handler = NextAndLastMatchCommandHandler(
-        [update.message.text],
+        [context.user_data["team_id"]],
         update.effective_user.first_name,
         str(update.effective_chat.id),
     )
@@ -99,18 +103,20 @@ async def next_match_league(update: Update, context):
     )
 
     await update.message.reply_text(
-        "Please insert the id of the league for which you would like to get the next match.",
+        "Please enter de league's name (or part of) for which you would like to get the next match.",
     )
+
+    context.user_data["command"] = "next_match_league"
 
     return NEXT_MATCH_LEAGUE
 
 
 async def next_match_league_handler(update: Update, context):
     logger.info(
-        f"'next_match_league {update.message.text}' command executed - by {update.effective_user.name}"
+        f"'next_match_league {context.user_data['team_id']}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        [update.message.text],
+        [context.user_data["team_id"]],
         update.effective_user.first_name,
         update.effective_chat.id,
     )
@@ -163,18 +169,20 @@ async def last_match_league(update: Update, context):
         f"/last_match_league initialized - by {update.effective_user.first_name}"
     )
     await update.message.reply_text(
-        "Please insert the id of the league for which you would like to get the last match.",
+        "Please enter the league's name (or part of) for which you would like to get the last match.",
     )
+
+    context.user_data["command"] = "last_match_league"
 
     return LAST_MATCH_LEAGUE
 
 
 async def last_match_league_handler(update: Update, context):
     logger.info(
-        f"'last_match_league {update.message.text}' command executed - by {update.effective_user.first_name}"
+        f"'last_match_league {context.user_data['league_id']}' command executed - by {update.effective_user.first_name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        [update.message.text],
+        [context.user_data["league_id"]],
         update.effective_user.first_name,
         update.effective_chat.id,
     )

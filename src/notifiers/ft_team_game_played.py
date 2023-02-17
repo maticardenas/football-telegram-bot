@@ -3,6 +3,8 @@ import os
 import sys
 from datetime import datetime
 
+from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
+
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
@@ -37,6 +39,12 @@ def notify_ft_team_game_played() -> None:
 
             if fixture.played_notified is True:
                 logger.info(f"Fixture was already notified")
+                continue
+
+            if fixture.match_status in NOT_PLAYED_OR_FINISHED_MATCH_STATUSES:
+                logger.info(
+                    f"Fixture {fixture.id} is not notified because of its status"
+                )
                 continue
 
             favourite_teams_records = fixtures_db_manager.get_favourite_teams_for_team(
