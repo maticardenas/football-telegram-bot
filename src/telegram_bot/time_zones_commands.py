@@ -69,7 +69,7 @@ async def show_time_zones(update, context, page):
     if update.callback_query is None:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Time Zones: ",
+            text="Choose your time zone: ",
             reply_markup=reply_markup,
         )
     else:
@@ -294,6 +294,3 @@ async def search_time_zone_handler(update: Update, context):
         context.user_data["start"] = True
 
         await show_time_zones(update, context, page)
-        # await context.bot.send_message(
-        #     chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        # )

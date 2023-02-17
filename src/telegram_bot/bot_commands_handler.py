@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Any, List, Optional, Tuple
 
 from src.db.fixtures_db_manager import FixturesDBManager
-from src.db.notif_sql_models import FavouriteTeam, Fixture
+from src.db.notif_sql_models import FavouriteLeague, FavouriteTeam, Fixture
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
 from src.db.notif_sql_models import TimeZone as DBTimeZone
@@ -741,9 +741,7 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
                 for team in favourite_teams
             ]
 
-            favourite_teams_texts = [
-                f"<strong>{team.id}</strong> - {team.name}" for team in teams
-            ]
+            favourite_teams_texts = [f"<strong>{team.name}</strong>" for team in teams]
 
             response = "\n".join(favourite_teams_texts)
         else:
@@ -807,7 +805,7 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
                     response = f"Oops! '{league}' is not available :(\n"
         return response
 
-    def get_favourite_leagues(self) -> List[FavouriteTeam]:
+    def get_favourite_leagues(self) -> List[FavouriteLeague]:
         favourite_leagues = self._fixtures_db_manager.get_favourite_leagues(
             self._chat_id
         )
@@ -820,14 +818,9 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         favourite_leagues = self.get_favourite_leagues()
 
         if len(favourite_leagues):
-            # leagues = [
-            #     self._fixtures_db_manager.get_league(league.id)[0]
-            #     for league in favourite_leagues
-            # ]
 
             favourite_leagues_texts = [
-                f"<strong>{league.id}</strong> - {league.name}"
-                for league in favourite_leagues
+                f"<strong>{league.name}</strong>" for league in favourite_leagues
             ]
 
             response = "\n".join(favourite_leagues_texts)

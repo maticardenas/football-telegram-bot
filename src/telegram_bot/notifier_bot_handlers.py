@@ -10,7 +10,10 @@ from telegram.ext import (
 from src.notifier_constants import (
     ADD_FAVOURITE_LEAGUE,
     ADD_FAVOURITE_TEAM,
+    LAST_MATCH,
+    LAST_MATCH_LEAGUE,
     NEXT_MATCH,
+    NEXT_MATCH_LEAGUE,
     SEARCH_LEAGUE,
     SEARCH_LEAGUES_BY_COUNTRY,
     SEARCH_TEAM,
@@ -31,10 +34,12 @@ from src.telegram_bot.fav_teams_and_leagues_commands import (
     favourite_leagues,
     favourite_teams,
     search_league,
+    search_league_callback_handler,
     search_league_handler,
     search_leagues_by_country,
     search_leagues_by_country_handler,
     search_team,
+    search_team_callback_handler,
     search_team_handler,
 )
 from src.telegram_bot.matches_commands import (
@@ -80,21 +85,15 @@ from src.telegram_bot.time_zones_commands import (
 
 async def cancel(update, context) -> int:
     """Cancels and ends the conversation."""
-    # await update.message.reply_text(
-    #     f"Finished with {context.user_data['entry_point_command']}",
-    # )
+
     return ConversationHandler.END
 
 
 NOTIFIER_BOT_HANDLERS = [
     CommandHandler("start", start),
-    CommandHandler("next_match", next_match),
     CommandHandler("upcoming_matches", upcoming_matches),
-    CommandHandler("last_match", last_match),
     CommandHandler("last_matches", last_matches),
-    CommandHandler("next_match_league", next_match_league),
     CommandHandler("next_matches_league", next_matches_league),
-    CommandHandler("last_match_league", last_match_league),
     CommandHandler("today_matches", today_matches),
     CommandHandler("tomorrow_matches", tomorrow_matches),
     CommandHandler("yesterday_matches", yesterday_matches),
@@ -138,13 +137,19 @@ NOTIFIER_BOT_HANDLERS = [
         search_time_zones_callback_handler,
         pattern="^.*time_zone|page.*",
     ),
+    CallbackQueryHandler(
+        search_team_callback_handler,
+        pattern="^.*team|page.*",
+    ),
+    CallbackQueryHandler(
+        search_league_callback_handler,
+        pattern="^.*league|page.*",
+    ),
     ConversationHandler(
         entry_points=[CommandHandler("add_favourite_team", add_favourite_team)],
         states={
             ADD_FAVOURITE_TEAM: [
-                MessageHandler(
-                    filters.TEXT & ~filters.COMMAND, add_favourite_team_handler
-                )
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
             ]
         },
         fallbacks=[MessageHandler(filters.COMMAND, cancel)],
@@ -153,9 +158,7 @@ NOTIFIER_BOT_HANDLERS = [
         entry_points=[CommandHandler("add_favourite_league", add_favourite_league)],
         states={
             ADD_FAVOURITE_LEAGUE: [
-                MessageHandler(
-                    filters.TEXT & ~filters.COMMAND, add_favourite_league_handler
-                )
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
             ]
         },
         fallbacks=[MessageHandler(filters.COMMAND, cancel)],
@@ -195,7 +198,7 @@ NOTIFIER_BOT_HANDLERS = [
         entry_points=[CommandHandler("next_match", next_match)],
         states={
             NEXT_MATCH: [
-                MessageHandler(filters.TEXT & ~filters.COMMAND, next_match_handler)
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
             ]
         },
         fallbacks=[MessageHandler(filters.COMMAND, cancel)],
@@ -203,8 +206,26 @@ NOTIFIER_BOT_HANDLERS = [
     ConversationHandler(
         entry_points=[CommandHandler("last_match", last_match)],
         states={
-            NEXT_MATCH: [
-                MessageHandler(filters.TEXT & ~filters.COMMAND, last_match_handler)
+            LAST_MATCH: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("next_match_league", next_match_league)],
+        states={
+            NEXT_MATCH_LEAGUE: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("last_match_league", last_match_league)],
+        states={
+            LAST_MATCH_LEAGUE: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
             ]
         },
         fallbacks=[MessageHandler(filters.COMMAND, cancel)],
