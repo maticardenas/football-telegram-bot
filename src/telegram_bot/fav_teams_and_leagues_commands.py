@@ -377,12 +377,12 @@ async def show_teams(update, context, page: int):
     ]
 
     prev_button = (
-        InlineKeyboardButton("Prev", callback_data=f"page:{page - 1}")
+        InlineKeyboardButton("<< Prev", callback_data=f"team_page:{page - 1}")
         if page > 0
         else None
     )
     next_button = (
-        InlineKeyboardButton("Next", callback_data=f"page:{page + 1}")
+        InlineKeyboardButton("Next >>", callback_data=f"team_page:{page + 1}")
         if page < pages - 1
         else None
     )
@@ -431,12 +431,12 @@ async def show_leagues(update, context, page: int):
     ]
 
     prev_button = (
-        InlineKeyboardButton("Prev", callback_data=f"page:{page - 1}")
+        InlineKeyboardButton("<< Prev", callback_data=f"league_page:{page - 1}")
         if page > 0
         else None
     )
     next_button = (
-        InlineKeyboardButton("Next", callback_data=f"page:{page + 1}")
+        InlineKeyboardButton("Next >>", callback_data=f"league_page:{page + 1}")
         if page < pages - 1
         else None
     )
@@ -473,7 +473,7 @@ async def search_team_callback_handler(update: Update, context) -> None:
     query = update.callback_query
     data = query.data
 
-    if data.startswith("page:"):
+    if data.startswith("team_page:"):
         page = int(data.split(":")[1])
         await show_teams(update, context, page)
     elif data.startswith("team:"):
