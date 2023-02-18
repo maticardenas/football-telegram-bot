@@ -1,5 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
+from src.emojis import Emojis
 from src.notifier_constants import (
     LAST_MATCH,
     LAST_MATCH_LEAGUE,
@@ -19,7 +20,7 @@ logger = get_logger(__name__)
 async def next_match(update: Update, context):
     logger.info(f"'next_match initialized - by {update.effective_user.name}")
     await update.message.reply_text(
-        "Please enter the team's name (or part of) for which you would like to get the next match.",
+        f"Please enter the team's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}",
     )
 
     context.user_data["command"] = "next_match"
@@ -60,7 +61,7 @@ async def next_match_handler(update: Update, context):
 async def last_match(update: Update, context):
     logger.info(f"'last_match initialized - by {update.effective_user.name}")
     await update.message.reply_text(
-        "Please enter the team's name (or part of) for which you would like to get the last match.",
+        f"Please enter the team's name (or part of) for which you would like to get the last match {Emojis.DOWN_FACING_FIST.value}",
     )
 
     context.user_data["command"] = "last_match"
@@ -103,7 +104,7 @@ async def next_match_league(update: Update, context):
     )
 
     await update.message.reply_text(
-        "Please enter de league's name (or part of) for which you would like to get the next match.",
+        f"Please enter de league's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}",
     )
 
     context.user_data["command"] = "next_match_league"
@@ -169,7 +170,7 @@ async def last_match_league(update: Update, context):
         f"/last_match_league initialized - by {update.effective_user.first_name}"
     )
     await update.message.reply_text(
-        "Please enter the league's name (or part of) for which you would like to get the last match.",
+        f"Please enter the league's name (or part of) for which you would like to get the last match {Emojis.DOWN_FACING_FIST.value}",
     )
 
     context.user_data["command"] = "last_match_league"

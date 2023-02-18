@@ -3,6 +3,7 @@ from typing import List
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
 from src.db.notif_sql_models import TimeZone
+from src.emojis import Emojis
 from src.notifier_constants import (
     SEARCH_TIME_ZONE,
     SET_ADD_TIME_ZONE,
@@ -122,7 +123,7 @@ async def set_add_time_zone(update: Update, context):
         f"'set_add_time_zone' command initialized - by {update.effective_user.name}"
     )
     await update.message.reply_text(
-        "Please insert the time zone you would like to set as additional one.",
+        f"Please enter the time zone you would like to set as additional one {Emojis.DOWN_FACING_FIST.value}",
     )
 
     context.user_data["command"] = "set_add_time_zone"

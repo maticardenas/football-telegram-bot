@@ -36,7 +36,7 @@ async def add_favourite_team(update: Update, context):
     )
 
     await update.message.reply_text(
-        "Please insert the id of the team you would like me to add as your favourite.",
+        f"Please enter the id of the team you would like me to add as your favourite {Emojis.DOWN_FACING_FIST.value}",
     )
 
     context.user_data["command"] = "add_favourite_team"
@@ -334,7 +334,7 @@ async def search_team(update: Update, context):
     )
 
     await update.message.reply_text(
-        "Please insert the name (or part of the name) of the team you would like to search:",
+        f"Please enter the name (or part of the name) of the team you would like to search {Emojis.DOWN_FACING_FIST.value}",
     )
 
     return SEARCH_TEAM
@@ -403,7 +403,7 @@ async def show_teams(update, context, page: int):
         team_text = (
             "Select team"
             if len(teams)
-            else "There were no teams found. Please enter another value"
+            else f"There were no teams found. Please enter another value {Emojis.DOWN_FACING_FIST.value}"
         )
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
@@ -457,7 +457,7 @@ async def show_leagues(update, context, page: int):
         league_text = (
             "Select league"
             if len(leagues)
-            else "There were no leagues found. Please enter another value"
+            else f"There were no leagues found. Please enter another value {Emojis.DOWN_FACING_FIST.value}"
         )
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
@@ -516,7 +516,7 @@ async def search_league(update: Update, context):
     )
 
     await update.message.reply_text(
-        "Please insert the name (or part of the name) of the league you would like to search:",
+        f"Please enter the name (or part of the name) of the league you would like to search {Emojis.DOWN_FACING_FIST.value}",
     )
 
     return SEARCH_LEAGUE
@@ -552,7 +552,7 @@ async def search_leagues_by_country(update: Update, context):
     )
 
     await update.message.reply_text(
-        "Please insert the name (or part of the name) of the of the country you would like to search leagues for:",
+        f"Please enter the name (or part of the name) of the of the country you would like to search leagues for {Emojis.DOWN_FACING_FIST.value}",
     )
 
     return SEARCH_LEAGUES_BY_COUNTRY

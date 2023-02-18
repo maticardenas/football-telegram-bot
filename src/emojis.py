@@ -67,3 +67,4 @@ class Emojis(Enum):
     SMILEY_FACE = emoji.emojize(":beaming_face_with_smiling_eyes:", use_aliases=True)
     ROBOT = emoji.emojize(":robot:", use_aliases=True)
     DEVELOPER = emoji.emojize(":technologist_light_skin_tone:", use_aliases=True)
+    DOWN_FACING_FIST = emoji.emojize(":backhand_index_pointing_down:", use_aliases=True)
