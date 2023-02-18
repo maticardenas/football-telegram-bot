@@ -21,11 +21,7 @@ from src.utils.fixtures_utils import (
     get_next_fixture_db,
     get_youtube_highlights_videos,
 )
-from src.utils.message_utils import (
-    get_first_phrase_msg,
-    get_team_intro_message,
-    is_subscripted_for_team,
-)
+from src.utils.message_utils import get_first_phrase_msg, get_team_intro_message
 
 logger = get_logger(__name__)
 

@@ -23,3 +23,20 @@ SET_NOTIF_TIMES_ENABLEMENT = (
     f"{Emojis.RIGHT_FACING_FIST.value} For doing so, a new command was introduced: /set_daily_notif_time. It will display you the times to you, and you can select it accordingly in order to set your desired notification time.\n\n"
     f"Thanks! And hope you enjoy the World Cup! \n\n*And good luck to your national team in case it's participating ;)"
 )
+
+
+CONVERSATION_ENABLEMENT = (
+    f"{Emojis.SPEAKING_HEAD.value} {Emojis.SPEAKING_HEAD.value} <strong>NO MORE ID'S</strong> {Emojis.SMILEY_FACE.value}{Emojis.PARTYING_FACE.value}\n\n"
+    f"Hi! {Emojis.WAVING_HAND.value}\n\n"
+    f"We are pleased to announce that we have released a new improvement which changes the way commands work, making it not necessary to keep and use <em>ids</em> anymore :).\n\n"
+    f"All commands have now a <em>search</em> of <em>teams</em> and <em>leagues</em> embedded, so therefore, whenever for example you would like to add a favourite team and look for a next match, you will be able just to call the command and, "
+    f"in the form of a conversation (yes, not need to append anything after commands anymore!) enter the (part of) name of the team/league you want and the bot will start showing you a list of the found ones, in the form of "
+    f"<strong>BUTTONS!</strong> (doesn't it sound good?). \n\n"
+    f"{Emojis.RIGHT_FACING_FIST.value} This means that consequently, you don't need to manipulate the <em>ids</em> anymore, and you can just worry on pressing the commands. Also, "
+    f"as <em>search</em> is embedded in all commands now, <em>search_team</em>, <em>search_league</em> and <em>seach_time_zone</em> commands will be deprecated, as they become unnecesary {Emojis.SMILEY_FACE.value}\n\n"
+    f"{Emojis.ROBOT.value} This new feature has allowed to think and unblock us in the development of other news in the roadmap, so hold on tight! we are planning to add:\n\n"
+    f"• <strong>Friendly setup</strong> - A handy and guided conversation for starting using the bot, when entering <em>/start</em> command.\n"
+    f"• <strong>Follow players</strong> - Keep track of your favourite player games, stats and news.\n"
+    f"• <strong>Standings and line-ups</strong> - Check how your team is doing in its tournaments, as well as getting line-ups before games\n\n"
+    # f"{Emojis.DEVELOPER.value} <a href='https://www.buymeacoffee.com/maticardenas'>Buy me a coffee</a> - if you feel like contributing with this work "
+)

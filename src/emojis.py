@@ -64,3 +64,6 @@ class Emojis(Enum):
     BELL = emoji.emojize(":bell:", use_aliases=True)
     SPEAKING_HEAD = emoji.emojize(":speaking_head:", use_aliases=True)
     FOLDED_HANDS = emoji.emojize(":folded_hands:", use_aliases=True)
+    SMILEY_FACE = emoji.emojize(":beaming_face_with_smiling_eyes:", use_aliases=True)
+    ROBOT = emoji.emojize(":robot:", use_aliases=True)
+    DEVELOPER = emoji.emojize(":technologist_light_skin_tone:", use_aliases=True)
