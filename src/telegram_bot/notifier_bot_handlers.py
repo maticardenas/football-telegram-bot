@@ -1,5 +1,4 @@
 from telegram.ext import (
-    ApplicationBuilder,
     CallbackQueryHandler,
     CommandHandler,
     ConversationHandler,
@@ -12,20 +11,17 @@ from src.notifier_constants import (
     ADD_FAVOURITE_TEAM,
     LAST_MATCH,
     LAST_MATCH_LEAGUE,
+    LAST_MATCHES,
     NEXT_MATCH,
     NEXT_MATCH_LEAGUE,
     SEARCH_LEAGUE,
     SEARCH_LEAGUES_BY_COUNTRY,
     SEARCH_TEAM,
     SEARCH_TIME_ZONE,
-    SET_ADD_TIME_ZONE,
-    SET_MAIN_TIME_ZONE,
 )
 from src.telegram_bot.fav_teams_and_leagues_commands import (
     add_favourite_league,
-    add_favourite_league_handler,
     add_favourite_team,
-    add_favourite_team_handler,
     available_leagues,
     delete_favourite_league,
     delete_favourite_league_callback_handler,
@@ -44,11 +40,9 @@ from src.telegram_bot.fav_teams_and_leagues_commands import (
 )
 from src.telegram_bot.matches_commands import (
     last_match,
-    last_match_handler,
     last_match_league,
     last_matches,
     next_match,
-    next_match_handler,
     next_match_league,
     next_matches_league,
     today_matches,
@@ -77,9 +71,7 @@ from src.telegram_bot.time_zones_commands import (
     search_time_zone_handler,
     search_time_zones_callback_handler,
     set_add_time_zone,
-    set_add_time_zone_handler,
     set_main_time_zone,
-    set_main_time_zone_handler,
 )
 
 
@@ -92,7 +84,6 @@ async def cancel(update, context) -> int:
 NOTIFIER_BOT_HANDLERS = [
     CommandHandler("start", start),
     CommandHandler("upcoming_matches", upcoming_matches),
-    CommandHandler("last_matches", last_matches),
     CommandHandler("next_matches_league", next_matches_league),
     CommandHandler("today_matches", today_matches),
     CommandHandler("tomorrow_matches", tomorrow_matches),
@@ -207,6 +198,15 @@ NOTIFIER_BOT_HANDLERS = [
         entry_points=[CommandHandler("last_match", last_match)],
         states={
             LAST_MATCH: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("last_matches", last_matches)],
+        states={
+            LAST_MATCHES: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
             ]
         },

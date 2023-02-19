@@ -23,6 +23,7 @@ from src.telegram_bot.bot_commands_handler import (
 from src.telegram_bot.matches_commands import (
     last_match_handler,
     last_match_league_handler,
+    last_matches_handler,
     next_match_handler,
     next_match_league_handler,
 )
@@ -483,6 +484,7 @@ async def search_team_callback_handler(update: Update, context) -> None:
             "add_favourite_team": add_favourite_team_handler,
             "next_match": next_match_handler,
             "last_match": last_match_handler,
+            "last_matches": last_matches_handler,
         }
         context.user_data["team_id"] = team_data[0]
 
