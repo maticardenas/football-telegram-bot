@@ -3,8 +3,6 @@ import os
 import sys
 from datetime import datetime, timedelta
 
-from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
-
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
@@ -13,6 +11,7 @@ sys.path.insert(1, project_dir)
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
+from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
 from src.notifier_logger import get_logger
 from src.senders.telegram_sender import send_telegram_message
 from src.utils.date_utils import get_formatted_date, is_time_between
