@@ -8,6 +8,7 @@ from src.emojis import Emojis
 from src.notifier_constants import (
     ADD_FAVOURITE_LEAGUE,
     ADD_FAVOURITE_TEAM,
+    END_COMMAND_MESSAGE,
     SEARCH_LEAGUE,
     SEARCH_LEAGUES_BY_COUNTRY,
     SEARCH_TEAM,
@@ -37,7 +38,8 @@ async def add_favourite_team(update: Update, context):
     )
 
     await update.message.reply_text(
-        f"Please enter the id of the team you would like me to add as your favourite {Emojis.DOWN_FACING_FIST.value}",
+        f"Please enter the name of the team you would like me to add as your favourite {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
+        parse_mode="HTML",
     )
 
     context.user_data["command"] = "add_favourite_team"
@@ -335,7 +337,8 @@ async def search_team(update: Update, context):
     )
 
     await update.message.reply_text(
-        f"Please enter the name (or part of the name) of the team you would like to search {Emojis.DOWN_FACING_FIST.value}",
+        f"Please enter the name (or part of the name) of the team you would like to search {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
+        parse_mode="HTML",
     )
 
     return SEARCH_TEAM
@@ -410,6 +413,7 @@ async def show_teams(update, context, page: int):
             chat_id=update.effective_chat.id,
             text=team_text,
             reply_markup=reply_markup,
+            parse_mode="HTML",
         )
     else:
         await update.callback_query.edit_message_reply_markup(reply_markup=reply_markup)
@@ -464,6 +468,7 @@ async def show_leagues(update, context, page: int):
             chat_id=update.effective_chat.id,
             text=league_text,
             reply_markup=reply_markup,
+            parse_mode="HTML",
         )
     else:
         await update.callback_query.edit_message_reply_markup(reply_markup=reply_markup)
@@ -518,7 +523,8 @@ async def search_league(update: Update, context):
     )
 
     await update.message.reply_text(
-        f"Please enter the name (or part of the name) of the league you would like to search {Emojis.DOWN_FACING_FIST.value}",
+        f"Please enter the name (or part of the name) of the league you would like to search {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
+        parse_mode="HTML",
     )
 
     return SEARCH_LEAGUE
@@ -554,7 +560,8 @@ async def search_leagues_by_country(update: Update, context):
     )
 
     await update.message.reply_text(
-        f"Please enter the name (or part of the name) of the of the country you would like to search leagues for {Emojis.DOWN_FACING_FIST.value}",
+        f"Please enter the name (or part of the name) of the of the country you would like to search leagues for {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
+        parse_mode="HTML",
     )
 
     return SEARCH_LEAGUES_BY_COUNTRY

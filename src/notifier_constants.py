@@ -1,3 +1,5 @@
+from src.emojis import Emojis
+
 NOT_PLAYED_OR_FINISHED_MATCH_STATUSES = [
     "Match Abandoned",
     "Match Suspended",
@@ -56,3 +58,10 @@ SET_MAIN_TIME_ZONE = 13
 SET_ADD_TIME_ZONE = 14
 SEARCH_TIME_ZONE = 15
 LAST_MATCHES = 16
+
+# END COMMAND MESSAGE
+END_COMMAND_MESSAGE = (
+    f"{Emojis.RED_EXCLAMATION_MARK.value}<em>You can keep entering and trying values afterwards, "
+    f"enter <strong>/end</strong> or another command when you want me to stop processing your entries for this "
+    f"one</em> {Emojis.SMILEY_FACE.value}"
+)
