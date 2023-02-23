@@ -203,7 +203,7 @@ NOTIFIER_BOT_HANDLERS = [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
             ]
         },
-        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+        fallbacks=[MessageHandler(~filters.Regex("^/last_match$"), cancel)],
     ),
     ConversationHandler(
         entry_points=[CommandHandler("last_matches", last_matches)],
@@ -212,7 +212,7 @@ NOTIFIER_BOT_HANDLERS = [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
             ]
         },
-        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+        fallbacks=[MessageHandler(~filters.Regex("^/last_matches$"), cancel)],
     ),
     ConversationHandler(
         entry_points=[CommandHandler("next_match_league", next_match_league)],
@@ -221,7 +221,7 @@ NOTIFIER_BOT_HANDLERS = [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
             ]
         },
-        fallbacks=[MessageHandler(filters.COMMAND, cancel)],
+        fallbacks=[MessageHandler(~filters.Regex("^/next_match_league$"), cancel)],
     ),
     ConversationHandler(
         entry_points=[CommandHandler("last_match_league", last_match_league)],
@@ -230,7 +230,7 @@ NOTIFIER_BOT_HANDLERS = [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
             ]
         },
-        fallbacks=[MessageHandler(~filters.Regex("^/last_match$"), cancel)],
+        fallbacks=[MessageHandler(~filters.Regex("^/last_match_league$"), cancel)],
     ),
     ConversationHandler(
         entry_points=[CommandHandler("set_main_time_zone", set_main_time_zone)],
