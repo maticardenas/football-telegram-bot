@@ -14,6 +14,7 @@ from src.notifier_constants import (
     LAST_MATCHES,
     NEXT_MATCH,
     NEXT_MATCH_LEAGUE,
+    NEXT_MATCHES_LEAGUE,
     SEARCH_LEAGUE,
     SEARCH_LEAGUES_BY_COUNTRY,
     SEARCH_TEAM,
@@ -84,7 +85,6 @@ async def cancel(update, context) -> int:
 NOTIFIER_BOT_HANDLERS = [
     CommandHandler("start", start),
     CommandHandler("upcoming_matches", upcoming_matches),
-    CommandHandler("next_matches_league", next_matches_league),
     CommandHandler("today_matches", today_matches),
     CommandHandler("tomorrow_matches", tomorrow_matches),
     CommandHandler("yesterday_matches", yesterday_matches),
@@ -222,6 +222,15 @@ NOTIFIER_BOT_HANDLERS = [
             ]
         },
         fallbacks=[MessageHandler(~filters.Regex("^/next_match_league$"), cancel)],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("next_matches_league", next_matches_league)],
+        states={
+            NEXT_MATCHES_LEAGUE: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(~filters.Regex("^/next_matches_league$"), cancel)],
     ),
     ConversationHandler(
         entry_points=[CommandHandler("last_match_league", last_match_league)],

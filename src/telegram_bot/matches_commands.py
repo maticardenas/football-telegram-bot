@@ -8,6 +8,7 @@ from src.notifier_constants import (
     LAST_MATCHES,
     NEXT_MATCH,
     NEXT_MATCH_LEAGUE,
+    NEXT_MATCHES_LEAGUE,
 )
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_commands_handler import (
@@ -108,7 +109,7 @@ async def next_match_league(update: Update, context):
     )
 
     await update.message.reply_text(
-        f"Please enter de league's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
+        f"Please enter the league's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
         parse_mode="HTML",
     )
 
@@ -151,8 +152,25 @@ async def next_matches_league(update: Update, context):
     logger.info(
         f"'next_matches_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
+
+    await update.message.reply_text(
+        f"Please enter the league's name (or part of) for which you would like to get the next matches {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
+        parse_mode="HTML",
+    )
+
+    context.user_data["command"] = "next_matches_league"
+
+    return NEXT_MATCHES_LEAGUE
+
+
+async def next_matches_league_handler(update: Update, context):
+    logger.info(
+        f"'next_matches_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        context.args, update.effective_user.first_name, update.effective_chat.id
+        [context.user_data["league_id"]],
+        update.effective_user.first_name,
+        update.effective_chat.id,
     )
 
     validated_input = command_handler.validate_command_input()

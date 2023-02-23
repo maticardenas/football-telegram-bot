@@ -27,6 +27,7 @@ from src.telegram_bot.matches_commands import (
     last_matches_handler,
     next_match_handler,
     next_match_league_handler,
+    next_matches_league_handler,
 )
 
 logger = get_logger(__name__)
@@ -511,6 +512,7 @@ async def search_league_callback_handler(update: Update, context) -> None:
             "add_favourite_league": add_favourite_league_handler,
             "next_match_league": next_match_league_handler,
             "last_match_league": last_match_league_handler,
+            "next_matches_league": next_matches_league_handler,
         }
         context.user_data["league_id"] = league_data[0]
 
