@@ -39,9 +39,9 @@ def telegram_last_team_or_league_fixture_notification(
         or "half" in team_fixture.match_status.lower()
         or "second" in team_fixture.match_status.lower()
     ):
-        match_text_content = f"The last match of {team_or_league} is being played! \n\n"
+        match_text_content = f"The last match of {team_or_league} is being played! \n"
     else:
-        match_text_content = f"The last match of {team_or_league} was {match_date} \n\n"
+        match_text_content = f"The last match of {team_or_league} was {match_date} \n"
 
     telegram_message = (
         f"{Emojis.WAVING_HAND.value}Hi {user}!\n\n"

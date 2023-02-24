@@ -301,7 +301,7 @@ class Fixture:
                     f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
                     f"{league_text}"
                     f"{round_text}"
-                    f"{Emojis.SAD_FACE.value} {self.match_status}"
+                    f"\n{Emojis.SAD_FACE.value} {self.match_status}"
                 )
         else:
             not_played_or_finished_match_text = (
