@@ -55,10 +55,9 @@ class BaseClient:
         )
 
         for attempt in Retrying(
-            stop=stop_after_attempt(MAX_RETRY_ATTEMPTS),
+            stop=stop_after_attempt(MAX_RETRY_ATTEMPTS if self._perform_retries else 1),
             wait=wait_fixed(WAIT_BETWEEN_REQUESTS),
             retry=retry_if_exception_type(HTTPStatusError),
-            before=lambda retry: self._perform_retries,
         ):
             with attempt:
                 response = self.client.request(
