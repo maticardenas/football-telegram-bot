@@ -94,7 +94,6 @@ def get_list_of_fitting_texts(
 def get_fixtures_text(
     converted_fixtures: List[Fixture], played: bool = False, with_date: bool = False
 ) -> List[str]:
-
     fixtures_text = ""
     all_fitting_fixtures = []
     current_fitting_fixtures = []
