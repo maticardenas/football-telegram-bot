@@ -41,17 +41,7 @@ def test_telegram_like_repr(fixture: Fixture):
     # given - when - then
     assert (
         fixture.telegram_like_repr()
-        == """🇪🇺 16:00 HS
-🇦🇷 12:00 HS
-
-⏰  left for the game.
-
-⚽ <strong>River Plate vs. Boca Juniors</strong>
-🏆 <strong>Copa de la Superliga (ARG)</strong>
-🏟 <strong>Estadio Monumental</strong>
-👮‍♀️ <strong>Perluigi Colina</strong>
-
-"""
+        == """🇪🇺 16:00 HS\n🇦🇷 12:00 HS\n\n⏰  left for the game.\n\n⚽ <strong>River Plate vs. Boca Juniors</strong>\n🏆 <strong>Copa de la Superliga (ARG)</strong>\n🏟️ <strong>Estadio Monumental</strong>\n👮\u200d♀️ <strong>Perluigi Colina</strong>\n\n"""
     )
 
 
@@ -62,15 +52,7 @@ def test_matched_played_telegram_like_repr_half_time(fixture: Fixture):
     # - when - then
     assert (
         fixture.matched_played_telegram_like_repr()
-        == """🏃‍♂️ <strong>First Half</strong>
-
-<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>
-🏆 <strong>Copa de la Superliga (ARG)</strong>
-📌 <strong>Primera Fecha</strong>
-🏟 <strong>Estadio Monumental</strong>
-👮‍♀️ <strong>Perluigi Colina</strong>
-
-"""
+        == """🏃\u200d♂️ <strong>First Half</strong>\n\n<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>\n🏆 <strong>Copa de la Superliga (ARG)</strong>\n📌 <strong>Primera Fecha</strong>\n🏟️ <strong>Estadio Monumental</strong>\n👮\u200d♀️ <strong>Perluigi Colina</strong>\n\n"""
     )
 
 
@@ -81,13 +63,7 @@ def test_matched_played_telegram_like_repr_match_finished(fixture: Fixture):
     # when - then
     assert (
         fixture.matched_played_telegram_like_repr()
-        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>
-🏆 <strong>Copa de la Superliga (ARG)</strong>
-📌 <strong>Primera Fecha</strong>
-🏟 <strong>Estadio Monumental</strong>
-👮‍♀️ <strong>Perluigi Colina</strong>
-
-📽 <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
+        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>\n🏆 <strong>Copa de la Superliga (ARG)</strong>\n📌 <strong>Primera Fecha</strong>\n🏟️ <strong>Estadio Monumental</strong>\n👮\u200d♀️ <strong>Perluigi Colina</strong>\n\n📽️ <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
     )
 
 
@@ -99,12 +75,7 @@ def test_matched_played_telegram_like_repr_match_finished_not_venue(fixture: Fix
     # when - then
     assert (
         fixture.matched_played_telegram_like_repr()
-        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>
-🏆 <strong>Copa de la Superliga (ARG)</strong>
-📌 <strong>Primera Fecha</strong>
-👮‍♀️ <strong>Perluigi Colina</strong>
-
-📽 <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
+        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>\n🏆 <strong>Copa de la Superliga (ARG)</strong>\n📌 <strong>Primera Fecha</strong>\n👮\u200d♀️ <strong>Perluigi Colina</strong>\n\n📽️ <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
     )
 
 
@@ -116,12 +87,7 @@ def test_matched_played_telegram_like_repr_match_finished_not_referee(fixture: F
     # when - then
     assert (
         fixture.matched_played_telegram_like_repr()
-        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>
-🏆 <strong>Copa de la Superliga (ARG)</strong>
-📌 <strong>Primera Fecha</strong>
-🏟 <strong>Estadio Monumental</strong>
-
-📽 <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
+        == """<strong>⚽ River Plate [3] vs. [0] Boca Juniors</strong>\n🏆 <strong>Copa de la Superliga (ARG)</strong>\n📌 <strong>Primera Fecha</strong>\n🏟️ <strong>Estadio Monumental</strong>\n\n📽️ <a href='https://www.youtube.com/results?search_query=River Plate+vs+Boca Juniors'>HIGHLIGHTS</a>"""
     )
 
 
