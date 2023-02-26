@@ -85,7 +85,6 @@ class NotifierBotCommandsHandler:
     def get_fixtures_text(
         converted_fixtures: List[Fixture], played: bool = False, with_date: bool = False
     ) -> List[str]:
-
         fixtures_text = ""
         all_fitting_fixtures = []
         current_fitting_fixtures = []
@@ -817,7 +816,6 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         favourite_leagues = self.get_favourite_leagues()
 
         if len(favourite_leagues):
-
             favourite_leagues_texts = [
                 f"<strong>{league.name}</strong>" for league in favourite_leagues
             ]

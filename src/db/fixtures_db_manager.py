@@ -172,7 +172,6 @@ class FixturesDBManager:
         teams: List[int] = [],
         time_zone: str = "UTC",
     ) -> List[Optional[DBFixture]]:
-
         days_to_grab = SURROUNDING_INDEXES.get(surround_type)
 
         utc_now = datetime.utcnow()

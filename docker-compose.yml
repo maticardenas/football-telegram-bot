@@ -11,7 +11,7 @@ services:
       - .:/usr/football_api
     depends_on:
       - db
-    command: bash -c "python -m pipenv run python /usr/football_api/notifier_bot.py"
+    command: bash -c "python -m poetry run python /usr/football_api/notifier_bot.py"
 
   db:
     image: postgres:10-alpine
