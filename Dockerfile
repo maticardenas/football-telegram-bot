@@ -1,4 +1,5 @@
-FROM python:3.11
+FROM python:3.11-slim-buster
+
 LABEL maintainer "Matias Cardenas"
 LABEL description "Python 3.11 image containing Football Notifications APP"
 
