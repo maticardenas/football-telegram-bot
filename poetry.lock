@@ -925,6 +925,21 @@ SQLAlchemy = ">=1.4.17,<=1.4.41"
 sqlalchemy2-stubs = "*"
 
 [[package]]
+name = "tenacity"
+version = "8.2.1"
+description = "Retry code until it succeeds"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "tenacity-8.2.1-py3-none-any.whl", hash = "sha256:dd1b769ca7002fda992322939feca5bee4fa11f39146b0af14e0b8d9f27ea854"},
+    {file = "tenacity-8.2.1.tar.gz", hash = "sha256:c7bb4b86425b977726a7b49971542d4f67baf72096597d283f3ffd01f33b92df"},
+]
+
+[package.extras]
+doc = ["reno", "sphinx", "tornado (>=4.5)"]
+
+[[package]]
 name = "typing-extensions"
 version = "4.5.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -956,4 +971,4 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "a402e7b56d1762d6844d8dbf54268410c01a0c37ab58d6361961c31e68ff6a2d"
+content-hash = "2f8ef73f10edb8c326ce2637d08ae53a1bf9a60377ace4447279a696b2cc0954"

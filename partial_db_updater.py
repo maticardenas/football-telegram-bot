@@ -10,7 +10,9 @@ from src.utils.fixtures_utils import (
 )
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
-FIXTURES_CLIENT = FixturesClient(share_session=True)
+FIXTURES_CLIENT = FixturesClient(
+    share_session=True, raise_for_status=True, perform_retries=True
+)
 
 logger = get_logger(__name__)
 

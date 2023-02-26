@@ -1,10 +1,12 @@
 from typing import Optional
 
 import httpx
+from httpx import HTTPStatusError
 from pydantic import BaseModel
+from tenacity import Retrying, retry_if_exception_type, stop_after_attempt, wait_fixed
 
 from config.notif_config import NotifConfig
-from src.notifier_constants import TIME_OUT
+from src.notifier_constants import MAX_RETRY_ATTEMPTS, TIME_OUT, WAIT_BETWEEN_REQUESTS
 from src.notifier_logger import get_logger
 
 logger = get_logger(__name__)
@@ -20,13 +22,20 @@ class Response(BaseModel):
 class BaseClient:
     _client = None
 
-    def __init__(self, share_session: bool = False) -> None:
+    def __init__(
+        self,
+        share_session: bool = False,
+        raise_for_status: bool = False,
+        perform_retries: bool = False,
+    ) -> None:
         self.base_url = f"https://{NotifConfig.X_RAPIDAPI_HOST}"
         self.headers = {
             "x-rapidapi-host": NotifConfig.X_RAPIDAPI_HOST,
             "x-rapidapi-key": NotifConfig.X_RAPIDAPI_KEY,
         }
         self._share_session = share_session
+        self._raise_for_status = raise_for_status
+        self._perform_retries = perform_retries
 
     @property
     def client(self) -> httpx.Client:
@@ -44,13 +53,24 @@ class BaseClient:
         logger.info(
             f"Request {' - '.join(filter(None, [method, url, str(kwargs.get('params', ''))]))}"
         )
-        response = self.client.request(
-            method=method,
-            url=url,
-            headers=headers,
-            timeout=TIME_OUT,
-            **kwargs,
-        )
+
+        for attempt in Retrying(
+            stop=stop_after_attempt(MAX_RETRY_ATTEMPTS),
+            wait=wait_fixed(WAIT_BETWEEN_REQUESTS),
+            retry=retry_if_exception_type(HTTPStatusError),
+            before=lambda retry: self._perform_retries,
+        ):
+            with attempt:
+                response = self.client.request(
+                    method=method,
+                    url=url,
+                    headers=headers,
+                    timeout=TIME_OUT,
+                    **kwargs,
+                )
+
+                if self._raise_for_status:
+                    response.raise_for_status()
 
         return Response(
             status_code=response.status_code,

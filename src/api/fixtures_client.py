@@ -7,8 +7,8 @@ logger = get_logger(__name__)
 
 
 class FixturesClient(BaseClient):
-    def __init__(self, share_session: bool = False) -> None:
-        super().__init__(share_session)
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
 
     def get_fixtures_by(
         self,

@@ -21,6 +21,7 @@ sqlmodel = "^0.0.8"
 pytz = "^2022.7.1"
 deep-translator = "^1.10.1"
 python-dotenv = "^1.0.0"
+tenacity = "^8.2.1"
 
 
 [build-system]
