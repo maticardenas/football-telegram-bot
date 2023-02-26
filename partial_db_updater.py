@@ -4,14 +4,15 @@ from typing import List
 from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.notifier_logger import get_logger
-from src.utils.date_utils import get_formatted_date, is_time_in_surrounding_hours
 from src.utils.fixtures_utils import (
     convert_fixture_response_to_db_fixture,
     convert_fixtures_response_to_db,
 )
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
-FIXTURES_CLIENT = FixturesClient()
+FIXTURES_CLIENT = FixturesClient(
+    share_session=True, raise_for_status=True, perform_retries=True
+)
 
 logger = get_logger(__name__)
 
