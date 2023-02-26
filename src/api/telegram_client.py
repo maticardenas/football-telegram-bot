@@ -1,7 +1,6 @@
 from typing import Any, Dict, Optional
 
 from src.api.base_client import BaseClient
-from src.request import APIRequest
 
 
 class TelegramClient(BaseClient):
@@ -10,14 +9,14 @@ class TelegramClient(BaseClient):
         self._token = token
         self.base_url = "https://api.telegram.org"
 
-        self.request = APIRequest()
-
     def send_message(self, chat_id: str, msg: str) -> Dict[str, Any]:
         endpoint = f"/bot{self._token}/sendMessage"
         params = {"chat_id": chat_id, "text": msg, "parse_mode": "HTML"}
         url = f"{self.base_url}{endpoint}"
 
-        return self.request.post(url, params, self.headers)
+        return self._request(
+            url=url, method="POST", params=params, headers=self.headers
+        )
 
     def send_photo(
         self,
@@ -36,7 +35,9 @@ class TelegramClient(BaseClient):
         }
         url = f"{self.base_url}{endpoint}"
 
-        return self.request.post(url, params, self.headers)
+        return self._request(
+            url=url, mehtod="POST", params=params, headers=self.headers
+        )
 
     def send_video(
         self,
@@ -53,4 +54,6 @@ class TelegramClient(BaseClient):
         }
         url = f"{self.base_url}{endpoint}"
 
-        return self.request.post(url, params, self.headers)
+        return self._request(
+            url=url, method="POST", params=params, headers=self.headers
+        )

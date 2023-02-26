@@ -1,7 +1,8 @@
 from typing import Any, Dict
 
+import httpx
+
 from config.notif_config import NotifConfig
-from src.request import APIRequest
 
 
 class VideosSearchClient:
@@ -12,7 +13,6 @@ class VideosSearchClient:
             "x-rapidapi-host": NotifConfig.X_RAPIDAPI_VIDEO_SEARCH_HOST,
             "x-rapidapi-key": NotifConfig.X_RAPIDAPI_KEY,
         }
-        self.request = APIRequest()
 
     def search_football_videos(self) -> Dict[str, Any]:
-        return self.request.get(self.base_url, {}, self.headers)
+        return httpx.get(self.base_url, {}, self.headers)

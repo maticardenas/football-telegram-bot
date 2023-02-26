@@ -1,7 +1,8 @@
 from typing import Any, Dict
 
+import httpx
+
 from config.notif_config import NotifConfig
-from src.request import APIRequest
 
 
 class ImagesSearchClient:
@@ -13,10 +14,9 @@ class ImagesSearchClient:
             "x-rapidapi-key": NotifConfig.X_RAPIDAPI_KEY,
         }
         self.endpoint = "/images/search"
-        self.request = APIRequest()
 
     def get_images(self, search_query: str) -> Dict[str, Any]:
         params = {"q": search_query}
         url = f"{self.base_url}{self.endpoint}"
 
-        return self.request.get(url, params, self.headers)
+        return httpx.get(url, params, self.headers)
