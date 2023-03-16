@@ -217,8 +217,9 @@ class Fixture:
         return h2h_text
 
     def fixtures_times_text(self, one_line: bool = False) -> str:
-        fixtures_texts = []
         separator = "\n" if not one_line else " / "
+
+        fixtures_times = {}
 
         for time_zone in [self.main_time_zone] + self.additional_time_zones:
             emoji_text = (
@@ -230,9 +231,15 @@ class Fixture:
             time_text = (
                 f"{str(date_in_time_zone)[11:16]} HS{self._diff_days_text(time_zone)}"
             )
-            fixtures_texts.append(f"{emoji_text} {time_text}")
 
-        return separator.join(fixtures_texts)
+            if time_text in fixtures_times:
+                fixtures_times[time_text].append(emoji_text)
+            else:
+                fixtures_times[time_text] = [emoji_text]
+
+        return separator.join(
+            [f"{' '.join(values)} {key}" for key, values in fixtures_times.items()]
+        )
 
     def get_html_highlights_text(self) -> str:
         highlights_text_without_special_chars = self.highlights[0].replace("'", "")
