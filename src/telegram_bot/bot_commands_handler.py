@@ -2,12 +2,16 @@ import random
 from datetime import datetime
 from typing import Any, List, Optional, Tuple
 
+from deep_translator import GoogleTranslator
+
 from src.db.fixtures_db_manager import FixturesDBManager
+from src.db.notif_sql_models import ConfigLanguage as DBConfigLanguage
 from src.db.notif_sql_models import FavouriteLeague, FavouriteTeam, Fixture
+from src.db.notif_sql_models import Language as DBLanguage
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
 from src.emojis import Emojis, get_emoji_text_by_name
-from src.notifier_constants import TELEGRAM_MSG_LENGTH_LIMIT
+from src.notifier_constants import ENGLISH_LANG_ID, TELEGRAM_MSG_LENGTH_LIMIT
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
 from src.utils.db_utils import remove_duplicate_fixtures
@@ -21,8 +25,25 @@ logger = get_logger(__name__)
 
 
 class NotifierBotCommandsHandler:
-    def __init__(self):
+    def __init__(self, chat_id: str = ""):
         self._fixtures_db_manager: FixturesDBManager = FixturesDBManager()
+        self._chat_id = str(chat_id)
+        self._language: DBLanguage = self.get_user_language(self._chat_id)
+
+    def get_user_language(self, chat_id: str) -> DBLanguage:
+        try:
+            config_language: DBConfigLanguage = (
+                self._fixtures_db_manager.get_config_language(str(chat_id))[0]
+            )
+        except IndexError:
+            self._fixtures_db_manager.insert_or_update_user_config_language(
+                lang_id=ENGLISH_LANG_ID, chat_id=self._chat_id
+            )
+            config_language = self._fixtures_db_manager.get_config_language(
+                str(chat_id)
+            )[0]
+
+        return self._fixtures_db_manager.get_language_by_id(config_language.lang_id)[0]
 
     def search_team(self, team_text: str) -> Optional[DBTeam]:
         return self._fixtures_db_manager.get_teams_by_name(team_text)
@@ -35,6 +56,9 @@ class NotifierBotCommandsHandler:
 
     def search_time_zone(self, time_zone_text: str) -> Optional[DBTeam]:
         return self._fixtures_db_manager.get_time_zones_by_name(time_zone_text)
+
+    def search_language(self, language_text: str) -> Optional[DBLanguage]:
+        return self._fixtures_db_manager.get_languages_by_name(language_text)
 
     def is_available_team(self, team_id: int) -> bool:
         team = self._fixtures_db_manager.get_team(team_id)
@@ -116,6 +140,12 @@ class NotifierBotCommandsHandler:
             for fitting_fixtures in all_fitting_fixtures
         ]
 
+    def text_to_user_language(self, text: str) -> str:
+        google_translator = GoogleTranslator(
+            source="en", target=self._language.short_name
+        )
+        return google_translator.translate(text)
+
     def is_valid_id(self, id: Any) -> bool:
         try:
             int_id = int(id)
@@ -144,12 +174,11 @@ class NotifierBotCommandsHandler:
 
 class SurroundingMatchesHandler(NotifierBotCommandsHandler):
     def __init__(self, commands_args: List[str], user: str, chat_id: str):
-        super().__init__()
+        super().__init__(chat_id)
         self._command_args = commands_args
         self._teams = []
         self._leagues = []
         self._user = user
-        self._chat_id = chat_id
         self._user_time_zones = self._fixtures_db_manager.get_user_time_zones(
             self._chat_id
         )
@@ -203,7 +232,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             photo = random.choice([league.logo for league in leagues])
         else:
             texts = [
-                (
+                self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
                     f"{self._user}, there were not matches found :("
                 )
@@ -232,7 +261,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             photo = random.choice([league.logo for league in leagues])
         else:
             texts = [
-                (
+                self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
                     f"{self._user}, there were not matches found :("
                 )
@@ -261,7 +290,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             photo = random.choice([league.logo for league in leagues])
         else:
             texts = [
-                (
+                self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
                     f"{self._user}, there were not matches found :("
                 )
@@ -362,13 +391,12 @@ class SearchCommandHandler(NotifierBotCommandsHandler):
 
 class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
     def __init__(self, commands_args: List[str], user: str, chat_id: str) -> None:
-        super().__init__()
+        super().__init__(chat_id)
         self._command_args = commands_args
         self._user = user
         self._team = None
         self._favourite_teams = []
         self._favourite_leagues = []
-        self._chat_id = chat_id
 
     def validate_command_input(self) -> str:
         response = ""
@@ -430,7 +458,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 converted_fixture, team.name, self._user, self.get_user_main_time_zone()
             )
             if converted_fixture
-            else ("There were not matches found.", None)
+            else (self.text_to_user_language("There were not matches found."), None)
         )
 
     def last_match_team_notif(self) -> Tuple[str, str]:
@@ -456,7 +484,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 converted_fixture, team.name, self._user, self.get_user_main_time_zone()
             )
             if converted_fixture
-            else ("There were not matches found.", None)
+            else (self.text_to_user_language("There were not matches found."), None)
         )
 
     def upcoming_matches(self) -> Tuple[str, str]:
@@ -496,7 +524,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             photo = random.choice([league.logo for league in leagues])
         else:
             texts = [
-                (
+                self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
                     f"{self._user}, unfortunately there are no matches found. :("
                 )
@@ -522,7 +550,10 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         try:
             team = self._fixtures_db_manager.get_team(team_id)[0]
         except IndexError:
-            return (["No team was found for the given id."], "")
+            return (
+                [self.text_to_user_language("No team was found for the given id.")],
+                "",
+            )
 
         last_team_fixtures = self._fixtures_db_manager.get_last_fixture(
             team_id=team_id, number_of_fixtures=5
@@ -536,7 +567,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 convert_db_fixture(fixture, user_time_zones)
                 for fixture in last_team_fixtures
             ]
-            introductory_text = (
+            introductory_text = self.text_to_user_language(
                 f"{Emojis.WAVING_HAND.value} Hi {self._user}, "
                 f"the last matches of {team.name} were:"
             )
@@ -548,7 +579,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             photo = random.choice([league.logo for league in leagues])
         else:
             texts = [
-                (
+                self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
                     f"{self._user}, unfortunately there were not matches found for {team.name} :("
                 )
@@ -560,7 +591,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
 
 class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
     def __init__(self, commands_args: List[str], user: str, chat_id: str):
-        super().__init__()
+        super().__init__(chat_id)
         self._command_args = commands_args
         self._user = user
         self._chat_id = chat_id
@@ -572,19 +603,19 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         response = ""
 
         if len(self._command_args) < 1:
-            response = "You must enter one tournament."
+            response = self.text_to_user_language("You must enter one tournament.")
         elif len(self._command_args) > 1:
-            response = "You must enter only one tournament."
+            response = self.text_to_user_language("You must enter only one tournament.")
         else:
             league = self._command_args[0]
             if not self.is_valid_id(league):
-                response = (
-                    "You must enter a valid league id, the command doesn't work with league's names.\n"
-                    "You can get your league's id by its name using /search_league command :)"
+                response_text = self.text_to_user_language(
+                    "You must enter a valid league id, the command doesn't work with league's names.\nYou can get your league's id by its name using"
                 )
+                response = f"{response_text} /search_league"
 
             if not self.is_available_league(league):
-                response = f"Oops! '{league}' is not available :(\n"
+                response = f"Oops! '{league}' {self.text_to_user_language('is not available')} :(\n"
 
         return response
 
@@ -701,10 +732,9 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
     def __init__(
         self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
     ):
-        super().__init__()
+        super().__init__(chat_id)
         self._command_args = commands_args
         self._user = user
-        self._chat_id = chat_id
         self._is_list = is_list
 
     def validate_command_input(self) -> str:
@@ -858,14 +888,45 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         return response
 
 
+class LanguagesCommandHandler(NotifierBotCommandsHandler):
+    def __init__(self, user: str, chat_id: str, is_list: bool = False):
+        super().__init__(chat_id)
+        self._user = user
+        self._is_list = is_list
+
+    def get_config_language(self) -> str:
+        user_config_language = self._fixtures_db_manager.get_config_language(
+            self._chat_id
+        )
+
+        if len(user_config_language):
+            language = self._fixtures_db_manager.get_language_by_id(
+                user_config_language[0].lang_id
+            )[0]
+            return f"<strong>{language.name.capitalize()}</strong>"
+
+        return f"Oops! It seems you don't have a language configured yet, you can do it with /set_language command."
+
+    def set_language(self, lang_id: int) -> str:
+        try:
+            self._fixtures_db_manager.insert_or_update_user_config_language(
+                lang_id, self._chat_id
+            )
+            language = self._fixtures_db_manager.get_language_by_id(lang_id)[0]
+            response = f"You have set '{language.name.capitalize()}' as your language. From now on notifications and my responses will be sent in that language."
+        except Exception as e:
+            response = str(e)
+
+        return response
+
+
 class TimeZonesCommandHandler(NotifierBotCommandsHandler):
     def __init__(
         self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
     ):
-        super().__init__()
+        super().__init__(chat_id)
         self._command_args = commands_args
         self._user = user
-        self._chat_id = chat_id
         self._is_list = is_list
 
     def validate_command_input(self) -> str:
@@ -954,10 +1015,9 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
     def __init__(
         self, commands_args: List[str], user: str, chat_id: str, is_list: bool = False
     ):
-        super().__init__()
+        super().__init__(chat_id)
         self._command_args = commands_args
         self._user = user
-        self._chat_id = chat_id
         self._is_list = is_list
         self._notif_type_id = None
 

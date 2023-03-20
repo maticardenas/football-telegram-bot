@@ -2,6 +2,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_commands_handler import NotifConfigCommandHandler
+from src.telegram_bot.commands_utils import send_message
 
 logger = get_logger(__name__)
 
@@ -16,11 +17,7 @@ async def subscribe_to_notifications(update: Update, context):
 
     text = command_handler.subscribe_to_notifications()
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=text,
-        parse_mode="HTML",
-    )
+    await send_message(update, context, text)
 
 
 async def enable_notif_config(update: Update, context):
@@ -40,19 +37,11 @@ async def enable_notif_config(update: Update, context):
         validated_input = command_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             text = command_handler.enable_notification()
 
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=text,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, text)
 
 
 async def disable_notif_config(update: Update, context):
@@ -74,19 +63,11 @@ async def disable_notif_config(update: Update, context):
         validated_input = command_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             text = command_handler.disable_notification()
 
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=text,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, text)
 
 
 async def set_daily_notif_time(update: Update, context):
@@ -102,11 +83,7 @@ async def set_daily_notif_time(update: Update, context):
     else:
         text = command_handler.set_daily_notification_time()
 
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=text,
-            parse_mode="HTML",
-        )
+        await send_message(update, context, text)
 
 
 async def notif_config_callback_handler(update: Update, context) -> None:
@@ -150,11 +127,8 @@ async def set_daily_notification_times_inline_keyboard(
 
     text = f"Please choose the time you'd like to set for your daily notifications:"
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=text,
-        reply_markup=reply_markup,
-        parse_mode="HTML",
+    await send_message(
+        update=update, context=context, text=text, reply_markup=reply_markup
     )
 
 
@@ -188,11 +162,8 @@ async def notif_config_inline_keyboard(
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=text,
-        reply_markup=reply_markup,
-        parse_mode="HTML",
+    await send_message(
+        update=update, context=context, text=text, reply_markup=reply_markup
     )
 
 
@@ -229,9 +200,6 @@ async def enable_or_disable_notif_config_inline_keyboard(
 
     text = f"Please select the notification type you would like to {action}:"
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=text,
-        reply_markup=reply_markup,
-        parse_mode="HTML",
+    await send_message(
+        update=update, context=context, text=text, reply_markup=reply_markup
     )

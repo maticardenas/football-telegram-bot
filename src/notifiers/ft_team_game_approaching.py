@@ -31,7 +31,7 @@ def notify_ft_team_game_approaching() -> None:
         fixture_time = get_formatted_date(fixture.utc_date).time()
 
         utc_now = datetime.utcnow()
-        end_time = (utc_now + timedelta(minutes=31)).time()
+        end_time = (utc_now + timedelta(minutes=32)).time()
 
         if is_time_between(fixture_time, utc_now.time(), end_time):
             favourite_teams_records = fixtures_db_manager.get_favourite_teams_for_team(

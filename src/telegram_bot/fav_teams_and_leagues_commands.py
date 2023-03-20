@@ -21,6 +21,7 @@ from src.telegram_bot.bot_commands_handler import (
     NotifierBotCommandsHandler,
     SearchCommandHandler,
 )
+from src.telegram_bot.commands_utils import reply_text, send_message
 from src.telegram_bot.matches_commands import (
     last_match_handler,
     last_match_league_handler,
@@ -38,10 +39,9 @@ async def add_favourite_team(update: Update, context):
         f"'add_favourite_team' command executed - by {update.effective_user.name}"
     )
 
-    await update.message.reply_text(
-        f"Please enter the name of the team you would like me to add as your favourite {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+    text = f"Please enter the name of the team you would like me to add as your favourite {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "add_favourite_team"
 
@@ -58,15 +58,11 @@ async def add_favourite_team_handler(update: Update, context):
     validated_input = commands_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         text = commands_handler.add_favourite_team()
 
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)
 
 
 async def favourite_teams(update: Update, context):
@@ -81,15 +77,10 @@ async def favourite_teams(update: Update, context):
     validated_input = commands_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         text = commands_handler.get_favourite_teams_response()
-
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)
 
 
 async def delete_favourite_team(update: Update, context):
@@ -108,17 +99,11 @@ async def delete_favourite_team(update: Update, context):
         validated_input = commands_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             text = commands_handler.delete_favourite_team()
 
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-            )
+            await send_message(update, context, text)
 
 
 async def delete_favourite_team_callback_handler(update: Update, context) -> None:
@@ -164,11 +149,11 @@ async def own_favourite_teams_inline_keyboard(
 
     text = f"Please choose the team you would like to remove from your favourites:"
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+    await send_message(
+        update=update,
+        context=context,
         text=text,
         reply_markup=reply_markup,
-        parse_mode="HTML",
     )
 
 
@@ -216,11 +201,8 @@ async def own_favourite_leagues_inline_keyboard(
 
     text = f"Please choose the league you would like to remove from your favourites:"
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=text,
-        reply_markup=reply_markup,
-        parse_mode="HTML",
+    await send_message(
+        update=update, context=context, text=text, reply_markup=reply_markup
     )
 
 
@@ -229,9 +211,9 @@ async def add_favourite_league(update: Update, context):
         f"'add_favourite_league' command executed - by {update.effective_user.name}"
     )
 
-    await update.message.reply_text(
-        "Please the league you would like me to add as your favourite.",
-    )
+    text = f"Please enter the name of the league you would like me to add as your favourite {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "add_favourite_league"
 
@@ -248,15 +230,10 @@ async def add_favourite_league_handler(update: Update, context):
     validated_input = commands_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         text = commands_handler.add_favourite_league()
-
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)
 
 
 async def delete_favourite_league(update: Update, context):
@@ -275,17 +252,10 @@ async def delete_favourite_league(update: Update, context):
         validated_input = commands_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             text = commands_handler.delete_favourite_league()
-
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-            )
+            await send_message(update, context, text)
 
 
 async def favourite_leagues(update: Update, context):
@@ -302,15 +272,10 @@ async def favourite_leagues(update: Update, context):
     validated_input = commands_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         text = commands_handler.get_favourite_leagues_response()
-
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)
 
 
 async def available_leagues(update: Update, context):
@@ -327,9 +292,7 @@ async def available_leagues(update: Update, context):
     texts[0] = f"{intrductory_text}{texts[0]}"
 
     for text in texts:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)
 
 
 async def search_team(update: Update, context):
@@ -337,10 +300,9 @@ async def search_team(update: Update, context):
         f"'search_team {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
 
-    await update.message.reply_text(
-        f"Please enter the name (or part of the name) of the team you would like to search {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+    text = f"Please enter the name (or part of the name) of the team you would like to search {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     return SEARCH_TEAM
 
@@ -352,9 +314,7 @@ async def search_team_handler(update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         teams = command_handler.search_team(update.message.text)
 
@@ -410,11 +370,11 @@ async def show_teams(update, context, page: int):
             if len(teams)
             else f"There were no teams found. Please enter another value {Emojis.DOWN_FACING_FIST.value}"
         )
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+        await send_message(
+            update=update,
+            context=context,
             text=team_text,
             reply_markup=reply_markup,
-            parse_mode="HTML",
         )
     else:
         await update.callback_query.edit_message_reply_markup(reply_markup=reply_markup)
@@ -465,11 +425,11 @@ async def show_leagues(update, context, page: int):
             if len(leagues)
             else f"There were no leagues found. Please enter another value {Emojis.DOWN_FACING_FIST.value}"
         )
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+        await send_message(
+            update=update,
+            context=context,
             text=league_text,
             reply_markup=reply_markup,
-            parse_mode="HTML",
         )
     else:
         await update.callback_query.edit_message_reply_markup(reply_markup=reply_markup)
@@ -524,10 +484,8 @@ async def search_league(update: Update, context):
         f"'search_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
 
-    await update.message.reply_text(
-        f"Please enter the name (or part of the name) of the league you would like to search {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+    text = f"Please enter the name (or part of the name) of the league you would like to search {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+    await reply_text(update, text)
 
     return SEARCH_LEAGUE
 
@@ -539,9 +497,7 @@ async def search_league_handler(update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         leagues = command_handler.search_league(update.message.text)
 
@@ -561,10 +517,9 @@ async def search_leagues_by_country(update: Update, context):
         f"'search_leagues_by_country {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
 
-    await update.message.reply_text(
-        f"Please enter the name (or part of the name) of the of the country you would like to search leagues for {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+    text = f"Please enter the name (or part of the name) of the of the country you would like to search leagues for {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     return SEARCH_LEAGUES_BY_COUNTRY
 
@@ -576,12 +531,8 @@ async def search_leagues_by_country_handler(update: Update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         text = command_handler.search_leagues_by_country_notif()
         logger.info(f"Search Leagues by Country - text: {text}")
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)

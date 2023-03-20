@@ -738,17 +738,28 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(statement)
 
-    def get_languages_by_name(self, name: str) -> Optional[DBTeam]:
+    def get_languages_by_name(self, name: str) -> List[Optional[DBLanguage]]:
         languages_statement = (
             select(DBLanguage)
             .where(func.lower(DBLanguage.name).ilike(f"%{name.lower()}%"))
-            .order_by(asc(DBLanguage.id))
+            .order_by(asc(DBLanguage.lang_id))
         )
+        return self._notifier_db_manager.select_records(languages_statement)
+
+    def get_language_by_id(self, lang_id: int) -> Optional[DBLanguage]:
+        languages_statement = select(DBLanguage).where(DBLanguage.lang_id == lang_id)
+        return self._notifier_db_manager.select_records(languages_statement)
+
+    def get_config_language(self, chat_id: str) -> Optional[DBConfigLanguage]:
+        languages_statement = select(DBConfigLanguage).where(
+            DBConfigLanguage.chat_id == chat_id
+        )
+
         return self._notifier_db_manager.select_records(languages_statement)
 
     def insert_or_update_user_config_language(self, lang_id: int, chat_id: str) -> None:
         user_config_lang_statement = select(DBConfigLanguage).where(
-            DBConfigLanguage.chat_id == chat_id, DBConfigLanguage.lang_id == lang_id
+            DBConfigLanguage.chat_id == chat_id
         )
 
         retrieved_user_config_lang = self._notifier_db_manager.select_records(

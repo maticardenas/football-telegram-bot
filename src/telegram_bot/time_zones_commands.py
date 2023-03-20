@@ -16,6 +16,7 @@ from src.telegram_bot.bot_commands_handler import (
     SearchCommandHandler,
     TimeZonesCommandHandler,
 )
+from src.telegram_bot.commands_utils import reply_text, send_message
 
 logger = get_logger(__name__)
 
@@ -108,25 +109,20 @@ async def set_main_time_zone_handler(update: Update, context):
     validated_input = commands_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         text = commands_handler.add_time_zone(main=True)
 
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)
 
 
 async def set_add_time_zone(update: Update, context):
     logger.info(
         f"'set_add_time_zone' command initialized - by {update.effective_user.name}"
     )
-    await update.message.reply_text(
-        f"Please enter the time zone you would like to set as additional one {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+    text = f"Please enter the time zone you would like to set as additional one {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "set_add_time_zone"
 
@@ -146,15 +142,11 @@ async def set_add_time_zone_handler(update: Update, context):
     validated_input = commands_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         text = commands_handler.add_time_zone()
 
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)
 
 
 async def my_time_zones(update: Update, context):
@@ -169,15 +161,11 @@ async def my_time_zones(update: Update, context):
     validated_input = commands_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         text = commands_handler.get_my_time_zones()
 
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-        )
+        await send_message(update, context, text)
 
 
 async def delete_time_zone(update: Update, context):
@@ -196,17 +184,11 @@ async def delete_time_zone(update: Update, context):
         validated_input = commands_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             text = commands_handler.delete_time_zone()
 
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-            )
+            await send_message(update, context, text)
 
 
 async def own_time_zones_inline_keyboard(
@@ -242,11 +224,11 @@ async def own_time_zones_inline_keyboard(
 
     text = f"Please choose the league you would like to remove from your favourites:"
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+    await send_message(
+        update=update,
+        context=context,
         text=text,
         reply_markup=reply_markup,
-        parse_mode="HTML",
     )
 
 
@@ -282,9 +264,7 @@ async def search_time_zone_handler(update: Update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input, parse_mode="HTML"
-        )
+        await send_message(update, context, validated_input)
     else:
         time_zones = command_handler.search_time_zone(update.message.text)
 
