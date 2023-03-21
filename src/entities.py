@@ -295,12 +295,12 @@ class Fixture:
                 )
                 repr = (
                     f"{date_text}"
-                    f"<not_translate>"
                     f"{Emojis.SOCCER_BALL.value} "
                     f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
+                    f"<not_translate>"
                     f"{league_text}"
                     f"{round_text}"
-                    f"</not_translate>"
+                    f"\n</not_translate>"
                     f"{match_in_progress_text}"
                     f"{highlights_text}"
                 )
@@ -308,11 +308,11 @@ class Fixture:
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
-                    f"<not_translate>"
+                    f"<not_translate>\n"
                     f"{league_text}"
                     f"{round_text}"
-                    f"</not_translate>"
-                    f"\n{Emojis.SAD_FACE.value} {self.match_status}"
+                    f"\n</not_translate>"
+                    f"{Emojis.SAD_FACE.value} {self.match_status}"
                 )
         else:
             not_played_or_finished_match_text = (
@@ -328,12 +328,12 @@ class Fixture:
             )
             repr = (
                 f"{date_text}"
+                f"<not_translate>\n"
                 f"{Emojis.SOCCER_BALL.value} "
-                f"<not_translate>"
                 f"{self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
-                f"</not_translate>"
                 f"{round_text}"
+                f"\n</not_translate>"
                 f"{info_text}"
             )
 
