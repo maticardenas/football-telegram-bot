@@ -3,8 +3,6 @@ import os
 import sys
 from datetime import datetime
 
-from src.telegram_bot.bot_commands_handler import NotifierBotCommandsHandler
-
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
@@ -15,6 +13,7 @@ from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
 from src.notifier_logger import get_logger
 from src.senders.telegram_sender import send_telegram_message
+from src.telegram_bot.bot_commands_handler import NotifierBotCommandsHandler
 from src.utils.date_utils import get_time_in_time_zone_str, is_time_between
 from src.utils.fixtures_utils import convert_db_fixture
 from src.utils.notifier_utils import (
