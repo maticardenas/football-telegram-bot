@@ -438,7 +438,7 @@ class Fixture:
             )
             match_notification = (
                 f"{match_in_progress_text}"
-                f"<not_translate>"
+                f"<not_translate>\n\n"
                 f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. "
                 f"{self.match_score.get_away_score()} {self.away_team.name}</strong>\n"
                 f"</not_translate>"
@@ -447,8 +447,8 @@ class Fixture:
                 f"<not_translate>"
                 f"{stadium_line}"
                 f"{referee_line}"
-                f"</not_translate>"
                 f"{highlights_text}"
+                f"</not_translate>"
             )
         else:
             match_notification = (
