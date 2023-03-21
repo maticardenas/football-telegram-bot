@@ -3,6 +3,8 @@ import os
 import sys
 from datetime import datetime
 
+from src.telegram_bot.bot_commands_handler import NotifierBotCommandsHandler
+
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
@@ -102,7 +104,9 @@ def notify_ft_teams_playing() -> None:
             final_text = f"{initial_notif_text}\n\n{fixtures_text}"
 
             logger.info(f"Notifying FT Games Today to user {user} - text: {final_text}")
-            send_telegram_message(user, final_text)
+            notifier_commands_handler = NotifierBotCommandsHandler(user)
+            user_lang = notifier_commands_handler.get_user_language(user)
+            send_telegram_message(chat_id=user, message=final_text, lang=user_lang)
 
 
 if __name__ == "__main__":

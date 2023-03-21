@@ -295,10 +295,12 @@ class Fixture:
                 )
                 repr = (
                     f"{date_text}"
+                    f"<not_translate>"
                     f"{Emojis.SOCCER_BALL.value} "
                     f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
                     f"{league_text}"
                     f"{round_text}"
+                    f"</not_translate>"
                     f"{match_in_progress_text}"
                     f"{highlights_text}"
                 )
@@ -306,8 +308,10 @@ class Fixture:
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
+                    f"<not_translate>"
                     f"{league_text}"
                     f"{round_text}"
+                    f"</not_translate>"
                     f"\n{Emojis.SAD_FACE.value} {self.match_status}"
                 )
         else:
@@ -325,8 +329,10 @@ class Fixture:
             repr = (
                 f"{date_text}"
                 f"{Emojis.SOCCER_BALL.value} "
+                f"<not_translate>"
                 f"{self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
+                f"</not_translate>"
                 f"{round_text}"
                 f"{info_text}"
             )
@@ -366,11 +372,13 @@ class Fixture:
             f"{self.fixtures_times_text()}\n\n"
             f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game.\n\n"
             f"{Emojis.SOCCER_BALL.value} "
+            f"<not_translate>"
             f"<strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
             f"{Emojis.TROPHY.value} <strong>{self.championship.name}{country_prefix}</strong>\n"
             f"{stadium_line}"
             f"{referee_line}"
-            f"\n{self.head_to_head_text()}"
+            f"\n</not_translate>"
+            f"{self.head_to_head_text()}"
         )
 
         return telegram_like_text
@@ -430,22 +438,28 @@ class Fixture:
             )
             match_notification = (
                 f"{match_in_progress_text}"
+                f"<not_translate>"
                 f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. "
                 f"{self.match_score.get_away_score()} {self.away_team.name}</strong>\n"
+                f"</not_translate>"
                 f"{Emojis.TROPHY.value} <strong>{self.championship.name}{country_prefix}</strong>\n"
                 f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
+                f"<not_translate>"
                 f"{stadium_line}"
                 f"{referee_line}"
+                f"</not_translate>"
                 f"{highlights_text}"
             )
         else:
             match_notification = (
-                f"{Emojis.SAD_FACE.value} <strong>{self.match_status}</strong>\n\n"
+                f"{Emojis.SAD_FACE.value} <strong>{self.match_status}</strong>"
+                f"<not_translate>\n\n"
                 f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}</strong>\n"
                 f"{Emojis.TROPHY.value} <strong>{self.championship.name}{country_prefix}</strong>\n"
                 f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
                 f"{stadium_line}"
                 f"{referee_line}"
+                f"</not_translate>"
             )
 
         return match_notification
