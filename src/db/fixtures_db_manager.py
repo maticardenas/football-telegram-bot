@@ -6,9 +6,11 @@ from sqlalchemy import asc, desc
 from sqlmodel import func, or_, select
 
 from src.db.db_manager import NotifierDBManager
+from src.db.notif_sql_models import ConfigLanguage as DBConfigLanguage
 from src.db.notif_sql_models import FavouriteLeague as DBFavouriteLeague
 from src.db.notif_sql_models import FavouriteTeam as DBFavouriteTeam
 from src.db.notif_sql_models import Fixture as DBFixture
+from src.db.notif_sql_models import Language as DBLanguage
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import NotifConfig as DBNotifConfig
 from src.db.notif_sql_models import NotifType as DBNotifType
@@ -735,3 +737,51 @@ class FixturesDBManager:
         statement = select(DBNotifType).order_by(asc(DBNotifType.id))
 
         return self._notifier_db_manager.select_records(statement)
+
+    def get_languages_by_name(self, name: str) -> List[Optional[DBLanguage]]:
+        languages_statement = (
+            select(DBLanguage)
+            .where(func.lower(DBLanguage.name).ilike(f"%{name.lower()}%"))
+            .order_by(asc(DBLanguage.lang_id))
+        )
+        return self._notifier_db_manager.select_records(languages_statement)
+
+    def get_language_by_id(self, lang_id: int) -> Optional[DBLanguage]:
+        languages_statement = select(DBLanguage).where(DBLanguage.lang_id == lang_id)
+        return self._notifier_db_manager.select_records(languages_statement)
+
+    def get_config_language(self, chat_id: str) -> Optional[DBConfigLanguage]:
+        languages_statement = select(DBConfigLanguage).where(
+            DBConfigLanguage.chat_id == chat_id
+        )
+
+        return self._notifier_db_manager.select_records(languages_statement)
+
+    def insert_or_update_user_config_language(self, lang_id: int, chat_id: str) -> None:
+        user_config_lang_statement = select(DBConfigLanguage).where(
+            DBConfigLanguage.chat_id == chat_id
+        )
+
+        retrieved_user_config_lang = self._notifier_db_manager.select_records(
+            user_config_lang_statement
+        )
+
+        if not len(retrieved_user_config_lang):
+            logger.info(
+                f"Inserting User Config Language '{chat_id}' - {lang_id} - it does not exist in "
+                f"the database"
+            )
+            db_config_lang = DBConfigLanguage(
+                chat_id=chat_id,
+                lang_id=lang_id,
+            )
+        else:
+            logger.info(
+                f"Updating User Config Language'{chat_id}' - {lang_id} - it already exists in "
+                f"the database"
+            )
+            db_config_lang: DBConfigLanguage = retrieved_user_config_lang.pop()
+            db_config_lang.chat_id = chat_id
+            db_config_lang.lang_id = lang_id
+
+        self._notifier_db_manager.insert_record(db_config_lang)

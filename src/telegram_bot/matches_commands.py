@@ -16,16 +16,17 @@ from src.telegram_bot.bot_commands_handler import (
     NextAndLastMatchLeagueCommandHandler,
     SurroundingMatchesHandler,
 )
+from src.telegram_bot.commands_utils import reply_text, send_message, send_photo
 
 logger = get_logger(__name__)
 
 
 async def next_match(update: Update, context):
     logger.info(f"'next_match initialized - by {update.effective_user.name}")
-    await update.message.reply_text(
-        f"Please enter the team's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+
+    text = f"Please enter the team's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "next_match"
 
@@ -45,29 +46,27 @@ async def next_match_handler(update: Update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input
-        )
+        await send_message(update, context, validated_input)
     else:
         text, photo = command_handler.next_match_team_notif()
         logger.info(f"Fixture - text: {text} - photo: {photo}")
         if photo:
-            await context.bot.send_photo(
-                chat_id=update.effective_chat.id,
+            await send_photo(
+                update=update,
+                context=context,
                 photo=photo,
                 caption=text,
-                parse_mode="HTML",
             )
         else:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+            await send_message(update, context, text)
 
 
 async def last_match(update: Update, context):
     logger.info(f"'last_match initialized - by {update.effective_user.name}")
-    await update.message.reply_text(
-        f"Please enter the team's name (or part of) for which you would like to get the last match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+
+    text = f"Please enter the team's name (or part of) for which you would like to get the last match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "last_match"
 
@@ -86,21 +85,19 @@ async def last_match_handler(update: Update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input
-        )
+        await send_message(update, context, validated_input)
     else:
         text, photo = command_handler.last_match_team_notif()
         logger.info(f"Fixture - text: {text} - photo: {photo}")
         if photo:
-            await context.bot.send_photo(
-                chat_id=update.effective_chat.id,
+            await send_photo(
+                update=update,
+                context=context,
                 photo=photo,
                 caption=text,
-                parse_mode="HTML",
             )
         else:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+            await send_message(update, context, text)
 
 
 async def next_match_league(update: Update, context):
@@ -108,10 +105,9 @@ async def next_match_league(update: Update, context):
         f"'next_match_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
 
-    await update.message.reply_text(
-        f"Please enter the league's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+    text = f"Please enter the league's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "next_match_league"
 
@@ -131,21 +127,19 @@ async def next_match_league_handler(update: Update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input
-        )
+        await send_message(update, context, validated_input)
     else:
         text, photo = command_handler.next_match_league_notif()
         logger.info(f"Fixture - text: {text} - photo: {photo}")
         if photo:
-            await context.bot.send_photo(
-                chat_id=update.effective_chat.id,
+            await send_photo(
+                update=update,
+                context=context,
                 photo=photo,
                 caption=text,
-                parse_mode="HTML",
             )
         else:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+            await send_message(update, context, text)
 
 
 async def next_matches_league(update: Update, context):
@@ -153,10 +147,9 @@ async def next_matches_league(update: Update, context):
         f"'next_matches_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
     )
 
-    await update.message.reply_text(
-        f"Please enter the league's name (or part of) for which you would like to get the next matches {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+    text = f"Please enter the league's name (or part of) for which you would like to get the next matches {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "next_matches_league"
 
@@ -176,26 +169,22 @@ async def next_matches_league_handler(update: Update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input
-        )
+        await send_message(update, context, validated_input)
     else:
         texts = command_handler.next_matches_league_notif()
         logger.info(f"Fixture - texts: {texts}")
         for text in texts:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-            )
+            await send_message(update, context, text)
 
 
 async def last_match_league(update: Update, context):
     logger.info(
         f"/last_match_league initialized - by {update.effective_user.first_name}"
     )
-    await update.message.reply_text(
-        f"Please enter the league's name (or part of) for which you would like to get the last match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+
+    text = f"Please enter the league's name (or part of) for which you would like to get the last match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "last_match_league"
 
@@ -221,14 +210,14 @@ async def last_match_league_handler(update: Update, context):
         text, photo = command_handler.last_match_league_notif()
         logger.info(f"Fixture - text: {text} - photo: {photo}")
         if photo:
-            await context.bot.send_photo(
-                chat_id=update.effective_chat.id,
+            await send_photo(
+                update=update,
+                context=context,
                 photo=photo,
                 caption=text,
-                parse_mode="HTML",
             )
         else:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+            await send_message(update=update, context=context, text=text)
 
 
 async def today_matches_callback_handler(update: Update, context) -> None:
@@ -289,11 +278,11 @@ async def favourite_teams_and_leagues_inline_keyboard(
 
     text = f"Please choose the option you'd like to get <strong>{' '.join(command.split('_'))}</strong> for:"
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+    await send_message(
+        update=update,
+        context=context,
         text=text,
         reply_markup=reply_markup,
-        parse_mode="HTML",
     )
 
 
@@ -313,20 +302,12 @@ async def today_matches(update: Update, context):
         validated_input = command_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             texts, photo = command_handler.today_games()
 
             for text in texts:
-                await context.bot.send_message(
-                    chat_id=update.effective_chat.id,
-                    text=text,
-                    parse_mode="HTML",
-                )
+                await send_message(update, context, text)
 
 
 async def upcoming_matches(update: Update, context):
@@ -345,30 +326,21 @@ async def upcoming_matches(update: Update, context):
         validated_input = command_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             texts, photo = command_handler.upcoming_matches()
 
             for text in texts:
-                await context.bot.send_message(
-                    chat_id=update.effective_chat.id,
-                    text=text,
-                    parse_mode="HTML",
-                )
+                await send_message(update, context, text)
 
 
 async def last_matches(update: Update, context):
     logger.info(
         f"/last_match_league initialized - by {update.effective_user.first_name}"
     )
-    await update.message.reply_text(
-        f"Please enter the team's name (or part of) for which you would like to get the last matches {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}",
-        parse_mode="HTML",
-    )
+    text = f"Please enter the team's name (or part of) for which you would like to get the last matches {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "last_matches"
 
@@ -388,18 +360,12 @@ async def last_matches_handler(update: Update, context):
     validated_input = command_handler.validate_command_input()
 
     if validated_input:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id, text=validated_input
-        )
+        await send_message(update, context, validated_input)
     else:
         texts, photo = command_handler.last_matches()
 
         for text in texts:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=text,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, text)
 
 
 async def yesterday_matches(update: Update, context):
@@ -418,20 +384,12 @@ async def yesterday_matches(update: Update, context):
         validated_input = command_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             texts, photo = command_handler.yesterday_games()
 
             for text in texts:
-                await context.bot.send_message(
-                    chat_id=update.effective_chat.id,
-                    text=text,
-                    parse_mode="HTML",
-                )
+                await send_message(update, context, text)
 
 
 async def tomorrow_matches(update: Update, context):
@@ -450,17 +408,9 @@ async def tomorrow_matches(update: Update, context):
         validated_input = command_handler.validate_command_input()
 
         if validated_input:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=validated_input,
-                parse_mode="HTML",
-            )
+            await send_message(update, context, validated_input)
         else:
             texts, photo = command_handler.tomorrow_games()
 
             for text in texts:
-                await context.bot.send_message(
-                    chat_id=update.effective_chat.id,
-                    text=text,
-                    parse_mode="HTML",
-                )
+                await send_message(update, context, text)

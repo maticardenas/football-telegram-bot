@@ -1,10 +1,12 @@
 from config.notif_config import NotifConfig
 from src.api.telegram_client import TelegramClient
+from src.utils.message_utils import translate_text
 
 
 def send_telegram_message(
-    chat_id: str, message: str = "", photo: str = "", video: str = ""
+    chat_id: str, message: str = "", photo: str = "", video: str = "", lang: str = ""
 ) -> None:
+    message = translate_text(message, lang) if lang and lang != "en" else message
     telegram_client = TelegramClient(NotifConfig.TELEGRAM_TOKEN)
     if photo:
         response = telegram_client.send_photo(chat_id, photo_url=photo, text=message)

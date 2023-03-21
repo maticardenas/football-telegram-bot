@@ -15,6 +15,7 @@ from src.notifier_constants import (
     NEXT_MATCH,
     NEXT_MATCH_LEAGUE,
     NEXT_MATCHES_LEAGUE,
+    SEARCH_LANGUAGE,
     SEARCH_LEAGUE,
     SEARCH_LEAGUES_BY_COUNTRY,
     SEARCH_TEAM,
@@ -38,6 +39,12 @@ from src.telegram_bot.fav_teams_and_leagues_commands import (
     search_team,
     search_team_callback_handler,
     search_team_handler,
+)
+from src.telegram_bot.language_commands import (
+    my_language,
+    search_language_handler,
+    search_languages_callback_handler,
+    set_language,
 )
 from src.telegram_bot.matches_commands import (
     last_match,
@@ -100,6 +107,7 @@ NOTIFIER_BOT_HANDLERS = [
     CommandHandler("disable_notif_config", disable_notif_config),
     CommandHandler("subscribe_to_notifications", subscribe_to_notifications),
     CommandHandler("set_daily_notif_time", set_daily_notif_time),
+    CommandHandler("my_language", my_language),
     CommandHandler("help", help_cmd),
     CallbackQueryHandler(today_matches_callback_handler, pattern="^.*today_matches.*"),
     CallbackQueryHandler(
@@ -135,6 +143,10 @@ NOTIFIER_BOT_HANDLERS = [
     CallbackQueryHandler(
         search_league_callback_handler,
         pattern="^.*league|league_page.*",
+    ),
+    CallbackQueryHandler(
+        search_languages_callback_handler,
+        pattern="^.*language|lang_page.*",
     ),
     ConversationHandler(
         entry_points=[CommandHandler("add_favourite_team", add_favourite_team)],
@@ -276,6 +288,17 @@ NOTIFIER_BOT_HANDLERS = [
         },
         fallbacks=[
             MessageHandler(~filters.Regex("^/search_time_zone$"), cancel),
+        ],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("set_language", set_language)],
+        states={
+            SEARCH_LANGUAGE: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_language_handler)
+            ]
+        },
+        fallbacks=[
+            MessageHandler(~filters.Regex("^/set_language"), cancel),
         ],
     ),
 ]

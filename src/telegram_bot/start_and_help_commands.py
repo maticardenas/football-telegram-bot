@@ -2,14 +2,16 @@ from telegram import Update
 
 from src.emojis import Emojis
 from src.notifier_logger import get_logger
+from src.telegram_bot.commands_utils import send_message
 
 logger = get_logger(__name__)
 
 
 async def start(update: Update, context):
     logger.info(f"'start' command executed - by {update.effective_user.name}")
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+    await send_message(
+        update=update,
+        context=context,
         text=f"{Emojis.WAVING_HAND.value} Hi {update.effective_user.first_name}, I'm FootballNotifier!\n\n"
         f"{Emojis.RIGHT_FACING_FIST.value} /help - my available commands\n\n"
         f"For using me, you can start by configuring your preferences. \n\n"
@@ -29,7 +31,6 @@ async def start(update: Update, context):
         f"teams or leagues, or when a match was just played. First, you need to subscribe to notifications with /subscribe_to_notifications command, then you will"
         f" be able to manage them with the /notif_config command.\n\n"
         f"{Emojis.SOCCER_BALL.value}Enjoy and I hope you are well informed with me!",
-        parse_mode="HTML",
     )
 
 
@@ -73,6 +74,4 @@ async def help_cmd(update: Update, context):
         f" You can specify optionally specific <em>leagues_id</em> you want to filter for, or just filter by your "
         f"favourite teams or leagues.\n"
     )
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id, text=text, parse_mode="HTML"
-    )
+    await send_message(update, context, text)

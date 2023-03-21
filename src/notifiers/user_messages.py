@@ -40,3 +40,14 @@ CONVERSATION_ENABLEMENT = (
     f"• <strong>Standings and line-ups</strong> - Check how your team is doing in its tournaments, as well as getting line-ups before games\n\n"
     # f"{Emojis.DEVELOPER.value} <a href='https://www.buymeacoffee.com/maticardenas'>Buy me a coffee</a> - if you feel like contributing with this work "
 )
+
+
+LANGUAGES_ENABLEMENT = (
+    f"{Emojis.SPEAKING_HEAD.value} {Emojis.SPEAKING_HEAD.value} <strong>CUSTOM LANGUAGES SUPPORT</strong> {Emojis.SMILEY_FACE.value}{Emojis.PARTYING_FACE.value}\n\n"
+    f"Hi! {Emojis.WAVING_HAND.value}\n\n"
+    f"We are pleased to announce that we have released a new feature which allows you to configure your preferred language.\n\n"
+    f"You can configure you league through /set_language command, inserting the language by name (this is the only thing you need to always do in English :)) and choosing the one of your preference.\n"
+    f"You can query you language through /my_language command and change it at any time :)\n\n"
+    f"{Emojis.RIGHT_FACING_FIST.value} Bear in mind that the usage of a custom language MIGHT come with a slight degradation in performance when using the bot,"
+    f" however we are already working in an improvement for this, which we will release soon. \n\nEnjoy!{Emojis.PARTYING_FACE.value}"
+)

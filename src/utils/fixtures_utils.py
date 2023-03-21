@@ -30,7 +30,6 @@ from src.entities import (
 )
 from src.notifier_logger import get_logger
 from src.utils.date_utils import TimeZones, get_time_in_time_zone
-from src.utils.message_utils import TEAMS_ALIASES
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
 FIXTURES_CLIENT = FixturesClient()
@@ -39,7 +38,7 @@ logger = get_logger(__name__)
 
 
 def get_team_aliases(team_id: str) -> list:
-    return TEAMS_ALIASES.get(team_id, [])
+    return []
 
 
 def date_diff(date: str) -> datetime:

@@ -3,6 +3,8 @@ import os
 import sys
 from datetime import datetime, timedelta
 
+from src.telegram_bot.bot_commands_handler import NotifierBotCommandsHandler
+
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
@@ -31,7 +33,7 @@ def notify_ft_team_game_approaching() -> None:
         fixture_time = get_formatted_date(fixture.utc_date).time()
 
         utc_now = datetime.utcnow()
-        end_time = (utc_now + timedelta(minutes=31)).time()
+        end_time = (utc_now + timedelta(minutes=32)).time()
 
         if is_time_between(fixture_time, utc_now.time(), end_time):
             favourite_teams_records = fixtures_db_manager.get_favourite_teams_for_team(
@@ -65,7 +67,11 @@ def notify_ft_team_game_approaching() -> None:
                         logger.info(
                             f"Notifying FT Game Approaching to user {chat_id} - text: {notif_text}"
                         )
-                        send_telegram_message(chat_id=chat_id, message=notif_text)
+                        notifier_commands_handler = NotifierBotCommandsHandler(chat_id)
+                        user_lang = notifier_commands_handler.get_user_language(chat_id)
+                        send_telegram_message(
+                            chat_id=chat_id, message=notif_text, lang=user_lang
+                        )
 
             fixture.approach_notified = True
             fixtures_db_manager.insert_or_update_fixture(fixture)
