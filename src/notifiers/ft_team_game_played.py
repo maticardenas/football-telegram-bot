@@ -82,7 +82,7 @@ def notify_ft_team_game_played() -> None:
                         send_telegram_message(
                             chat_id=ft_record.chat_id,
                             message=notif_text,
-                            lang=user_lang,
+                            lang=user_lang.short_name,
                         )
                     else:
                         logger.info(

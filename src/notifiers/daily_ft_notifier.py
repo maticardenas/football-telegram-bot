@@ -105,7 +105,7 @@ def notify_ft_teams_playing() -> None:
             logger.info(f"Notifying FT Games Today to user {user} - text: {final_text}")
             notifier_commands_handler = NotifierBotCommandsHandler(user)
             user_lang = notifier_commands_handler.get_user_language(user)
-            send_telegram_message(chat_id=user, message=final_text, lang=user_lang)
+            send_telegram_message(chat_id=user, message=final_text, lang=user_lang.short_name)
 
 
 if __name__ == "__main__":

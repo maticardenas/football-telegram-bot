@@ -69,7 +69,7 @@ def notify_ft_team_game_approaching() -> None:
                         notifier_commands_handler = NotifierBotCommandsHandler(chat_id)
                         user_lang = notifier_commands_handler.get_user_language(chat_id)
                         send_telegram_message(
-                            chat_id=chat_id, message=notif_text, lang=user_lang
+                            chat_id=chat_id, message=notif_text, lang=user_lang.short_name
                         )
 
             fixture.approach_notified = True
