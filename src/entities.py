@@ -322,7 +322,7 @@ class Fixture:
             )
 
             info_text = (
-                f"\n{Emojis.ALARM_CLOCK.value} {self.fixtures_times_text(one_line=True)}"
+                f"{Emojis.ALARM_CLOCK.value} {self.fixtures_times_text(one_line=True)}"
                 if not not_played_or_finished_match_text
                 else not_played_or_finished_match_text
             )
@@ -333,7 +333,7 @@ class Fixture:
                 f"{self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
                 f"{round_text}"
-                f"</not_translate>"
+                f"\n</not_translate>"
                 f"{info_text}"
             )
 
