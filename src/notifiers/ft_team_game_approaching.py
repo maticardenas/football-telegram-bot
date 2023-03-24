@@ -62,14 +62,16 @@ def notify_ft_team_game_approaching() -> None:
                             ),
                         )
                         initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nYour favourite team is playing soon {Emojis.TELEVISION.value}"
-                        notif_text = f"{initial_notif_text}\n\n{converted_fixture.telegram_like_repr()}"
+                        notif_text = f"{initial_notif_text}<not_translate>\n\n</not_translate>{converted_fixture.telegram_like_repr()}"
                         logger.info(
                             f"Notifying FT Game Approaching to user {chat_id} - text: {notif_text}"
                         )
                         notifier_commands_handler = NotifierBotCommandsHandler(chat_id)
                         user_lang = notifier_commands_handler.get_user_language(chat_id)
                         send_telegram_message(
-                            chat_id=chat_id, message=notif_text, lang=user_lang.short_name
+                            chat_id=chat_id,
+                            message=notif_text,
+                            lang=user_lang.short_name,
                         )
 
             fixture.approach_notified = True

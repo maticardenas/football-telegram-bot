@@ -333,7 +333,7 @@ class Fixture:
                 f"{self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
                 f"{round_text}"
-                f"\n</not_translate>"
+                f"</not_translate>"
                 f"{info_text}"
             )
 

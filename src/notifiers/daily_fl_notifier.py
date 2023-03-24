@@ -88,15 +88,17 @@ def notify_fl_leagues_playing() -> None:
         if user_fixtures_to_notif:
             initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nThere are matches on your favourite leagues today {Emojis.TELEVISION.value}"
 
-            fixtures_text = "\n\n".join(
+            fixtures_text = "<not_translate>\n\n</not_translate>".join(
                 [fixture.one_line_telegram_repr() for fixture in user_fixtures_to_notif]
             )
-            final_text = f"{initial_notif_text}\n\n{fixtures_text}"
+            final_text = f"{initial_notif_text}<not_translate>\n\n</not_translate>{fixtures_text}"
 
             logger.info(f"Notifying FL Games Today to user {user} - text: {final_text}")
             notifier_commands_handler = NotifierBotCommandsHandler(user)
             user_lang = notifier_commands_handler.get_user_language(user)
-            send_telegram_message(chat_id=user, message=final_text, lang=user_lang.short_name)
+            send_telegram_message(
+                chat_id=user, message=final_text, lang=user_lang.short_name
+            )
 
 
 if __name__ == "__main__":
