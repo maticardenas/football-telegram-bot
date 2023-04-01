@@ -462,7 +462,7 @@ async def search_league_callback_handler(update: Update, context) -> None:
     query = update.callback_query
     data = query.data
 
-    if data.startswith("page:"):
+    if data.startswith("league_page:"):
         page = int(data.split(":")[1])
         await show_leagues(update, context, page)
     elif data.startswith("league:"):

@@ -298,7 +298,7 @@ class Fixture:
                     f"{Emojis.SOCCER_BALL.value} "
                     f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
                     f"<not_translate>"
-                    f"{league_text}"
+                    f"\n{league_text}"
                     f"{round_text}"
                     f"\n</not_translate>"
                     f"{match_in_progress_text}"

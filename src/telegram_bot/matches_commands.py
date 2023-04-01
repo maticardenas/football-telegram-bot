@@ -116,10 +116,10 @@ async def next_match_league(update: Update, context):
 
 async def next_match_league_handler(update: Update, context):
     logger.info(
-        f"'next_match_league {context.user_data['team_id']}' command executed - by {update.effective_user.name}"
+        f"'next_match_league {context.user_data['league_id']}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
-        [context.user_data["team_id"]],
+        [context.user_data["league_id"]],
         update.effective_user.first_name,
         update.effective_chat.id,
     )
