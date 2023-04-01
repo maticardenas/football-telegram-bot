@@ -691,7 +691,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         )[0]
 
         if next_league_db_fixture:
-            next_match_date = next_league_db_fixture.bsas_date[:10]
+            next_match_date = next_league_db_fixture.utc_date[:10]
             next_matches = self._fixtures_db_manager.get_fixtures_by_league(
                 league.id, next_match_date
             )

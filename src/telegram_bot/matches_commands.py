@@ -102,7 +102,7 @@ async def last_match_handler(update: Update, context):
 
 async def next_match_league(update: Update, context):
     logger.info(
-        f"'next_match_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+        f"'next_match_league command initialized - by {update.effective_user.name}"
     )
 
     text = f"Please enter the league's name (or part of) for which you would like to get the next match {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
@@ -144,7 +144,7 @@ async def next_match_league_handler(update: Update, context):
 
 async def next_matches_league(update: Update, context):
     logger.info(
-        f"'next_matches_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+        f"'next_matches_league command initialized - by {update.effective_user.name}"
     )
 
     text = f"Please enter the league's name (or part of) for which you would like to get the next matches {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
@@ -158,7 +158,7 @@ async def next_matches_league(update: Update, context):
 
 async def next_matches_league_handler(update: Update, context):
     logger.info(
-        f"'next_matches_league {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+        f"'next_matches_league {context.user_data['league_id']}' command executed - by {update.effective_user.name}"
     )
     command_handler = NextAndLastMatchLeagueCommandHandler(
         [context.user_data["league_id"]],

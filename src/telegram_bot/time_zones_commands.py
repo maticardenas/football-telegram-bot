@@ -25,9 +25,10 @@ async def set_main_time_zone(update: Update, context):
     logger.info(
         f"'set_main_time_zone' command initialized - by {update.effective_user.name}"
     )
-    await update.message.reply_text(
-        "Please insert the time zone you would like to set as main one.",
-    )
+
+    text = f"Please enter the time zone you would like to set as main one {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+
+    await reply_text(update, text)
 
     context.user_data["command"] = "set_main_time_zone"
 
@@ -70,9 +71,10 @@ async def show_time_zones(update, context, page):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     if update.callback_query is None:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Choose your time zone: ",
+        await send_message(
+            update=update,
+            context=context,
+            text="Choose your <not_translate>time zone</not_translate>: ",
             reply_markup=reply_markup,
         )
     else:
