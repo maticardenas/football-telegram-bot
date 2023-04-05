@@ -433,13 +433,13 @@ class Fixture:
             or "half" in self.match_status.lower()
         ):
             match_in_progress_text = (
-                f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong>\n\n"
+                f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong><not_translate>\n\n</not_translate>"
                 if "half" in self.match_status.lower()
                 else ""
             )
             match_notification = (
                 f"{match_in_progress_text}"
-                f"<not_translate>\n\n"
+                f"<not_translate>"
                 f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. "
                 f"{self.match_score.get_away_score()} {self.away_team.name}</strong>\n"
                 f"</not_translate>"

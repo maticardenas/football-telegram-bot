@@ -32,7 +32,7 @@ def notify_ft_team_game_approaching() -> None:
         fixture_time = get_formatted_date(fixture.utc_date).time()
 
         utc_now = datetime.utcnow()
-        end_time = (utc_now + timedelta(minutes=32)).time()
+        end_time = (utc_now + timedelta(minutes=31)).time()
 
         if is_time_between(fixture_time, utc_now.time(), end_time):
             favourite_teams_records = fixtures_db_manager.get_favourite_teams_for_team(
@@ -62,7 +62,7 @@ def notify_ft_team_game_approaching() -> None:
                             ),
                         )
                         initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nYour favourite team is playing soon {Emojis.TELEVISION.value}"
-                        notif_text = f"{initial_notif_text}<not_translate>\n\n</not_translate>{converted_fixture.telegram_like_repr()}"
+                        notif_text = f"{initial_notif_text}<not_translate>\n</not_translate>{converted_fixture.telegram_like_repr()}"
                         logger.info(
                             f"Notifying FT Game Approaching to user {chat_id} - text: {notif_text}"
                         )
