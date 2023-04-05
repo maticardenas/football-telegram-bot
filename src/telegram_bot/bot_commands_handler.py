@@ -121,7 +121,7 @@ class NotifierBotCommandsHandler:
                 fixtures_text = ""
                 current_fitting_fixtures = []
             else:
-                fixtures_text += "\n\n" + fixture_text
+                fixtures_text += "<not_translate>\n\n</not_translate>" + fixture_text
                 logger.info(f"Appended fixture text -> {fixture_text}")
                 current_fitting_fixtures.append(fixture)
 
@@ -131,7 +131,7 @@ class NotifierBotCommandsHandler:
         logger.info(f"All fitting fixtures: {all_fitting_fixtures}")
 
         return [
-            "\n\n".join(
+            "<not_translate>\n\n</not_translate>".join(
                 [
                     fitting_fixture.one_line_telegram_repr(played, with_date)
                     for fitting_fixture in fitting_fixtures

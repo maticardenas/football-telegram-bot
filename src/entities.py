@@ -271,7 +271,7 @@ class Fixture:
         )
 
         league_text = (
-            f"\n{Emojis.TROPHY.value} {self.championship.name}{country_prefix}"
+            f"{Emojis.TROPHY.value} {self.championship.name}{country_prefix}"
             if with_league
             else ""
         )
@@ -283,24 +283,24 @@ class Fixture:
                 or "half" in self.match_status.lower()
             ):
                 match_in_progress_text = (
-                    f"\n{Emojis.MAN_RUNNING.value} {self.match_status}"
+                    f"<not_translate>\n</not_translate>{Emojis.MAN_RUNNING.value} {self.match_status}"
                     if "half" in self.match_status.lower()
                     else ""
                 )
 
                 highlights_text = (
-                    f"\n{Emojis.FILM_PROJECTOR.value} {self.get_html_highlights_text()}"
+                    f"<not_translate>\n{Emojis.FILM_PROJECTOR.value} {self.get_html_highlights_text()}</not_translate>"
                     if "finished" in self.match_status.lower()
                     else ""
                 )
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} "
-                    f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
                     f"<not_translate>"
+                    f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
                     f"\n{league_text}"
                     f"{round_text}"
-                    f"\n</not_translate>"
+                    f"</not_translate>"
                     f"{match_in_progress_text}"
                     f"{highlights_text}"
                 )
@@ -333,8 +333,9 @@ class Fixture:
                 f"{self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
                 f"{round_text}"
-                f"\n</not_translate>"
+                f"\n"
                 f"{info_text}"
+                f"</not_translate>"
             )
 
         return repr
