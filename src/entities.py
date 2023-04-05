@@ -259,7 +259,7 @@ class Fixture:
             played = True
 
         date_text = (
-            f"{Emojis.SPIRAL_CALENDAR.value} {self.get_time_in_main_zone().strftime('%A')[:3]}. {self.get_time_in_main_zone().strftime('%d-%m-%Y')}\n"
+            f"{Emojis.SPIRAL_CALENDAR.value} {self.get_time_in_main_zone().strftime('%A')[:3]}. {self.get_time_in_main_zone().strftime('%d-%m-%Y')}<not_translate>\n</not_translate>"
             if with_date
             else ""
         )
@@ -308,7 +308,7 @@ class Fixture:
                 repr = (
                     f"{date_text}"
                     f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
-                    f"<not_translate>\n"
+                    f"<not_translate>"
                     f"{league_text}"
                     f"{round_text}"
                     f"\n</not_translate>"
@@ -328,10 +328,10 @@ class Fixture:
             )
             repr = (
                 f"{date_text}"
-                f"<not_translate>\n"
+                f"<not_translate>"
                 f"{Emojis.SOCCER_BALL.value} "
                 f"{self.home_team.name} vs. {self.away_team.name}"
-                f"{league_text}"
+                f"\n{league_text}"
                 f"{round_text}"
                 f"\n"
                 f"{info_text}"
