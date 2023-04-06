@@ -370,7 +370,7 @@ class Fixture:
         )
 
         telegram_like_text = (
-            f"{self.fixtures_times_text()}\n\n"
+            f"<not_translate>{self.fixtures_times_text()}\n\n</not_translate>"
             f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game.\n\n"
             f"{Emojis.SOCCER_BALL.value} "
             f"<not_translate>"
