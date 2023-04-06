@@ -97,7 +97,7 @@ def notify_ft_teams_playing() -> None:
             )
             initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\n{notif_text}playing today {Emojis.TELEVISION.value}"
 
-            fixtures_text = "<not_translate>\n</not_translate>".join(
+            fixtures_text = "<not_translate>\n\n</not_translate>".join(
                 [fixture.one_line_telegram_repr() for fixture in user_fixtures_to_notif]
             )
             final_text = f"{initial_notif_text}<not_translate>\n\n</not_translate>{fixtures_text}"
