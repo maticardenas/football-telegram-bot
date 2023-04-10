@@ -295,9 +295,8 @@ class Fixture:
                 )
                 repr = (
                     f"{date_text}"
-                    f"{Emojis.SOCCER_BALL.value} "
                     f"<not_translate>"
-                    f"{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
+                    f"{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
                     f"\n{league_text}"
                     f"{round_text}"
                     f"</not_translate>"
@@ -307,8 +306,7 @@ class Fixture:
             else:
                 repr = (
                     f"{date_text}"
-                    f"{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
-                    f"<not_translate>"
+                    f"<not_translate>{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
                     f"{league_text}"
                     f"{round_text}"
                     f"\n</not_translate>"
@@ -371,10 +369,9 @@ class Fixture:
 
         telegram_like_text = (
             f"<not_translate>{self.fixtures_times_text()}\n\n</not_translate>"
-            f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game.\n\n"
-            f"{Emojis.SOCCER_BALL.value} "
-            f"<not_translate>"
-            f"<strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
+            f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game."
+            f"<not_translate>\n\n"
+            f"{Emojis.SOCCER_BALL.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
             f"{Emojis.TROPHY.value} <strong>{self.championship.name}{country_prefix}</strong>\n"
             f"{stadium_line}"
             f"{referee_line}"
@@ -444,9 +441,9 @@ class Fixture:
                 f"{self.match_score.get_away_score()} {self.away_team.name}</strong>\n"
                 f"</not_translate>"
                 f"{Emojis.TROPHY.value} <strong>{self.championship.name}{country_prefix}</strong>\n"
-                f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
+                f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>"
                 f"<not_translate>"
-                f"{stadium_line}"
+                f"\n{stadium_line}"
                 f"{referee_line}"
                 f"{highlights_text}"
                 f"</not_translate>"
