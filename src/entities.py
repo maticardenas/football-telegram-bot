@@ -259,7 +259,7 @@ class Fixture:
             played = True
 
         date_text = (
-            f"{Emojis.SPIRAL_CALENDAR.value} {self.get_time_in_main_zone().strftime('%A')[:3]}. {self.get_time_in_main_zone().strftime('%d-%m-%Y')}<not_translate>\n</not_translate>"
+            f"{Emojis.SPIRAL_CALENDAR.value} {self.get_time_in_main_zone().strftime('%A')}. {self.get_time_in_main_zone().strftime('%d-%m-%Y')}<not_translate>\n</not_translate>"
             if with_date
             else ""
         )
