@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -259,7 +260,7 @@ class Fixture:
             played = True
 
         date_text = (
-            f"{Emojis.SPIRAL_CALENDAR.value} {self.get_time_in_main_zone().strftime('%A')}. {self.get_time_in_main_zone().strftime('%d-%m-%Y')}<not_translate>\n</not_translate>"
+            f"{Emojis.SPIRAL_CALENDAR.value} {self.get_time_in_main_zone().strftime('%A')} {self.get_time_in_main_zone().strftime('%d-%m-%Y')}<not_translate>\n</not_translate>"
             if with_date
             else ""
         )
@@ -271,7 +272,7 @@ class Fixture:
         )
 
         league_text = (
-            f"\n{Emojis.TROPHY.value} {self.championship.name}{country_prefix}"
+            f"\n{Emojis.TROPHY.value} {self._get_capitalized_name(self.championship.name)}{country_prefix}"
             if with_league
             else ""
         )
@@ -372,7 +373,7 @@ class Fixture:
             f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game."
             f"<not_translate>\n\n"
             f"{Emojis.SOCCER_BALL.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
-            f"{Emojis.TROPHY.value} <strong>{self.championship.name}{country_prefix}</strong>\n"
+            f"{Emojis.TROPHY.value} <strong>{self._get_capitalized_name(self.championship.name)}{country_prefix}</strong>\n"
             f"{stadium_line}"
             f"{referee_line}"
             f"\n</not_translate>"
@@ -473,6 +474,11 @@ class Fixture:
         self, time_in_time_zone: datetime, time_in_other_time_zone: datetime
     ) -> bool:
         return time_in_time_zone.weekday() != time_in_other_time_zone.weekday()
+
+    def _get_capitalized_name(self, name: str) -> str:
+        return re.sub(
+            r"(^|\s|-)([a-z])", lambda m: m.group(1) + m.group(2).upper(), name
+        )
 
     def _diff_days_text(self, time_zone: TimeZone) -> bool:
         time_in_main_time_zone = self.utc_date
