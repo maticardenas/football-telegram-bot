@@ -271,7 +271,7 @@ class Fixture:
         )
 
         league_text = (
-            f"{Emojis.TROPHY.value} {self.championship.name}{country_prefix}"
+            f"\n{Emojis.TROPHY.value} {self.championship.name}{country_prefix}"
             if with_league
             else ""
         )
@@ -297,7 +297,7 @@ class Fixture:
                     f"{date_text}"
                     f"<not_translate>"
                     f"{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
-                    f"\n{league_text}"
+                    f"{league_text}"
                     f"{round_text}"
                     f"</not_translate>"
                     f"{match_in_progress_text}"
@@ -329,7 +329,7 @@ class Fixture:
                 f"<not_translate>"
                 f"{Emojis.SOCCER_BALL.value} "
                 f"{self.home_team.name} vs. {self.away_team.name}"
-                f"\n{league_text}"
+                f"{league_text}"
                 f"{round_text}"
                 f"\n"
                 f"{info_text}"
