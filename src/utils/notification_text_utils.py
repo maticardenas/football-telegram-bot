@@ -30,8 +30,8 @@ def telegram_last_team_or_league_fixture_notification(
     match_date = (
         "TODAY!"
         if today_in_time_zone == fixture_date_in_time_zone
-        else f"on {Emojis.SPIRAL_CALENDAR.value} {fixture_date_in_time_zone.strftime('%A')[:3]}. "
-        f"{fixture_date_in_time_zone.strftime('%d-%m-%Y')}\n"
+        else f"on {Emojis.SPIRAL_CALENDAR.value} {fixture_date_in_time_zone.strftime('%A')} "
+        f"{fixture_date_in_time_zone.strftime('%d-%m-%Y')}<not_translate>\n</not_translate>"
     )
 
     if (
@@ -39,9 +39,9 @@ def telegram_last_team_or_league_fixture_notification(
         or "half" in team_fixture.match_status.lower()
         or "second" in team_fixture.match_status.lower()
     ):
-        match_text_content = f"The last match of {team_or_league} is being played! \n"
+        match_text_content = f"The last match of {team_or_league} is being played!<not_translate> \n</not_translate>"
     else:
-        match_text_content = f"The last match of {team_or_league} was {match_date} \n"
+        match_text_content = f"The last match of {team_or_league} was {match_date}<not_translate> \n</not_translate>"
 
     telegram_message = (
         f"{Emojis.WAVING_HAND.value}Hi {user}!\n\n"
