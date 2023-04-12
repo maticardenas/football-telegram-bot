@@ -14,8 +14,7 @@ async def reply_text(update: Update, text, **kwargs) -> None:
     text_to_send = (
         translate_text(text=text, target_lang=user_language)
         if user_language != "en"
-        else text.replace("<not_translate>", "")
-        .replace("</not_translate>", "")
+        else text.replace("<not_translate>", "").replace("</not_translate>", "")
     )
 
     await update.message.reply_text(text_to_send, parse_mode="HTML", **kwargs)
@@ -28,8 +27,7 @@ async def send_message(update: Update, context, text: str, **kwargs) -> None:
     text_to_send = (
         translate_text(text=text, target_lang=user_language)
         if user_language != "en"
-        else text.replace("<not_translate>", "")
-        .replace("</not_translate>", "")
+        else text.replace("<not_translate>", "").replace("</not_translate>", "")
     )
 
     await context.bot.send_message(
@@ -46,8 +44,7 @@ async def send_photo(
     text_to_send = (
         translate_text(text=caption, target_lang=user_language)
         if user_language != "en"
-        else caption.replace("<not_translate>", "")
-        .replace("</not_translate>", "")
+        else caption.replace("<not_translate>", "").replace("</not_translate>", "")
     )
 
     await context.bot.send_photo(

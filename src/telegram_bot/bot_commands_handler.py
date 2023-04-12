@@ -769,7 +769,10 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
                 for team in favourite_teams
             ]
 
-            favourite_teams_texts = [f"<strong>{team.name}</strong>" for team in teams]
+            favourite_teams_texts = [
+                f"<strong><not_translate>{team.name}</not_translate></strong>"
+                for team in teams
+            ]
 
             response = "\n".join(favourite_teams_texts)
         else:
@@ -783,7 +786,7 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
         try:
             self._fixtures_db_manager.insert_favourite_team(team_id, self._chat_id)
             team = self._fixtures_db_manager.get_team(team_id)[0]
-            response = f"Team '{team.name}' was added to your favourites successfully."
+            response = f"Team <not_translate>'{team.name}'</not_translate> was added to your favourites successfully."
         except Exception as e:
             response = str(e)
 
@@ -795,9 +798,7 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
         try:
             self._fixtures_db_manager.delete_favourite_team(team_id, self._chat_id)
             team = self._fixtures_db_manager.get_team(team_id)[0]
-            response = (
-                f"Team '{team.name}' was removed from your favourites successfully."
-            )
+            response = f"Team <not_translate>'{team.name}'</not_translate> was removed from your favourites successfully."
         except Exception as e:
             response = str(e)
 
@@ -847,7 +848,8 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
 
         if len(favourite_leagues):
             favourite_leagues_texts = [
-                f"<strong>{league.name}</strong>" for league in favourite_leagues
+                f"<strong><not_translate>{league.name}</not_translate></strong>"
+                for league in favourite_leagues
             ]
 
             response = "\n".join(favourite_leagues_texts)
@@ -865,9 +867,7 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         try:
             self._fixtures_db_manager.insert_favourite_league(league_id, self._chat_id)
             league = self._fixtures_db_manager.get_league(league_id)[0]
-            response = (
-                f"League '{league.name}' was added to your favourites successfully."
-            )
+            response = f"League <not_translate>'{league.name}'</not_translate> was added to your favourites successfully."
         except Exception as e:
             response = str(e)
 
@@ -879,9 +879,7 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         try:
             self._fixtures_db_manager.delete_favourite_league(league_id, self._chat_id)
             league = self._fixtures_db_manager.get_league(league_id)[0]
-            response = (
-                f"League '{league.name}' was removed from your favourites successfully."
-            )
+            response = f"League <not_translate>'{league.name}'</not_translate> was removed from your favourites successfully."
         except Exception as e:
             response = str(e)
 
