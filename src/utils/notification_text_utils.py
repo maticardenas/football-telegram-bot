@@ -78,7 +78,7 @@ def telegram_next_team_or_league_fixture_notification(
 
     telegram_message = (
         f"{Emojis.WAVING_HAND.value}Hi {user}! "
-        f"\n\nThe next match of {team_or_league} is {match_date}\n\n"
+        f"\n\nThe next match of {team_or_league} is {match_date}<not_translate>\n\n</not_translate>"
         f"{team_fixture.telegram_like_repr()}"
     )
 
