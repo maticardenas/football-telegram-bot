@@ -374,6 +374,7 @@ class Fixture:
             f"<not_translate>\n\n"
             f"{Emojis.SOCCER_BALL.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
             f"{Emojis.TROPHY.value} <strong>{self._get_capitalized_name(self.championship.name)}{country_prefix}</strong>\n"
+            f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
             f"{stadium_line}"
             f"{referee_line}"
             f"\n</not_translate>"
