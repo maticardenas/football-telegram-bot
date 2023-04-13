@@ -299,8 +299,8 @@ class Fixture:
                     f"<not_translate>"
                     f"{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
                     f"{league_text}"
-                    f"{round_text}"
                     f"</not_translate>"
+                    f"{round_text}"
                     f"{match_in_progress_text}"
                     f"{highlights_text}"
                 )
@@ -309,8 +309,8 @@ class Fixture:
                     f"{date_text}"
                     f"<not_translate>{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
                     f"{league_text}"
+                    f"</not_translate>"
                     f"{round_text}"
-                    f"\n</not_translate>"
                     f"{Emojis.SAD_FACE.value} {self.match_status}"
                 )
         else:
@@ -331,8 +331,9 @@ class Fixture:
                 f"{Emojis.SOCCER_BALL.value} "
                 f"{self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
+                f"</not_translate>"
                 f"{round_text}"
-                f"\n"
+                f"<not_translate>\n"
                 f"{info_text}"
                 f"</not_translate>"
             )
