@@ -32,4 +32,12 @@ def translate_text(text: str, target_lang: str = "en") -> str:
 
     logger.info(f"Final translated list -> {not_translate_split_list}")
 
-    return "".join(list(filter(lambda item: item is not None, final_translated_list)))
+    return "".join(
+        list(
+            filter(
+                lambda item: item is not None
+                and item not in ["<not_translate>", "</not_translate>"],
+                final_translated_list,
+            )
+        )
+    )
