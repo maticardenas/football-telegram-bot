@@ -251,12 +251,14 @@ def convert_db_fixture(
             home_team.name,
             home_team.picture,
             get_team_aliases(str(home_team.id)),
+            home_team.country,
         ),
         Team(
             away_team.id,
             away_team.name,
             away_team.picture,
             get_team_aliases(str(away_team.id)),
+            away_team.country,
         ),
         MatchScore(
             fixture.home_score,
