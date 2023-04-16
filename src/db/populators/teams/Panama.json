@@ -1,0 +1,434 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "panama"
+  },
+  "errors": [],
+  "results": 21,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 11,
+        "name": "Panama",
+        "code": "PAN",
+        "country": "Panama",
+        "founded": 1937,
+        "national": true,
+        "logo": "https://media-1.api-sports.io/football/teams/11.png"
+      },
+      "venue": {
+        "id": 1207,
+        "name": "Estadio Rommel Fern\u00e1ndez Guti\u00e9rrez",
+        "address": "Avenida Jos\u00e9 Agustin Arango",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 45000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1207.png"
+      }
+    },
+    {
+      "team": {
+        "id": 1781,
+        "name": "Panama W",
+        "code": null,
+        "country": "Panama",
+        "founded": 1937,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/1781.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 2881,
+        "name": "Alianza FC",
+        "code": "ALI",
+        "country": "Panama",
+        "founded": 1963,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2881.png"
+      },
+      "venue": {
+        "id": 1207,
+        "name": "Estadio Rommel Fern\u00e1ndez Guti\u00e9rrez",
+        "address": "Avenida Jos\u00e9 Agustin Arango",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 45000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1207.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2882,
+        "name": "CD Arabe Unido",
+        "code": "ARA",
+        "country": "Panama",
+        "founded": 1994,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2882.png"
+      },
+      "venue": {
+        "id": 1208,
+        "name": "Estadio Armando Dely Vald\u00e9s",
+        "address": "Barrio Arco Iris",
+        "city": "Col\u00f3n",
+        "capacity": 4500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1208.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2883,
+        "name": "Plaza Amador",
+        "code": null,
+        "country": "Panama",
+        "founded": 1955,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2883.png"
+      },
+      "venue": {
+        "id": 1209,
+        "name": "Nuevo Estadio Maracan\u00e1 de Panam\u00e1",
+        "address": "Barrio de El Chorrillo",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 5500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1209.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2884,
+        "name": "Santa Gema FC",
+        "code": null,
+        "country": "Panama",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2884.png"
+      },
+      "venue": {
+        "id": 1210,
+        "name": "Estadio Agust\u00edn Muquita S\u00e1nchez",
+        "address": "Carraterra Interamericana Route 1",
+        "city": "La Chorrera",
+        "capacity": 3040,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1210.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2885,
+        "name": "Tauro FC",
+        "code": null,
+        "country": "Panama",
+        "founded": 1984,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2885.png"
+      },
+      "venue": {
+        "id": 1207,
+        "name": "Estadio Rommel Fern\u00e1ndez Guti\u00e9rrez",
+        "address": "Avenida Jos\u00e9 Agustin Arango",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 45000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1207.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2886,
+        "name": "Costa del Este",
+        "code": null,
+        "country": "Panama",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2886.png"
+      },
+      "venue": {
+        "id": 19358,
+        "name": "Hacienda Country Club",
+        "address": "Km 2, Via Cerr\u00f3 Azul",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/19358.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2887,
+        "name": "San Francisco FC",
+        "code": null,
+        "country": "Panama",
+        "founded": 1971,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2887.png"
+      },
+      "venue": {
+        "id": 1210,
+        "name": "Estadio Agust\u00edn Muquita S\u00e1nchez",
+        "address": "Carraterra Interamericana Route 1",
+        "city": "La Chorrera",
+        "capacity": 3040,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1210.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2888,
+        "name": "Deportivo Universitario",
+        "code": null,
+        "country": "Panama",
+        "founded": 1974,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2888.png"
+      },
+      "venue": {
+        "id": 1209,
+        "name": "Nuevo Estadio Maracan\u00e1 de Panam\u00e1",
+        "address": "Barrio de El Chorrillo",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 5500,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1209.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2889,
+        "name": "Sporting San Miguelito",
+        "code": "MIG",
+        "country": "Panama",
+        "founded": 1989,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2889.png"
+      },
+      "venue": {
+        "id": 18624,
+        "name": "Estadio Los Andes",
+        "address": "Av. Los Andes 23",
+        "city": "San Miguelito",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/18624.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2890,
+        "name": "Independiente de La Chorrera",
+        "code": null,
+        "country": "Panama",
+        "founded": 1982,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2890.png"
+      },
+      "venue": {
+        "id": 1210,
+        "name": "Estadio Agust\u00edn Muquita S\u00e1nchez",
+        "address": "Carraterra Interamericana Route 1",
+        "city": "La Chorrera",
+        "capacity": 3040,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1210.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2892,
+        "name": "Atletico Veraguense",
+        "code": null,
+        "country": "Panama",
+        "founded": 2003,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2892.png"
+      },
+      "venue": {
+        "id": 2795,
+        "name": "Estadio de f\u00fatbol de Son\u00e1",
+        "address": null,
+        "city": "Son\u00e1",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/2795.png"
+      }
+    },
+    {
+      "team": {
+        "id": 4675,
+        "name": "Atl\u00e9tico Chiriqu\u00ed",
+        "code": null,
+        "country": "Panama",
+        "founded": 2002,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/4675.png"
+      },
+      "venue": {
+        "id": 3524,
+        "name": "Estadio San Crist\u00f3bal",
+        "address": "Barrio San Crist\u00f3bal",
+        "city": "Ciudad de David",
+        "capacity": 2500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/3524.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10297,
+        "name": "Panama U20",
+        "code": null,
+        "country": "Panama",
+        "founded": 1937,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/10297.png"
+      },
+      "venue": {
+        "id": 1207,
+        "name": "Estadio Rommel Fern\u00e1ndez Guti\u00e9rrez",
+        "address": "Avenida Jos\u00e9 Agustin Arango",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 45000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1207.png"
+      }
+    },
+    {
+      "team": {
+        "id": 15619,
+        "name": "Herrera",
+        "code": null,
+        "country": "Panama",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/15619.png"
+      },
+      "venue": {
+        "id": 19359,
+        "name": "Estadio Los Milagros",
+        "address": "Calle Manuel de Jes\u00fas Saavedra",
+        "city": "Chitre",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/19359.png"
+      }
+    },
+    {
+      "team": {
+        "id": 15620,
+        "name": "Veraguas",
+        "code": null,
+        "country": "Panama",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/15620.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 17878,
+        "name": "Panama U23",
+        "code": null,
+        "country": "Panama",
+        "founded": 1937,
+        "national": true,
+        "logo": "https://media-1.api-sports.io/football/teams/17878.png"
+      },
+      "venue": {
+        "id": 1207,
+        "name": "Estadio Rommel Fern\u00e1ndez Guti\u00e9rrez",
+        "address": "Avenida Jos\u00e9 Agustin Arango",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 45000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1207.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18950,
+        "name": "Panama W U17",
+        "code": null,
+        "country": "Panama",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18950.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 20788,
+        "name": "UMECIT",
+        "code": null,
+        "country": "Panama",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/20788.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 21000,
+        "name": "Panama U17",
+        "code": null,
+        "country": "Panama",
+        "founded": 1937,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/21000.png"
+      },
+      "venue": {
+        "id": 1207,
+        "name": "Estadio Rommel Fern\u00e1ndez Guti\u00e9rrez",
+        "address": "Avenida Jos\u00e9 Agustin Arango",
+        "city": "Ciudad de Panam\u00e1",
+        "capacity": 45000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1207.png"
+      }
+    }
+  ]
+}

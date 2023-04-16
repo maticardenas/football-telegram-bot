@@ -1,0 +1,4874 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "norway"
+  },
+  "errors": [],
+  "results": 243,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 319,
+        "name": "Brann",
+        "code": "BRA",
+        "country": "Norway",
+        "founded": 1908,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/319.png"
+      },
+      "venue": {
+        "id": 1176,
+        "name": "Brann Stadion",
+        "address": "Kniksens plass 1",
+        "city": "Bergen",
+        "capacity": 17686,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1176.png"
+      }
+    },
+    {
+      "team": {
+        "id": 320,
+        "name": "Kristiansund BK",
+        "code": "KRI",
+        "country": "Norway",
+        "founded": 2003,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/320.png"
+      },
+      "venue": {
+        "id": 1181,
+        "name": "Kristiansund Stadion",
+        "address": "H\u00e6rn\u00f8sandveien 19",
+        "city": "Kristiansund",
+        "capacity": 4444,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1181.png"
+      }
+    },
+    {
+      "team": {
+        "id": 321,
+        "name": "Lillestrom",
+        "code": "LIL",
+        "country": "Norway",
+        "founded": 1917,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/321.png"
+      },
+      "venue": {
+        "id": 1182,
+        "name": "\u00c5r\u00e5sen Stadion",
+        "address": "C.J. Hansensvej 3b",
+        "city": "Kjeller",
+        "capacity": 11637,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1182.png"
+      }
+    },
+    {
+      "team": {
+        "id": 322,
+        "name": "Ranheim",
+        "code": "RAN",
+        "country": "Norway",
+        "founded": 1901,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/322.png"
+      },
+      "venue": {
+        "id": 1188,
+        "name": "EXTRA Arena",
+        "address": "Ranheimsveien 166",
+        "city": "Ranheim",
+        "capacity": 3000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1188.png"
+      }
+    },
+    {
+      "team": {
+        "id": 323,
+        "name": "Stabaek",
+        "code": "STA",
+        "country": "Norway",
+        "founded": 1912,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/323.png"
+      },
+      "venue": {
+        "id": 1196,
+        "name": "Nadderud Stadion",
+        "address": "Gamle Ringeriksvei 61",
+        "city": "Bekkestua",
+        "capacity": 7000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1196.png"
+      }
+    },
+    {
+      "team": {
+        "id": 324,
+        "name": "Stromsgodset",
+        "code": "STR",
+        "country": "Norway",
+        "founded": 1907,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/324.png"
+      },
+      "venue": {
+        "id": 1199,
+        "name": "Marienlyst Stadion",
+        "address": "Schwartzgata 2",
+        "city": "Drammen",
+        "capacity": 8935,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1199.png"
+      }
+    },
+    {
+      "team": {
+        "id": 325,
+        "name": "Tromso",
+        "code": "TRO",
+        "country": "Norway",
+        "founded": 1920,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/325.png"
+      },
+      "venue": {
+        "id": 1201,
+        "name": "Alfheim Stadion",
+        "address": "Stadionveien 3",
+        "city": "Troms\u00f8",
+        "capacity": 8585,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1201.png"
+      }
+    },
+    {
+      "team": {
+        "id": 326,
+        "name": "Valerenga",
+        "code": "VAL",
+        "country": "Norway",
+        "founded": 1913,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/326.png"
+      },
+      "venue": {
+        "id": 1203,
+        "name": "Intility Arena",
+        "address": "Innspurten 1",
+        "city": "Oslo",
+        "capacity": 18000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1203.png"
+      }
+    },
+    {
+      "team": {
+        "id": 327,
+        "name": "Bodo/Glimt",
+        "code": "BOD",
+        "country": "Norway",
+        "founded": 1916,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/327.png"
+      },
+      "venue": {
+        "id": 1175,
+        "name": "Aspmyra Stadion",
+        "address": "H\u00e5loglandsgata 30",
+        "city": "Bod\u00f8",
+        "capacity": 8270,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1175.png"
+      }
+    },
+    {
+      "team": {
+        "id": 328,
+        "name": "Haugesund",
+        "code": "HAU",
+        "country": "Norway",
+        "founded": 1993,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/328.png"
+      },
+      "venue": {
+        "id": 12130,
+        "name": "Haugesund Sparebank Arena",
+        "address": "Karmsundggaten 169",
+        "city": "Haugesund",
+        "capacity": 8950,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/12130.png"
+      }
+    },
+    {
+      "team": {
+        "id": 329,
+        "name": "Molde",
+        "code": "MOL",
+        "country": "Norway",
+        "founded": 1911,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/329.png"
+      },
+      "venue": {
+        "id": 1184,
+        "name": "Aker Stadion",
+        "address": "Julsundveien 14, Reknes",
+        "city": "Molde",
+        "capacity": 11800,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1184.png"
+      }
+    },
+    {
+      "team": {
+        "id": 330,
+        "name": "ODD Ballklubb",
+        "code": "ODD",
+        "country": "Norway",
+        "founded": 1894,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/330.png"
+      },
+      "venue": {
+        "id": 1187,
+        "name": "Skagerak Arena",
+        "address": "Fridtjof Nansensgatan 21-23, Falkum",
+        "city": "Skien",
+        "capacity": 13500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1187.png"
+      }
+    },
+    {
+      "team": {
+        "id": 331,
+        "name": "Rosenborg",
+        "code": "ROS",
+        "country": "Norway",
+        "founded": 1917,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/331.png"
+      },
+      "venue": {
+        "id": 1190,
+        "name": "Lerkendal Stadion",
+        "address": "Kl\u00e6buveien 125",
+        "city": "Trondheim",
+        "capacity": 21850,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1190.png"
+      }
+    },
+    {
+      "team": {
+        "id": 332,
+        "name": "Sandefjord",
+        "code": "SAN",
+        "country": "Norway",
+        "founded": 1998,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/332.png"
+      },
+      "venue": {
+        "id": 11908,
+        "name": "Release Arena",
+        "address": "Nyg\u00e5rdsveien 84",
+        "city": "Sandefjord",
+        "capacity": 6582,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/11908.png"
+      }
+    },
+    {
+      "team": {
+        "id": 333,
+        "name": "Sarpsborg 08 FF",
+        "code": "SAR",
+        "country": "Norway",
+        "founded": 1928,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/333.png"
+      },
+      "venue": {
+        "id": 1193,
+        "name": "Sarpsborg Stadion",
+        "address": "Haftor Joenssonsgata 19",
+        "city": "Sarpsborg",
+        "capacity": 8022,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1193.png"
+      }
+    },
+    {
+      "team": {
+        "id": 334,
+        "name": "Start",
+        "code": "STA",
+        "country": "Norway",
+        "founded": 1905,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/334.png"
+      },
+      "venue": {
+        "id": 1197,
+        "name": "Sparebanken S\u00f8r Arena",
+        "address": "Stadionveien 21",
+        "city": "Kristiansand",
+        "capacity": 14563,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1197.png"
+      }
+    },
+    {
+      "team": {
+        "id": 757,
+        "name": "Aalesund",
+        "code": "AAL",
+        "country": "Norway",
+        "founded": 1914,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/757.png"
+      },
+      "venue": {
+        "id": 1174,
+        "name": "Color Line Stadion",
+        "address": "Sj\u00f8mannsveien 14",
+        "city": "\u00c5lesund",
+        "capacity": 10778,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1174.png"
+      }
+    },
+    {
+      "team": {
+        "id": 758,
+        "name": "Sogndal",
+        "code": "SOG",
+        "country": "Norway",
+        "founded": 1926,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/758.png"
+      },
+      "venue": {
+        "id": 1195,
+        "name": "Fosshaugane Campus",
+        "address": "Sogndalsfj\u00f8ra",
+        "city": "Sogndal",
+        "capacity": 5623,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1195.png"
+      }
+    },
+    {
+      "team": {
+        "id": 759,
+        "name": "Viking",
+        "code": "VIK",
+        "country": "Norway",
+        "founded": 1899,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/759.png"
+      },
+      "venue": {
+        "id": 1204,
+        "name": "SR-Bank Arena",
+        "address": "J\u00e5tt\u00e5v\u00e5gveien 11A, J\u00e5tt\u00e5v\u00e5gen",
+        "city": "Stavanger",
+        "capacity": 16508,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1204.png"
+      }
+    },
+    {
+      "team": {
+        "id": 1090,
+        "name": "Norway",
+        "code": "NOR",
+        "country": "Norway",
+        "founded": 1902,
+        "national": true,
+        "logo": "https://media-2.api-sports.io/football/teams/1090.png"
+      },
+      "venue": {
+        "id": 11603,
+        "name": "Ullevaal Stadion",
+        "address": "Sognsveien 75",
+        "city": "Oslo",
+        "capacity": 27182,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/11603.png"
+      }
+    },
+    {
+      "team": {
+        "id": 1724,
+        "name": "Norway W",
+        "code": null,
+        "country": "Norway",
+        "founded": 1902,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/1724.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 2142,
+        "name": "Bryne",
+        "code": "BRY",
+        "country": "Norway",
+        "founded": 1926,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2142.png"
+      },
+      "venue": {
+        "id": 2793,
+        "name": "Bryne Stadion",
+        "address": "Industrivegen",
+        "city": "Bryne",
+        "capacity": 10133,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/2793.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2143,
+        "name": "KFUM Oslo",
+        "code": "KFU",
+        "country": "Norway",
+        "founded": 1939,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2143.png"
+      },
+      "venue": {
+        "id": 1179,
+        "name": "KFUM Arena",
+        "address": "Ekebergveien 101",
+        "city": "Oslo",
+        "capacity": 2385,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1179.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2144,
+        "name": "Kongsvinger",
+        "code": "ANA",
+        "country": "Norway",
+        "founded": 1892,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2144.png"
+      },
+      "venue": {
+        "id": 1180,
+        "name": "Gjemselund Stadion",
+        "address": "Brugata 47 B",
+        "city": "Kongsvinger",
+        "capacity": 5684,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1180.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2145,
+        "name": "Levanger",
+        "code": "LEV",
+        "country": "Norway",
+        "founded": 1996,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2145.png"
+      },
+      "venue": {
+        "id": 1952,
+        "name": "TOBB ARENA Levanger",
+        "address": "Saltkjelen 3",
+        "city": "Levanger",
+        "capacity": 6000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1952.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2146,
+        "name": "Sandnes ULF",
+        "code": "SAN",
+        "country": "Norway",
+        "founded": 1911,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2146.png"
+      },
+      "venue": {
+        "id": 12682,
+        "name": "\u00d8ster Hus Arena",
+        "address": "J\u00f8nningsheiveien 40",
+        "city": "Sandnes",
+        "capacity": 6046,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/12682.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2147,
+        "name": "Strommen",
+        "code": "STR",
+        "country": "Norway",
+        "founded": 1911,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2147.png"
+      },
+      "venue": {
+        "id": 1198,
+        "name": "Str\u00f8mmen Stadion",
+        "address": "Str\u00f8msveien 16B",
+        "city": "Str\u00f8mmen",
+        "capacity": 1850,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1198.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2148,
+        "name": "Asane",
+        "code": "ASA",
+        "country": "Norway",
+        "founded": 1971,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2148.png"
+      },
+      "venue": {
+        "id": 12683,
+        "name": "\u00c5sane Arena",
+        "address": "\u00c5sane Senter 60",
+        "city": "Bergen",
+        "capacity": 3507,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/12683.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2149,
+        "name": "Fredrikstad",
+        "code": "FRE",
+        "country": "Norway",
+        "founded": 1903,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2149.png"
+      },
+      "venue": {
+        "id": 2792,
+        "name": "Nye Fredrikstad Stadion",
+        "address": "K.G. Mehldalsvei 7, Kr\u00e5ker\u00f8y",
+        "city": "Fredrikstad",
+        "capacity": 12565,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/2792.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2150,
+        "name": "hodd",
+        "code": "HOD",
+        "country": "Norway",
+        "founded": 1919,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2150.png"
+      },
+      "venue": {
+        "id": 2794,
+        "name": "Nye H\u00f8ddvoll Stadion",
+        "address": "H\u00f8ddvollveien 10",
+        "city": "Ulsteinvik",
+        "capacity": 4081,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/2794.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2151,
+        "name": "jerv",
+        "code": "JER",
+        "country": "Norway",
+        "founded": 1921,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2151.png"
+      },
+      "venue": {
+        "id": 1751,
+        "name": "J.J. Ugland Stadion",
+        "address": "Levermyrveien 30",
+        "city": "Grimstad",
+        "capacity": 3766,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1751.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2152,
+        "name": "Mjondalen",
+        "code": "MJO",
+        "country": "Norway",
+        "founded": 1910,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2152.png"
+      },
+      "venue": {
+        "id": 1183,
+        "name": "Consto Arena",
+        "address": "Hagatjernsveien 17, Nedre Eiker",
+        "city": "Mj\u00f8ndalen",
+        "capacity": 4350,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1183.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2153,
+        "name": "Raufoss",
+        "code": "RAU",
+        "country": "Norway",
+        "founded": 1918,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2153.png"
+      },
+      "venue": {
+        "id": 1189,
+        "name": "NAMMO stadion",
+        "address": "Idrettsvegen 19",
+        "city": "Raufoss",
+        "capacity": 2537,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1189.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2154,
+        "name": "Ull/Kisa",
+        "code": "ULL",
+        "country": "Norway",
+        "founded": 1894,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2154.png"
+      },
+      "venue": {
+        "id": 1202,
+        "name": "Jessheim Stadion",
+        "address": "Markavegen 7",
+        "city": "Jessheim",
+        "capacity": 3435,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1202.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2155,
+        "name": "Arendal",
+        "code": "ARE",
+        "country": "Norway",
+        "founded": 2010,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2155.png"
+      },
+      "venue": {
+        "id": 2790,
+        "name": "Norac Stadion",
+        "address": "Bj\u00f8nnesveien",
+        "city": "Arendal",
+        "capacity": 5000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/2790.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2156,
+        "name": "Elverum",
+        "code": "ELV",
+        "country": "Norway",
+        "founded": 1907,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2156.png"
+      },
+      "venue": {
+        "id": 2791,
+        "name": "Elverum Stadion",
+        "address": "Olav Schulstads veg",
+        "city": "Elverum",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/2791.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2157,
+        "name": "Floro",
+        "code": "FLO",
+        "country": "Norway",
+        "founded": 1912,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2157.png"
+      },
+      "venue": {
+        "id": 1953,
+        "name": "Flor\u00f8 stadion",
+        "address": "Havrenesvegen",
+        "city": "Flor\u00f8",
+        "capacity": 2800,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1953.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2158,
+        "name": "Tromsdalen Uil",
+        "code": "TRO",
+        "country": "Norway",
+        "founded": 1938,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2158.png"
+      },
+      "venue": {
+        "id": 1200,
+        "name": "TUIL Arena",
+        "address": "Elvestrandvej 29, Tromsdalen",
+        "city": "Troms\u00f8",
+        "capacity": 2192,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1200.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2159,
+        "name": "Ham-Kam",
+        "code": "HAM",
+        "country": "Norway",
+        "founded": 1918,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2159.png"
+      },
+      "venue": {
+        "id": 1177,
+        "name": "Briskeby Arena",
+        "address": "Arenavegen 2, Briskebyen",
+        "city": "Hamar",
+        "capacity": 8068,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1177.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2160,
+        "name": "Nest-Sotra",
+        "code": "NES",
+        "country": "Norway",
+        "founded": 1968,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2160.png"
+      },
+      "venue": {
+        "id": 1185,
+        "name": "\u00c5gotnes Stadion",
+        "address": null,
+        "city": "\u00c5gotnes",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1185.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2161,
+        "name": "Notodden",
+        "code": "NOT",
+        "country": "Norway",
+        "founded": 1999,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2161.png"
+      },
+      "venue": {
+        "id": 1186,
+        "name": "Optime Arena",
+        "address": "Tinnesgata / O. H. Holtas Gate 2",
+        "city": "Notodden",
+        "capacity": 5330,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1186.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2239,
+        "name": "Skeid",
+        "code": "SKE",
+        "country": "Norway",
+        "founded": 1915,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2239.png"
+      },
+      "venue": {
+        "id": 1194,
+        "name": "Nordre \u00c5sen kunstgress",
+        "address": "Kjels\u00e5sveien 9",
+        "city": "Oslo",
+        "capacity": 2623,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1194.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6965,
+        "name": "Alta",
+        "code": "ALT",
+        "country": "Norway",
+        "founded": 1946,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/6965.png"
+      },
+      "venue": {
+        "id": 11953,
+        "name": "SmartDok Arena",
+        "address": "Skoleveien 6",
+        "city": "Alta",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/11953.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6966,
+        "name": "Arna-Bj\u00f8rnar",
+        "code": "ARN",
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6966.png"
+      },
+      "venue": {
+        "id": 5084,
+        "name": "Arna Idrettspark",
+        "address": "Indre Arnavegen 189",
+        "city": "Indre Arna",
+        "capacity": 1100,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5084.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6967,
+        "name": "Asker",
+        "code": "ASK",
+        "country": "Norway",
+        "founded": 1889,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6967.png"
+      },
+      "venue": {
+        "id": 5085,
+        "name": "F\u00f8yka Kunstgress",
+        "address": "Drammensveien, F\u00f8yka",
+        "city": "Asker",
+        "capacity": 2500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5085.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6968,
+        "name": "Bergen Nord",
+        "code": null,
+        "country": "Norway",
+        "founded": 1988,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6968.png"
+      },
+      "venue": {
+        "id": 5086,
+        "name": "Salhus kunstgress",
+        "address": null,
+        "city": "Salhus",
+        "capacity": 800,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5086.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6969,
+        "name": "Bergs\u00f8y",
+        "code": null,
+        "country": "Norway",
+        "founded": 1944,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6969.png"
+      },
+      "venue": {
+        "id": 5087,
+        "name": "Bergs\u00f8y KGB Fosnav\u00e5g",
+        "address": null,
+        "city": "Fosnav\u00e5g",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5087.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6970,
+        "name": "Brattv\u00e5g",
+        "code": null,
+        "country": "Norway",
+        "founded": 1940,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/6970.png"
+      },
+      "venue": {
+        "id": 5088,
+        "name": "Brattv\u00e5g kunstgress",
+        "address": null,
+        "city": "Brattv\u00e5g",
+        "capacity": 2083,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5088.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6971,
+        "name": "Brodd",
+        "code": null,
+        "country": "Norway",
+        "founded": 1913,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6971.png"
+      },
+      "venue": {
+        "id": 5089,
+        "name": "Midjord kunstgras",
+        "address": "Midjordgata 36",
+        "city": "Stavanger",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5089.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6972,
+        "name": "Brumunddal",
+        "code": "BRU",
+        "country": "Norway",
+        "founded": 1895,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6972.png"
+      },
+      "venue": {
+        "id": 5090,
+        "name": "SH-banen",
+        "address": "Sveumvegen 2",
+        "city": "Brumunddal",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5090.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6973,
+        "name": "By\u00e5sen",
+        "code": "BYA",
+        "country": "Norway",
+        "founded": 1921,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/6973.png"
+      },
+      "venue": {
+        "id": 5091,
+        "name": "By\u00e5sen Arena",
+        "address": "Dalg\u00e5rdvegen 12, Dalg\u00e5rd",
+        "city": "Trondheim",
+        "capacity": 1800,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5091.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6974,
+        "name": "B\u00e6rum",
+        "code": "BAE",
+        "country": "Norway",
+        "founded": 1910,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6974.png"
+      },
+      "venue": {
+        "id": 19404,
+        "name": "AJ Arena",
+        "address": "Kadettangen 14",
+        "city": "Sandvika",
+        "capacity": 2000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/19404.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6975,
+        "name": "Donn",
+        "code": null,
+        "country": "Norway",
+        "founded": 1909,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/6975.png"
+      },
+      "venue": {
+        "id": 5093,
+        "name": "Kristiansand Stadion",
+        "address": "\u00d8stre Ringvei 2",
+        "city": "Kristiansand",
+        "capacity": 16600,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5093.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6976,
+        "name": "Egersund",
+        "code": "EGE",
+        "country": "Norway",
+        "founded": 1919,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6976.png"
+      },
+      "venue": {
+        "id": 5094,
+        "name": "Egersund Idrettsparken",
+        "address": "Husab\u00f8veien",
+        "city": "Egersund",
+        "capacity": 1924,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5094.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6977,
+        "name": "Eide",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6977.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 6978,
+        "name": "Eidsvold",
+        "code": "EID",
+        "country": "Norway",
+        "founded": 1910,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/6978.png"
+      },
+      "venue": {
+        "id": 5095,
+        "name": "Myhrer Stadion",
+        "address": "Myhrervegen, Hammerstad",
+        "city": "Eidsvoll",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5095.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6979,
+        "name": "Faaberg",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6979.png"
+      },
+      "venue": {
+        "id": 5096,
+        "name": "Jorekstad Kunstgress",
+        "address": "J\u00f8rstadmovegen 690",
+        "city": "F\u00e5berg",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5096.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6980,
+        "name": "Fana",
+        "code": "FAN",
+        "country": "Norway",
+        "founded": 1920,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6980.png"
+      },
+      "venue": {
+        "id": 5105,
+        "name": "Varden Amfi",
+        "address": "Allestadveien 14, Fyllingsdalen",
+        "city": "Bergen",
+        "capacity": 3800,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5105.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6981,
+        "name": "Fj\u00f8ra",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6981.png"
+      },
+      "venue": {
+        "id": 1195,
+        "name": "Fosshaugane Campus",
+        "address": "Sogndalsfj\u00f8ra",
+        "city": "Sogndal",
+        "capacity": 5623,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1195.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6982,
+        "name": "Flekker\u00f8y",
+        "code": "FLO",
+        "country": "Norway",
+        "founded": 1950,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6982.png"
+      },
+      "venue": {
+        "id": 18639,
+        "name": "Cemo Arena Flekker\u00f8y",
+        "address": "Lindeb\u00f8skauen 104, Flekker\u00f8y",
+        "city": "Kristiansand",
+        "capacity": 2500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/18639.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6983,
+        "name": "Flint",
+        "code": null,
+        "country": "Norway",
+        "founded": 1917,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6983.png"
+      },
+      "venue": {
+        "id": 5099,
+        "name": "Flint ESSO Arena D KG",
+        "address": "Flintveien 7",
+        "city": "Tolvsr\u00f8d",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5099.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6984,
+        "name": "Fl\u00f8ya",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6984.png"
+      },
+      "venue": {
+        "id": 5100,
+        "name": "Fl\u00f8yabanen",
+        "address": "Dramsveien 206",
+        "city": "Troms\u00f8",
+        "capacity": 3000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5100.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6985,
+        "name": "Follo",
+        "code": "FOL",
+        "country": "Norway",
+        "founded": 2000,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6985.png"
+      },
+      "venue": {
+        "id": 5101,
+        "name": "Ski stadion",
+        "address": "Idrettsveien 35b",
+        "city": "Ski",
+        "capacity": 4508,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5101.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6986,
+        "name": "Fram",
+        "code": null,
+        "country": "Norway",
+        "founded": 1894,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6986.png"
+      },
+      "venue": {
+        "id": 5102,
+        "name": "Framparken",
+        "address": "Hoffs gate",
+        "city": "Larvik",
+        "capacity": 5000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5102.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6987,
+        "name": "Frigg",
+        "code": "FRI",
+        "country": "Norway",
+        "founded": 1904,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/6987.png"
+      },
+      "venue": {
+        "id": 18565,
+        "name": "T\u00f8rteberg kunstgress 2",
+        "address": "Apalveien 8",
+        "city": "Oslo",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/18565.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6988,
+        "name": "Fr\u00f8ya",
+        "code": null,
+        "country": "Norway",
+        "founded": 1995,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6988.png"
+      },
+      "venue": {
+        "id": 12744,
+        "name": "Fr\u00f8ya idrettspark kunstgress",
+        "address": "Nabeita",
+        "city": "Hamarvik",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/12744.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6989,
+        "name": "Fr\u00f8yland",
+        "code": null,
+        "country": "Norway",
+        "founded": 1931,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6989.png"
+      },
+      "venue": {
+        "id": 5104,
+        "name": "Fr\u00f8yland stadion",
+        "address": "Kvernelandsvegen 2, Fr\u00f8yland",
+        "city": "Kvernaland",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5104.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6990,
+        "name": "Fyllingsdalen",
+        "code": "FYL",
+        "country": "Norway",
+        "founded": 2011,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6990.png"
+      },
+      "venue": {
+        "id": 5105,
+        "name": "Varden Amfi",
+        "address": "Allestadveien 14, Fyllingsdalen",
+        "city": "Bergen",
+        "capacity": 3800,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5105.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6991,
+        "name": "Gjeller\u00e5sen",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6991.png"
+      },
+      "venue": {
+        "id": 5106,
+        "name": "Li kunstgress",
+        "address": "Birkelundveien 68",
+        "city": "Hagan",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5106.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6992,
+        "name": "Gj\u00f8vik-Lyn",
+        "code": "GJO",
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/6992.png"
+      },
+      "venue": {
+        "id": 5107,
+        "name": "Gj\u00f8vik stadion",
+        "address": "Wergelands gate",
+        "city": "Gj\u00f8vik",
+        "capacity": 11000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5107.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6993,
+        "name": "Grorud",
+        "code": "GRO",
+        "country": "Norway",
+        "founded": 1918,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6993.png"
+      },
+      "venue": {
+        "id": 5108,
+        "name": "Grorud stadion",
+        "address": "Grorudveien 7, Grorud",
+        "city": "Oslo",
+        "capacity": 1741,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5108.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6994,
+        "name": "Harstad",
+        "code": "HAR",
+        "country": "Norway",
+        "founded": 1903,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6994.png"
+      },
+      "venue": {
+        "id": 5109,
+        "name": "Harstad Stadion",
+        "address": "\u00c5svegen",
+        "city": "Harstad",
+        "capacity": 4000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5109.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6995,
+        "name": "Heming",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/6995.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 6996,
+        "name": "Herd",
+        "code": "HER",
+        "country": "Norway",
+        "founded": 1932,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6996.png"
+      },
+      "venue": {
+        "id": 5110,
+        "name": "AMFI Moa Stadion",
+        "address": "Vestmoa 21, Spjelkavik",
+        "city": "\u00c5lesund",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5110.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6997,
+        "name": "Hinna",
+        "code": null,
+        "country": "Norway",
+        "founded": 1917,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/6997.png"
+      },
+      "venue": {
+        "id": 5111,
+        "name": "Wintershallbanen Kunstgress",
+        "address": "Ordf\u00f8rer Tveteraas gate 11",
+        "city": "Stavanger",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5111.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6998,
+        "name": "H\u00f8nefoss",
+        "code": "HON",
+        "country": "Norway",
+        "founded": 1895,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6998.png"
+      },
+      "venue": {
+        "id": 5112,
+        "name": "AKA Arena",
+        "address": "Ringeriksgata 13",
+        "city": "H\u00f8nefoss",
+        "capacity": 4586,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5112.png"
+      }
+    },
+    {
+      "team": {
+        "id": 6999,
+        "name": "IF Ready",
+        "code": null,
+        "country": "Norway",
+        "founded": 1907,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/6999.png"
+      },
+      "venue": {
+        "id": 5113,
+        "name": "Gressbanen",
+        "address": "Stasjonsvn 24",
+        "city": "Oslo",
+        "capacity": 2000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5113.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7000,
+        "name": "Junkeren",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7000.png"
+      },
+      "venue": {
+        "id": 5114,
+        "name": "Nordlandshallen",
+        "address": "Postboks 1",
+        "city": "Bod\u00f8",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5114.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7001,
+        "name": "Kjels\u00e5s",
+        "code": "KJE",
+        "country": "Norway",
+        "founded": 1913,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7001.png"
+      },
+      "venue": {
+        "id": 5115,
+        "name": "Grefsen Stadion",
+        "address": "Neptunveien 8-12, Kjels\u00e5s",
+        "city": "Oslo",
+        "capacity": 1549,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5115.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7002,
+        "name": "Kolstad",
+        "code": null,
+        "country": "Norway",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7002.png"
+      },
+      "venue": {
+        "id": 5116,
+        "name": "Huseby Idrettspark",
+        "address": "Saupstadringen",
+        "city": "Trondheim",
+        "capacity": 4000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5116.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7003,
+        "name": "Kr\u00e5ker\u00f8y",
+        "code": null,
+        "country": "Norway",
+        "founded": 1937,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7003.png"
+      },
+      "venue": {
+        "id": 2792,
+        "name": "Nye Fredrikstad Stadion",
+        "address": "K.G. Mehldalsvei 7, Kr\u00e5ker\u00f8y",
+        "city": "Fredrikstad",
+        "capacity": 12565,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/2792.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7004,
+        "name": "Kvik Halden",
+        "code": "KVI",
+        "country": "Norway",
+        "founded": 1906,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7004.png"
+      },
+      "venue": {
+        "id": 5117,
+        "name": "Halden Stadion",
+        "address": "Roald Amundsens Gate",
+        "city": "Halden",
+        "capacity": 5000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5117.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7005,
+        "name": "Lokomotiv Oslo",
+        "code": null,
+        "country": "Norway",
+        "founded": 1999,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7005.png"
+      },
+      "venue": {
+        "id": 12745,
+        "name": "T\u00f8rteberg kunstgress",
+        "address": "Apalveien 8",
+        "city": "Oslo",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/12745.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7006,
+        "name": "Lyn",
+        "code": "LYN",
+        "country": "Norway",
+        "founded": 1896,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7006.png"
+      },
+      "venue": {
+        "id": 19421,
+        "name": "Bislett Stadion",
+        "address": "Bislettgata, St. Hanshaugen",
+        "city": "Oslo",
+        "capacity": 15400,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/19421.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7007,
+        "name": "Lysekloster",
+        "code": null,
+        "country": "Norway",
+        "founded": 1946,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7007.png"
+      },
+      "venue": {
+        "id": 5119,
+        "name": "Lysekloster Framo Idrettsplass",
+        "address": "Edne 17, Lysekloster",
+        "city": "Bergen",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5119.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7008,
+        "name": "L\u00f8renskog",
+        "code": "LOR",
+        "country": "Norway",
+        "founded": 1933,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7008.png"
+      },
+      "venue": {
+        "id": 1198,
+        "name": "Str\u00f8mmen Stadion",
+        "address": "Str\u00f8msveien 16B",
+        "city": "Str\u00f8mmen",
+        "capacity": 1850,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1198.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7009,
+        "name": "Madla",
+        "code": null,
+        "country": "Norway",
+        "founded": 1939,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7009.png"
+      },
+      "venue": {
+        "id": 5121,
+        "name": "Madla Handelslag Stadion",
+        "address": "Regimentsveien 101",
+        "city": "Hafrsfjord",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5121.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7010,
+        "name": "Melbo IL",
+        "code": null,
+        "country": "Norway",
+        "founded": 1975,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7010.png"
+      },
+      "venue": {
+        "id": 5122,
+        "name": "Havfisk Stadion",
+        "address": "Villaveien 20",
+        "city": "Melbu",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5122.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7011,
+        "name": "Mj\u00f8lner",
+        "code": null,
+        "country": "Norway",
+        "founded": 1932,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7011.png"
+      },
+      "venue": {
+        "id": 5123,
+        "name": "Narvik Stadion",
+        "address": "Lillevikveien",
+        "city": "Narvik",
+        "capacity": 6700,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5123.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7012,
+        "name": "Moss",
+        "code": "MOS",
+        "country": "Norway",
+        "founded": 1906,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7012.png"
+      },
+      "venue": {
+        "id": 5124,
+        "name": "Mell\u00f8s Stadion",
+        "address": "Nordahl Griegs gate 26, Mell\u00f8s",
+        "city": "Moss",
+        "capacity": 9410,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5124.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7013,
+        "name": "NTNUI",
+        "code": null,
+        "country": "Norway",
+        "founded": 1984,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7013.png"
+      },
+      "venue": {
+        "id": 5125,
+        "name": "Koteng Arena",
+        "address": "Haakon VIIs gate 60",
+        "city": "Trondheim",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5125.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7014,
+        "name": "Nardo",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7014.png"
+      },
+      "venue": {
+        "id": 5126,
+        "name": "Nissekollen Kunstgress",
+        "address": "Fiolsvingen 1",
+        "city": "Trondheim",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5126.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7015,
+        "name": "Nordstrand",
+        "code": null,
+        "country": "Norway",
+        "founded": 1891,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7015.png"
+      },
+      "venue": {
+        "id": 5127,
+        "name": "Nordstrand kunstgress",
+        "address": "Vangen 3",
+        "city": "Oslo",
+        "capacity": 1100,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5127.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7016,
+        "name": "Norild",
+        "code": null,
+        "country": "Norway",
+        "founded": 1935,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7016.png"
+      },
+      "venue": {
+        "id": 5128,
+        "name": "Vads\u00f8 stadion kunstgress",
+        "address": "Karl Rasmussens plass 1",
+        "city": "Vads\u00f8",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5128.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7017,
+        "name": "Nybergsund",
+        "code": "NYB",
+        "country": "Norway",
+        "founded": 1918,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7017.png"
+      },
+      "venue": {
+        "id": 5129,
+        "name": "Nybergsund Stadion",
+        "address": "Idrettsvegen 5",
+        "city": "Trysil",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5129.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7018,
+        "name": "Oppsal",
+        "code": null,
+        "country": "Norway",
+        "founded": 1912,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7018.png"
+      },
+      "venue": {
+        "id": 5130,
+        "name": "Trasop kunstgress",
+        "address": "Vetlandsvegen 45, Oppsal",
+        "city": "Oslo",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5130.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7019,
+        "name": "Ottestad",
+        "code": null,
+        "country": "Norway",
+        "founded": 1918,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7019.png"
+      },
+      "venue": {
+        "id": 5131,
+        "name": "Ottestad Idrettspark",
+        "address": "Parkvegen 32",
+        "city": "Ottestad, Stange",
+        "capacity": 1500,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5131.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7020,
+        "name": "Pors Grenland",
+        "code": "POR",
+        "country": "Norway",
+        "founded": 1905,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7020.png"
+      },
+      "venue": {
+        "id": 5132,
+        "name": "Pors Stadion",
+        "address": "Stadionveien 4",
+        "city": "Porsgrunn",
+        "capacity": 7000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5132.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7021,
+        "name": "Porsanger",
+        "code": "ORS",
+        "country": "Norway",
+        "founded": 1922,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7021.png"
+      },
+      "venue": {
+        "id": 5133,
+        "name": "Lakselv kunstgress",
+        "address": null,
+        "city": "S\u00f8rfold",
+        "capacity": 500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5133.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7022,
+        "name": "R\u00f8rvik",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7022.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 7023,
+        "name": "Senja",
+        "code": "HOU",
+        "country": "Norway",
+        "founded": 1949,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7023.png"
+      },
+      "venue": {
+        "id": 5134,
+        "name": "Senja Storhall",
+        "address": "Islandsbotn",
+        "city": "Silsand",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5134.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7024,
+        "name": "Skjerv\u00f8y",
+        "code": null,
+        "country": "Norway",
+        "founded": 1930,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7024.png"
+      },
+      "venue": {
+        "id": 5135,
+        "name": "Ler\u00f8y Stadion",
+        "address": "Trollveien",
+        "city": "Skjerv\u00f8y",
+        "capacity": 1200,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5135.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7025,
+        "name": "Skjetten",
+        "code": null,
+        "country": "Norway",
+        "founded": 1967,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7025.png"
+      },
+      "venue": {
+        "id": 5136,
+        "name": "Skjetten Stadion",
+        "address": null,
+        "city": "Skjetten",
+        "capacity": 3000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5136.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7026,
+        "name": "Sk\u00e5nland",
+        "code": null,
+        "country": "Norway",
+        "founded": 1934,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7026.png"
+      },
+      "venue": {
+        "id": 5137,
+        "name": "Sk\u00e5nland kunstgress",
+        "address": "Sandbakken 1",
+        "city": "Evenskjer",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5137.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7027,
+        "name": "Sola",
+        "code": null,
+        "country": "Norway",
+        "founded": 1934,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7027.png"
+      },
+      "venue": {
+        "id": 5138,
+        "name": "Sola Stadion",
+        "address": null,
+        "city": "Sola",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5138.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7028,
+        "name": "Sotra",
+        "code": null,
+        "country": "Norway",
+        "founded": 1945,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7028.png"
+      },
+      "venue": {
+        "id": 5139,
+        "name": "Straume stadion",
+        "address": null,
+        "city": "Sotra",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5139.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7029,
+        "name": "Sparta Sarpsborg",
+        "code": null,
+        "country": "Norway",
+        "founded": 1928,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7029.png"
+      },
+      "venue": {
+        "id": 5140,
+        "name": "Sparta Kunstgressbane",
+        "address": "Albert Moeskaus vei",
+        "city": "Sarpsborg",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5140.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7030,
+        "name": "Spjelkavik",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7030.png"
+      },
+      "venue": {
+        "id": 5141,
+        "name": "Spjelkavik stadion",
+        "address": "Vasstrandveien 70 / Myrdalsvegen, Spjelkavik",
+        "city": "\u00c5lesund",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5141.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7031,
+        "name": "Sprint-Jel\u00f8y",
+        "code": null,
+        "country": "Norway",
+        "founded": 1926,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7031.png"
+      },
+      "venue": {
+        "id": 5142,
+        "name": "Bellevue",
+        "address": "Orker\u00f8dgata 60",
+        "city": "Moss",
+        "capacity": 2000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5142.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7032,
+        "name": "Steinkjer",
+        "code": null,
+        "country": "Norway",
+        "founded": 1910,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7032.png"
+      },
+      "venue": {
+        "id": 5143,
+        "name": "Guldbergaunet Stadion",
+        "address": "Guldbergaunet",
+        "city": "Steinkjer",
+        "capacity": 4000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5143.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7033,
+        "name": "Stj\u00f8rdals-Blink",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7033.png"
+      },
+      "venue": {
+        "id": 11954,
+        "name": "MUS Stadion Sandskogan",
+        "address": "Stokkanvegen 18D",
+        "city": "Stj\u00f8rdal",
+        "capacity": 2500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/11954.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7034,
+        "name": "Storm",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7034.png"
+      },
+      "venue": {
+        "id": 5145,
+        "name": "Bratsberg Kunstgress",
+        "address": "Sanssouciveien 14",
+        "city": "Skien",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5145.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7035,
+        "name": "Stryn",
+        "code": null,
+        "country": "Norway",
+        "founded": 1922,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7035.png"
+      },
+      "venue": {
+        "id": 5146,
+        "name": "Stryn stadion",
+        "address": null,
+        "city": "Stryn",
+        "capacity": 1500,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5146.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7036,
+        "name": "Sunndal",
+        "code": null,
+        "country": "Norway",
+        "founded": 1918,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7036.png"
+      },
+      "venue": {
+        "id": 5147,
+        "name": "Sande stadion",
+        "address": "Skolevegen 14",
+        "city": "Sunndals\u00f8ra",
+        "capacity": 1500,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5147.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7037,
+        "name": "Tiller",
+        "code": null,
+        "country": "Norway",
+        "founded": 1916,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7037.png"
+      },
+      "venue": {
+        "id": 5148,
+        "name": "TOBB Arena S\u00f8r",
+        "address": "Torvmyra 4",
+        "city": "Trondheim",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5148.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7038,
+        "name": "Toten",
+        "code": null,
+        "country": "Norway",
+        "founded": 1995,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7038.png"
+      },
+      "venue": {
+        "id": 5149,
+        "name": "\u00d8stre Toten kunstgressbane",
+        "address": "Jernbanegata",
+        "city": "Lena",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5149.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7039,
+        "name": "Trygg/Lade",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7039.png"
+      },
+      "venue": {
+        "id": 5150,
+        "name": "OBOS Kunstgressbane",
+        "address": "Haakon VII gate 7",
+        "city": "Trondheim",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5150.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7040,
+        "name": "Tr\u00e6ff",
+        "code": "TRA",
+        "country": "Norway",
+        "founded": 1924,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7040.png"
+      },
+      "venue": {
+        "id": 5151,
+        "name": "Reknesbanen",
+        "address": "Moldelivegen 69/71",
+        "city": "Molde",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5151.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7041,
+        "name": "T\u00f8nsberg",
+        "code": "TON",
+        "country": "Norway",
+        "founded": 1985,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7041.png"
+      },
+      "venue": {
+        "id": 5152,
+        "name": "T\u00f8nsberg Gressbane",
+        "address": "Trudvangveien 73",
+        "city": "T\u00f8nsberg",
+        "capacity": 5600,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/5152.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7042,
+        "name": "Ullern",
+        "code": null,
+        "country": "Norway",
+        "founded": 1909,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7042.png"
+      },
+      "venue": {
+        "id": 5153,
+        "name": "Ullern kunstgress",
+        "address": "Sportsveien 20",
+        "city": "Oslo",
+        "capacity": 2000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5153.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7043,
+        "name": "Vard",
+        "code": "VAR",
+        "country": "Norway",
+        "founded": 1916,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7043.png"
+      },
+      "venue": {
+        "id": 12130,
+        "name": "Haugesund Sparebank Arena",
+        "address": "Karmsundggaten 169",
+        "city": "Haugesund",
+        "capacity": 8950,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/12130.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7044,
+        "name": "Verdal",
+        "code": null,
+        "country": "Norway",
+        "founded": 1916,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7044.png"
+      },
+      "venue": {
+        "id": 19620,
+        "name": "Verdalskalk Arena",
+        "address": "Kj\u00e6rhaugvegen 8",
+        "city": "Verdal",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/19620.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7045,
+        "name": "Vestfossen",
+        "code": null,
+        "country": "Norway",
+        "founded": 1910,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7045.png"
+      },
+      "venue": {
+        "id": 5155,
+        "name": "Strandajordet gress",
+        "address": "Dokkaveien 4",
+        "city": "Vestfossen",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/5155.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7046,
+        "name": "Vidar",
+        "code": "VID",
+        "country": "Norway",
+        "founded": 1906,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7046.png"
+      },
+      "venue": {
+        "id": 5156,
+        "name": "Lassa idrettspark",
+        "address": "Rektor Oldens gate 31",
+        "city": "Stavanger",
+        "capacity": 4000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/5156.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7047,
+        "name": "Vindbjart",
+        "code": "VIN",
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7047.png"
+      },
+      "venue": {
+        "id": 11314,
+        "name": "Sparebanken S\u00f8r-banen Vennesla",
+        "address": "Askedalsvegen",
+        "city": "Vennesla",
+        "capacity": 4500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/11314.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7048,
+        "name": "\u00c5ga",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7048.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 7049,
+        "name": "\u00c5kra",
+        "code": null,
+        "country": "Norway",
+        "founded": 1939,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7049.png"
+      },
+      "venue": {
+        "id": 5158,
+        "name": "\u00c5kra kunstgress",
+        "address": "Idrettsvegen 11",
+        "city": "\u00c5krehamn",
+        "capacity": 2500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5158.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7050,
+        "name": "\u00c5lg\u00e5rd",
+        "code": "ALG",
+        "country": "Norway",
+        "founded": 1915,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7050.png"
+      },
+      "venue": {
+        "id": 5159,
+        "name": "Nye \u00c5lg\u00e5rd Stadion",
+        "address": "\u00c5faret 31",
+        "city": "\u00c5lg\u00e5rd",
+        "capacity": 3000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5159.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7051,
+        "name": "\u00c5ssiden IF",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7051.png"
+      },
+      "venue": {
+        "id": 5160,
+        "name": "\u00c5ssiden Stadion",
+        "address": "Buskerudveien 54",
+        "city": "Drammen",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5160.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7052,
+        "name": "\u00d8rn Horten",
+        "code": null,
+        "country": "Norway",
+        "founded": 1904,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7052.png"
+      },
+      "venue": {
+        "id": 5161,
+        "name": "Lystlunden Stadion",
+        "address": "Oregaten 1",
+        "city": "Horten",
+        "capacity": 4000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5161.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7935,
+        "name": "Sogndal U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/7935.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 7962,
+        "name": "Molde U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7962.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 8214,
+        "name": "Norway U21",
+        "code": "NOR",
+        "country": "Norway",
+        "founded": 1902,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/8214.png"
+      },
+      "venue": {
+        "id": 5823,
+        "name": "Ullevaal Stadion",
+        "address": "Sognsveien 75",
+        "city": "Oslo",
+        "capacity": 25572,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/5823.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9975,
+        "name": "Odd II",
+        "code": "GRE",
+        "country": "Norway",
+        "founded": 1894,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/9975.png"
+      },
+      "venue": {
+        "id": 1187,
+        "name": "Skagerak Arena",
+        "address": "Fridtjof Nansensgatan 21-23, Falkum",
+        "city": "Skien",
+        "capacity": 13500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1187.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9976,
+        "name": "\u00d8ygarden",
+        "code": null,
+        "country": "Norway",
+        "founded": 2020,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/9976.png"
+      },
+      "venue": {
+        "id": 1185,
+        "name": "\u00c5gotnes Stadion",
+        "address": null,
+        "city": "\u00c5gotnes",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1185.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10113,
+        "name": "Rosenborg II",
+        "code": "ROS",
+        "country": "Norway",
+        "founded": 1917,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/10113.png"
+      },
+      "venue": {
+        "id": 11977,
+        "name": "Skoglunden",
+        "address": "Kl\u00e6buveien 125",
+        "city": "Trondheim",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/11977.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10114,
+        "name": "V\u00e5lerenga II",
+        "code": "VAL",
+        "country": "Norway",
+        "founded": 1913,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/10114.png"
+      },
+      "venue": {
+        "id": 1203,
+        "name": "Intility Arena",
+        "address": "Innspurten 1",
+        "city": "Oslo",
+        "capacity": 18000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1203.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10296,
+        "name": "Norway U20",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": true,
+        "logo": "https://media-1.api-sports.io/football/teams/10296.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 10342,
+        "name": "Norway U19",
+        "code": "SWE",
+        "country": "Norway",
+        "founded": 1902,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/10342.png"
+      },
+      "venue": {
+        "id": 5823,
+        "name": "Ullevaal Stadion",
+        "address": "Sognsveien 75",
+        "city": "Oslo",
+        "capacity": 25572,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/5823.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10894,
+        "name": "Lillestr\u00f8m",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/10894.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 12812,
+        "name": "Mandalskameratene",
+        "code": null,
+        "country": "Norway",
+        "founded": 1912,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/12812.png"
+      },
+      "venue": {
+        "id": 8166,
+        "name": "Idrettsparken Stadion",
+        "address": "Neseveien 67",
+        "city": "Mandal",
+        "capacity": 4500,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/8166.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12817,
+        "name": "Molde II",
+        "code": "MOL",
+        "country": "Norway",
+        "founded": 1911,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/12817.png"
+      },
+      "venue": {
+        "id": 1184,
+        "name": "Aker Stadion",
+        "address": "Julsundveien 14, Reknes",
+        "city": "Molde",
+        "capacity": 11800,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1184.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12824,
+        "name": "Orkla",
+        "code": null,
+        "country": "Norway",
+        "founded": 1998,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12824.png"
+      },
+      "venue": {
+        "id": 8174,
+        "name": "Orkla Sparebank Stadion",
+        "address": "Eksisvegen",
+        "city": "Fannrem",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/8174.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12825,
+        "name": "Os",
+        "code": null,
+        "country": "Norway",
+        "founded": 1905,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/12825.png"
+      },
+      "venue": {
+        "id": 8175,
+        "name": "Kuventr\u00e6 Idrettsplass kunstgress",
+        "address": "Idrettsvegen",
+        "city": "Os",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/8175.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12860,
+        "name": "Staal J\u00f8rpeland",
+        "code": null,
+        "country": "Norway",
+        "founded": 1919,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/12860.png"
+      },
+      "venue": {
+        "id": 8205,
+        "name": "J\u00f8rpeland stadion",
+        "address": "Storevigbakken",
+        "city": "J\u00f8rpeland",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/8205.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12861,
+        "name": "Start II",
+        "code": null,
+        "country": "Norway",
+        "founded": 1905,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12861.png"
+      },
+      "venue": {
+        "id": 1197,
+        "name": "Sparebanken S\u00f8r Arena",
+        "address": "Stadionveien 21",
+        "city": "Kristiansand",
+        "capacity": 14563,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1197.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12864,
+        "name": "Strindheim",
+        "code": "STR",
+        "country": "Norway",
+        "founded": 1926,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12864.png"
+      },
+      "venue": {
+        "id": 19624,
+        "name": "Leangen Bolig Arena",
+        "address": "Gildheimsvegen 34",
+        "city": "Trondheim",
+        "capacity": 2500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/19624.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12865,
+        "name": "Str\u00f8msgodset II",
+        "code": "STR",
+        "country": "Norway",
+        "founded": 1907,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12865.png"
+      },
+      "venue": {
+        "id": 1199,
+        "name": "Marienlyst Stadion",
+        "address": "Schwartzgata 2",
+        "city": "Drammen",
+        "capacity": 8935,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1199.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12870,
+        "name": "S\u00f8rlandslaget",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12870.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 12891,
+        "name": "Viking II",
+        "code": "VIK",
+        "country": "Norway",
+        "founded": 1899,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/12891.png"
+      },
+      "venue": {
+        "id": 1204,
+        "name": "SR-Bank Arena",
+        "address": "J\u00e5tt\u00e5v\u00e5gveien 11A, J\u00e5tt\u00e5v\u00e5gen",
+        "city": "Stavanger",
+        "capacity": 16508,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1204.png"
+      }
+    },
+    {
+      "team": {
+        "id": 14545,
+        "name": "Sandviken",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/14545.png"
+      },
+      "venue": {
+        "id": 11316,
+        "name": "Stemmemyren kunstgressbane",
+        "address": "\u00d8yjordsveien 6",
+        "city": "Bergen",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/11316.png"
+      }
+    },
+    {
+      "team": {
+        "id": 15535,
+        "name": "V\u00e5lerenga W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/15535.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15950,
+        "name": "Avaldsnes W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/15950.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15951,
+        "name": "Klepp W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/15951.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15952,
+        "name": "Kolbotn W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/15952.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15953,
+        "name": "Stab\u00e6k W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/15953.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15954,
+        "name": "Arna-Bj\u00f8rnar W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/15954.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15955,
+        "name": "Lyn W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/15955.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15956,
+        "name": "Rosenborg W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/15956.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15957,
+        "name": "Sandviken W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/15957.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16204,
+        "name": "Funnefoss / Vormsund",
+        "code": null,
+        "country": "Norway",
+        "founded": 1924,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16204.png"
+      },
+      "venue": {
+        "id": 11310,
+        "name": "Funnefoss gress",
+        "address": "Fuvo-vegen",
+        "city": "Oppaker",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/11310.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16205,
+        "name": "Grorud II",
+        "code": null,
+        "country": "Norway",
+        "founded": 1918,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16205.png"
+      },
+      "venue": {
+        "id": 5108,
+        "name": "Grorud stadion",
+        "address": "Grorudveien 7, Grorud",
+        "city": "Oslo",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5108.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16206,
+        "name": "Kongsvinger II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16206.png"
+      },
+      "venue": {
+        "id": 1180,
+        "name": "Gjemselund Stadion",
+        "address": "Brugata 47 B",
+        "city": "Kongsvinger",
+        "capacity": 5684,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1180.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16207,
+        "name": "Lillestr\u00f8m II",
+        "code": null,
+        "country": "Norway",
+        "founded": 1917,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16207.png"
+      },
+      "venue": {
+        "id": 11311,
+        "name": "LSK-hallen",
+        "address": "Leiraveien 2",
+        "city": "Lillestr\u00f8m",
+        "capacity": 2300,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/11311.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16208,
+        "name": "Raufoss II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16208.png"
+      },
+      "venue": {
+        "id": 1189,
+        "name": "NAMMO stadion",
+        "address": "Idrettsvegen 19",
+        "city": "Raufoss",
+        "capacity": 2250,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1189.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16209,
+        "name": "Rommen",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16209.png"
+      },
+      "venue": {
+        "id": 11312,
+        "name": "Rommensletta kunstgress",
+        "address": "Haavard Martinsensvei 35",
+        "city": "Oslo",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/11312.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16210,
+        "name": "Ullensaker / Kisa II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16210.png"
+      },
+      "venue": {
+        "id": 1202,
+        "name": "Jessheim Stadion",
+        "address": "Markavegen 7",
+        "city": "Jessheim",
+        "capacity": 3435,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1202.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16211,
+        "name": "Eik-T\u00f8nsberg",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16211.png"
+      },
+      "venue": {
+        "id": 5152,
+        "name": "T\u00f8nsberg Gressbane",
+        "address": "Trudvangveien 73",
+        "city": "T\u00f8nsberg",
+        "capacity": 5600,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5152.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16212,
+        "name": "Fredrikstad II",
+        "code": null,
+        "country": "Norway",
+        "founded": 1903,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16212.png"
+      },
+      "venue": {
+        "id": 2792,
+        "name": "Nye Fredrikstad Stadion",
+        "address": "K.G. Mehldalsvei 7, Kr\u00e5ker\u00f8y",
+        "city": "Fredrikstad",
+        "capacity": 12565,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/2792.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16213,
+        "name": "Halsen",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16213.png"
+      },
+      "venue": {
+        "id": 11313,
+        "name": "Bergeskogen idrettspark",
+        "address": "Bergeskogen",
+        "city": "Larvik",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/11313.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16214,
+        "name": "Mj\u00f8ndalen II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16214.png"
+      },
+      "venue": {
+        "id": 1183,
+        "name": "Consto Arena",
+        "address": "Hagatjernsveien 17, Nedre Eiker",
+        "city": "Mj\u00f8ndalen",
+        "capacity": 4350,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1183.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16215,
+        "name": "Sarpsborg 08 II",
+        "code": null,
+        "country": "Norway",
+        "founded": 2000,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16215.png"
+      },
+      "venue": {
+        "id": 1193,
+        "name": "Sarpsborg Stadion",
+        "address": "Haftor Joenssonsgata 19",
+        "city": "Sarpsborg",
+        "capacity": 8022,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1193.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16216,
+        "name": "Djerv",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16216.png"
+      },
+      "venue": {
+        "id": 11315,
+        "name": "Djervbanen",
+        "address": "Stordgata 5",
+        "city": "Haugesund",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/11315.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16217,
+        "name": "Bjarg",
+        "code": null,
+        "country": "Norway",
+        "founded": 1947,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16217.png"
+      },
+      "venue": {
+        "id": 11317,
+        "name": "Stavollen stadion",
+        "address": "Skeievegen, Bjarg",
+        "city": "Fanahammaren",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/11317.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16218,
+        "name": "Brann II",
+        "code": "BRA",
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16218.png"
+      },
+      "venue": {
+        "id": 5105,
+        "name": "Varden Amfi",
+        "address": "Allestadveien 14, Fyllingsdalen",
+        "city": "Bergen",
+        "capacity": 3800,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5105.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16219,
+        "name": "Sogndal II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16219.png"
+      },
+      "venue": {
+        "id": 1195,
+        "name": "Fosshaugane Campus",
+        "address": "Sogndalsfj\u00f8ra",
+        "city": "Sogndal",
+        "capacity": 5623,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1195.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16220,
+        "name": "Stord",
+        "code": "STO",
+        "country": "Norway",
+        "founded": 1914,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16220.png"
+      },
+      "venue": {
+        "id": 11319,
+        "name": "Stord Stadion",
+        "address": "Vikahaugen, Stord",
+        "city": "Leirvik",
+        "capacity": 1500,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/11319.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16221,
+        "name": "\u00c5rdal",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16221.png"
+      },
+      "venue": {
+        "id": 11320,
+        "name": "Jotun Stadion",
+        "address": null,
+        "city": "\u00d8vre \u00c5rdal",
+        "capacity": 2500,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/11320.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16222,
+        "name": "Aalesund II",
+        "code": null,
+        "country": "Norway",
+        "founded": 1914,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16222.png"
+      },
+      "venue": {
+        "id": 1174,
+        "name": "Color Line Stadion",
+        "address": "Sj\u00f8mannsveien 14",
+        "city": "\u00c5lesund",
+        "capacity": 10778,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1174.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16223,
+        "name": "Melhus",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16223.png"
+      },
+      "venue": {
+        "id": 5725,
+        "name": "\u00c6ESTOLT Banen Kunstgress",
+        "address": "Idrettsveien 35",
+        "city": "Melhus",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/5725.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16224,
+        "name": "Ranheim II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16224.png"
+      },
+      "venue": {
+        "id": 1188,
+        "name": "EXTRA Arena",
+        "address": "Ranheimsveien 166",
+        "city": "Ranheim",
+        "capacity": 3000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1188.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16225,
+        "name": "Tynset",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16225.png"
+      },
+      "venue": {
+        "id": 11321,
+        "name": "Nytr\u00f8moen gras",
+        "address": "Idrettsveien 27",
+        "city": "Tynset",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/11321.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16226,
+        "name": "Volda",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16226.png"
+      },
+      "venue": {
+        "id": 12747,
+        "name": "Sparebank 1 Bana",
+        "address": "Stadionvegen",
+        "city": "Volda",
+        "capacity": 2000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/12747.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16227,
+        "name": "Bod\u00f8 / Glimt II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16227.png"
+      },
+      "venue": {
+        "id": 1175,
+        "name": "Aspmyra Stadion",
+        "address": "H\u00e5loglandsgata 30",
+        "city": "Bod\u00f8",
+        "capacity": 7564,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1175.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16228,
+        "name": "Finnsnes",
+        "code": "FIN",
+        "country": "Norway",
+        "founded": 1922,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16228.png"
+      },
+      "venue": {
+        "id": 11323,
+        "name": "Finnsnes kunstgress",
+        "address": "Idrettsveien 13",
+        "city": "Finnsnes",
+        "capacity": 3000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/11323.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16229,
+        "name": "Rana",
+        "code": null,
+        "country": "Norway",
+        "founded": 2017,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16229.png"
+      },
+      "venue": {
+        "id": 11324,
+        "name": "Nye Sagbakken Stadion",
+        "address": "Vika\u00e5sen",
+        "city": "Mo i Rana",
+        "capacity": 1600,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/11324.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16230,
+        "name": "Skeid II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16230.png"
+      },
+      "venue": {
+        "id": 1194,
+        "name": "Nordre \u00c5sen kunstgress",
+        "address": "Kjels\u00e5sveien 9",
+        "city": "Oslo",
+        "capacity": 2623,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1194.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16231,
+        "name": "Stab\u00e6k II",
+        "code": "STA",
+        "country": "Norway",
+        "founded": 1912,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16231.png"
+      },
+      "venue": {
+        "id": 11325,
+        "name": "Nadderud Kunstgress",
+        "address": "Gamle Ringeriksvei 59",
+        "city": "Bekkestua",
+        "capacity": 1600,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/11325.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16232,
+        "name": "Troms\u00f8 II",
+        "code": "TRO",
+        "country": "Norway",
+        "founded": 1920,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16232.png"
+      },
+      "venue": {
+        "id": 1201,
+        "name": "Alfheim Stadion",
+        "address": "Stadionveien 3",
+        "city": "Troms\u00f8",
+        "capacity": 8585,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1201.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16395,
+        "name": "Rosenborg U19",
+        "code": "ROS",
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16395.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16552,
+        "name": "Aalesunds U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16552.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16553,
+        "name": "Bod\u00f8 / Glimt U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16553.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16554,
+        "name": "Brann U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16554.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16555,
+        "name": "Bryne U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16555.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16556,
+        "name": "Haugesund U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16556.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16557,
+        "name": "KFUM U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16557.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16558,
+        "name": "Kristiansund U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16558.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16559,
+        "name": "Lillestr\u00f8m U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16559.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16560,
+        "name": "Mj\u00f8ndalen U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16560.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16561,
+        "name": "Sandefjord U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16561.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16562,
+        "name": "Sandnes Ulf U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16562.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16563,
+        "name": "Stab\u00e6k U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16563.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16564,
+        "name": "Start U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16564.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16565,
+        "name": "Str\u00f8msgodset U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16565.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16566,
+        "name": "Troms\u00f8 U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16566.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16567,
+        "name": "Viking U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16567.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16568,
+        "name": "V\u00e5lerenga U19",
+        "code": "VAL",
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16568.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16569,
+        "name": "\u00c5sane U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16569.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16868,
+        "name": "SF Grei",
+        "code": null,
+        "country": "Norway",
+        "founded": 1919,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/16868.png"
+      },
+      "venue": {
+        "id": 12746,
+        "name": "Greibanen",
+        "address": "Apall\u00f8kkveien, Linderud",
+        "city": "Oslo",
+        "capacity": 1200,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/12746.png"
+      }
+    },
+    {
+      "team": {
+        "id": 16869,
+        "name": "Stovner",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/16869.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 16870,
+        "name": "Vardeneset",
+        "code": null,
+        "country": "Norway",
+        "founded": 1990,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/16870.png"
+      },
+      "venue": {
+        "id": 18566,
+        "name": "Tasta kunstgress 1",
+        "address": "Gjerdeveien 84",
+        "city": "Stavanger",
+        "capacity": 1500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/18566.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18379,
+        "name": "R\u00f8a",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/18379.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18380,
+        "name": "Brann W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/18380.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18434,
+        "name": "Kjels\u00e5s II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18434.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18435,
+        "name": "F\u00f8rde",
+        "code": "FOR",
+        "country": "Norway",
+        "founded": 1920,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18435.png"
+      },
+      "venue": {
+        "id": 12748,
+        "name": "F\u00f8rde Stadion",
+        "address": "Angedalsvegen",
+        "city": "F\u00f8rde",
+        "capacity": 1500,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/12748.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18436,
+        "name": "H\u00f8dd II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18436.png"
+      },
+      "venue": {
+        "id": 12749,
+        "name": "H\u00f8ddvoll Stadion",
+        "address": "H\u00f8ddveien 10",
+        "city": "Ulsteinvik",
+        "capacity": 6261,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/12749.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18437,
+        "name": "Lillehammer",
+        "code": null,
+        "country": "Norway",
+        "founded": 1999,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18437.png"
+      },
+      "venue": {
+        "id": 12750,
+        "name": "Stampesletta",
+        "address": "Sigrid Undsets veg",
+        "city": "Lillehammer",
+        "capacity": 2000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/12750.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18438,
+        "name": "Bremnes",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18438.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18439,
+        "name": "Haugesund II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18439.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18440,
+        "name": "Sandnes Ulf II",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18440.png"
+      },
+      "venue": {
+        "id": 1192,
+        "name": "Sandnes Idrettspark",
+        "address": "J\u00f8nningheiveien 47, Trones",
+        "city": "Sandnes",
+        "capacity": 4969,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1192.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18441,
+        "name": "Randesund",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18441.png"
+      },
+      "venue": {
+        "id": 12752,
+        "name": "Sukkevann kunstgress",
+        "address": "Dvergsnesveien 27",
+        "city": "Kristiansand",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/12752.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18442,
+        "name": "Ur\u00e6dd",
+        "code": null,
+        "country": "Norway",
+        "founded": 1894,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18442.png"
+      },
+      "venue": {
+        "id": 12753,
+        "name": "Kj\u00f8lnes stadion",
+        "address": "Kj\u00f8lnes Ring 60",
+        "city": "Porsgrunn",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/12753.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18443,
+        "name": "Innstranden",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18443.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18444,
+        "name": "Bossekop",
+        "code": "BOS",
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/18444.png"
+      },
+      "venue": {
+        "id": 12755,
+        "name": "Coop-banen",
+        "address": "Thomasbakkveien 22",
+        "city": "Alta",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/12755.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18922,
+        "name": "Eidsvold IF",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/18922.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18930,
+        "name": "R\u00e5de",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/18930.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18931,
+        "name": "Surnadal",
+        "code": null,
+        "country": "Norway",
+        "founded": 1913,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18931.png"
+      },
+      "venue": {
+        "id": 18567,
+        "name": "Sylt\u00f8ran stadion",
+        "address": null,
+        "city": "Surnadal",
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/18567.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18932,
+        "name": "Voss",
+        "code": null,
+        "country": "Norway",
+        "founded": 1921,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18932.png"
+      },
+      "venue": {
+        "id": 18568,
+        "name": "Prestegardsmoen gras",
+        "address": null,
+        "city": null,
+        "capacity": 1000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/18568.png"
+      }
+    },
+    {
+      "team": {
+        "id": 18984,
+        "name": "Amazon Grimstad W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18984.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18985,
+        "name": "Fortuna \u00c5lesund W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18985.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18986,
+        "name": "Grand Bod\u00f8 W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18986.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18987,
+        "name": "KIL / Hemne W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18987.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18988,
+        "name": "Medkila W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18988.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18989,
+        "name": "TIL 2020 W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/18989.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18990,
+        "name": "\u00d8vrevoll Hosle W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18990.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18991,
+        "name": "H\u00f8nefoss W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/18991.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 18992,
+        "name": "\u00c5sane W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/18992.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 19065,
+        "name": "Norway U19 W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": true,
+        "logo": "https://media-1.api-sports.io/football/teams/19065.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 20812,
+        "name": "HamKam U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/20812.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 20813,
+        "name": "Odd U19",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/20813.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 20854,
+        "name": "Eiger",
+        "code": null,
+        "country": "Norway",
+        "founded": 1961,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/20854.png"
+      },
+      "venue": {
+        "id": 19628,
+        "name": "B\u00f8gh Hafs\u00f8 banen",
+        "address": "Eiger\u00f8y",
+        "city": "Egersund",
+        "capacity": 1000,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/19628.png"
+      }
+    },
+    {
+      "team": {
+        "id": 20884,
+        "name": "Grei",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/20884.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 20885,
+        "name": "Fyllingsdalen W",
+        "code": null,
+        "country": "Norway",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/20885.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    }
+  ]
+}

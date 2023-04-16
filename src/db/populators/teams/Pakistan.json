@@ -1,0 +1,374 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "pakistan"
+  },
+  "errors": [],
+  "results": 18,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 5535,
+        "name": "Pakistan",
+        "code": "PAK",
+        "country": "Pakistan",
+        "founded": 1948,
+        "national": true,
+        "logo": "https://media-2.api-sports.io/football/teams/5535.png"
+      },
+      "venue": {
+        "id": 4157,
+        "name": "Punjab Stadium",
+        "address": "Ferozpur Road",
+        "city": "Lahore",
+        "capacity": 8000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/4157.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10938,
+        "name": "Jordan U23",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/10938.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 10941,
+        "name": "Kyrgyz Republic U23",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/10941.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 10942,
+        "name": "Laos U23",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/10942.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 10951,
+        "name": "Pakistan U23",
+        "code": null,
+        "country": "Pakistan",
+        "founded": 1948,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/10951.png"
+      },
+      "venue": {
+        "id": 4157,
+        "name": "Punjab Stadium",
+        "address": "Ferozpur Road",
+        "city": "Lahore",
+        "capacity": 8000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/4157.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17667,
+        "name": "Humma",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/17667.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 17668,
+        "name": "KRL",
+        "code": "KRL",
+        "country": "Pakistan",
+        "founded": 1995,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/17668.png"
+      },
+      "venue": {
+        "id": 12365,
+        "name": "KRL Stadium",
+        "address": null,
+        "city": "Rawalpindi",
+        "capacity": 8000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/12365.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17669,
+        "name": "Karachi United",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/17669.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 17670,
+        "name": "Lyallpur",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/17670.png"
+      },
+      "venue": {
+        "id": 12366,
+        "name": "Model Town Football Academy Ground",
+        "address": "D-Block, Model Town, Gulberg Town",
+        "city": "Lahore",
+        "capacity": 1500,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/12366.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17671,
+        "name": "Muslim",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/17671.png"
+      },
+      "venue": {
+        "id": 12367,
+        "name": "Govt High School Stadium",
+        "address": "Power House Road",
+        "city": "Chaman",
+        "capacity": 12000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/12367.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17672,
+        "name": "PCAA",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/17672.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 17673,
+        "name": "Pakistan Air Force",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/17673.png"
+      },
+      "venue": {
+        "id": 12368,
+        "name": "PAF Complex",
+        "address": "Street 3 &amp; Lodhi Road, Sector E-9",
+        "city": "Islamabad",
+        "capacity": 6000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/12368.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17674,
+        "name": "Pakistan Army",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/17674.png"
+      },
+      "venue": {
+        "id": 12369,
+        "name": "Army Stadium",
+        "address": null,
+        "city": "Rawalpindi",
+        "capacity": 7000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/12369.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17675,
+        "name": "Pakistan Navy",
+        "code": null,
+        "country": "Pakistan",
+        "founded": 1948,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/17675.png"
+      },
+      "venue": {
+        "id": 12370,
+        "name": "Naval Sports Complex",
+        "address": null,
+        "city": "Quetta",
+        "capacity": 10000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/12370.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17676,
+        "name": "SNGPL",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/17676.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 17677,
+        "name": "SSGC",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/17677.png"
+      },
+      "venue": {
+        "id": 12371,
+        "name": "KPT Stadium",
+        "address": "Akber Siddiqui Road / West Wharf Road, Kharadar",
+        "city": "Karachi",
+        "capacity": 15000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/12371.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17678,
+        "name": "WAPDA",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/17678.png"
+      },
+      "venue": {
+        "id": 12372,
+        "name": "Garhi Shahu's Railway Stadium",
+        "address": "Mughalpura Road",
+        "city": "Lahore",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/12372.png"
+      }
+    },
+    {
+      "team": {
+        "id": 20806,
+        "name": "Pakistan W",
+        "code": null,
+        "country": "Pakistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/20806.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    }
+  ]
+}

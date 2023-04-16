@@ -17,7 +17,14 @@ class Team(SQLModel, table=True):
     id: int = Field(primary_key=True)
     name: str
     picture: str
+    country: int = Field(foreign_key="country.id")
     aliases: Optional[List[str]]
+
+
+class Country(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    id: int = Field(primary_key=True)
+    name: str
 
 
 class Fixture(SQLModel, table=True):

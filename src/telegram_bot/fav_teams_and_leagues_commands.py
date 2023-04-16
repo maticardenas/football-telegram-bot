@@ -337,7 +337,12 @@ async def show_teams(update, context, page: int):
     end = start + TEAMS_PAGE_SIZE
 
     teams_keyboard = [
-        [InlineKeyboardButton(team.name, callback_data=f"team:{team.id}:{team.name}")]
+        [
+            InlineKeyboardButton(
+                f"{team.name} ({team.country[:3].upper()})",
+                callback_data=f"team:{team.id}:{team.name}",
+            )
+        ]
         for team in teams[start:end]
     ]
 

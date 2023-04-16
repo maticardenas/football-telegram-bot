@@ -1,0 +1,814 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "oman"
+  },
+  "errors": [],
+  "results": 40,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 1552,
+        "name": "Oman",
+        "code": "OMA",
+        "country": "Oman",
+        "founded": 1978,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/1552.png"
+      },
+      "venue": {
+        "id": 1205,
+        "name": "Sultan Qaboos Sport Complex",
+        "address": "Al-Ghubbrah Street, Boshar",
+        "city": "Muscat",
+        "capacity": 39000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1205.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2878,
+        "name": "Al Nasr",
+        "code": "NAS",
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2878.png"
+      },
+      "venue": {
+        "id": 4028,
+        "name": "Al-Saada Stadium",
+        "address": "Al-Saada",
+        "city": "Salalah",
+        "capacity": 12000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/4028.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5325,
+        "name": "Al Oruba",
+        "code": "ORU",
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/5325.png"
+      },
+      "venue": {
+        "id": 4024,
+        "name": "Sur Sports Complex",
+        "address": null,
+        "city": "Sur",
+        "capacity": 8000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/4024.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5326,
+        "name": "Al Suwaiq",
+        "code": "SUW",
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/5326.png"
+      },
+      "venue": {
+        "id": 4025,
+        "name": "Al-Seeb Stadium",
+        "address": "Al Barakat Street",
+        "city": "Seeb",
+        "capacity": 14000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/4025.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5327,
+        "name": "Al-Nahda",
+        "code": "NAH",
+        "country": "Oman",
+        "founded": 2003,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/5327.png"
+      },
+      "venue": {
+        "id": 4026,
+        "name": "Al Nahdha Stadium",
+        "address": null,
+        "city": "Al-Buraimi",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/4026.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5328,
+        "name": "Al-Rustaq",
+        "code": null,
+        "country": "Oman",
+        "founded": 1968,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/5328.png"
+      },
+      "venue": {
+        "id": 4027,
+        "name": "Ibri Youth Complex",
+        "address": null,
+        "city": "Ibri",
+        "capacity": 15000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/4027.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5329,
+        "name": "Al-Shabab",
+        "code": null,
+        "country": "Oman",
+        "founded": 2003,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/5329.png"
+      },
+      "venue": {
+        "id": 4025,
+        "name": "Al-Seeb Stadium",
+        "address": "Al Barakat Street",
+        "city": "Seeb",
+        "capacity": 14000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4025.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5330,
+        "name": "Dhofar",
+        "code": null,
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/5330.png"
+      },
+      "venue": {
+        "id": 4028,
+        "name": "Al-Saada Stadium",
+        "address": "Al-Saada",
+        "city": "Salalah",
+        "capacity": 12000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4028.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5331,
+        "name": "Mjees",
+        "code": null,
+        "country": "Oman",
+        "founded": 1979,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/5331.png"
+      },
+      "venue": {
+        "id": 4029,
+        "name": "Sohar Regional Sports Complex",
+        "address": null,
+        "city": "Sohar",
+        "capacity": 19000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/4029.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5332,
+        "name": "Mrbat",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/5332.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 5333,
+        "name": "Muscat",
+        "code": null,
+        "country": "Oman",
+        "founded": 1986,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/5333.png"
+      },
+      "venue": {
+        "id": 1205,
+        "name": "Sultan Qaboos Sport Complex",
+        "address": "Al-Ghubbrah Street, Boshar",
+        "city": "Muscat",
+        "capacity": 39000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1205.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5334,
+        "name": "Oman Club",
+        "code": null,
+        "country": "Oman",
+        "founded": 1942,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/5334.png"
+      },
+      "venue": {
+        "id": 1205,
+        "name": "Sultan Qaboos Sport Complex",
+        "address": "Al-Ghubbrah Street, Boshar",
+        "city": "Muscat",
+        "capacity": 39000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1205.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5335,
+        "name": "Saham",
+        "code": "SAH",
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/5335.png"
+      },
+      "venue": {
+        "id": 4029,
+        "name": "Sohar Regional Sports Complex",
+        "address": null,
+        "city": "Sohar",
+        "capacity": 19000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/4029.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5336,
+        "name": "Sohar",
+        "code": null,
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/5336.png"
+      },
+      "venue": {
+        "id": 4029,
+        "name": "Sohar Regional Sports Complex",
+        "address": null,
+        "city": "Sohar",
+        "capacity": 19000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/4029.png"
+      }
+    },
+    {
+      "team": {
+        "id": 5337,
+        "name": "Sur",
+        "code": null,
+        "country": "Oman",
+        "founded": 1969,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/5337.png"
+      },
+      "venue": {
+        "id": 4024,
+        "name": "Sur Sports Complex",
+        "address": null,
+        "city": "Sur",
+        "capacity": 8000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4024.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7504,
+        "name": "Al Seeb",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7504.png"
+      },
+      "venue": {
+        "id": 4025,
+        "name": "Al-Seeb Stadium",
+        "address": "Al Barakat Street",
+        "city": "Seeb",
+        "capacity": 14000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4025.png"
+      }
+    },
+    {
+      "team": {
+        "id": 7505,
+        "name": "Bahla",
+        "code": null,
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/7505.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 7506,
+        "name": "Fanja",
+        "code": "FSC",
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/7506.png"
+      },
+      "venue": {
+        "id": 4025,
+        "name": "Al-Seeb Stadium",
+        "address": "Al Barakat Street",
+        "city": "Seeb",
+        "capacity": 14000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/4025.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10950,
+        "name": "Oman U23",
+        "code": null,
+        "country": "Oman",
+        "founded": 1978,
+        "national": true,
+        "logo": "https://media-1.api-sports.io/football/teams/10950.png"
+      },
+      "venue": {
+        "id": 1205,
+        "name": "Sultan Qaboos Sport Complex",
+        "address": "Al-Ghubbrah Street, Boshar",
+        "city": "Muscat",
+        "capacity": 39000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1205.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11378,
+        "name": "Al Salam",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/11378.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 11379,
+        "name": "Al-Mudhaibi",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/11379.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 11380,
+        "name": "Al-Khabourah",
+        "code": null,
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/11380.png"
+      },
+      "venue": {
+        "id": 4029,
+        "name": "Sohar Regional Sports Complex",
+        "address": null,
+        "city": "Sohar",
+        "capacity": 19000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/4029.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11381,
+        "name": "Jaalan",
+        "code": null,
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/11381.png"
+      },
+      "venue": {
+        "id": 4024,
+        "name": "Sur Sports Complex",
+        "address": null,
+        "city": "Sur",
+        "capacity": 8000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4024.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11382,
+        "name": "Al-Musannah",
+        "code": null,
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/11382.png"
+      },
+      "venue": {
+        "id": 4025,
+        "name": "Al-Seeb Stadium",
+        "address": "Al Barakat Street",
+        "city": "Seeb",
+        "capacity": 14000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4025.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11383,
+        "name": "Salalah",
+        "code": null,
+        "country": "Oman",
+        "founded": 1981,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/11383.png"
+      },
+      "venue": {
+        "id": 4028,
+        "name": "Al-Saada Stadium",
+        "address": "Al-Saada",
+        "city": "Salalah",
+        "capacity": 12000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4028.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11384,
+        "name": "Al Musannah",
+        "code": "MUS",
+        "country": "Oman",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/11384.png"
+      },
+      "venue": {
+        "id": 4025,
+        "name": "Al-Seeb Stadium",
+        "address": "Al Barakat Street",
+        "city": "Seeb",
+        "capacity": 14000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/4025.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11385,
+        "name": "Busher",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/11385.png"
+      },
+      "venue": {
+        "id": 1205,
+        "name": "Sultan Qaboos Sport Complex",
+        "address": "Al-Ghubbrah Street, Boshar",
+        "city": "Muscat",
+        "capacity": 39000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1205.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11386,
+        "name": "Al Ittehad",
+        "code": "ALI",
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/11386.png"
+      },
+      "venue": {
+        "id": 4028,
+        "name": "Al-Saada Stadium",
+        "address": "Al-Saada",
+        "city": "Salalah",
+        "capacity": 12000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4028.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11387,
+        "name": "Al Taleea",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/11387.png"
+      },
+      "venue": {
+        "id": 4024,
+        "name": "Sur Sports Complex",
+        "address": null,
+        "city": null,
+        "capacity": 8000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/4024.png"
+      }
+    },
+    {
+      "team": {
+        "id": 11388,
+        "name": "Al-Ahli / Sedab",
+        "code": "SED",
+        "country": "Oman",
+        "founded": 0,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/11388.png"
+      },
+      "venue": {
+        "id": 1205,
+        "name": "Sultan Qaboos Sport Complex",
+        "address": null,
+        "city": null,
+        "capacity": 39000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1205.png"
+      }
+    },
+    {
+      "team": {
+        "id": 15590,
+        "name": "Nizwa",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/15590.png"
+      },
+      "venue": {
+        "id": 11254,
+        "name": "Nizwa Sports Complex",
+        "address": null,
+        "city": "Nizwa",
+        "capacity": 20000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/11254.png"
+      }
+    },
+    {
+      "team": {
+        "id": 15958,
+        "name": "Al Bashair",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/15958.png"
+      },
+      "venue": {
+        "id": 11254,
+        "name": "Nizwa Sports Complex",
+        "address": null,
+        "city": "Nizwa",
+        "capacity": 20000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/11254.png"
+      }
+    },
+    {
+      "team": {
+        "id": 15959,
+        "name": "Al Ettifaq",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/15959.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15960,
+        "name": "Ibri",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/15960.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15961,
+        "name": "Masirah",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/15961.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 15962,
+        "name": "Smail",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/15962.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 17454,
+        "name": "Al Hamra",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/17454.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 17461,
+        "name": "Al Wehda",
+        "code": "WEH",
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/17461.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 19629,
+        "name": "Oman U20",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/19629.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 20465,
+        "name": "Al Bdea",
+        "code": null,
+        "country": "Oman",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/20465.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    }
+  ]
+}

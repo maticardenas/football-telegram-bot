@@ -1,0 +1,514 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "palestine"
+  },
+  "errors": [],
+  "results": 25,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 1562,
+        "name": "Palestine",
+        "code": "PAL",
+        "country": "Palestine",
+        "founded": 1928,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/1562.png"
+      },
+      "venue": {
+        "id": 1206,
+        "name": "Faisal Al-Husseini International Stadium",
+        "address": null,
+        "city": "Al-Ram",
+        "capacity": 12500,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1206.png"
+      }
+    },
+    {
+      "team": {
+        "id": 8029,
+        "name": "Hilal Al-Quds",
+        "code": null,
+        "country": "Palestine",
+        "founded": 1972,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/8029.png"
+      },
+      "venue": {
+        "id": 1206,
+        "name": "Faisal Al-Husseini International Stadium",
+        "address": null,
+        "city": "Al-Ram",
+        "capacity": 12500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1206.png"
+      }
+    },
+    {
+      "team": {
+        "id": 8046,
+        "name": "Shabab Al Khaleel",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/8046.png"
+      },
+      "venue": {
+        "id": 5730,
+        "name": "Hussein Bin Ali Stadium",
+        "address": null,
+        "city": "Hebron",
+        "capacity": 8000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5730.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12480,
+        "name": "Ahli Al-Khalil",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/12480.png"
+      },
+      "venue": {
+        "id": 5730,
+        "name": "Hussein Bin Ali Stadium",
+        "address": null,
+        "city": "Hebron",
+        "capacity": 8000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5730.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12481,
+        "name": "Al-Ahli Qalqilya",
+        "code": null,
+        "country": "Palestine",
+        "founded": 1952,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/12481.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 12482,
+        "name": "Al-Birah Institution",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12482.png"
+      },
+      "venue": {
+        "id": 1206,
+        "name": "Faisal Al-Husseini International Stadium",
+        "address": null,
+        "city": "Al-Ram",
+        "capacity": 12500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1206.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12483,
+        "name": "Al-Quwaat Al-Falistinia",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12483.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 12484,
+        "name": "Jabal Al Mukaber",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12484.png"
+      },
+      "venue": {
+        "id": 1206,
+        "name": "Faisal Al-Husseini International Stadium",
+        "address": null,
+        "city": "Al-Ram",
+        "capacity": 12500,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/1206.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12485,
+        "name": "Markez Balata",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/12485.png"
+      },
+      "venue": {
+        "id": 7949,
+        "name": "Municipal Stadium Nablus",
+        "address": "Park Gamal Abdel Nasser",
+        "city": "Nablus",
+        "capacity": 4000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/7949.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12486,
+        "name": "Shabab Al Am'ari",
+        "code": null,
+        "country": "Palestine",
+        "founded": 1953,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12486.png"
+      },
+      "venue": {
+        "id": 1206,
+        "name": "Faisal Al-Husseini International Stadium",
+        "address": null,
+        "city": "Al-Ram",
+        "capacity": 12500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1206.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12487,
+        "name": "Shabab Alsamu",
+        "code": null,
+        "country": "Palestine",
+        "founded": 1976,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/12487.png"
+      },
+      "venue": {
+        "id": 5730,
+        "name": "Hussein Bin Ali Stadium",
+        "address": null,
+        "city": "Hebron",
+        "capacity": 8000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/5730.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12488,
+        "name": "Taraji Wadi Al-Nes",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/12488.png"
+      },
+      "venue": {
+        "id": 7950,
+        "name": "Al Khodor Stadium (Greens Stadium)",
+        "address": null,
+        "city": "Joret Al-Shama&apos;a",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/7950.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12489,
+        "name": "Thaqafi Tulkarem",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/12489.png"
+      },
+      "venue": {
+        "id": 7951,
+        "name": "Jamal Ghanem Stadium",
+        "address": "As-Sikkeh Street, 302",
+        "city": "Tulkarm",
+        "capacity": 4000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/7951.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12490,
+        "name": "Markaz Tulkarm",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12490.png"
+      },
+      "venue": {
+        "id": 7951,
+        "name": "Jamal Ghanem Stadium",
+        "address": "As-Sikkeh Street, 302",
+        "city": "Tulkarm",
+        "capacity": 4000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/7951.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12491,
+        "name": "Shabab Al-Dhahiriya",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12491.png"
+      },
+      "venue": {
+        "id": 7952,
+        "name": "Dora International Stadium",
+        "address": "Dura al-Qari&apos; District",
+        "city": "Hebron",
+        "capacity": 18000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/7952.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12492,
+        "name": "Shabab Al Khader",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12492.png"
+      },
+      "venue": {
+        "id": 7953,
+        "name": "Al-Khader Stadium",
+        "address": null,
+        "city": "Al-Khader",
+        "capacity": 6000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/7953.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12493,
+        "name": "Shabab Dora",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12493.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 12494,
+        "name": "Shabab Yatta",
+        "code": null,
+        "country": "Palestine",
+        "founded": 1982,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/12494.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 12495,
+        "name": "Silwan",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/12495.png"
+      },
+      "venue": {
+        "id": 1206,
+        "name": "Faisal Al-Husseini International Stadium",
+        "address": null,
+        "city": "Al-Ram",
+        "capacity": 12500,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/1206.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12496,
+        "name": "Islami Kalkelea",
+        "code": null,
+        "country": "Palestine",
+        "founded": 1995,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12496.png"
+      },
+      "venue": {
+        "id": 7949,
+        "name": "Municipal Stadium Nablus",
+        "address": "Park Gamal Abdel Nasser",
+        "city": "Nablus",
+        "capacity": 4000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/7949.png"
+      }
+    },
+    {
+      "team": {
+        "id": 12497,
+        "name": "Hillal Areeha",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/12497.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 12498,
+        "name": "Jenin",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/12498.png"
+      },
+      "venue": {
+        "id": 7954,
+        "name": "Jenin Stadium",
+        "address": null,
+        "city": "Jenin",
+        "capacity": 4000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/7954.png"
+      }
+    },
+    {
+      "team": {
+        "id": 15509,
+        "name": "Tubas",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/15509.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 17891,
+        "name": "Palestine W",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/17891.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 19630,
+        "name": "Palestine U20",
+        "code": null,
+        "country": "Palestine",
+        "founded": null,
+        "national": true,
+        "logo": "https://media-2.api-sports.io/football/teams/19630.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    }
+  ]
+}

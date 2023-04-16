@@ -43,6 +43,7 @@ class Team:
     name: str
     picture: str
     aliases: list
+    country: int
 
 
 @dataclass
@@ -331,6 +332,7 @@ class Fixture:
                 f"{Emojis.SOCCER_BALL.value} "
                 f"{self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
+                f"</not_translate>"
                 f"</not_translate>"
                 f"{round_text}"
                 f"<not_translate>\n"

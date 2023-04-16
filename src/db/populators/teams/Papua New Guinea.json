@@ -1,0 +1,134 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "papua new guinea"
+  },
+  "errors": [],
+  "results": 6,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 8126,
+        "name": "Morobe Wawens",
+        "code": null,
+        "country": "Papua New Guinea",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/8126.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 8129,
+        "name": "Toti City",
+        "code": null,
+        "country": "Papua New Guinea",
+        "founded": 2021,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/8129.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 8132,
+        "name": "Madang Fox",
+        "code": null,
+        "country": "Papua New Guinea",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/8132.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 8137,
+        "name": "Lae",
+        "code": null,
+        "country": "Papua New Guinea",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/8137.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 8141,
+        "name": "Hekari United",
+        "code": "HEK",
+        "country": "Papua New Guinea",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/8141.png"
+      },
+      "venue": {
+        "id": 5768,
+        "name": "National Football Stadium",
+        "address": "Lahara Avenue, Boroko",
+        "city": "Port Moresby",
+        "capacity": 25000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5768.png"
+      }
+    },
+    {
+      "team": {
+        "id": 8175,
+        "name": "Papua New Guinea",
+        "code": null,
+        "country": "Papua New Guinea",
+        "founded": 1962,
+        "national": true,
+        "logo": "https://media-2.api-sports.io/football/teams/8175.png"
+      },
+      "venue": {
+        "id": 5794,
+        "name": "Sir John Guise Stadium",
+        "address": "Wards Strip",
+        "city": "Port Moresby",
+        "capacity": 15000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/5794.png"
+      }
+    }
+  ]
+}

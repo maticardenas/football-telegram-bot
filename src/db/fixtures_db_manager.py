@@ -7,6 +7,7 @@ from sqlmodel import func, or_, select
 
 from src.db.db_manager import NotifierDBManager
 from src.db.notif_sql_models import ConfigLanguage as DBConfigLanguage
+from src.db.notif_sql_models import Country as DBCountry
 from src.db.notif_sql_models import FavouriteLeague as DBFavouriteLeague
 from src.db.notif_sql_models import FavouriteTeam as DBFavouriteTeam
 from src.db.notif_sql_models import Fixture as DBFixture
@@ -39,6 +40,21 @@ class FixturesDBManager:
 
     def get_all_fixtures(self) -> List[Optional[DBFixture]]:
         return self._notifier_db_manager.select_records(select(DBFixture))
+
+    def get_all_countries(self) -> List[Optional[DBCountry]]:
+        return self._notifier_db_manager.select_records(select(DBCountry))
+
+    def get_countries_by_name(self, name: str) -> Optional[DBTeam]:
+        countries_statement = (
+            select(DBCountry)
+            .where(func.lower(DBCountry.name).ilike(f"%{name.lower()}%"))
+            .order_by(asc(DBCountry.id))
+        )
+        return self._notifier_db_manager.select_records(countries_statement)
+
+    def get_country(self, country_id: int) -> Optional[DBCountry]:
+        country_statement = select(DBCountry).where(DBCountry.id == country_id)
+        return self._notifier_db_manager.select_records(country_statement)
 
     def get_team(self, team_id: int) -> Optional[DBTeam]:
         team_statement = select(DBTeam).where(DBTeam.id == team_id)
@@ -518,6 +534,7 @@ class FixturesDBManager:
                 name=fixture_team.name,
                 picture=fixture_team.picture,
                 aliases=fixture_team.aliases,
+                country=fixture_team.country,
             )
 
         else:
@@ -530,6 +547,7 @@ class FixturesDBManager:
             db_team.name = fixture_team.name
             db_team.picture = fixture_team.picture
             db_team.aliases = fixture_team.aliases
+            db_team.country = fixture_team.country
 
         self._notifier_db_manager.insert_record(db_team)
 

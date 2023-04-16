@@ -1,7 +1,8 @@
+import json
 from typing import List
 
 from src.db.db_manager import NotifierDBManager
-from src.db.notif_sql_models import Language
+from src.db.notif_sql_models import Country, Language
 
 notifier_db_manager = NotifierDBManager()
 
@@ -10,6 +11,12 @@ def insert_languages(languages: List[dict]):
     for lang in languages:
         language = Language(name=lang, short_name=languages[lang])
         notifier_db_manager.insert_record(language)
+
+
+def insert_countries(countries: List[dict]):
+    for cont in countries:
+        country = Country(name=cont["name"])
+        notifier_db_manager.insert_record(country)
 
 
 languages = {
@@ -148,4 +155,12 @@ languages = {
     "zulu": "zu",
 }
 
-insert_languages(languages)
+countries = []
+
+with open("countries.json", "r") as file:
+    data = json.load(file)
+    countries = data["response"]
+
+insert_countries(countries)
+
+# insert_languages(languages)

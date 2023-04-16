@@ -1,0 +1,34 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "dominican republic"
+  },
+  "errors": [],
+  "results": 1,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 20993,
+        "name": "Dominican Republic U17",
+        "code": null,
+        "country": "Dominican Republic",
+        "founded": 0,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/20993.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    }
+  ]
+}

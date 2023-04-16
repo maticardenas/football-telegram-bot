@@ -46,7 +46,15 @@ class NotifierBotCommandsHandler:
         return self._fixtures_db_manager.get_language_by_id(config_language.lang_id)[0]
 
     def search_team(self, team_text: str) -> Optional[DBTeam]:
-        return self._fixtures_db_manager.get_teams_by_name(team_text)
+        teams = self._fixtures_db_manager.get_teams_by_name(team_text)
+        if len(teams):
+            for team in teams:
+                team.country = (
+                    self._fixtures_db_manager.get_country(team.country)[0].name
+                    if team.country
+                    else ""
+                )
+        return teams
 
     def search_league(self, league_text: str) -> Optional[DBLeague]:
         return self._fixtures_db_manager.get_leagues_by_name(league_text)

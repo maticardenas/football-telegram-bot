@@ -1,0 +1,94 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "afghanistan"
+  },
+  "errors": [],
+  "results": 4,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 1553,
+        "name": "Afghanistan",
+        "code": "AFG",
+        "country": "Afghanistan",
+        "founded": 1933,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/1553.png"
+      },
+      "venue": {
+        "id": 4149,
+        "name": "Ghazi Stadium",
+        "address": null,
+        "city": "Kabul",
+        "capacity": 25000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/4149.png"
+      }
+    },
+    {
+      "team": {
+        "id": 8047,
+        "name": "Shaheen Asmayee",
+        "code": null,
+        "country": "Afghanistan",
+        "founded": 2012,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/8047.png"
+      },
+      "venue": {
+        "id": 5731,
+        "name": "AFF Stadium",
+        "address": null,
+        "city": "Kabul",
+        "capacity": 5000,
+        "surface": "artificial turf",
+        "image": "https://media-2.api-sports.io/football/venues/5731.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10926,
+        "name": "Afghanistan U23",
+        "code": null,
+        "country": "Afghanistan",
+        "founded": null,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/10926.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 21020,
+        "name": "Afghanistan W",
+        "code": null,
+        "country": "Afghanistan",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/21020.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    }
+  ]
+}

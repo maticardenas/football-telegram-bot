@@ -1,0 +1,754 @@
+{
+  "get": "teams",
+  "parameters": {
+    "country": "united-arab-emirates"
+  },
+  "errors": [],
+  "results": 37,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 1563,
+        "name": "United Arab Emirates",
+        "code": "UAE",
+        "country": "United-Arab-Emirates",
+        "founded": 1971,
+        "national": true,
+        "logo": "https://media-2.api-sports.io/football/teams/1563.png"
+      },
+      "venue": {
+        "id": 1598,
+        "name": "Sheikh Zayed Sports City",
+        "address": "Airport Road",
+        "city": "Abu Dhabi",
+        "capacity": 49500,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1598.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2865,
+        "name": "Al Ain",
+        "code": "AIN",
+        "country": "United-Arab-Emirates",
+        "founded": 1968,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2865.png"
+      },
+      "venue": {
+        "id": 1600,
+        "name": "Hazza Bin Zayed Stadium",
+        "address": "Hamdan Bin Mohammad Street",
+        "city": "Al Ain",
+        "capacity": 25174,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1600.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2867,
+        "name": "Dibba Al-Fujairah",
+        "code": "FUJ",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2867.png"
+      },
+      "venue": {
+        "id": 19222,
+        "name": "Dibba Stadium",
+        "address": "Sheik Zayed Road",
+        "city": "Dibba Al Fujairah",
+        "capacity": 10000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/19222.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2868,
+        "name": "Emirates Club",
+        "code": "EMI",
+        "country": "United-Arab-Emirates",
+        "founded": 1969,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2868.png"
+      },
+      "venue": {
+        "id": 1607,
+        "name": "Emirates Club Stadium",
+        "address": "Sheikh Rashed Bin Said Road",
+        "city": "Ras al-Khaimah",
+        "capacity": 4830,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1607.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2869,
+        "name": "Hatta SC",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": 1981,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2869.png"
+      },
+      "venue": {
+        "id": 2926,
+        "name": "Hamdan Bin Rashid Stadium",
+        "address": null,
+        "city": "Hatta",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/2926.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2870,
+        "name": "Shabab Al Ahli Dubai",
+        "code": "AHL",
+        "country": "United-Arab-Emirates",
+        "founded": 1958,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2870.png"
+      },
+      "venue": {
+        "id": 8344,
+        "name": "Rashid Stadium",
+        "address": "Al-Nahda Road",
+        "city": "Dubai",
+        "capacity": 12000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/8344.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2871,
+        "name": "Al-Jazira",
+        "code": "JAZ",
+        "country": "United-Arab-Emirates",
+        "founded": 1974,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2871.png"
+      },
+      "venue": {
+        "id": 1604,
+        "name": "Mohammed Bin Zayed Stadium",
+        "address": "East Road",
+        "city": "Abu Dhabi",
+        "capacity": 42056,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1604.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2872,
+        "name": "Al-Wasl FC",
+        "code": "WAS",
+        "country": "United-Arab-Emirates",
+        "founded": 1960,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2872.png"
+      },
+      "venue": {
+        "id": 1605,
+        "name": "Zabeel Stadium",
+        "address": "Oud Metha Road",
+        "city": "Dubai",
+        "capacity": 12000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1605.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2873,
+        "name": "Al-Dhafra",
+        "code": "DHA",
+        "country": "United-Arab-Emirates",
+        "founded": 2000,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2873.png"
+      },
+      "venue": {
+        "id": 1601,
+        "name": "Al Dhafra Stadium",
+        "address": null,
+        "city": "Madinat Zaid",
+        "capacity": 5020,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/1601.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2874,
+        "name": "Sharjah FC",
+        "code": "SHA",
+        "country": "United-Arab-Emirates",
+        "founded": 1966,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2874.png"
+      },
+      "venue": {
+        "id": 1608,
+        "name": "Sharjah Stadium",
+        "address": "University City Road, Ash-Sh\u0101riqa (Sharjah)",
+        "city": "Sharjah",
+        "capacity": 18000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1608.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2875,
+        "name": "Al Wahda FC",
+        "code": "WAH",
+        "country": "United-Arab-Emirates",
+        "founded": 1974,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2875.png"
+      },
+      "venue": {
+        "id": 2927,
+        "name": "Al Nahyan Stadium",
+        "address": "Old Airport Road",
+        "city": "Abu Dhabi",
+        "capacity": 15000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/2927.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2876,
+        "name": "Al-Ittihad Kalba",
+        "code": "ITT",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/2876.png"
+      },
+      "venue": {
+        "id": 1603,
+        "name": "Ittihad Kalba Club Stadium",
+        "address": null,
+        "city": "Kalba",
+        "capacity": 6000,
+        "surface": "artificial turf",
+        "image": "https://media-3.api-sports.io/football/venues/1603.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2877,
+        "name": "Baniyas SC",
+        "code": "BAN",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/2877.png"
+      },
+      "venue": {
+        "id": 1606,
+        "name": "Baniyas Stadium",
+        "address": "6th Street, Al Shamkha",
+        "city": "Abu Dhabi",
+        "capacity": 9570,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1606.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2879,
+        "name": "Ajman",
+        "code": "AJM",
+        "country": "United-Arab-Emirates",
+        "founded": 1974,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2879.png"
+      },
+      "venue": {
+        "id": 1599,
+        "name": "Ajman Stadium",
+        "address": "Sheikh Kalifa Bin Zayed Street",
+        "city": "Ajman",
+        "capacity": 5537,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1599.png"
+      }
+    },
+    {
+      "team": {
+        "id": 2880,
+        "name": "Al Fujairah SC",
+        "code": "FUJ",
+        "country": "United-Arab-Emirates",
+        "founded": 1968,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/2880.png"
+      },
+      "venue": {
+        "id": 1602,
+        "name": "Fujairah Stadium",
+        "address": "Sheik Zayed Road",
+        "city": "Dibba Al-Fujairah",
+        "capacity": 5093,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/1602.png"
+      }
+    },
+    {
+      "team": {
+        "id": 4912,
+        "name": "Al Khaleej",
+        "code": "KHA",
+        "country": "United-Arab-Emirates",
+        "founded": 1981,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/4912.png"
+      },
+      "venue": {
+        "id": 3711,
+        "name": "Saqr bin Mohammad al Qassimi Stadium",
+        "address": null,
+        "city": "Khor Fakkan",
+        "capacity": 2880,
+        "surface": "artificial turf",
+        "image": "https://media-1.api-sports.io/football/venues/3711.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9135,
+        "name": "Al Arabi",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/9135.png"
+      },
+      "venue": {
+        "id": 6322,
+        "name": "Al Arabi Stadium",
+        "address": null,
+        "city": "Umm al-Quwain",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/6322.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9136,
+        "name": "Al Bataeh",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/9136.png"
+      },
+      "venue": {
+        "id": 6323,
+        "name": "Al-Bataeh Club Ground",
+        "address": "Al Dhaid Road",
+        "city": "Sharjah",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/6323.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9137,
+        "name": "Al Hamriyah",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/9137.png"
+      },
+      "venue": {
+        "id": 6324,
+        "name": "Al-Hamriya Sports Club Stadium",
+        "address": null,
+        "city": "Sharjah, Ajman",
+        "capacity": 5000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/6324.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9138,
+        "name": "Al Thaid",
+        "code": "THA",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/9138.png"
+      },
+      "venue": {
+        "id": 6325,
+        "name": "Al-Dhaid Stadium",
+        "address": "Al-Dhaid Road",
+        "city": "Dhaid",
+        "capacity": 500,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/6325.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9139,
+        "name": "Al Urooba",
+        "code": "URO",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/9139.png"
+      },
+      "venue": {
+        "id": 6326,
+        "name": "Al-Oruba Club Stadium",
+        "address": null,
+        "city": "Mirbih / Murbah",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/6326.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9140,
+        "name": "Dibba Al Hisn",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/9140.png"
+      },
+      "venue": {
+        "id": 6327,
+        "name": "Dibba Al-Hisn Stadium",
+        "address": null,
+        "city": "Dibba Al-Hisn",
+        "capacity": 700,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/6327.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9141,
+        "name": "Masafi",
+        "code": "MAS",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/9141.png"
+      },
+      "venue": {
+        "id": 6328,
+        "name": "Masafi Stadium",
+        "address": null,
+        "city": "Masafi",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/6328.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9142,
+        "name": "Masfut",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/9142.png"
+      },
+      "venue": {
+        "id": 6329,
+        "name": "Masfut Club Stadium",
+        "address": null,
+        "city": "Masfut",
+        "capacity": 3000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/6329.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9143,
+        "name": "Ras Al Khaima",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/9143.png"
+      },
+      "venue": {
+        "id": 6330,
+        "name": "Ras Al-Khaima Stadium",
+        "address": "Sheikh Saqr bin Khalid Road",
+        "city": "Ras al-Khaimah",
+        "capacity": 4500,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/6330.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9144,
+        "name": "Al Shaab",
+        "code": "SHA",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-1.api-sports.io/football/teams/9144.png"
+      },
+      "venue": {
+        "id": 6331,
+        "name": "Khalid Bin Mohammed Stadium",
+        "address": null,
+        "city": "Sharjah",
+        "capacity": 10000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/6331.png"
+      }
+    },
+    {
+      "team": {
+        "id": 9145,
+        "name": "Dubai",
+        "code": "DUB",
+        "country": "United-Arab-Emirates",
+        "founded": 1995,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/9145.png"
+      },
+      "venue": {
+        "id": 6332,
+        "name": "Dubai Club Stadium",
+        "address": "Dubai-Hatta Road, Al Aweer",
+        "city": "Dubai",
+        "capacity": 10000,
+        "surface": "grass",
+        "image": "https://media-1.api-sports.io/football/venues/6332.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10155,
+        "name": "Al Nasr",
+        "code": "NAS",
+        "country": "United-Arab-Emirates",
+        "founded": 1945,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/10155.png"
+      },
+      "venue": {
+        "id": 7142,
+        "name": "Al Maktoum Stadium",
+        "address": "10th Street / Oud Metha Road",
+        "city": "Dubai",
+        "capacity": 15058,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/7142.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10184,
+        "name": "UAE U23",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": 1971,
+        "national": true,
+        "logo": "https://media-1.api-sports.io/football/teams/10184.png"
+      },
+      "venue": {
+        "id": 7150,
+        "name": "Sheikh Zayed Sports City",
+        "address": null,
+        "city": null,
+        "capacity": 49500,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/7150.png"
+      }
+    },
+    {
+      "team": {
+        "id": 10693,
+        "name": "Al Shabab Dubai",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/10693.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    },
+    {
+      "team": {
+        "id": 13264,
+        "name": "Al Taawon",
+        "code": "TAA",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-3.api-sports.io/football/teams/13264.png"
+      },
+      "venue": {
+        "id": 1380,
+        "name": "Mohammed Bin Saud Al-Qasimi Stadium",
+        "address": null,
+        "city": "Ash Sha&apos;m",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/1380.png"
+      }
+    },
+    {
+      "team": {
+        "id": 13265,
+        "name": "Al Jazira Al Hamra",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/13265.png"
+      },
+      "venue": {
+        "id": 8342,
+        "name": "Al Jazirah Al Hamra Stadium",
+        "address": null,
+        "city": "Al Jazirah Al Hamra",
+        "capacity": 2000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/8342.png"
+      }
+    },
+    {
+      "team": {
+        "id": 13266,
+        "name": "Al Ramms",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/13266.png"
+      },
+      "venue": {
+        "id": 8343,
+        "name": "Al Rams Stadium",
+        "address": "Al-Rams Road",
+        "city": "Al Rams",
+        "capacity": 4000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/8343.png"
+      }
+    },
+    {
+      "team": {
+        "id": 13267,
+        "name": "Al Shabab",
+        "code": "SHA",
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/13267.png"
+      },
+      "venue": {
+        "id": 8345,
+        "name": "Maktoum Bin Rashid al Maktoum Stadium (Al-Shabab Stadium)",
+        "address": "Al-Rashid Road",
+        "city": "Dubai",
+        "capacity": 12000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/8345.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17713,
+        "name": "City",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": 2018,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/17713.png"
+      },
+      "venue": {
+        "id": 19079,
+        "name": "The Sevens Stadium",
+        "address": "Dubai-Al Ain Road / Jebel Ali-Lahbab Road",
+        "city": "Dubai",
+        "capacity": 50000,
+        "surface": "grass",
+        "image": "https://media-2.api-sports.io/football/venues/19079.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17714,
+        "name": "Gulf Heroes",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": false,
+        "logo": "https://media-2.api-sports.io/football/teams/17714.png"
+      },
+      "venue": {
+        "id": 19425,
+        "name": "Hemid Altayer Stadium",
+        "address": "39 10th Street - Oud Metha",
+        "city": "Dubai",
+        "capacity": 5000,
+        "surface": "grass",
+        "image": "https://media-3.api-sports.io/football/venues/19425.png"
+      }
+    },
+    {
+      "team": {
+        "id": 17884,
+        "name": "UAE",
+        "code": null,
+        "country": "United-Arab-Emirates",
+        "founded": null,
+        "national": true,
+        "logo": "https://media-3.api-sports.io/football/teams/17884.png"
+      },
+      "venue": {
+        "id": null,
+        "name": null,
+        "address": null,
+        "city": null,
+        "capacity": null,
+        "surface": null,
+        "image": null
+      }
+    }
+  ]
+}
