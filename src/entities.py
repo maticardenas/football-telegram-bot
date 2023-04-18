@@ -43,7 +43,7 @@ class Team:
     name: str
     picture: str
     aliases: list
-    country: int
+    country: str = ""
 
 
 @dataclass
