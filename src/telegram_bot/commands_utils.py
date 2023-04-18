@@ -30,6 +30,8 @@ async def send_message(update: Update, context, text: str, **kwargs) -> None:
         else text.replace("<not_translate>", "").replace("</not_translate>", "")
     )
 
+    logger.info(f"Text to send\n\n {text_to_send}")
+
     await context.bot.send_message(
         chat_id=update.effective_chat.id, text=text_to_send, parse_mode="HTML", **kwargs
     )
@@ -52,5 +54,5 @@ async def send_photo(
         photo=photo,
         caption=text_to_send,
         parse_mode="HTML",
-        **kwargs
+        **kwargs,
     )
