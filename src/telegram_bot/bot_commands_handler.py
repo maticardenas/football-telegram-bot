@@ -777,7 +777,10 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
                 for team in favourite_teams
             ]
 
-            favourite_teams_texts = [team.name.title() if team.name.islower() else team.name for team in teams]
+            favourite_teams_texts = [
+                team.name.title() if team.name.islower() else team.name
+                for team in teams
+            ]
 
             joined_text = "\n".join(favourite_teams_texts)
             response = f"<not_translate><strong>{joined_text}</strong></not_translate>"
@@ -854,7 +857,8 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
 
         if len(favourite_leagues):
             favourite_leagues_texts = [
-                league.name.title() if league.name.islower() else league.name for league in favourite_leagues
+                league.name.title() if league.name.islower() else league.name
+                for league in favourite_leagues
             ]
 
             joined_text = "\n".join(favourite_leagues_texts)

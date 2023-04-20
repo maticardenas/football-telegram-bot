@@ -280,13 +280,16 @@ class Fixture:
         round_text = f"\n{Emojis.PUSHPIN.value} {self.round}" if with_round else ""
 
         if played:
-            if (
-                "finished" in self.match_status.lower()
-                or "half" in self.match_status.lower()
+            if any(
+                time in self.match_status.lower()
+                for time in ["finished", "half", "break", "extra"]
             ):
                 match_in_progress_text = (
                     f"<not_translate>\n</not_translate>{Emojis.MAN_RUNNING.value} {self.match_status}"
-                    if "half" in self.match_status.lower()
+                    if any(
+                        time in self.match_status.lower()
+                        for time in ["half", "break", "extra"]
+                    )
                     else ""
                 )
 
@@ -312,7 +315,7 @@ class Fixture:
                     f"{league_text}"
                     f"</not_translate>"
                     f"{round_text}"
-                    f"{Emojis.SAD_FACE.value} {self.match_status}"
+                    f"\n{Emojis.SAD_FACE.value} {self.match_status}"
                 )
         else:
             not_played_or_finished_match_text = (
@@ -432,13 +435,16 @@ class Fixture:
             else ""
         )
 
-        if (
-            "finished" in self.match_status.lower()
-            or "half" in self.match_status.lower()
+        if any(
+            time in self.match_status.lower()
+            for time in ["finished", "half", "break", "extra"]
         ):
             match_in_progress_text = (
                 f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong><not_translate>\n\n</not_translate>"
-                if "half" in self.match_status.lower()
+                if any(
+                    time in self.match_status.lower()
+                    for time in ["half", "break", "extra"]
+                )
                 else ""
             )
             match_notification = (
