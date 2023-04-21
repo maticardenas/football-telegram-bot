@@ -273,7 +273,7 @@ class Fixture:
         )
 
         league_text = (
-            f"\n{Emojis.TROPHY.value} {self._get_capitalized_name(self.championship.name)}{country_prefix}"
+            f"\n{Emojis.TROPHY.value} {self._get_capitalized_name(self.championship.name)} {country_prefix}"
             if with_league
             else ""
         )

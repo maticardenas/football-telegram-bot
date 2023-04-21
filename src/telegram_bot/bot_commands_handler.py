@@ -726,7 +726,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
             intro_text = (
                 f"{Emojis.WAVING_HAND.value}Hi {self._user}! "
-                f"\n\nThe next <strong>{league.name}{country_text}</strong> matches are {match_date}\n\n"
+                f"\n\nThe next <strong>{league.name}{country_text}</strong> matches are {match_date}<not_translate>\n\n</not_translate>"
             )
 
             telegram_messages[0] = f"{intro_text}{telegram_messages[0]}"
