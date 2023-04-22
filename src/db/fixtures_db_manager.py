@@ -106,7 +106,7 @@ class FixturesDBManager:
         teams_statement = (
             select(DBLeague)
             .where(func.lower(DBLeague.name).ilike(f"%{name.lower()}%"))
-            .order_by(asc(DBLeague.id))
+            .order_by(asc(DBLeague.name))
         )
         return self._notifier_db_manager.select_records(teams_statement)
 
@@ -137,7 +137,9 @@ class FixturesDBManager:
 
     def get_teams_by_name(self, name: str) -> Optional[DBTeam]:
         teams_statement = select(DBTeam).where(
-            func.lower(DBTeam.name).ilike(f"%{name.lower()}%")
+            func.lower(DBTeam.name)
+            .ilike(f"%{name.lower()}%")
+            .order_by(asc(DBTeam.name))
         )
         return self._notifier_db_manager.select_records(teams_statement)
 
@@ -762,7 +764,7 @@ class FixturesDBManager:
         languages_statement = (
             select(DBLanguage)
             .where(func.lower(DBLanguage.name).ilike(f"%{name.lower()}%"))
-            .order_by(asc(DBLanguage.lang_id))
+            .order_by(asc(DBLanguage.name))
         )
         return self._notifier_db_manager.select_records(languages_statement)
 
