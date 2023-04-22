@@ -1,4 +1,5 @@
-from datetime import datetime
+import sys
+from datetime import datetime, timedelta
 from typing import List
 
 from src.api.fixtures_client import FixturesClient
@@ -48,9 +49,8 @@ def get_all_fixtures_ids_to_update() -> List["DBFixture"]:
     return [fixture.id for fixture in todays_fixtures if fixture]
 
 
-def populate_surrounding_fixtures() -> None:
-    today = datetime.now().strftime("%Y-%m-%d")
-    fixtures_response = FIXTURES_CLIENT.get_fixtures_by(date=today)
+def populate_surrounding_fixtures(date: str) -> None:
+    fixtures_response = FIXTURES_CLIENT.get_fixtures_by(date=date)
 
     for item in fixtures_response.as_dict.get("response", []):
         if isinstance(item, list):
@@ -69,4 +69,13 @@ def populate_surrounding_fixtures() -> None:
 
 
 if __name__ == "__main__":
-    populate_surrounding_fixtures()
+    today = datetime.today()
+    if len(sys.argv) > 1:
+        dates = [
+            today.strftime("%Y-%m-%d"),
+            (today + timedelta(days=1)).strftime("%Y-%m-%d"),
+        ]
+        for date in dates:
+            populate_surrounding_fixtures(date)
+    else:
+        populate_surrounding_fixtures(today.strftime("%Y-%m-%d"))
