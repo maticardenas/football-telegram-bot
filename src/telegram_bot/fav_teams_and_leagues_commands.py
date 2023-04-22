@@ -395,7 +395,8 @@ async def show_leagues(update, context, page: int):
     leagues_keyboard = [
         [
             InlineKeyboardButton(
-                league.name, callback_data=f"league:{league.id}:{league.name}"
+                f"{league.name} ({league.country[:3].upper()})",
+                callback_data=f"league:{league.id}:{league.name}",
             )
         ]
         for league in leagues[start:end]
