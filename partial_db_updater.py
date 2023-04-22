@@ -14,6 +14,7 @@ FIXTURES_DB_MANAGER = FixturesDBManager()
 FIXTURES_CLIENT = FixturesClient(
     share_session=True, raise_for_status=True, perform_retries=True
 )
+UPDATE_DAYS_RANGE = 40
 
 logger = get_logger(__name__)
 
@@ -71,11 +72,8 @@ def populate_surrounding_fixtures(date: str) -> None:
 if __name__ == "__main__":
     today = datetime.today()
     if len(sys.argv) > 1:
-        dates = [
-            today.strftime("%Y-%m-%d"),
-            (today + timedelta(days=1)).strftime("%Y-%m-%d"),
-        ]
-        for date in dates:
+        for day_number in range(0, UPDATE_DAYS_RANGE):
+            date = (today + timedelta(days=day_number)).strftime("%Y-%m-%d")
             populate_surrounding_fixtures(date)
     else:
         populate_surrounding_fixtures(today.strftime("%Y-%m-%d"))

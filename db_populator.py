@@ -56,24 +56,14 @@ def populate_single_league_fixture(
 
 
 def get_leagues_to_update():
-    leagues = FIXTURES_DB_MANAGER.get_all_leagues(daily_update=True)
-    initial_leagues_ids = [league.id for league in leagues]
-    favourite_leagues = FIXTURES_DB_MANAGER.get_all_favourite_leagues()
-
-    for fv_league in favourite_leagues:
-        if fv_league in initial_leagues_ids:
-            continue
-        else:
-            leagues.append(FIXTURES_DB_MANAGER.get_league(fv_league)[0])
-
-    return leagues
+    return FIXTURES_DB_MANAGER.get_all_leagues(daily_update=True)
 
 
 def populate_league_fixtures() -> None:
     current_year = date.today().year
     today = datetime.today()
     yesterday_date = today + timedelta(days=-1)
-    tomorrow_date = today + timedelta(weeks=10)
+    tomorrow_date = today + timedelta(weeks=24)
     from_date = yesterday_date.strftime("%Y-%m-%d")
     to_date = tomorrow_date.strftime("%Y-%m-%d")
 
