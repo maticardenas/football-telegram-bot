@@ -130,15 +130,17 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(user_time_zones_statement)
 
     def get_time_zones_by_name(self, name: str) -> Optional[DBTimeZone]:
-        teams_statement = select(DBTimeZone).where(
-            func.lower(DBTimeZone.name).ilike(f"%{name.lower()}%")
+        teams_statement = (
+            select(DBTimeZone)
+            .where(func.lower(DBTimeZone.name).ilike(f"%{name.lower()}%"))
+            .order_by(asc(DBTimeZone.name))
         )
         return self._notifier_db_manager.select_records(teams_statement)
 
     def get_teams_by_name(self, name: str) -> Optional[DBTeam]:
-        teams_statement = select(DBTeam).where(
-            func.lower(DBTeam.name)
-            .ilike(f"%{name.lower()}%")
+        teams_statement = (
+            select(DBTeam)
+            .where(func.lower(DBTeam.name).ilike(f"%{name.lower()}%"))
             .order_by(asc(DBTeam.name))
         )
         return self._notifier_db_manager.select_records(teams_statement)
