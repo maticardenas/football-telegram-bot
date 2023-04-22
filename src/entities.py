@@ -319,7 +319,7 @@ class Fixture:
                 )
         else:
             not_played_or_finished_match_text = (
-                f"\n{Emojis.CROSS_MARK.value} {self.match_status}"
+                f"{Emojis.CROSS_MARK.value} {self.match_status}"
                 if self.match_status in NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
                 else ""
             )
