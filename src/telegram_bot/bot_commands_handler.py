@@ -242,7 +242,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             texts = [
                 self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
-                    f"{self._user}, there were not matches found :("
+                    f"{self._user}, there were no games found :("
                 )
             ]
             photo = MESSI_PHOTO
@@ -271,7 +271,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             texts = [
                 self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
-                    f"{self._user}, there were not matches found :("
+                    f"{self._user}, there were no games found :("
                 )
             ]
             photo = MESSI_PHOTO
@@ -300,7 +300,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
             texts = [
                 self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
-                    f"{self._user}, there were not matches found :("
+                    f"{self._user}, there were no games found :("
                 )
             ]
             photo = MESSI_PHOTO
@@ -466,7 +466,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 converted_fixture, team.name, self._user, self.get_user_main_time_zone()
             )
             if converted_fixture
-            else (self.text_to_user_language("There were not matches found."), None)
+            else (self.text_to_user_language("there were no games found."), None)
         )
 
     def last_match_team_notif(self) -> Tuple[str, str]:
@@ -492,7 +492,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                 converted_fixture, team.name, self._user, self.get_user_main_time_zone()
             )
             if converted_fixture
-            else (self.text_to_user_language("There were not matches found."), None)
+            else (self.text_to_user_language("there were no games found."), None)
         )
 
     def upcoming_matches(self) -> Tuple[str, str]:
@@ -534,7 +534,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             texts = [
                 self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
-                    f"{self._user}, unfortunately there are no matches found. :("
+                    f"{self._user}, unfortunately there are no games found. :("
                 )
             ]
             photo = MESSI_PHOTO
@@ -589,7 +589,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             texts = [
                 self.text_to_user_language(
                     f"{Emojis.WAVING_HAND.value} Hi "
-                    f"{self._user}, unfortunately there were not matches found for {team.name} :("
+                    f"{self._user}, unfortunately there were no games found for {team.name} :("
                 )
             ]
             photo = MESSI_PHOTO
@@ -687,7 +687,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
                 self.get_user_main_time_zone(),
             )
             if converted_fixture
-            else ("There were not matches found.", None)
+            else ("there were no games found.", None)
         )
 
     def next_matches_league_notif(self) -> str:
@@ -731,7 +731,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
 
             telegram_messages[0] = f"{intro_text}{telegram_messages[0]}"
         else:
-            telegram_messages = ["There were not matches found."]
+            telegram_messages = ["there were no games found."]
 
         return telegram_messages
 

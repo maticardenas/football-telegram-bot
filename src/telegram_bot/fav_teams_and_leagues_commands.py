@@ -395,7 +395,9 @@ async def show_leagues(update, context, page: int):
     leagues_keyboard = [
         [
             InlineKeyboardButton(
-                f"{league.name} ({league.country[:3].upper()})",
+                f"{league.name} ({league.country[:3].upper()})"
+                if league.country.lower() != "world"
+                else league.name,
                 callback_data=f"league:{league.id}:{league.name}",
             )
         ]
