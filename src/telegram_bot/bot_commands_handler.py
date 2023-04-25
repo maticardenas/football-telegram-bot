@@ -694,19 +694,14 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         league_id = self._command_args[0]
         league = self._fixtures_db_manager.get_league(league_id)[0]
 
-        next_league_db_fixture = self._fixtures_db_manager.get_next_fixture(
-            league_id=league.id
-        )[0]
+        next_league_db_fixtures = self._fixtures_db_manager.get_next_fixture(
+            league_id=league.id, number_of_fixtures=5
+        )
 
-        if next_league_db_fixture:
-            next_match_date = next_league_db_fixture.utc_date[:10]
-            next_matches = self._fixtures_db_manager.get_fixtures_by_league(
-                league.id, next_match_date
-            )
-
+        if len(next_league_db_fixtures):
             converted_fixtures = [
                 convert_db_fixture(fixture, user_time_zones=self._user_time_zones)
-                for fixture in next_matches
+                for fixture in next_league_db_fixtures
             ]
 
             match_date = (
@@ -716,7 +711,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
                 else f"on {Emojis.SPIRAL_CALENDAR.value} {converted_fixtures[0].get_time_in_main_zone().strftime('%A')[:3]}. {converted_fixtures[0].get_time_in_main_zone().strftime('%d-%m-%Y')}"
             )
 
-            telegram_messages = self.get_fixtures_text(converted_fixtures)
+            telegram_messages = self.get_fixtures_text(converted_fixtures=converted_fixtures, with_date=True)
 
             country_text = (
                 f"({league.country[:3].upper()})"
