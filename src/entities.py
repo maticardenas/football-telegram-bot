@@ -181,7 +181,7 @@ class Fixture:
             else ""
         )
         self.highlights = [
-            f"https://www.youtube.com/results?search_query={self.home_team.name}{home_score}+vs+{away_score}{self.away_team.name}"
+            f"https://www.youtube.com/results?search_query={self.home_team.name}{home_score}+vs+{away_score}{self.away_team.name} {self.get_time_in_main_zone().year}"
         ]
         self.head_to_head = []
 
