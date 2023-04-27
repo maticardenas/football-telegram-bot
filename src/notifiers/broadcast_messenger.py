@@ -10,7 +10,7 @@ sys.path.insert(1, project_dir)
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.notifier_logger import get_logger
-from src.notifiers.user_messages import LANGUAGES_ENABLEMENT
+from src.notifiers.user_messages import LANGUAGES_ENABLEMENT, STATISTICS_KICK_OFF
 from src.senders.telegram_sender import send_telegram_message
 
 logger = get_logger(__name__)
@@ -36,4 +36,4 @@ def notify_all_users(message: str):
 
 
 if __name__ == "__main__":
-    notify_all_users(LANGUAGES_ENABLEMENT)
+    notify_all_users(STATISTICS_KICK_OFF)

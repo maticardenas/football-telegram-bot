@@ -51,3 +51,15 @@ LANGUAGES_ENABLEMENT = (
     f"{Emojis.RIGHT_FACING_FIST.value} Bear in mind that the usage of a custom language MIGHT come with a slight degradation in performance when using the bot,"
     f" however we are already working in an improvement for this, which we will release soon. \n\nEnjoy!{Emojis.PARTYING_FACE.value}"
 )
+
+
+STATISTICS_KICK_OFF = (
+    f"{Emojis.SPEAKING_HEAD.value} {Emojis.SPEAKING_HEAD.value} <strong>STATISTICS LAUNCH!</strong> {Emojis.CHART_INCREASING.value}{Emojis.CHART_INCREASING.value}\n\n"
+    f"Hello! {Emojis.WAVING_HAND.value}\n\n"
+    f"With a goal to continuously enhance our data handling and offerings, we are excited to introduce a new way for you to access"
+    f" statistics about your favorite teams and leagues {Emojis.SMILEY_FACE.value}.\n\n"
+    f"{Emojis.RIGHT_FACING_FIST.value} This is just the beginning of a long journey, but to demonstrate our commitment, we've already rolled out the command /team_summary {Emojis.DEVELOPER.value}\n\n"
+    f"At the moment, this simple command provides a glimpse into your team's recent match history, including goals scored/received and"
+    f" information on the last and next matches. \n\n{Emojis.LIGHT_BULB.value} This is just the first step in our ongoing effort to improve our statistics offerings, so just letting you know this and "
+    f"you will hear from us again soon {Emojis.SMILEY_FACE.value}"
+)

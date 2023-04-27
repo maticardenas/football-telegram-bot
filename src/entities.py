@@ -170,8 +170,18 @@ class Fixture:
 
     def __post_init__(self) -> None:
         self.line_up = None
+        home_score = (
+            f" {self.match_score.home_score} "
+            if self.match_score.home_score is not None
+            else ""
+        )
+        away_score = (
+            f" {self.match_score.away_score} "
+            if self.match_score.away_score is not None
+            else ""
+        )
         self.highlights = [
-            f"https://www.youtube.com/results?search_query={self.home_team.name}+vs+{self.away_team.name}"
+            f"https://www.youtube.com/results?search_query={self.home_team.name}{home_score}+vs+{away_score}{self.away_team.name}"
         ]
         self.head_to_head = []
 
@@ -315,7 +325,7 @@ class Fixture:
                     f"{league_text}"
                     f"</not_translate>"
                     f"{round_text}"
-                    f"\n{Emojis.SAD_FACE.value} {self.match_status}"
+                    f"<not_translate>\n</not_translate>{Emojis.SAD_FACE.value} {self.match_status}"
                 )
         else:
             not_played_or_finished_match_text = (

@@ -7,12 +7,10 @@ from src.emojis import Emojis
 from src.notifier_constants import (
     END_COMMAND_MESSAGE,
     SEARCH_TIME_ZONE,
-    SET_ADD_TIME_ZONE,
-    SET_MAIN_TIME_ZONE,
     TIME_ZONES_PAGE_SIZE,
 )
 from src.notifier_logger import get_logger
-from src.telegram_bot.bot_commands_handler import (
+from src.telegram_bot.command_handlers.bot_commands_handler import (
     SearchCommandHandler,
     TimeZonesCommandHandler,
 )

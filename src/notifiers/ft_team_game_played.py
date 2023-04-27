@@ -14,7 +14,9 @@ from src.emojis import Emojis
 from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
 from src.notifier_logger import get_logger
 from src.senders.telegram_sender import send_telegram_message
-from src.telegram_bot.bot_commands_handler import NotifierBotCommandsHandler
+from src.telegram_bot.command_handlers.bot_commands_handler import (
+    NotifierBotCommandsHandler,
+)
 from src.utils.date_utils import get_formatted_date
 from src.utils.fixtures_utils import convert_db_fixture
 from src.utils.notifier_utils import is_user_subscribed_to_notif

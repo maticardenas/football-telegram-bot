@@ -1,9 +1,8 @@
 from typing import List
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import ConversationHandler
 
-from src.db.notif_sql_models import FavouriteTeam, Team
+from src.db.notif_sql_models import Team
 from src.emojis import Emojis
 from src.notifier_constants import (
     ADD_FAVOURITE_LEAGUE,
@@ -15,7 +14,7 @@ from src.notifier_constants import (
     TEAMS_PAGE_SIZE,
 )
 from src.notifier_logger import get_logger
-from src.telegram_bot.bot_commands_handler import (
+from src.telegram_bot.command_handlers.bot_commands_handler import (
     FavouriteLeaguesCommandHandler,
     FavouriteTeamsCommandHandler,
     NotifierBotCommandsHandler,
@@ -30,6 +29,7 @@ from src.telegram_bot.matches_commands import (
     next_match_league_handler,
     next_matches_league_handler,
 )
+from src.telegram_bot.stats_commands import team_summary_handler
 
 logger = get_logger(__name__)
 
@@ -459,6 +459,7 @@ async def search_team_callback_handler(update: Update, context) -> None:
             "next_match": next_match_handler,
             "last_match": last_match_handler,
             "last_matches": last_matches_handler,
+            "team_summary": team_summary_handler,
         }
         context.user_data["team_id"] = team_data[0]
 
