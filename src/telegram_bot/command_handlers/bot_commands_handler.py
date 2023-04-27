@@ -1,19 +1,14 @@
 import random
 from datetime import datetime
-from typing import Any, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
-from deep_translator import GoogleTranslator
-
-from src.db.fixtures_db_manager import FixturesDBManager
-from src.db.notif_sql_models import ConfigLanguage as DBConfigLanguage
-from src.db.notif_sql_models import FavouriteLeague, FavouriteTeam, Fixture
-from src.db.notif_sql_models import Language as DBLanguage
-from src.db.notif_sql_models import League as DBLeague
-from src.db.notif_sql_models import Team as DBTeam
+from src.db.notif_sql_models import FavouriteLeague, FavouriteTeam
 from src.emojis import Emojis, get_emoji_text_by_name
-from src.notifier_constants import ENGLISH_LANG_ID, TELEGRAM_MSG_LENGTH_LIMIT
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
+from src.telegram_bot.command_handlers.notifier_bot_commands_handler import (
+    NotifierBotCommandsHandler,
+)
 from src.utils.db_utils import remove_duplicate_fixtures
 from src.utils.fixtures_utils import convert_db_fixture, get_head_to_heads
 from src.utils.notification_text_utils import (
@@ -22,162 +17,6 @@ from src.utils.notification_text_utils import (
 )
 
 logger = get_logger(__name__)
-
-
-class NotifierBotCommandsHandler:
-    def __init__(self, chat_id: str = ""):
-        self._fixtures_db_manager: FixturesDBManager = FixturesDBManager()
-        self._chat_id = str(chat_id)
-        self._language: DBLanguage = self.get_user_language(self._chat_id)
-
-    def get_user_language(self, chat_id: str) -> DBLanguage:
-        try:
-            config_language: DBConfigLanguage = (
-                self._fixtures_db_manager.get_config_language(str(chat_id))[0]
-            )
-        except IndexError:
-            self._fixtures_db_manager.insert_or_update_user_config_language(
-                lang_id=ENGLISH_LANG_ID, chat_id=self._chat_id
-            )
-            config_language = self._fixtures_db_manager.get_config_language(
-                str(chat_id)
-            )[0]
-
-        return self._fixtures_db_manager.get_language_by_id(config_language.lang_id)[0]
-
-    def search_team(self, team_text: str) -> Optional[DBTeam]:
-        teams = self._fixtures_db_manager.get_teams_by_name(team_text)
-        if len(teams):
-            for team in teams:
-                team.country = (
-                    self._fixtures_db_manager.get_country(team.country)[0].name
-                    if team.country
-                    else ""
-                )
-        return teams
-
-    def search_league(self, league_text: str) -> Optional[DBLeague]:
-        return self._fixtures_db_manager.get_leagues_by_name(league_text)
-
-    def search_leagues_by_country(self, country_text: str) -> Optional[DBLeague]:
-        return self._fixtures_db_manager.get_leagues_by_country(country_text)
-
-    def search_time_zone(self, time_zone_text: str) -> Optional[DBTeam]:
-        return self._fixtures_db_manager.get_time_zones_by_name(time_zone_text)
-
-    def search_language(self, language_text: str) -> Optional[DBLanguage]:
-        return self._fixtures_db_manager.get_languages_by_name(language_text)
-
-    def is_available_team(self, team_id: int) -> bool:
-        team = self._fixtures_db_manager.get_team(team_id)
-
-        return True if len(team) else False
-
-    def is_available_league(self, league_id: int) -> bool:
-        league = self._fixtures_db_manager.get_league(league_id)
-        return True if len(league) else False
-
-    def available_leagues(self) -> List[str]:
-        return self._fixtures_db_manager.get_all_leagues()
-
-    def get_list_of_fitting_texts(
-        self, list_of_texts: List[str], separator: str = f"\n"
-    ) -> List[List[str]]:
-        fitting_texts = []
-        current_fitting_texts = []
-        current_text = ""
-
-        for text in list_of_texts:
-            if len(f"{current_text}{separator}{text}") > TELEGRAM_MSG_LENGTH_LIMIT:
-                fitting_texts.append(current_fitting_texts)
-                current_text = ""
-                current_fitting_texts = []
-            else:
-                current_text += f"{separator}{text}"
-                current_fitting_texts.append(text)
-
-        if current_fitting_texts:
-            fitting_texts.append(current_fitting_texts)
-
-        return [f"{separator}".join(texts) for texts in fitting_texts]
-
-    def available_leagues_texts(self) -> List[str]:
-        leagues = self.available_leagues()
-        leagues_texts = [
-            f"<strong>{league.id}</strong> - {league.name}{self._get_country_text(league.country)}"
-            for league in leagues
-        ]
-
-        return self.get_list_of_fitting_texts(leagues_texts)
-
-    def _get_country_text(self, country: str) -> str:
-        return f"({country[:3].upper()})" if country.lower() != "world" else ""
-
-    @staticmethod
-    def get_fixtures_text(
-        converted_fixtures: List[Fixture], played: bool = False, with_date: bool = False
-    ) -> List[str]:
-        fixtures_text = ""
-        all_fitting_fixtures = []
-        current_fitting_fixtures = []
-
-        for fixture in converted_fixtures:
-            fixture_text = fixture.one_line_telegram_repr(played, with_date)
-
-            if len(f"{fixtures_text}\n\n{fixture_text}") > TELEGRAM_MSG_LENGTH_LIMIT:
-                all_fitting_fixtures.append(current_fitting_fixtures)
-                fixtures_text = ""
-                current_fitting_fixtures = []
-            else:
-                fixtures_text += "<not_translate>\n\n</not_translate>" + fixture_text
-                logger.info(f"Appended fixture text -> {fixture_text}")
-                current_fitting_fixtures.append(fixture)
-
-        if current_fitting_fixtures:
-            all_fitting_fixtures.append(current_fitting_fixtures)
-
-        logger.info(f"All fitting fixtures: {all_fitting_fixtures}")
-
-        return [
-            "<not_translate>\n\n</not_translate>".join(
-                [
-                    fitting_fixture.one_line_telegram_repr(played, with_date)
-                    for fitting_fixture in fitting_fixtures
-                ]
-            )
-            for fitting_fixtures in all_fitting_fixtures
-        ]
-
-    def text_to_user_language(self, text: str) -> str:
-        google_translator = GoogleTranslator(
-            source="en", target=self._language.short_name
-        )
-        return google_translator.translate(text)
-
-    def is_valid_id(self, id: Any) -> bool:
-        try:
-            int_id = int(id)
-            return True
-        except:
-            return False
-
-    def get_user_main_time_zone(self) -> str:
-        time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
-        main_time_zone = ""
-
-        if len(time_zones):
-            main_time_zone = [
-                time_zone for time_zone in time_zones if time_zone.is_main_tz
-            ]
-
-            if len(main_time_zone):
-                main_time_zone = main_time_zone[0]
-
-        return (
-            self._fixtures_db_manager.get_time_zone(main_time_zone.time_zone)[0].name
-            if main_time_zone
-            else "UTC"
-        )
 
 
 class SurroundingMatchesHandler(NotifierBotCommandsHandler):
@@ -618,7 +457,8 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             league = self._command_args[0]
             if not self.is_valid_id(league):
                 response_text = self.text_to_user_language(
-                    "You must enter a valid league id, the command doesn't work with league's names.\nYou can get your league's id by its name using"
+                    "You must enter a valid league id, the command doesn't work with league's names.\nYou can get "
+                    "your league's id by its name using"
                 )
                 response = f"{response_text} /search_league"
 
@@ -708,10 +548,13 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
                 "TODAY!"
                 if converted_fixtures[0].get_time_in_main_zone().date()
                 == datetime.today().date()
-                else f"on {Emojis.SPIRAL_CALENDAR.value} {converted_fixtures[0].get_time_in_main_zone().strftime('%A')[:3]}. {converted_fixtures[0].get_time_in_main_zone().strftime('%d-%m-%Y')}"
+                else f"on {Emojis.SPIRAL_CALENDAR.value} "
+                f"{converted_fixtures[0].get_time_in_main_zone().strftime('%A')[:3]}. {converted_fixtures[0].get_time_in_main_zone().strftime('%d-%m-%Y')}"
             )
 
-            telegram_messages = self.get_fixtures_text(converted_fixtures=converted_fixtures, with_date=True)
+            telegram_messages = self.get_fixtures_text(
+                converted_fixtures=converted_fixtures, with_date=True
+            )
 
             country_text = (
                 f"({league.country[:3].upper()})"
@@ -780,7 +623,10 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
             joined_text = "\n".join(favourite_teams_texts)
             response = f"<not_translate><strong>{joined_text}</strong></not_translate>"
         else:
-            response = f"Oops! It seems you don't have favourite teams yet. Add them with <strong>/add_favourite_team</strong> command."
+            response = (
+                f"Oops! It seems you don't have favourite teams yet. Add them with "
+                f"<strong>/add_favourite_team</strong> command."
+            )
 
         return response
 
@@ -802,7 +648,10 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
         try:
             self._fixtures_db_manager.delete_favourite_team(team_id, self._chat_id)
             team = self._fixtures_db_manager.get_team(team_id)[0]
-            response = f"Team <not_translate>'{team.name}'</not_translate> was removed from your favourites successfully."
+            response = (
+                f"Team <not_translate>'{team.name}'</not_translate> was removed from your favourites "
+                f"successfully."
+            )
         except Exception as e:
             response = str(e)
 
@@ -872,7 +721,10 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         try:
             self._fixtures_db_manager.insert_favourite_league(league_id, self._chat_id)
             league = self._fixtures_db_manager.get_league(league_id)[0]
-            response = f"League <not_translate>'{league.name}'</not_translate> was added to your favourites successfully."
+            response = (
+                f"League <not_translate>'{league.name}'</not_translate> was added to your favourites "
+                f"successfully."
+            )
         except Exception as e:
             response = str(e)
 
@@ -884,7 +736,10 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
         try:
             self._fixtures_db_manager.delete_favourite_league(league_id, self._chat_id)
             league = self._fixtures_db_manager.get_league(league_id)[0]
-            response = f"League <not_translate>'{league.name}'</not_translate> was removed from your favourites successfully."
+            response = (
+                f"League <not_translate>'{league.name}'</not_translate> was removed from your favourites "
+                f"successfully."
+            )
         except Exception as e:
             response = str(e)
 
@@ -916,7 +771,10 @@ class LanguagesCommandHandler(NotifierBotCommandsHandler):
                 lang_id, self._chat_id
             )
             language = self._fixtures_db_manager.get_language_by_id(lang_id)[0]
-            response = f"You have set '{language.name.capitalize()}' as your language. From now on notifications and my responses will be sent in that language."
+            response = (
+                f"You have set '{language.name.capitalize()}' as your language. From now on notifications and "
+                f"my responses will be sent in that language."
+            )
         except Exception as e:
             response = str(e)
 
@@ -978,7 +836,8 @@ class TimeZonesCommandHandler(NotifierBotCommandsHandler):
             response = "\n".join(user_time_zones_texts)
         else:
             response = (
-                f"Oops! It seems you don't have time zones yet. This mean that by default you are using UTC as time zone."
+                f"Oops! It seems you don't have time zones yet. This mean that by default you are using UTC as time "
+                f"zone."
                 f"\nYou can add your main and additional time zones with <strong>/set_main_time_zone</strong> and "
                 f"<strong>/set_add_time_zone</strong> commands."
             )
@@ -1057,7 +916,11 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
                 notif_type.id, self._chat_id
             )
 
-        return f"{Emojis.PARTYING_FACE.value} You have successfully subscribed to notifications! \n\n{Emojis.RIGHT_FACING_FIST.value} From now on you can manage them through /notif_config, /enable_notif_config and /disable_notif_config commands."
+        return (
+            f"{Emojis.PARTYING_FACE.value} You have successfully subscribed to notifications! \n\n"
+            f"{Emojis.RIGHT_FACING_FIST.value} From now on you can manage them through /notif_config, "
+            f"/enable_notif_config and /disable_notif_config commands."
+        )
 
     def disable_notification(self) -> str:
         existing_subscriptions = self._fixtures_db_manager.get_user_notif_config(
@@ -1067,7 +930,10 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
         if int(self._notif_type_id) not in [
             notif_config.notif_type for notif_config in existing_subscriptions
         ]:
-            return "The provided notification type does not exist. Please check the available ones with /notif_config command."
+            return (
+                "The provided notification type does not exist. Please check the available ones with /notif_config "
+                "command."
+            )
 
         self._fixtures_db_manager.insert_or_update_user_notif_config(
             self._notif_type_id, self._chat_id, False
@@ -1075,7 +941,10 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
 
         notif_type = self._fixtures_db_manager.get_notif_type(self._notif_type_id)[0]
 
-        return f"You have successfully disabled '{notif_type.name}' notification. You can re-enable it at any time with /enable_notif_config command."
+        return (
+            f"You have successfully disabled '{notif_type.name}' notification. You can re-enable it at any time "
+            f"with /enable_notif_config command."
+        )
 
     def enable_notification(self) -> str:
         existing_subscriptions = self._fixtures_db_manager.get_user_notif_config(
@@ -1085,7 +954,10 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
         if int(self._notif_type_id) not in [
             int(notif_config.notif_type) for notif_config in existing_subscriptions
         ]:
-            return "The provided notification type does not exist. Please check the available ones with /notif_config command."
+            return (
+                "The provided notification type does not exist. Please check the available ones with /notif_config "
+                "command."
+            )
 
         self._fixtures_db_manager.insert_or_update_user_notif_config(
             self._notif_type_id, self._chat_id, True
@@ -1093,7 +965,10 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
 
         notif_type = self._fixtures_db_manager.get_notif_type(self._notif_type_id)[0]
 
-        return f"You have successfully enabled '{notif_type.name}' notification. You can disable it at any time with /disable_notif_config command."
+        return (
+            f"You have successfully enabled '{notif_type.name}' notification. You can disable it at any time with "
+            f"/disable_notif_config command."
+        )
 
     def notif_config(self) -> str:
         existing_subscriptions = self._fixtures_db_manager.get_user_notif_config(
@@ -1101,7 +976,10 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
         )
 
         if not len(existing_subscriptions):
-            return f"{Emojis.RED_EXCLAMATION_MARK.value} You are not subscribed to notifications yet. \n\nPlease subscribe with /subscribe_to_notifications command first."
+            return (
+                f"{Emojis.RED_EXCLAMATION_MARK.value} You are not subscribed to notifications yet. \n\nPlease "
+                f"subscribe with /subscribe_to_notifications command first."
+            )
 
         notifications_config_text = ""
 

@@ -68,3 +68,5 @@ class Emojis(Enum):
     ROBOT = emoji.emojize(":robot:", language="alias")
     DEVELOPER = emoji.emojize(":technologist_light_skin_tone:", language="alias")
     DOWN_FACING_FIST = emoji.emojize(":backhand_index_pointing_down:", language="alias")
+    MINUS = emoji.emojize(":minus:", language="alias")
+    FACE_WITHOUT_MOUTH = emoji.emojize(":face_without_mouth:", language="alias")

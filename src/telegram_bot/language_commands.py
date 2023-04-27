@@ -8,7 +8,9 @@ from src.notifier_constants import (
     TIME_ZONES_PAGE_SIZE,
 )
 from src.notifier_logger import get_logger
-from src.telegram_bot.bot_commands_handler import LanguagesCommandHandler
+from src.telegram_bot.command_handlers.bot_commands_handler import (
+    LanguagesCommandHandler,
+)
 from src.telegram_bot.commands_utils import reply_text, send_message
 
 logger = get_logger(__name__)

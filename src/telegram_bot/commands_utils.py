@@ -1,7 +1,9 @@
 from telegram import Update
 
 from src.notifier_logger import get_logger
-from src.telegram_bot.bot_commands_handler import NotifierBotCommandsHandler
+from src.telegram_bot.command_handlers.bot_commands_handler import (
+    NotifierBotCommandsHandler,
+)
 from src.utils.message_utils import translate_text
 
 logger = get_logger(__name__)

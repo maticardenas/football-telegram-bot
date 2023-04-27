@@ -1,7 +1,9 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 
 from src.notifier_logger import get_logger
-from src.telegram_bot.bot_commands_handler import NotifConfigCommandHandler
+from src.telegram_bot.command_handlers.bot_commands_handler import (
+    NotifConfigCommandHandler,
+)
 from src.telegram_bot.commands_utils import send_message
 
 logger = get_logger(__name__)

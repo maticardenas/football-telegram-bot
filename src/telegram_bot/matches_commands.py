@@ -11,7 +11,7 @@ from src.notifier_constants import (
     NEXT_MATCHES_LEAGUE,
 )
 from src.notifier_logger import get_logger
-from src.telegram_bot.bot_commands_handler import (
+from src.telegram_bot.command_handlers.bot_commands_handler import (
     NextAndLastMatchCommandHandler,
     NextAndLastMatchLeagueCommandHandler,
     SurroundingMatchesHandler,

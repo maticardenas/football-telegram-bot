@@ -20,6 +20,7 @@ from src.notifier_constants import (
     SEARCH_LEAGUES_BY_COUNTRY,
     SEARCH_TEAM,
     SEARCH_TIME_ZONE,
+    TEAM_SUMMARY,
 )
 from src.telegram_bot.fav_teams_and_leagues_commands import (
     add_favourite_league,
@@ -71,6 +72,7 @@ from src.telegram_bot.notifications_commands import (
     subscribe_to_notifications,
 )
 from src.telegram_bot.start_and_help_commands import help_cmd, start
+from src.telegram_bot.stats_commands import team_summary
 from src.telegram_bot.time_zones_commands import (
     delete_time_zone,
     delete_time_zone_callback_handler,
@@ -300,5 +302,14 @@ NOTIFIER_BOT_HANDLERS = [
         fallbacks=[
             MessageHandler(~filters.Regex("^/set_language"), cancel),
         ],
+    ),
+    ConversationHandler(
+        entry_points=[CommandHandler("team_summary", team_summary)],
+        states={
+            TEAM_SUMMARY: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
+            ]
+        },
+        fallbacks=[MessageHandler(~filters.Regex("^/team_summary$"), cancel)],
     ),
 ]
