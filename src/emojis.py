@@ -69,4 +69,7 @@ class Emojis(Enum):
     DEVELOPER = emoji.emojize(":technologist_light_skin_tone:", language="alias")
     DOWN_FACING_FIST = emoji.emojize(":backhand_index_pointing_down:", language="alias")
     MINUS = emoji.emojize(":minus:", language="alias")
+    EQUAL = emoji.emojize(":heavy_equals_sign:", language="alias")
     FACE_WITHOUT_MOUTH = emoji.emojize(":face_without_mouth:", language="alias")
+    BACK_ARROW = emoji.emojize(":BACK_arrow:", language="alias")
+    SOON_ARROW = emoji.emojize(":SOON_arrow:", language="alias")
