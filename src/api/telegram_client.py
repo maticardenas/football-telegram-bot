@@ -36,7 +36,7 @@ class TelegramClient(BaseClient):
         url = f"{self.base_url}{endpoint}"
 
         return self._request(
-            url=url, mehtod="POST", params=params, headers=self.headers
+            url=url, method="POST", params=params, headers=self.headers
         )
 
     def send_video(
