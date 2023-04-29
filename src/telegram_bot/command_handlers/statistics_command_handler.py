@@ -21,7 +21,7 @@ class TeamStatisticsBotCommandsHandler(NotifierBotCommandsHandler):
         return self._fixtures_db_manager.get_team(team_id)[0]
 
     def teams_summary(self) -> tuple[str, str]:
-        summary_text = f"{self._get_this_year_text()}<not_translate>\n\n</not_translate>{self._get_last_matches_record()}<not_translate>\n\n</not_translate>{self._get_last_match_text()}<not_translate>\n\n\n</not_translate>{self._get_next_match_text()}"
+        summary_text = f"{self._get_this_year_text()}<not_translate>\n\n</not_translate>{self._get_last_matches_record()}<not_translate>\n\n</not_translate>{self._get_last_match_text()}<not_translate>\n\n</not_translate>{self._get_next_match_text()}"
 
         return (summary_text, self._team.picture)
 

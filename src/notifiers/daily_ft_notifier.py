@@ -69,12 +69,12 @@ class DailyFTNotifier:
                 .time()
             )
 
-            # if not is_time_between(now.time(), begin_time, end_time):
-            #     logger.info(
-            #         f"Current time in time zone {user_main_time_zone.name if user_main_time_zone else 'UTC'} ("
-            #         f"{now.time()}) is not between - {begin_time} and {end_time}"
-            #     )
-            #     continue
+            if not is_time_between(now.time(), begin_time, end_time):
+                logger.info(
+                    f"Current time in time zone {user_main_time_zone.name if user_main_time_zone else 'UTC'} ("
+                    f"{now.time()}) is not between - {begin_time} and {end_time}"
+                )
+                continue
 
             favourite_teams = [
                 team for team in self._fixtures_db_manager.get_favourite_teams(user)
@@ -185,7 +185,9 @@ class DailyFTNotifier:
                 if fixture.home_team.id in favourite_teams
                 else fixture.away_team.id
             )
-            stats_notifier_commands_handler = TeamStatisticsBotCommandsHandler(team_id)
+            stats_notifier_commands_handler = TeamStatisticsBotCommandsHandler(
+                chat_id=user, team_id=team_id
+            )
 
             text, photo = stats_notifier_commands_handler.teams_summary()
             logger.info(
@@ -199,8 +201,10 @@ class DailyFTNotifier:
 
 if __name__ == "__main__":
     logger.info("*** RUNNING Favourite Teams Games Notifier ****")
+
     if len(sys.argv) <= 1:
         logger.info("MISSING ARGUMENT!")
+        sys.exit()
 
     notif_type = 1 if sys.argv[1] == "ft_today" else 5
     daily_ft_notifier = DailyFTNotifier(notif_type=notif_type)

@@ -719,6 +719,11 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(statement)
 
+    def get_all_notif_users(self) -> List[DBNotifConfig]:
+        statement = select(DBNotifConfig.chat_id).distinct()
+
+        return self._notifier_db_manager.select_records(statement)
+
     def get_user_notif_config(self, chat_id: str) -> List[DBNotifConfig]:
         statement = select(DBNotifConfig).where(DBNotifConfig.chat_id == chat_id)
 
