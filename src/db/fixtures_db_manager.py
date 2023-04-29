@@ -308,7 +308,11 @@ class FixturesDBManager:
         )
 
     def get_last_fixture(
-        self, team_id: int = None, league_id: int = None, number_of_fixtures: int = 1
+        self,
+        team_id: int = None,
+        league_id: int = None,
+        number_of_fixtures: int = 1,
+        year: str = None,
     ) -> Optional[List[DBFixture]]:
         today = datetime.strftime(datetime.utcnow(), "%Y-%m-%dT%H:%M:%S")
 
@@ -321,6 +325,9 @@ class FixturesDBManager:
 
         if league_id:
             statement = statement.where(DBFixture.league == league_id)
+
+        if year:
+            statement = statement.where(DBFixture.utc_date.contains(year))
 
         statement = statement.order_by(desc(DBFixture.utc_date))
 

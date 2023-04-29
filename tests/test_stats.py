@@ -21,4 +21,4 @@ def test_team_record(
         games_won=games_won, games_drawn=games_drawn, games_lost=games_lost
     )
 
-    assert team_record.emoji == expected_emoji.value
+    assert team_record.overall_emoji == expected_emoji.value
