@@ -29,6 +29,9 @@ NOTIFICATION_TYPES = [
     },
 ]
 
+# Notification types that are sent daily.
+DAILY_NOTIF_TYPES = [1, 2, 5]
+
 # Surrounding days to check when retrieving fixtures, for validating them against
 # the user's time zone
 SURROUNDING_INDEXES = {

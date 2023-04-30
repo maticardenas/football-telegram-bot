@@ -45,9 +45,9 @@ class TeamStatisticsBotCommandsHandler(NotifierBotCommandsHandler):
         this_year_text = ""
 
         if this_year_matches_record.games_played > 0:
-            this_year_text = f"""<strong>{Emojis.SPIRAL_CALENDAR.value} THIS YEAR {this_year_matches_record.overall_emoji}</strong>\n\n{Emojis.CHECK_MARK_BUTTON.value} Games Won: <strong>{this_year_matches_record.games_won}</strong>
-{Emojis.EQUAL.value} Games Drawn: <strong>{this_year_matches_record.games_drawn}</strong>
-{Emojis.CROSS_MARK.value} Games Lost: <strong>{this_year_matches_record.games_lost}</strong>
+            this_year_text = f"""<strong>{Emojis.SPIRAL_CALENDAR.value} THIS YEAR {this_year_matches_record.overall_emoji}</strong>\n\n{Emojis.CHECK_MARK_BUTTON.value} Won Games: <strong>{this_year_matches_record.games_won}</strong>
+{Emojis.EQUAL.value} Tied Games: <strong>{this_year_matches_record.games_drawn}</strong>
+{Emojis.CROSS_MARK.value} Lost Games: <strong>{this_year_matches_record.games_lost}</strong>
 
 {Emojis.SOCCER_BALL.value} Goals scored: <strong>{self._team_stats.number_of_goals(scored=True, number_of_matches=100, year=datetime.now().year)}</strong>
 {Emojis.GOAL_NET.value} Goals received: <strong>{self._team_stats.number_of_goals(scored=False, number_of_matches=100, year=datetime.now().year)}</strong>

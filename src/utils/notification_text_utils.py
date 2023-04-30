@@ -73,7 +73,7 @@ def telegram_next_team_or_league_fixture_notification(
     match_date = (
         "TODAY!"
         if today_in_time_zone == fixture_date_in_time_zone
-        else f"on {Emojis.SPIRAL_CALENDAR.value} {fixture_date_in_time_zone.strftime('%A').title()}. {fixture_date_in_time_zone.strftime('%d-%m-%Y')}<not_translate>\n</not_translate>"
+        else f"on {Emojis.SPIRAL_CALENDAR.value} {fixture_date_in_time_zone.strftime('%A').title()}. {fixture_date_in_time_zone.strftime('%d-%m-%Y')}"
     )
 
     telegram_message = (

@@ -4,6 +4,7 @@ from typing import List, Optional, Tuple
 
 from src.db.notif_sql_models import FavouriteLeague, FavouriteTeam
 from src.emojis import Emojis, get_emoji_text_by_name
+from src.notifier_constants import DAILY_NOTIF_TYPES
 from src.notifier_logger import get_logger
 from src.telegram_bot.bot_constants import MESSI_PHOTO
 from src.telegram_bot.command_handlers.notifier_bot_commands_handler import (
@@ -995,7 +996,7 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
 
             time_text = ""
 
-            if notif_type.id in [1, 2]:
+            if notif_type.id in DAILY_NOTIF_TYPES:
                 time_text = f" ({subscription.time})"
 
             notifications_config_text += f"<strong>{notif_type.id} - {notif_type.name}</strong>{time_text} <em>{status}</em> - {notif_type.description}\n"
@@ -1016,7 +1017,7 @@ class NotifConfigCommandHandler(NotifierBotCommandsHandler):
             )
 
         daily_subscriptions = [
-            sub for sub in existing_subscriptions if sub.notif_type in [1, 2]
+            sub for sub in existing_subscriptions if sub.notif_type in DAILY_NOTIF_TYPES
         ]
 
         for daily_sub in daily_subscriptions:
