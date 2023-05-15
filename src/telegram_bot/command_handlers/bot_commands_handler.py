@@ -6,7 +6,6 @@ from src.db.notif_sql_models import FavouriteLeague, FavouriteTeam
 from src.emojis import Emojis, get_emoji_text_by_name
 from src.notifier_constants import DAILY_NOTIF_TYPES
 from src.notifier_logger import get_logger
-from src.telegram_bot.bot_constants import MESSI_PHOTO
 from src.telegram_bot.command_handlers.notifier_bot_commands_handler import (
     NotifierBotCommandsHandler,
 )
@@ -85,7 +84,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                     f"{self._user}, there were no games found :("
                 )
             ]
-            photo = MESSI_PHOTO
+            photo = ""
 
         return (texts, photo)
 
@@ -114,7 +113,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                     f"{self._user}, there were no games found :("
                 )
             ]
-            photo = MESSI_PHOTO
+            photo = ""
 
         return (texts, photo)
 
@@ -143,7 +142,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                     f"{self._user}, there were no games found :("
                 )
             ]
-            photo = MESSI_PHOTO
+            photo = ""
 
         return (texts, photo)
 
@@ -377,7 +376,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                     f"{self._user}, unfortunately there are no games found. :("
                 )
             ]
-            photo = MESSI_PHOTO
+            photo = ""
 
         return (texts, photo)
 
@@ -432,7 +431,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
                     f"{self._user}, unfortunately there were no games found for {team.name} :("
                 )
             ]
-            photo = MESSI_PHOTO
+            photo = ""
 
         return (texts, photo)
 

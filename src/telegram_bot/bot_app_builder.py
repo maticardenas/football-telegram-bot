@@ -14,4 +14,6 @@ class NotifBotAppBuilder:
         for count, handler in enumerate(NOTIFIER_BOT_HANDLERS):
             application.add_handler(handler, count)
 
+        print(f"JOB QUEUE! -> {application.job_queue}")
+
         return application
