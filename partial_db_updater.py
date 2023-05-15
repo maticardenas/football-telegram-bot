@@ -14,7 +14,7 @@ FIXTURES_DB_MANAGER = FixturesDBManager()
 FIXTURES_CLIENT = FixturesClient(
     share_session=True, raise_for_status=True, perform_retries=True
 )
-UPDATE_DAYS_RANGE = 40
+UPDATE_DAYS_RANGE = 30
 
 logger = get_logger(__name__)
 

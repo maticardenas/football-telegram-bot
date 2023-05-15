@@ -22,6 +22,8 @@ from src.notifier_constants import (
     SEARCH_TIME_ZONE,
     TEAM_SUMMARY,
 )
+from src.notifier_logger import get_logger
+from src.telegram_bot.bot_constants import CONVERSATION_TIMEOUT
 from src.telegram_bot.fav_teams_and_leagues_commands import (
     add_favourite_league,
     add_favourite_team,
@@ -84,10 +86,18 @@ from src.telegram_bot.time_zones_commands import (
     set_main_time_zone,
 )
 
+logger = get_logger(__name__)
+
 
 async def cancel(update, context) -> int:
     """Cancels and ends the conversation."""
+    logger.info("Finishing conversation by command.")
+    return ConversationHandler.END
 
+
+async def timeout(update, context) -> int:
+    """Cancels and ends the conversation."""
+    logger.info("Finishing conversation by timeout.")
     return ConversationHandler.END
 
 
@@ -155,36 +165,44 @@ NOTIFIER_BOT_HANDLERS = [
         states={
             ADD_FAVOURITE_TEAM: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/add_favourite_team$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("add_favourite_league", add_favourite_league)],
         states={
             ADD_FAVOURITE_LEAGUE: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/add_favourite_league$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("search_team", search_team)],
         states={
             SEARCH_TEAM: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/search_team$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("search_league", search_league)],
         states={
             SEARCH_LEAGUE: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/search_league$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[
@@ -195,65 +213,79 @@ NOTIFIER_BOT_HANDLERS = [
                 MessageHandler(
                     filters.TEXT & ~filters.COMMAND, search_leagues_by_country_handler
                 )
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[
             MessageHandler(~filters.Regex("^/search_leagues_by_country$"), cancel)
         ],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("next_match", next_match)],
         states={
             NEXT_MATCH: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/next_match$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("last_match", last_match)],
         states={
             LAST_MATCH: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/last_match$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("last_matches", last_matches)],
         states={
             LAST_MATCHES: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/last_matches$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("next_match_league", next_match_league)],
         states={
             NEXT_MATCH_LEAGUE: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/next_match_league$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("next_matches_league", next_matches_league)],
         states={
             NEXT_MATCHES_LEAGUE: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/next_matches_league$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("last_match_league", last_match_league)],
         states={
             LAST_MATCH_LEAGUE: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_league_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/last_match_league$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("set_main_time_zone", set_main_time_zone)],
@@ -262,9 +294,11 @@ NOTIFIER_BOT_HANDLERS = [
                 MessageHandler(
                     filters.TEXT & ~filters.COMMAND, search_time_zone_handler
                 )
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/set_main_time_zone$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("set_add_time_zone", set_add_time_zone)],
@@ -273,11 +307,13 @@ NOTIFIER_BOT_HANDLERS = [
                 MessageHandler(
                     filters.TEXT & ~filters.COMMAND, search_time_zone_handler
                 )
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[
             MessageHandler(~filters.Regex("^/set_add_time_zone$"), cancel),
         ],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("search_time_zone", search_time_zone)],
@@ -286,30 +322,36 @@ NOTIFIER_BOT_HANDLERS = [
                 MessageHandler(
                     filters.TEXT & ~filters.COMMAND, search_time_zone_handler
                 )
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[
             MessageHandler(~filters.Regex("^/search_time_zone$"), cancel),
         ],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("set_language", set_language)],
         states={
             SEARCH_LANGUAGE: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, search_language_handler)
-            ]
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[
             MessageHandler(~filters.Regex("^/set_language"), cancel),
         ],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
     ConversationHandler(
         entry_points=[CommandHandler("team_summary", team_summary)],
         states={
             TEAM_SUMMARY: [
-                MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler)
-            ]
+                MessageHandler(filters.TEXT & ~filters.COMMAND, search_team_handler),
+            ],
+            ConversationHandler.TIMEOUT: [MessageHandler(None, timeout)],
         },
         fallbacks=[MessageHandler(~filters.Regex("^/team_summary$"), cancel)],
+        conversation_timeout=CONVERSATION_TIMEOUT,
     ),
 ]

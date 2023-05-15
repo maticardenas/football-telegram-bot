@@ -1,4 +1,5 @@
 from src.emojis import Emojis
+from src.telegram_bot.bot_constants import CONVERSATION_TIMEOUT
 
 NOT_PLAYED_OR_FINISHED_MATCH_STATUSES = [
     "Match Abandoned",
@@ -77,5 +78,5 @@ ENGLISH_LANG_ID = 28
 END_COMMAND_MESSAGE = (
     f"{Emojis.RED_EXCLAMATION_MARK.value}<em>You can keep entering and trying values afterwards, "
     f"enter <strong>/end</strong> or another command when you want me to stop processing your entries for this "
-    f"one</em> {Emojis.SMILEY_FACE.value}"
+    f"one</em>. If you don't send any more entry, I will stop receiving any after {CONVERSATION_TIMEOUT} seconds. {Emojis.SMILEY_FACE.value}"
 )
