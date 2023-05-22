@@ -3,8 +3,6 @@ version: "3.9"
 services:
   football_notifier:
     build: .
-    ports:
-      - "8000:8000"
     env_file:
       - football_notifier.env
     volumes:
@@ -15,8 +13,6 @@ services:
 
   db:
     image: postgres:10-alpine
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_DB=notifier_db
       - POSTGRES_USER=postgres
