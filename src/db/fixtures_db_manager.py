@@ -8,6 +8,7 @@ from sqlmodel import func, or_, select
 from src.db.db_manager import NotifierDBManager
 from src.db.notif_sql_models import ConfigLanguage as DBConfigLanguage
 from src.db.notif_sql_models import Country as DBCountry
+from src.db.notif_sql_models import Event as DBEvent
 from src.db.notif_sql_models import FavouriteLeague as DBFavouriteLeague
 from src.db.notif_sql_models import FavouriteTeam as DBFavouriteTeam
 from src.db.notif_sql_models import Fixture as DBFixture
@@ -15,6 +16,7 @@ from src.db.notif_sql_models import Language as DBLanguage
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import NotifConfig as DBNotifConfig
 from src.db.notif_sql_models import NotifType as DBNotifType
+from src.db.notif_sql_models import Player as DBPlayer
 from src.db.notif_sql_models import Team as DBTeam
 from src.db.notif_sql_models import TimeZone as DBTimeZone
 from src.db.notif_sql_models import UserTimeZone as DBUserTimeZone
@@ -31,7 +33,23 @@ logger = get_logger(__name__)
 
 
 if TYPE_CHECKING:
-    from src.entities import Championship, FixtureForDB, Team
+    from src.entities import Championship, Event, FixtureForDB, Player, Team
+
+
+class EventConverter:
+    @staticmethod
+    def to_db_model(event: "Event") -> DBEvent:
+        return DBEvent(
+            fixture=event.fixture_id,
+            time=event.time.elapsed,
+            time_extra=event.time.extra,
+            team=event.team.id,
+            player=event.player.id,
+            assist=event.assist.id,
+            type=event.type,
+            detail=event.detail,
+            comments=event.comments,
+        )
 
 
 class FixturesDBManager:
@@ -59,6 +77,16 @@ class FixturesDBManager:
     def get_team(self, team_id: int) -> Optional[DBTeam]:
         team_statement = select(DBTeam).where(DBTeam.id == team_id)
         return self._notifier_db_manager.select_records(team_statement)
+
+    def get_all_favourite_teams(self) -> List[Optional[DBTeam]]:
+        favourite_teams_statement = select(DBFavouriteTeam.team).distinct()
+
+        return self._notifier_db_manager.select_records(favourite_teams_statement)
+
+    def get_all_favourite_leagues(self) -> List[Optional[DBTeam]]:
+        favourite_leagues_statement = select(DBFavouriteLeague.league).distinct()
+
+        return self._notifier_db_manager.select_records(favourite_leagues_statement)
 
     def get_favourite_teams(self, chat_id: str) -> List[Optional[DBTeam]]:
         favourite_teams_statement = select(DBFavouriteTeam.team).where(
@@ -531,6 +559,32 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(user_time_zone_statement)[0]
 
+    def insert_player(self, player: "Player") -> DBPlayer:
+        player_statement = select(DBPlayer).where(DBPlayer.id == player.id)
+        retrieved_player = self._notifier_db_manager.select_records(player_statement)
+
+        if not len(retrieved_player):
+            logger.info(
+                f"Inserting Player {player.name} - it does not exist in "
+                f"the database"
+            )
+            db_player = DBPlayer(
+                id=player.id,
+                name=player.name,
+            )
+
+        else:
+            logger.info(
+                f"Updating PLayer '{player.name}' - it already exists in "
+                f"the database"
+            )
+            db_player = retrieved_player.pop()
+            db_player.name = player.name
+
+        self._notifier_db_manager.insert_record(db_player)
+
+        return self._notifier_db_manager.select_records(player_statement)[0]
+
     def insert_team(self, fixture_team: "Team") -> DBTeam:
         team_statement = select(DBTeam).where(DBTeam.id == fixture_team.id)
         retrieved_team = self._notifier_db_manager.select_records(team_statement)
@@ -600,6 +654,20 @@ class FixturesDBManager:
             db_fixture.approach_notified = fixture.approach_notified
 
         self._notifier_db_manager.insert_record(db_fixture)
+
+    def save_fixture_event(self, event: "Event") -> None:
+        self.insert_player(event.player)
+        if event.assist.name:
+            self.insert_player(event.assist)
+        logger.info(
+            f"Inserting Event {event.type} - {event.player.name} - assist: {event.assist.name}"
+        )
+        db_event = EventConverter.to_db_model(event)
+        self._notifier_db_manager.insert_record(db_event)
+
+    def get_fixture_events(self, fixture_id: int) -> Optional[DBEvent]:
+        event_statement = select(DBEvent).where(DBEvent.fixture == fixture_id)
+        return self._notifier_db_manager.select_records(event_statement)
 
     def save_fixtures(self, team_fixtures: List["FixtureForDB"]) -> None:
         db_fixtures = []

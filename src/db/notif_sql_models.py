@@ -100,3 +100,23 @@ class ConfigLanguage(SQLModel, table=True):
     __table_args__ = {"extend_existing": True}
     chat_id: str = Field(primary_key=True)
     lang_id: int = Field(foreign_key="language.lang_id", primary_key=True)
+
+
+class Player(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    id: int = Field(primary_key=True)
+    name: str = ""
+
+
+class Event(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    id: Optional[int] = Field(default=None, primary_key=True)
+    fixture: int = Field(foreign_key="fixture.id")
+    time: int
+    time_extra: Optional[str] = None
+    team: int = Field(foreign_key="team.id")
+    player: int = Field(foreign_key="player.id")
+    assist: int = Field(default=None, foreign_key="player.id")
+    type: str
+    detail: Optional[str] = None
+    comments: Optional[str] = None

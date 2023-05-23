@@ -95,3 +95,9 @@ class FixturesClient(BaseClient):
         endpoint = "/v3/leagues"
         url = f"{self.base_url}{endpoint}"
         return self._request(url=url, method="GET", headers=self.headers)
+
+    def get_events(self, fixture_id: str) -> Dict[str, Any]:
+        endpoint = "/v3/fixtures/events"
+        params = {"fixture": fixture_id}
+        url = f"{self.base_url}{endpoint}"
+        return self._request(url=url, method="GET", headers=self.headers, params=params)
