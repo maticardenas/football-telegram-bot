@@ -245,7 +245,7 @@ class FixturesDBManager:
             + self.get_games_in_surrounding_n_days(days_to_grab[2], leagues, teams)
         )
 
-        logger.info(f"Fixtures: {', '.join([fxt.id for fxt in surrounding_fixtures])}")
+        logger.info(f"Fixtures: {', '.join([str(fxt.id) for fxt in surrounding_fixtures])}")
 
         for fixture in surrounding_fixtures:
             fixture_date_in_time_zone = get_time_in_time_zone_str(

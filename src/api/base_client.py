@@ -1,3 +1,4 @@
+import random
 from typing import Optional
 
 import httpx
@@ -53,6 +54,9 @@ class BaseClient:
         logger.info(
             f"Request {' - '.join(filter(None, [method, url, str(kwargs.get('params', ''))]))}"
         )
+        if len(NotifConfig.X_RAPIDAPI_KEYS):
+            request_key = random.choice(NotifConfig.X_RAPIDAPI_KEYS)
+            headers["x-rapidapi-key"] = request_key
 
         for attempt in Retrying(
             stop=stop_after_attempt(MAX_RETRY_ATTEMPTS if self._perform_retries else 1),

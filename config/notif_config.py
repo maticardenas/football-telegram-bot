@@ -9,6 +9,7 @@ class NotifConfig:
     X_YOUTUBE_SEARCH_HOST = os.environ.get("X_YOUTUBE_SEARCH_HOST")
     X_WORLDOMETERS_HOST = os.environ.get("X_WORLDOMETERS_HOST")
     X_RAPIDAPI_KEY = os.environ.get("X_RAPIDAPI_KEY")
+    X_RAPIDAPI_KEYS = os.environ.get("X_RAPIDAPI_KEYS").split(";")
 
     # NOTIF THRESHOLDS
     NEXT_MATCH_THRESHOLD = int(os.environ.get("NEXT_MATCH_THRESHOLD"))
