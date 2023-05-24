@@ -29,7 +29,7 @@ def collect_events() -> None:
 
 
 def get_all_fixtures_ids_to_collect_events() -> List[int]:
-    surrounding = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(3)
+    surrounding = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(4)
 
     filtered_fixtures_ids = []
 
