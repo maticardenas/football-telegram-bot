@@ -1,9 +1,13 @@
+from __future__ import annotations
+
 import os
 import re
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List, Optional
+
+from pydantic import BaseModel
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import TimeZone, UserTimeZone
@@ -37,13 +41,44 @@ class MatchScore:
         return f"[{self.away_score}]{penalty_score}"
 
 
-@dataclass
-class Team:
-    id: str
+class Player(BaseModel):
+    id: int
     name: str
-    picture: str
-    aliases: list
-    country: str = ""
+    pos: Optional[str] = ""
+
+
+class Time(BaseModel):
+    elapsed: int
+    extra: Optional[str] = ""
+
+    def __str__(self):
+        extra_txt = f"+{self.extra}" if self.extra else ""
+        return f"{self.elapsed}{extra_txt}"
+
+
+class Team(BaseModel):
+    id: int
+    name: str
+    logo: str
+    aliases: Optional[list] = []
+    country: Optional[str] = ""
+    picture: Optional[str] = ""
+
+
+class Assist(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+
+
+class Event(BaseModel):
+    time: Time
+    team: Team
+    player: Player
+    assist: Assist
+    type: str
+    detail: str
+    comments: Optional[str] = ""
+    fixture_id: Optional[str] = ""
 
 
 @dataclass
@@ -58,13 +93,6 @@ class Championship:
 class MatchHighlights:
     url: str
     embed_url: str
-
-
-@dataclass
-class Player:
-    id: int
-    name: str
-    pos: str
 
 
 @dataclass
