@@ -610,7 +610,7 @@ class FixturesDBManager:
             db_team = retrieved_team.pop()
             db_team.id = fixture_team.id
             db_team.name = fixture_team.name
-            db_team.picture = fixture_team.picture
+            db_team.picture = fixture_team.picture if fixture_team.picture else db_team.picture
             db_team.aliases = fixture_team.aliases
             db_team.country = (
                 fixture_team.country if fixture_team.country else db_team.country

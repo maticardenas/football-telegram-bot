@@ -356,12 +356,14 @@ def convert_fixture_response_to_db_fixture(fixture_response: Dict[str, Any]) -> 
             name=fixture_response["teams"]["home"]["name"],
             logo=fixture_response["teams"]["home"]["logo"],
             aliases=get_team_aliases(str(home_team_id)),
+            picture=fixture_response["teams"]["home"]["logo"],
         ),
         Team(
             id=away_team_id,
             name=fixture_response["teams"]["away"]["name"],
             logo=fixture_response["teams"]["away"]["logo"],
             aliases=get_team_aliases(str(away_team_id)),
+            picture=fixture_response["teams"]["away"]["logo"],
         ),
         MatchScore(
             fixture_response["goals"]["home"],
