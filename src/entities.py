@@ -65,7 +65,12 @@ class Team(BaseModel):
     picture: Optional[str] = ""
 
     def abbrv_name(self) -> str:
-        return self.name[:3].upper()
+        team_name_words = self.name.split(" ")
+
+        if len(team_name_words) == 1:
+            return self.name[:3].upper()
+        else:
+            return "".join([word[0] for word in team_name_words]).upper()
 
 
 class Assist(BaseModel):
@@ -627,12 +632,12 @@ class Fixture:
 
     def get_events_yellow_cards_text(self) -> str:
         red_card_players = [
-            f"{yc_event.player.name} ({yc_event.team.abbrv_name()})"
-            for yc_event in self.events
-            if yc_event.type == "Card" and yc_event.detail == "Red Card"
+            rc_event.player.name
+            for rc_event in self.events
+            if rc_event.type == "Card" and rc_event.detail == "Red Card"
         ]
         yellow_card_players = [
-            yc_event.player.name
+            f"{yc_event.player.name} ({yc_event.team.abbrv_name()})"
             for yc_event in self.events
             if yc_event.type == "Card"
             and yc_event.detail == "Yellow Card"

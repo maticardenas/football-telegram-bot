@@ -63,3 +63,18 @@ STATISTICS_KICK_OFF = (
     f" information on the last and next matches. \n\n{Emojis.LIGHT_BULB.value} This is just the first step in our ongoing effort to improve our statistics offerings, so just letting you know this and "
     f"you will hear from us again soon {Emojis.SMILEY_FACE.value}"
 )
+
+
+GAMES_EVENTS_KICK_OFF = f"""
+    {Emojis.PARTYING_FACE.value} {Emojis.PARTYING_FACE.value} Exciting News! {Emojis.PARTYING_FACE.value} {Emojis.PARTYING_FACE.value}
+
+We're thrilled to announce that from now on, you'll gain insights into players who scored goals, received yellow or red cards, and more in your notifications {Emojis.SMILEY_FACE.value}. 
+This feature has been highly anticipated by all of you and is sure to provide valuable information about your favorite matches.
+
+{Emojis.SOCCER_BALL.value} But wait, there's more! The debut of this feature will also unblock several other exciting features that will follow in the coming weeks. 
+So once again, thanks for your continued support and stay tuned for more updates!
+
+{Emojis.FAMILY.value} Don't forget to spread the word about this amazing update to your friends and fellow football enthusiasts. 
+
+Happy football watching! 🎉
+    """
