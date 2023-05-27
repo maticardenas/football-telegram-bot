@@ -538,7 +538,7 @@ class Fixture:
             else ""
         )
 
-        fixture_events_text = "\n".join([goals_text, red_cards_text, yellow_cards_text])
+        fixture_events_text = "\n".join([goals_text, yellow_cards_text, red_cards_text])
         events_text = (
             f"<not_translate>\n\n{fixture_events_text}\n\n</not_translate>"
             if fixture_events_text
@@ -619,7 +619,7 @@ class Fixture:
 
     def get_events_red_cards_text(self) -> str:
         red_card_players = [
-            f"{rc_event.player.name} ({rc_event.team.abbrv_name()})"
+            f"{str(rc_event.time)} {rc_event.player.name} ({rc_event.team.abbrv_name()})"
             for rc_event in self.events
             if rc_event.type == "Card" and rc_event.detail == "Red Card"
         ]
@@ -637,7 +637,7 @@ class Fixture:
             if rc_event.type == "Card" and rc_event.detail == "Red Card"
         ]
         yellow_card_players = [
-            f"{yc_event.player.name} ({yc_event.team.abbrv_name()})"
+            f"{str(yc_event.time)} {yc_event.player.name} ({yc_event.team.abbrv_name()})"
             for yc_event in self.events
             if yc_event.type == "Card"
             and yc_event.detail == "Yellow Card"
