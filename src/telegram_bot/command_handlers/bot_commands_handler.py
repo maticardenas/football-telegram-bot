@@ -636,7 +636,7 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
         try:
             self._fixtures_db_manager.insert_favourite_team(team_id, self._chat_id)
             team = self._fixtures_db_manager.get_team(team_id)[0]
-            response = f"Team <not_translate>'{team.name}'</not_translate> was added to your favourites successfully."
+            response = f"Team<not_translate> '{team.name}' </not_translate>was added to your favourites successfully."
         except Exception as e:
             response = str(e)
 
@@ -649,7 +649,7 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
             self._fixtures_db_manager.delete_favourite_team(team_id, self._chat_id)
             team = self._fixtures_db_manager.get_team(team_id)[0]
             response = (
-                f"Team <not_translate>'{team.name}'</not_translate> was removed from your favourites "
+                f"Team<not_translate> '{team.name}' </not_translate>was removed from your favourites "
                 f"successfully."
             )
         except Exception as e:
@@ -722,7 +722,7 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
             self._fixtures_db_manager.insert_favourite_league(league_id, self._chat_id)
             league = self._fixtures_db_manager.get_league(league_id)[0]
             response = (
-                f"League <not_translate>'{league.name}'</not_translate> was added to your favourites "
+                f"League<not_translate> '{league.name}' </not_translate>was added to your favourites "
                 f"successfully."
             )
         except Exception as e:
@@ -737,7 +737,7 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
             self._fixtures_db_manager.delete_favourite_league(league_id, self._chat_id)
             league = self._fixtures_db_manager.get_league(league_id)[0]
             response = (
-                f"League <not_translate>'{league.name}'</not_translate> was removed from your favourites "
+                f"League<not_translate> '{league.name}' </not_translate>was removed from your favourites "
                 f"successfully."
             )
         except Exception as e:
