@@ -614,9 +614,9 @@ class Fixture:
 
     def get_events_red_cards_text(self) -> str:
         red_card_players = [
-            yc_event.player.name
-            for yc_event in self.events
-            if yc_event.type == "Card" and yc_event.detail == "Red Card"
+            f"{rc_event.player.name} ({rc_event.team.abbrv_name()})"
+            for rc_event in self.events
+            if rc_event.type == "Card" and rc_event.detail == "Red Card"
         ]
 
         return (
@@ -627,7 +627,7 @@ class Fixture:
 
     def get_events_yellow_cards_text(self) -> str:
         red_card_players = [
-            yc_event.player.name
+            f"{yc_event.player.name} ({yc_event.team.abbrv_name()})"
             for yc_event in self.events
             if yc_event.type == "Card" and yc_event.detail == "Red Card"
         ]
