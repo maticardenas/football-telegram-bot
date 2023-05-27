@@ -52,8 +52,8 @@ class Time(BaseModel):
     extra: Optional[str] = ""
 
     def __str__(self):
-        extra_txt = f"+{self.extra}" if self.extra else ""
-        return f"{self.elapsed}{extra_txt}"
+        extra_txt = f"+{self.extra}'" if self.extra else ""
+        return f"{self.elapsed}{extra_txt}" if extra_txt else f"{self.elapsed}'"
 
 
 class Team(BaseModel):
@@ -63,6 +63,9 @@ class Team(BaseModel):
     aliases: Optional[list] = []
     country: Optional[str] = ""
     picture: Optional[str] = ""
+
+    def abbrv_name(self) -> str:
+        return self.name[:3].upper()
 
 
 class Assist(BaseModel):
@@ -79,6 +82,40 @@ class Event(BaseModel):
     detail: str
     comments: Optional[str] = ""
     fixture_id: Optional[str] = ""
+
+    def __str__(self):
+        if self.type == "Goal":
+            return f"{self.time()} {self.get_goal()}"
+        elif self.type == "subst":
+            return f"{self.time()} {self.get_subst()}"
+        elif self.type == "Card":
+            return f"{self.time()} {self.get_card()}"
+        else:
+            return ""
+
+    def get_time(self) -> str:
+        return f"{Emojis.ALARM_CLOCK}{str(self.time)}"
+
+    def get_goal(self) -> str:
+        if self.detail == "Normal Goal":
+            return f"{Emojis.SOCCER_BALL.value} GOAL! - {self.player.name} {'(' + self.assist.name + ')' if self.assist.name else ''}"
+        elif self.detail == "Penalty":
+            return f"{Emojis.SOCCER_BALL.value} GOAL! (penalty) - {self.player.name}"
+        elif self.detail == "Own Goal":
+            return f"{Emojis.SOCCER_BALL.value}{Emojis.CROSS_MARK.value} OWN GOAL - {self.player.name}"
+        else:  # Missed Penalty
+            return f"{Emojis.GLOVES.value} Missed penalty - {self.player.name}"
+
+    def get_card(self) -> str:
+        emoji = (
+            Emojis.YELLOW_SQUARE.value
+            if self.detail == "Yellow Card"
+            else Emojis.RED_SQUARE.value
+        )
+        return f"{emoji} {self.player.name}"
+
+    def get_subst(self) -> str:
+        return f"{Emojis.UPWARDS_BUTTON.value} {self.player.name} - {Emojis.DONWARDS_BUTTON} {self.assist.name}"
 
 
 @dataclass
@@ -192,6 +229,7 @@ class Fixture:
     venue: str
     additional_time_zones: List[UserTimeZone]
     main_time_zone: TimeZone
+    events: List[Event] = field(default_factory=list)
     line_up: Optional[LineUp] = field(init=False)
     highlights: List[str] = field(init=False)
     head_to_head: List["Fixture"] = field(init=False)
@@ -336,20 +374,28 @@ class Fixture:
                     if "finished" in self.match_status.lower()
                     else ""
                 )
+
+                goals_text = (
+                    f"<not_translate>\n{self.get_events_goals_text()}</not_translate>"
+                    if self.get_events_goals_text()
+                    else ""
+                )
+
                 repr = (
                     f"{date_text}"
                     f"<not_translate>"
-                    f"{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
+                    f"{Emojis.TELEVISION.value} <strong>{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}</strong>"
                     f"{league_text}"
                     f"</not_translate>"
                     f"{round_text}"
                     f"{match_in_progress_text}"
+                    f"{goals_text}"
                     f"{highlights_text}"
                 )
             else:
                 repr = (
                     f"{date_text}"
-                    f"<not_translate>{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}"
+                    f"{Emojis.TELEVISION.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>"
                     f"{league_text}"
                     f"</not_translate>"
                     f"{round_text}"
@@ -370,8 +416,7 @@ class Fixture:
             repr = (
                 f"{date_text}"
                 f"<not_translate>"
-                f"{Emojis.SOCCER_BALL.value} "
-                f"{self.home_team.name} vs. {self.away_team.name}"
+                f"{Emojis.TELEVISION.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>"
                 f"{league_text}"
                 f"</not_translate>"
                 f"</not_translate>"
@@ -416,7 +461,7 @@ class Fixture:
             f"<not_translate>{self.fixtures_times_text()}\n\n</not_translate>"
             f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game."
             f"<not_translate>\n\n"
-            f"{Emojis.SOCCER_BALL.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
+            f"{Emojis.TELEVISION.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>\n"
             f"{Emojis.TROPHY.value} <strong>{self._get_capitalized_name(self.championship.name)} {country_prefix}</strong>\n"
             f"</not_translate>"
             f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>"
@@ -473,12 +518,34 @@ class Fixture:
             else ""
         )
 
+        goals_text = (
+            f"{self.get_events_goals_text()}" if self.get_events_goals_text() else ""
+        )
+
+        red_cards_text = (
+            f"{self.get_events_red_cards_text()}"
+            if self.get_events_red_cards_text()
+            else ""
+        )
+        yellow_cards_text = (
+            f"{self.get_events_yellow_cards_text()}"
+            if self.get_events_yellow_cards_text()
+            else ""
+        )
+
+        fixture_events_text = "\n".join([goals_text, red_cards_text, yellow_cards_text])
+        events_text = (
+            f"<not_translate>\n\n{fixture_events_text}\n\n</not_translate>"
+            if fixture_events_text
+            else "\n\n"
+        )
+
         if any(
             time in self.match_status.lower()
             for time in ["finished", "half", "break", "extra"]
         ):
             match_in_progress_text = (
-                f"{Emojis.MAN_RUNNING.value} <strong>{self.match_status}</strong><not_translate>\n\n</not_translate>"
+                f"{Emojis.MAN_RUNNING.value} {self.match_status}<not_translate>\n\n</not_translate>"
                 if any(
                     time in self.match_status.lower()
                     for time in ["half", "break", "extra"]
@@ -487,12 +554,12 @@ class Fixture:
             )
             match_notification = (
                 f"{match_in_progress_text}"
-                f"<not_translate>"
-                f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} {self.match_score.get_home_score()} vs. "
-                f"{self.match_score.get_away_score()} {self.away_team.name}</strong>\n"
-                f"</not_translate>"
-                f"{Emojis.TROPHY.value} <strong>{self.championship.name}{country_prefix}</strong>\n"
-                f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>"
+                f"<not_translate>\n"
+                f"{Emojis.TELEVISION.value} {self.home_team.name} {self.match_score.get_home_score()} vs. "
+                f"{self.match_score.get_away_score()} {self.away_team.name}</not_translate>"
+                f"{events_text}"
+                f"{Emojis.TROPHY.value} {self.championship.name}{country_prefix}\n"
+                f"{Emojis.PUSHPIN.value} {self.round}"
                 f"<not_translate>"
                 f"\n{stadium_line}"
                 f"{referee_line}"
@@ -503,9 +570,9 @@ class Fixture:
             match_notification = (
                 f"{Emojis.SAD_FACE.value} <strong>{self.match_status}</strong>"
                 f"<not_translate>\n\n"
-                f"<strong>{Emojis.SOCCER_BALL.value} {self.home_team.name} vs. {self.away_team.name}</strong>\n"
-                f"{Emojis.TROPHY.value} <strong>{self.championship.name}{country_prefix}</strong>\n"
-                f"{Emojis.PUSHPIN.value} <strong>{self.round}</strong>\n"
+                f"{Emojis.TELEVISION.value} {self.home_team.name} vs. {self.away_team.name}\n"
+                f"{Emojis.TROPHY.value} {self.championship.name}{country_prefix}\n"
+                f"{Emojis.PUSHPIN.value} {self.round}\n"
                 f"{stadium_line}"
                 f"{referee_line}"
                 f"</not_translate>"
@@ -520,10 +587,63 @@ class Fixture:
             else self.utc_date
         )
 
+    def get_events_goals_text(self) -> str:
+        goal_events = []
+
+        for event in self.events:
+            if event.type == "Goal" and event.detail in [
+                "Normal Goal",
+                "Own Goal",
+                "Penalty",
+            ]:
+                own_goal = " [OG]" if event.detail == "Own Goal" else ""
+                penalty_goal = " [PEN]" if event.detail == "Penalty" else ""
+                goal_text = f"{str(event.time)} {event.player.name} ({event.team.abbrv_name()}){own_goal}{penalty_goal}"
+                goal_events.append(goal_text)
+
+        return (
+            f"{Emojis.SOCCER_BALL.value} <em>{' - '.join(goal_events)}</em>"
+            if goal_events
+            else ""
+        )
+
     def _is_diff_day_than_main_zone(
         self, time_in_time_zone: datetime, time_in_other_time_zone: datetime
     ) -> bool:
         return time_in_time_zone.weekday() != time_in_other_time_zone.weekday()
+
+    def get_events_red_cards_text(self) -> str:
+        red_card_players = [
+            yc_event.player.name
+            for yc_event in self.events
+            if yc_event.type == "Card" and yc_event.detail == "Red Card"
+        ]
+
+        return (
+            f"{Emojis.RED_SQUARE.value} <em>{' - '.join(red_card_players)}</em>"
+            if red_card_players
+            else ""
+        )
+
+    def get_events_yellow_cards_text(self) -> str:
+        red_card_players = [
+            yc_event.player.name
+            for yc_event in self.events
+            if yc_event.type == "Card" and yc_event.detail == "Red Card"
+        ]
+        yellow_card_players = [
+            yc_event.player.name
+            for yc_event in self.events
+            if yc_event.type == "Card"
+            and yc_event.detail == "Yellow Card"
+            and yc_event.player.name not in red_card_players
+        ]
+
+        return (
+            f"{Emojis.YELLOW_SQUARE.value} <em>{' - '.join(yellow_card_players)}</em>"
+            if yellow_card_players
+            else ""
+        )
 
     def _get_capitalized_name(self, name: str) -> str:
         return re.sub(

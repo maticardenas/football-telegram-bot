@@ -73,3 +73,7 @@ class Emojis(Enum):
     FACE_WITHOUT_MOUTH = emoji.emojize(":face_without_mouth:", language="alias")
     BACK_ARROW = emoji.emojize(":BACK_arrow:", language="alias")
     SOON_ARROW = emoji.emojize(":SOON_arrow:", language="alias")
+    RED_SQUARE = emoji.emojize(":red_square:", language="alias")
+    YELLOW_SQUARE = emoji.emojize(":yellow_square:", language="alias")
+    UPWARDS_BUTTON = emoji.emojize(":upwards_button:", language="alias")
+    DONWARDS_BUTTON = emoji.emojize(":downwards_button:", language="alias")

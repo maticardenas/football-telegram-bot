@@ -245,7 +245,9 @@ class FixturesDBManager:
             + self.get_games_in_surrounding_n_days(days_to_grab[2], leagues, teams)
         )
 
-        logger.info(f"Fixtures: {', '.join([str(fxt.id) for fxt in surrounding_fixtures])}")
+        logger.info(
+            f"Fixtures: {', '.join([str(fxt.id) for fxt in surrounding_fixtures])}"
+        )
 
         for fixture in surrounding_fixtures:
             fixture_date_in_time_zone = get_time_in_time_zone_str(
@@ -559,6 +561,10 @@ class FixturesDBManager:
 
         return self._notifier_db_manager.select_records(user_time_zone_statement)[0]
 
+    def get_player(self, player_id: int) -> Optional[DBTeam]:
+        player_statement = select(DBPlayer).where(DBPlayer.id == player_id)
+        return self._notifier_db_manager.select_records(player_statement)
+
     def insert_player(self, player: "Player") -> DBPlayer:
         player_statement = select(DBPlayer).where(DBPlayer.id == player.id)
         retrieved_player = self._notifier_db_manager.select_records(player_statement)
@@ -610,7 +616,9 @@ class FixturesDBManager:
             db_team = retrieved_team.pop()
             db_team.id = fixture_team.id
             db_team.name = fixture_team.name
-            db_team.picture = fixture_team.picture if fixture_team.picture else db_team.picture
+            db_team.picture = (
+                fixture_team.picture if fixture_team.picture else db_team.picture
+            )
             db_team.aliases = fixture_team.aliases
             db_team.country = (
                 fixture_team.country if fixture_team.country else db_team.country
@@ -666,7 +674,11 @@ class FixturesDBManager:
         self._notifier_db_manager.insert_record(db_event)
 
     def get_fixture_events(self, fixture_id: int) -> Optional[DBEvent]:
-        event_statement = select(DBEvent).where(DBEvent.fixture == fixture_id)
+        event_statement = (
+            select(DBEvent)
+            .where(DBEvent.fixture == fixture_id)
+            .order_by(asc(DBEvent.time))
+        )
         return self._notifier_db_manager.select_records(event_statement)
 
     def save_fixtures(self, team_fixtures: List["FixtureForDB"]) -> None:

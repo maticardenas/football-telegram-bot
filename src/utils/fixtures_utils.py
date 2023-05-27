@@ -13,12 +13,15 @@ from src.api.videos_search_client import VideosSearchClient
 from src.api.youtube_search_client import YoutubeSearchClient
 from src.db.db_manager import NotifierDBManager
 from src.db.fixtures_db_manager import FixturesDBManager
+from src.db.notif_sql_models import Event as DBEvent
 from src.db.notif_sql_models import Fixture as DBFixture
 from src.db.notif_sql_models import League as DBLeague
 from src.db.notif_sql_models import Team as DBTeam
-from src.db.notif_sql_models import TimeZone, UserTimeZone
+from src.db.notif_sql_models import UserTimeZone
 from src.entities import (
+    Assist,
     Championship,
+    Event,
     Fixture,
     FixtureForDB,
     LineUp,
@@ -27,6 +30,7 @@ from src.entities import (
     Player,
     Team,
     TeamStanding,
+    Time,
 )
 from src.notifier_logger import get_logger
 from src.utils.date_utils import TimeZones, get_time_in_time_zone
@@ -198,6 +202,40 @@ def get_last_fixture(
     )
 
 
+def convert_db_event(event: DBEvent) -> Event:
+    event_db_player = FIXTURES_DB_MANAGER.get_player(event.player)
+    event_db_assist = FIXTURES_DB_MANAGER.get_player(event.assist)
+    event_db_team = FIXTURES_DB_MANAGER.get_team(event.team)
+
+    return Event(
+        time=Time(
+            elapsed=event.time,
+            extra=event.time_extra,
+        ),
+        team=Team(
+            id=event_db_team[0].id,
+            name=event_db_team[0].name,
+            logo=event_db_team[0].picture,
+            country=event_db_team[0].country,
+            picture=event_db_team[0].picture,
+        ),
+        player=Player(
+            id=event_db_player[0].id,
+            name=event_db_player[0].name,
+        ),
+        assist=Assist(
+            id=event_db_assist[0].id,
+            name=event_db_assist[0].name,
+        )
+        if len(event_db_assist)
+        else Assist(),
+        type=event.type,
+        detail=event.detail,
+        comments=event.comments,
+        fixture_id=event.fixture,
+    )
+
+
 def convert_db_fixture(
     fixture: DBFixture, user_time_zones: Optional[List[UserTimeZone]] = []
 ) -> Fixture:
@@ -230,6 +268,8 @@ def convert_db_fixture(
     away_team: DBTeam = notifier_db_manager.select_records(
         select(DBTeam).where(DBTeam.id == fixture.away_team)
     )[0]
+    fixture_db_events = FIXTURES_DB_MANAGER.get_fixture_events(fixture.id)
+    fixture_events = [convert_db_event(db_event) for db_event in fixture_db_events]
 
     return Fixture(
         fixture.id,
@@ -269,6 +309,7 @@ def convert_db_fixture(
         fixture.venue,
         additional_time_zones=additional_time_zones,
         main_time_zone=main_time_zone,
+        events=fixture_events,
     )
 
 

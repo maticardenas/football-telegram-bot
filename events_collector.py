@@ -28,6 +28,16 @@ def collect_events() -> None:
             FIXTURES_DB_MANAGER.save_fixture_event(event)
 
 
+def is_from_favourite_league_or_has_favourite_teams(fixture) -> bool:
+    all_favourite_teams = FIXTURES_DB_MANAGER.get_all_favourite_teams()
+
+    return (
+        fixture.league not in FIXTURES_DB_MANAGER.get_all_favourite_leagues()
+        and fixture.home_team not in all_favourite_teams
+        and fixture.away_team not in all_favourite_teams
+    )
+
+
 def get_all_fixtures_ids_to_collect_events() -> List[int]:
     surrounding = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(4)
 
@@ -38,9 +48,9 @@ def get_all_fixtures_ids_to_collect_events() -> List[int]:
             logger.info(f"Fixture is not finished yet")
             continue
 
-        if fixture.league not in FIXTURES_DB_MANAGER.get_all_favourite_leagues():
+        if is_from_favourite_league_or_has_favourite_teams(fixture):
             logger.info(
-                f"Fixture's league ({fixture.league}) does not belong to a favourite league."
+                f"Fixture's league ({fixture.league}) and teams ({fixture.home_team} - {fixture.away_team}) do not belong to favourites."
             )
             continue
 
