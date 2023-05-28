@@ -389,7 +389,7 @@ class Fixture:
                 repr = (
                     f"{date_text}"
                     f"<not_translate>"
-                    f"{Emojis.TELEVISION.value} <strong>{self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}</strong>"
+                    f"{Emojis.TELEVISION.value} {self.home_team.name} {self.match_score.get_home_score()} vs. {self.match_score.get_away_score()} {self.away_team.name}"
                     f"{league_text}"
                     f"</not_translate>"
                     f"{round_text}"
@@ -400,7 +400,7 @@ class Fixture:
             else:
                 repr = (
                     f"{date_text}"
-                    f"{Emojis.TELEVISION.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>"
+                    f"{Emojis.TELEVISION.value} {self.home_team.name} vs. {self.away_team.name}"
                     f"{league_text}"
                     f"</not_translate>"
                     f"{round_text}"
@@ -421,7 +421,7 @@ class Fixture:
             repr = (
                 f"{date_text}"
                 f"<not_translate>"
-                f"{Emojis.TELEVISION.value} <strong>{self.home_team.name} vs. {self.away_team.name}</strong>"
+                f"{Emojis.TELEVISION.value} {self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
                 f"</not_translate>"
                 f"</not_translate>"
