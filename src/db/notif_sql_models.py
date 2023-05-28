@@ -115,7 +115,7 @@ class Event(SQLModel, table=True):
     time: int
     time_extra: Optional[str] = None
     team: int = Field(foreign_key="team.id")
-    player: int = Field(foreign_key="player.id")
+    player: int = Field(default=None, foreign_key="player.id")
     assist: int = Field(default=None, foreign_key="player.id")
     type: str
     detail: Optional[str] = None

@@ -42,8 +42,8 @@ class MatchScore:
 
 
 class Player(BaseModel):
-    id: int
-    name: str
+    id: Optional[int] = None
+    name: Optional[str] = None
     pos: Optional[str] = ""
 
 

@@ -664,8 +664,9 @@ class FixturesDBManager:
         self._notifier_db_manager.insert_record(db_fixture)
 
     def save_fixture_event(self, event: "Event") -> None:
-        self.insert_player(event.player)
-        if event.assist.name:
+        if event.player.name is not None and event.player.id is not None:
+            self.insert_player(event.player)
+        if event.assist.name is not None and event.assist.id is not None:
             self.insert_player(event.assist)
         logger.info(
             f"Inserting Event {event.type} - {event.player.name} - assist: {event.assist.name}"
