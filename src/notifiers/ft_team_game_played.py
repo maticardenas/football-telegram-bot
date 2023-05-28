@@ -27,7 +27,9 @@ logger = get_logger(__name__)
 
 
 def notify_ft_team_game_played() -> None:
-    surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(4)
+    surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(
+        hours=-4, status="finished"
+    )
 
     for fixture in surrounding_fixtures:
         logger.info(f"Checking notification for fixture {fixture.id}")
@@ -35,10 +37,6 @@ def notify_ft_team_game_played() -> None:
         utc_now = datetime.utcnow()
 
         if utc_now > fixture_time:
-            if "finished" not in fixture.match_status.lower():
-                logger.info(f"Fixture is not finished yet")
-                continue
-
             if fixture.played_notified is True:
                 logger.info(f"Fixture was already notified")
                 continue
