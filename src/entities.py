@@ -596,11 +596,16 @@ class Fixture:
         goal_events = []
 
         for event in self.events:
-            if event.type == "Goal" and event.detail in [
-                "Normal Goal",
-                "Own Goal",
-                "Penalty",
-            ]:
+            if (
+                event.type == "Goal"
+                and event.detail
+                in [
+                    "Normal Goal",
+                    "Own Goal",
+                    "Penalty",
+                ]
+                and event.player.name is not None
+            ):
                 own_goal = " [OG]" if event.detail == "Own Goal" else ""
                 penalty_goal = " [PEN]" if event.detail == "Penalty" else ""
                 goal_text = f"{str(event.time)} {event.player.name} ({event.team.abbrv_name()}){own_goal}{penalty_goal}"
@@ -621,7 +626,9 @@ class Fixture:
         red_card_players = [
             f"{str(rc_event.time)} {rc_event.player.name} ({rc_event.team.abbrv_name()})"
             for rc_event in self.events
-            if rc_event.type == "Card" and rc_event.detail == "Red Card"
+            if rc_event.type == "Card"
+            and rc_event.detail == "Red Card"
+            and rc_event.player.name is not None
         ]
 
         return (
@@ -642,6 +649,7 @@ class Fixture:
             if yc_event.type == "Card"
             and yc_event.detail == "Yellow Card"
             and yc_event.player.name not in red_card_players
+            and yc_event.player.name is not None
         ]
 
         return (
