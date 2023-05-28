@@ -40,7 +40,7 @@ def is_from_favourite_league_or_has_favourite_teams(fixture) -> bool:
 
 def get_all_fixtures_ids_to_collect_events() -> List[int]:
     surrounding = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(
-        hours=4, favourite=True, status="finished"
+        hours=-4, favourite=True, status="finished"
     )
 
     filtered_fixtures_ids = []
