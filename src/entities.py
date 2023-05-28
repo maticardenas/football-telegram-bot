@@ -541,7 +541,7 @@ class Fixture:
         fixture_events_text = "\n".join([goals_text, yellow_cards_text, red_cards_text])
         events_text = (
             f"<not_translate>\n\n{fixture_events_text}\n\n</not_translate>"
-            if fixture_events_text
+            if fixture_events_text != "\n\n"
             else "\n\n"
         )
 
