@@ -189,15 +189,17 @@ class FixturesDBManager:
             days_range = range(0, 1)
 
         statement = select(DBFixture)
+        or_dates = []
 
         for day in days_range:
             utc_today = datetime.utcnow()
             surrounding_day = utc_today + timedelta(days=day)
             games_date = str(surrounding_day.date())
-            date_statement = statement.where(DBFixture.utc_date.contains(games_date))
-            surrounding_fixtures += self._notifier_db_manager.select_records(
-                date_statement
-            )
+            or_dates.append(DBFixture.utc_date.contains(games_date))
+
+        if len(or_dates):
+            or_condition = or_(*or_dates)
+            statement = statement.where(or_condition)
 
         if len(leagues):
             league_statement = statement.where(DBFixture.league.in_(leagues))
