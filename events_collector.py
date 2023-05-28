@@ -39,21 +39,13 @@ def is_from_favourite_league_or_has_favourite_teams(fixture) -> bool:
 
 
 def get_all_fixtures_ids_to_collect_events() -> List[int]:
-    surrounding = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(4)
+    surrounding = FIXTURES_DB_MANAGER.get_games_in_surrounding_n_hours(
+        hours=4, favourite=True, status="finished"
+    )
 
     filtered_fixtures_ids = []
 
     for fixture in surrounding:
-        if "finished" not in fixture.match_status.lower():
-            logger.info(f"Fixture is not finished yet")
-            continue
-
-        if is_from_favourite_league_or_has_favourite_teams(fixture):
-            logger.info(
-                f"Fixture's league ({fixture.league}) and teams ({fixture.home_team} - {fixture.away_team}) do not belong to favourites."
-            )
-            continue
-
         fixture_events = FIXTURES_DB_MANAGER.get_fixture_events(fixture.id)
 
         if len(fixture_events):

@@ -25,6 +25,7 @@ from src.notifier_logger import get_logger
 from src.utils.date_utils import (
     get_date_diff,
     get_formatted_date,
+    get_time_in_time_zone,
     get_time_in_time_zone_str,
 )
 from src.utils.db_utils import remove_duplicate_fixtures
@@ -194,7 +195,7 @@ class FixturesDBManager:
             utc_today = datetime.utcnow()
             surrounding_day = utc_today + timedelta(days=day)
             games_date = str(surrounding_day.date())
-            statement.where(DBFixture.utc_date.contains(games_date))
+            statement.where(DBFixture.utc_date.ilike(games_date))
 
         if len(leagues):
             league_statement = statement.where(DBFixture.league.in_(leagues))
@@ -260,31 +261,47 @@ class FixturesDBManager:
         return remove_duplicate_fixtures(today_games)
 
     def get_games_in_surrounding_n_hours(
-        self, hours: int, favourite: bool = False
+        self, hours: int, favourite: bool = False, status: str = ""
     ) -> List[Optional[DBFixture]]:
-        surrounding_fixtures = []
+        time_to_check = datetime.now() + timedelta(hours=hours)
+        now_str = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+        time_to_check_str = datetime.strftime(time_to_check, "%Y-%m-%dT%H:%M:%S")
 
-        today_fixtures = self.get_surround_games_in_time_zone(
-            "today"
-        ) + self.get_surround_games_in_time_zone("yesterday")
+        if hours > 0:
+            statement = (
+                select(DBFixture)
+                .where(DBFixture.utc_date < time_to_check_str)
+                .where(DBFixture.utc_date > now_str)
+            )
+        else:
+            statement = (
+                select(DBFixture)
+                .where(DBFixture.utc_date > time_to_check_str)
+                .where(DBFixture.utc_date < now_str)
+            )
+
+        if status:
+            statement = statement.where(
+                func.lower(DBFixture.match_status).ilike(f"%{status}%")
+            )
+
+        surr_fixtures = self._notifier_db_manager.select_records(statement)
 
         if favourite:
             favourite_leagues_in_db = self.get_all_favourite_leagues()
-            today_fixtures = filter(
-                lambda fixt: fixt.league in favourite_leagues_in_db, today_fixtures
+            favourite_teams_in_db = self.get_all_favourite_teams()
+            surr_fixtures = list(
+                filter(
+                    lambda fixt: fixt.home_team in favourite_teams_in_db
+                    or fixt.away_team in favourite_teams_in_db
+                    or fixt.league in favourite_leagues_in_db,
+                    surr_fixtures,
+                )
             )
 
-        for fixture in today_fixtures:
-            utc_date = get_formatted_date(fixture.utc_date)
+        random.shuffle(surr_fixtures)
 
-            diff = get_date_diff(utc_date)
-
-            if diff.days == 0 and diff.seconds < (3600 * hours):
-                surrounding_fixtures.append(fixture)
-
-        random.shuffle(surrounding_fixtures)
-
-        return surrounding_fixtures
+        return surr_fixtures
 
     def get_fixtures_by_team(self, team_id: int) -> Optional[List[DBFixture]]:
         fixtures_statement = (
