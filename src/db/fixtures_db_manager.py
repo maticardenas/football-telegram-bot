@@ -194,7 +194,10 @@ class FixturesDBManager:
             utc_today = datetime.utcnow()
             surrounding_day = utc_today + timedelta(days=day)
             games_date = str(surrounding_day.date())
-            statement = statement.where(DBFixture.utc_date.contains(games_date))
+            date_statement = statement.where(DBFixture.utc_date.contains(games_date))
+            surrounding_fixtures += self._notifier_db_manager.select_records(
+                date_statement
+            )
 
         if len(leagues):
             league_statement = statement.where(DBFixture.league.in_(leagues))
@@ -208,8 +211,6 @@ class FixturesDBManager:
             team_fixtures = self._notifier_db_manager.select_records(team_statement)
 
             surrounding_fixtures = remove_duplicate_fixtures(team_fixtures)
-        else:
-            surrounding_fixtures += self._notifier_db_manager.select_records(statement)
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.utc_date)
 
