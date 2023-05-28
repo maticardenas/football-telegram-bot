@@ -220,12 +220,12 @@ def convert_db_event(event: DBEvent) -> Event:
             picture=event_db_team[0].picture,
         ),
         player=Player(
-            id=event_db_player[0].id,
-            name=event_db_player[0].name,
+            id=event_db_player[0].id if len(event_db_player) else None,
+            name=event_db_player[0].name if len(event_db_player) else None,
         ),
         assist=Assist(
-            id=event_db_assist[0].id,
-            name=event_db_assist[0].name,
+            id=event_db_assist[0].id if len(event_db_assist) else None,
+            name=event_db_assist[0].name if len(event_db_assist) else None,
         )
         if len(event_db_assist)
         else Assist(),
