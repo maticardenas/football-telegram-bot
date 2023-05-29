@@ -92,7 +92,9 @@ class DailyFTNotifier:
     ):
         user_fixtures_to_notif = []
         today_matches = self._fixtures_db_manager.get_surround_games_in_time_zone(
-            "today", time_zone=user_main_time_zone.name if user_main_time_zone else ""
+            surround_type="today",
+            time_zone=user_main_time_zone.name if user_main_time_zone else "",
+            teams=favourite_teams,
         )
 
         for fixture in today_matches:
@@ -135,6 +137,7 @@ class DailyFTNotifier:
         yesterday_matches = self._fixtures_db_manager.get_surround_games_in_time_zone(
             "yesterday",
             time_zone=user_main_time_zone.name if user_main_time_zone else "",
+            teams=favourite_teams,
         )
 
         notifier_commands_handler = NotifierBotCommandsHandler(user)
