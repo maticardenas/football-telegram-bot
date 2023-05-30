@@ -545,6 +545,8 @@ class Fixture:
             else "\n\n"
         )
 
+        timeline_text = f"\n{Emojis.BELL.value} Timeline:\n\n{self.get_all_events_text()}" if self.events else ""
+
         if any(
             time in self.match_status.lower()
             for time in ["finished", "half", "break", "extra"]
@@ -570,6 +572,7 @@ class Fixture:
                 f"{referee_line}"
                 f"{highlights_text}"
                 f"</not_translate>"
+                f"{timeline_text}"
             )
         else:
             match_notification = (
@@ -581,6 +584,7 @@ class Fixture:
                 f"{stadium_line}"
                 f"{referee_line}"
                 f"</not_translate>"
+                f"{timeline_text}"
             )
 
         return match_notification
@@ -657,6 +661,9 @@ class Fixture:
             if yellow_card_players
             else ""
         )
+
+    def get_all_events_text(self) -> str:
+        return "\n".join(self.events)
 
     def _get_capitalized_name(self, name: str) -> str:
         return re.sub(
