@@ -402,7 +402,6 @@ class Fixture:
                     f"{date_text}"
                     f"{Emojis.TELEVISION.value} {self.home_team.name} vs. {self.away_team.name}"
                     f"{league_text}"
-                    f"</not_translate>"
                     f"{round_text}"
                     f"<not_translate>\n</not_translate>{Emojis.SAD_FACE.value} {self.match_status}"
                 )

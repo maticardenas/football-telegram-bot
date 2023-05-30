@@ -47,6 +47,14 @@ class NotifierDBManager:
         session.delete(db_object)
         session.commit()
 
-    def select_records(self, statement):
+    def select_records(self, statement, chunk_size=1000):
         with Session(self._engine) as session:
-            return session.exec(statement).all()
+            offset = 0
+            while True:
+                chunk_state = statement.offset(offset).limit(chunk_size)
+                chunk = session.exec(chunk_state).all()
+                if not chunk:
+                    break
+                for record in chunk:
+                    yield record
+                offset += chunk_size

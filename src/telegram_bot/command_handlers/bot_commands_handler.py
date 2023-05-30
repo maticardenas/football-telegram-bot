@@ -38,17 +38,17 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                 "ft",
                 "favourite_teams",
             ]:
-                self._teams = self._fixtures_db_manager.get_favourite_teams(
+                self._teams = list(self._fixtures_db_manager.get_favourite_teams(
                     self._chat_id
-                )
+                ))
             elif str(self._command_args[0]).lower() in [
                 "fleagues",
                 "fl",
                 "favourite_leagues",
             ]:
-                self._leagues = self._fixtures_db_manager.get_favourite_leagues(
+                self._leagues = list(self._fixtures_db_manager.get_favourite_leagues(
                     self._chat_id
-                )
+                ))
             else:
                 self._leagues = self._command_args
         else:
@@ -758,9 +758,9 @@ class LanguagesCommandHandler(NotifierBotCommandsHandler):
         )
 
         if len(user_config_language):
-            language = self._fixtures_db_manager.get_language_by_id(
+            language = next(self._fixtures_db_manager.get_language_by_id(
                 user_config_language[0].lang_id
-            )[0]
+            ))
             return f"<strong>{language.name.capitalize()}</strong>"
 
         return f"Oops! It seems you don't have a language configured yet, you can do it with /set_language command."

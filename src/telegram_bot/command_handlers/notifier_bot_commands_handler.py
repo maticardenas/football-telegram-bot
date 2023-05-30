@@ -22,28 +22,25 @@ class NotifierBotCommandsHandler:
 
     def get_user_language(self, chat_id: str) -> DBLanguage:
         try:
-            config_language: DBConfigLanguage = (
-                self._fixtures_db_manager.get_config_language(str(chat_id))[0]
-            )
+            config_language: DBConfigLanguage = next(self._fixtures_db_manager.get_config_language(str(chat_id)))
         except IndexError:
             self._fixtures_db_manager.insert_or_update_user_config_language(
                 lang_id=ENGLISH_LANG_ID, chat_id=self._chat_id
             )
-            config_language = self._fixtures_db_manager.get_config_language(
+            config_language = next(self._fixtures_db_manager.get_config_language(
                 str(chat_id)
-            )[0]
+            ))
 
-        return self._fixtures_db_manager.get_language_by_id(config_language.lang_id)[0]
+        return next(self._fixtures_db_manager.get_language_by_id(config_language.lang_id))
 
     def search_team(self, team_text: str) -> Optional[DBTeam]:
         teams = self._fixtures_db_manager.get_teams_by_name(team_text)
-        if len(teams):
-            for team in teams:
-                team.country = (
-                    self._fixtures_db_manager.get_country(team.country)[0].name
-                    if team.country
-                    else ""
-                )
+        for team in teams:
+            team.country = (
+                next(self._fixtures_db_manager.get_country(team.country)).name
+                if team.country
+                else ""
+            )
         return teams
 
     def search_league(self, league_text: str) -> Optional[DBLeague]:
@@ -153,18 +150,18 @@ class NotifierBotCommandsHandler:
 
     def get_user_main_time_zone(self) -> str:
         time_zones = self._fixtures_db_manager.get_user_time_zones(self._chat_id)
-        main_time_zone = ""
+        # main_time_zone = ""
 
-        if len(time_zones):
-            main_time_zone = [
-                time_zone for time_zone in time_zones if time_zone.is_main_tz
-            ]
+        #if len(time_zones):
+        main_time_zone = [
+            time_zone for time_zone in time_zones if time_zone.is_main_tz
+        ]
 
-            if len(main_time_zone):
-                main_time_zone = main_time_zone[0]
+        if len(main_time_zone):
+            main_time_zone = main_time_zone[0]
 
         return (
-            self._fixtures_db_manager.get_time_zone(main_time_zone.time_zone)[0].name
+            next(self._fixtures_db_manager.get_time_zone(main_time_zone.time_zone)).name
             if main_time_zone
             else "UTC"
         )

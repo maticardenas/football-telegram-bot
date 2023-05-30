@@ -249,25 +249,25 @@ def convert_db_fixture(
     # league_name, round_name = __get_translated_league_name_and_round(fixture)
     notifier_db_manager = NotifierDBManager()
 
-    main_time_zone = FIXTURES_DB_MANAGER.get_time_zones_by_name("UTC")[0]
+    main_time_zone = next(FIXTURES_DB_MANAGER.get_time_zones_by_name("UTC"))
     additional_time_zones = []
 
     for user_time_zone in user_time_zones:
-        db_time_zone = FIXTURES_DB_MANAGER.get_time_zone(user_time_zone.time_zone)[0]
+        db_time_zone = next(FIXTURES_DB_MANAGER.get_time_zone(user_time_zone.time_zone))
         if user_time_zone.is_main_tz is True:
             main_time_zone = db_time_zone
         else:
             additional_time_zones.append(db_time_zone)
 
-    league: DBLeague = notifier_db_manager.select_records(
+    league: DBLeague = next(notifier_db_manager.select_records(
         select(DBLeague).where(DBLeague.id == fixture.league)
-    )[0]
-    home_team: DBTeam = notifier_db_manager.select_records(
+    ))
+    home_team: DBTeam = next(notifier_db_manager.select_records(
         select(DBTeam).where(DBTeam.id == fixture.home_team)
-    )[0]
-    away_team: DBTeam = notifier_db_manager.select_records(
+    ))
+    away_team: DBTeam = next(notifier_db_manager.select_records(
         select(DBTeam).where(DBTeam.id == fixture.away_team)
-    )[0]
+    ))
     fixture_db_events = FIXTURES_DB_MANAGER.get_fixture_events(fixture.id)
     fixture_events = [convert_db_event(db_event) for db_event in fixture_db_events]
 

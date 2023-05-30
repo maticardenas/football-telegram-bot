@@ -199,18 +199,18 @@ class FixturesDBManager:
 
         if len(leagues):
             league_statement = statement.where(DBFixture.league.in_(leagues))
-            surrounding_fixtures += self._notifier_db_manager.select_records(
+            surrounding_fixtures += list(self._notifier_db_manager.select_records(
                 league_statement
-            )
+            ))
         elif len(teams):
             team_statement = statement.where(
                 or_(DBFixture.home_team.in_(teams), DBFixture.away_team.in_(teams))
             )
-            team_fixtures = self._notifier_db_manager.select_records(team_statement)
+            team_fixtures = list(self._notifier_db_manager.select_records(team_statement))
 
             surrounding_fixtures = remove_duplicate_fixtures(team_fixtures)
         else:
-            surrounding_fixtures += self._notifier_db_manager.select_records(statement)
+            surrounding_fixtures += list(self._notifier_db_manager.select_records(statement))
 
         surrounding_fixtures.sort(key=lambda fixture: fixture.utc_date)
 
