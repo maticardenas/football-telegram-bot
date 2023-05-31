@@ -9,8 +9,10 @@ project_dir = os.path.join(parent_dir, "..")
 sys.path.insert(0, parent_dir)
 sys.path.insert(1, project_dir)
 
+from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
+from src.entities import Event
 from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
 from src.notifier_logger import get_logger
 from src.senders.telegram_sender import send_telegram_message
@@ -55,6 +57,20 @@ def notify_ft_team_game_played() -> None:
                 logger.info(
                     f"Notifying fixture {fixture.id} - {fixture.home_team} vs. {fixture.away_team}"
                 )
+
+                # Check fixture events and attempt to populate them if they are not there.
+                fixture_events = fixtures_db_manager.get_fixture_events(fixture.id)
+                if not len(fixture_events):
+                    logger.info(
+                        f"Fixture {fixture.id} does not event. Will attempt collection."
+                    )
+                    fixtures_client = FixturesClient()
+                    events_response = fixtures_client.get_events(fixture.id)
+                    for fixt_event in events_response.as_dict.get("response", []):
+                        event = Event(**fixt_event)
+                        event.fixture_id = fixture.id
+                        fixtures_db_manager.save_fixture_event(event)
+
                 for ft_record in favourite_teams_records:
                     if is_user_subscribed_to_notif(ft_record.chat_id, 4):
                         converted_fixture = convert_db_fixture(
@@ -79,11 +95,39 @@ def notify_ft_team_game_played() -> None:
                         user_lang = notifier_commands_handler.get_user_language(
                             ft_record.chat_id
                         )
+
+                        # Send main played game message
                         send_telegram_message(
                             chat_id=ft_record.chat_id,
                             message=notif_text,
                             lang=user_lang.short_name,
                         )
+
+                        # Send timeline if any
+                        timeline_text = converted_fixture.get_all_events_text()
+                        if timeline_text and is_user_subscribed_to_notif(
+                            ft_record.chat_id, 6
+                        ):
+                            logger.info(
+                                f"Notifying timeline for fixture {fixture.id} and user {ft_record.chat_id}"
+                            )
+
+                            text = f"{Emojis.ALARM_CLOCK.value} Game's timeline {Emojis.ALARM_CLOCK.value}\n\n{timeline_text}"
+
+                            send_telegram_message(
+                                chat_id=ft_record.chat_id,
+                                message=text,
+                                lang=user_lang.short_name,
+                            )
+                        else:
+                            if not timeline_text:
+                                logger.info(
+                                    f"Fixture {fixture.id} does not have timeline yet."
+                                )
+                            else:
+                                logger.info(
+                                    f"User is not subscribed to include timeline in notification."
+                                )
                     else:
                         logger.info(
                             f"User {ft_record.chat_id} is not subscribed to played games notifications."

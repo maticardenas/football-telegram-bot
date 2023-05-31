@@ -303,6 +303,11 @@ class FixturesDBManager:
 
         return surr_fixtures
 
+    def get_fixture_by_id(self, fixture_id: int) -> List[DBFixture]:
+        fixtures_statement = select(DBFixture).where(DBFixture.id == fixture_id)
+
+        return self._notifier_db_manager.select_records(fixtures_statement)
+
     def get_fixtures_by_team(self, team_id: int) -> Optional[List[DBFixture]]:
         fixtures_statement = (
             select(DBFixture)
