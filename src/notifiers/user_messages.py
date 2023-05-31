@@ -78,3 +78,23 @@ So once again, thanks for your continued support and stay tuned for more updates
 
 Happy football watching! 🎉
     """
+
+
+TIMELINES = f"""
+    {Emojis.PARTYING_FACE.value} {Emojis.PARTYING_FACE.value} More info for your games! {Emojis.PARTYING_FACE.value} {Emojis.PARTYING_FACE.value}
+
+🎉 As promised, we've added more info about match events in your notifications, along with some extra goodies.
+
+{Emojis.SMILEY_FACE.value} We have introduced <strong>TIMELINES</strong> for your favorite matches!. When you use the /last_match command, you'll see a <strong>"Show Timeline"</strong> button below the notification. Clicking on it will give you all the event from the game and their times. 😍
+
+{Emojis.RIGHT_FACING_FIST.value} What better way to chat with friends and discuss your favorite team's and coach's decisions during the game? 👪
+
+And guess what? When your favorite team finishes playing, you'll get the full timeline as a default message, along with the result. 
+
+{Emojis.MAN_RUNNING.value} Now, if you feel like the timelines are too much for this specific case, you can easily disable this feature in your configuration. 
+Just use the /notif_config command, and you're back to a simpler, result-focused experience.  🛏️
+
+{Emojis.PARTYING_FACE.value} And there's more coming soon! 
+
+Happy football watching!
+    """

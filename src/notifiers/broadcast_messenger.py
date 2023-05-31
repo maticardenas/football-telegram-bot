@@ -14,6 +14,7 @@ from src.notifiers.user_messages import (
     GAMES_EVENTS_KICK_OFF,
     LANGUAGES_ENABLEMENT,
     STATISTICS_KICK_OFF,
+    TIMELINES,
 )
 from src.senders.telegram_sender import send_telegram_message
 
@@ -40,4 +41,4 @@ def notify_all_users(message: str):
 
 
 if __name__ == "__main__":
-    notify_all_users(GAMES_EVENTS_KICK_OFF)
+    notify_all_users(TIMELINES)
