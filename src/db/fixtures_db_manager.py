@@ -700,7 +700,7 @@ class FixturesDBManager:
         event_statement = (
             select(DBEvent)
             .where(DBEvent.fixture == fixture_id)
-            .order_by(asc(DBEvent.time))
+            .order_by(asc(DBEvent.time), asc(DBEvent.time_extra))
         )
         return self._notifier_db_manager.select_records(event_statement)
 
