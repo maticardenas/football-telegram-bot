@@ -77,3 +77,4 @@ class Emojis(Enum):
     YELLOW_SQUARE = emoji.emojize(":yellow_square:", language="alias")
     UPWARDS_BUTTON = emoji.emojize(":upwards_button:", language="alias")
     DONWARDS_BUTTON = emoji.emojize(":downwards_button:", language="alias")
+    FACEPALM = emoji.emojize(":man_facepalming_light_skin_tone:", language="alias")

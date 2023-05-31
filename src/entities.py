@@ -90,16 +90,16 @@ class Event(BaseModel):
 
     def __str__(self):
         if self.type == "Goal":
-            return f"{self.time()} {self.get_goal()}"
+            return f"{self.get_time()} {self.get_goal()}"
         elif self.type == "subst":
-            return f"{self.time()} {self.get_subst()}"
+            return f"{self.get_time()} {self.get_subst()}"
         elif self.type == "Card":
-            return f"{self.time()} {self.get_card()}"
+            return f"{self.get_time()} {self.get_card()}"
         else:
             return ""
 
     def get_time(self) -> str:
-        return f"{Emojis.ALARM_CLOCK}{str(self.time)}"
+        return f"<em>{str(self.time)} <not_translate> ({self.team.abbrv_name()}) - </not_translate></em>"
 
     def get_goal(self) -> str:
         if self.detail == "Normal Goal":
@@ -107,9 +107,9 @@ class Event(BaseModel):
         elif self.detail == "Penalty":
             return f"{Emojis.SOCCER_BALL.value} GOAL! (penalty) - {self.player.name}"
         elif self.detail == "Own Goal":
-            return f"{Emojis.SOCCER_BALL.value}{Emojis.CROSS_MARK.value} OWN GOAL - {self.player.name}"
+            return f"{Emojis.SOCCER_BALL.value}{Emojis.FACEPALM.value} OWN GOAL - {self.player.name}"
         else:  # Missed Penalty
-            return f"{Emojis.GLOVES.value} Missed penalty - {self.player.name}"
+            return f"{Emojis.GLOVES.value}{Emojis.CROSS_MARK.value} Missed penalty - {self.player.name}"
 
     def get_card(self) -> str:
         emoji = (
@@ -120,7 +120,7 @@ class Event(BaseModel):
         return f"{emoji} {self.player.name}"
 
     def get_subst(self) -> str:
-        return f"{Emojis.UPWARDS_BUTTON.value} {self.player.name} - {Emojis.DONWARDS_BUTTON} {self.assist.name}"
+        return f"{Emojis.UPWARDS_BUTTON.value} {self.player.name} - {Emojis.DONWARDS_BUTTON.value} {self.assist.name}"
 
 
 @dataclass
@@ -545,8 +545,6 @@ class Fixture:
             else "\n\n"
         )
 
-        timeline_text = f"\n{Emojis.BELL.value} Timeline:\n\n{self.get_all_events_text()}" if self.events else ""
-
         if any(
             time in self.match_status.lower()
             for time in ["finished", "half", "break", "extra"]
@@ -572,7 +570,6 @@ class Fixture:
                 f"{referee_line}"
                 f"{highlights_text}"
                 f"</not_translate>"
-                f"{timeline_text}"
             )
         else:
             match_notification = (
@@ -584,7 +581,6 @@ class Fixture:
                 f"{stadium_line}"
                 f"{referee_line}"
                 f"</not_translate>"
-                f"{timeline_text}"
             )
 
         return match_notification
@@ -663,7 +659,7 @@ class Fixture:
         )
 
     def get_all_events_text(self) -> str:
-        return "\n".join(self.events)
+        return "\n".join([str(event) for event in self.events])
 
     def _get_capitalized_name(self, name: str) -> str:
         return re.sub(

@@ -87,17 +87,28 @@ async def last_match_handler(update: Update, context):
     if validated_input:
         await send_message(update, context, validated_input)
     else:
-        text, photo = command_handler.last_match_team_notif()
+        text, photo, fixture_id = command_handler.last_match_team_notif()
         logger.info(f"Fixture - text: {text} - photo: {photo}")
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "Show timeline", callback_data=f"timeline {fixture_id}"
+                ),
+            ]
+        ]
+
+        reply_markup = InlineKeyboardMarkup(keyboard)
+
         if photo:
             await send_photo(
                 update=update,
                 context=context,
                 photo=photo,
                 caption=text,
+                reply_markup=reply_markup,
             )
         else:
-            await send_message(update, context, text)
+            await send_message(update, context, text, reply_markup=reply_markup)
 
 
 async def next_match_league(update: Update, context):
@@ -209,6 +220,7 @@ async def last_match_league_handler(update: Update, context):
     else:
         text, photo = command_handler.last_match_league_notif()
         logger.info(f"Fixture - text: {text} - photo: {photo}")
+
         if photo:
             await send_photo(
                 update=update,
@@ -218,6 +230,46 @@ async def last_match_league_handler(update: Update, context):
             )
         else:
             await send_message(update=update, context=context, text=text)
+
+        # keyboard = [
+        #     [
+        #         InlineKeyboardButton("Favourite Leagues", callback_data=f"{command} fl"),
+        #         InlineKeyboardButton("Favourite Teams", callback_data=f"{command} ft"),
+        #     ]
+        # ]
+        #
+        # reply_markup = InlineKeyboardMarkup(keyboard)
+        #
+        # text = f"Please choose the option you'd like to get <strong>{' '.join(command.split('_'))}</strong> for:"
+
+
+async def timeline_callback_handler(update: Update, context) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+
+    await query.answer()
+
+    context.args = [query.data.split()[1]]
+
+    await timeline(update, context)
+
+
+async def timeline(update: Update, context):
+    logger.info(
+        f"/timeline {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NextAndLastMatchCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    fixture_id = context.args[0]
+    timeline_text = command_handler.timeline(fixture_id)
+    text = (
+        timeline_text
+        if timeline_text
+        else "There is no timeline available yet for the game. Please check later."
+    )
+    await send_message(update, context, text)
 
 
 async def today_matches_callback_handler(update: Update, context) -> None:

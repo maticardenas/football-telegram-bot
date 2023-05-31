@@ -56,6 +56,7 @@ from src.telegram_bot.matches_commands import (
     next_match,
     next_match_league,
     next_matches_league,
+    timeline_callback_handler,
     today_matches,
     today_matches_callback_handler,
     tomorrow_matches,
@@ -160,6 +161,7 @@ NOTIFIER_BOT_HANDLERS = [
         search_languages_callback_handler,
         pattern="^.*language|lang_page.*",
     ),
+    CallbackQueryHandler(timeline_callback_handler, pattern="^.*timeline.*"),
     ConversationHandler(
         entry_points=[CommandHandler("add_favourite_team", add_favourite_team)],
         states={
