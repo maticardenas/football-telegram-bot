@@ -90,7 +90,11 @@ class Event(BaseModel):
 
     def __str__(self):
         if self.type == "Goal":
-            return f"{self.get_time()} {self.get_goal()}"
+            return (
+                f"{self.get_time()} {self.get_goal()}"
+                if self.comments != "Penalty Shootout"
+                else self.get_goal()
+            )
         elif self.type == "subst":
             return f"{self.get_time()} {self.get_subst()}"
         elif self.type == "Card":
@@ -104,8 +108,10 @@ class Event(BaseModel):
     def get_goal(self) -> str:
         if self.detail == "Normal Goal":
             return f"{Emojis.SOCCER_BALL.value} GOAL! - {self.player.name} {'(' + self.assist.name + ')' if self.assist.name else ''}"
-        elif self.detail == "Penalty":
+        elif self.detail == "Penalty" and self.comments != "Penalty Shootout":
             return f"{Emojis.SOCCER_BALL.value} GOAL! (penalty) - {self.player.name}"
+        elif self.detail == "Penalty" and self.comments == "Penalty Shootout":
+            return f"{Emojis.SOCCER_BALL.value} GOAL! - {self.player.name}"
         elif self.detail == "Own Goal":
             return f"{Emojis.SOCCER_BALL.value}{Emojis.FACEPALM.value} OWN GOAL - {self.player.name}"
         else:  # Missed Penalty
@@ -659,7 +665,28 @@ class Fixture:
         )
 
     def get_all_events_text(self) -> str:
-        return "\n".join([str(event) for event in self.events])
+        all_events_text = "\n".join(
+            [
+                str(event)
+                for event in self.events
+                if event.comments != "Penalty Shootout"
+            ]
+        )
+        penalties_text = "\n".join(
+            [
+                str(event)
+                for event in self.events
+                if event.comments == "Penalty Shootout"
+            ]
+        )
+
+        final_text = (
+            f"{all_events_text}\n\n{Emojis.GOAL_NET.value} <strong>Penalty Shootouts</strong> {Emojis.GOAL_NET.value}\n\n{penalties_text}"
+            if penalties_text
+            else all_events_text
+        )
+
+        return final_text
 
     def _get_capitalized_name(self, name: str) -> str:
         return re.sub(
