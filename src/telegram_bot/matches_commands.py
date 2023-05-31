@@ -269,7 +269,7 @@ async def timeline(update: Update, context):
         if timeline_text
         else "There is no timeline available yet for the game. Please check later."
     )
-    await send_message(update, context, text)
+    await send_message(update, context, text, translate=False)
 
 
 async def today_matches_callback_handler(update: Update, context) -> None:

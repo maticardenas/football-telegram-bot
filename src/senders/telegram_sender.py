@@ -4,11 +4,16 @@ from src.utils.message_utils import translate_text
 
 
 def send_telegram_message(
-    chat_id: str, message: str = "", photo: str = "", video: str = "", lang: str = ""
+    chat_id: str,
+    message: str = "",
+    photo: str = "",
+    video: str = "",
+    lang: str = "",
+    translate: bool = True,
 ) -> None:
     message = (
         translate_text(message, lang)
-        if lang and lang != "en"
+        if lang and lang != "en" and translate is True
         else message.replace("<not_translate>", "").replace("</not_translate>", "")
     )
     telegram_client = TelegramClient(NotifConfig.TELEGRAM_TOKEN)

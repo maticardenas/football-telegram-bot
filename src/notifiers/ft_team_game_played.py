@@ -118,6 +118,7 @@ def notify_ft_team_game_played() -> None:
                                 chat_id=ft_record.chat_id,
                                 message=text,
                                 lang=user_lang.short_name,
+                                translate=False,
                             )
                         else:
                             if not timeline_text:

@@ -22,13 +22,15 @@ async def reply_text(update: Update, text, **kwargs) -> None:
     await update.message.reply_text(text_to_send, parse_mode="HTML", **kwargs)
 
 
-async def send_message(update: Update, context, text: str, **kwargs) -> None:
+async def send_message(
+    update: Update, context, text: str, translate: bool = True, **kwargs
+) -> None:
     chat_id = update.effective_chat.id
     command_handler = NotifierBotCommandsHandler(update.effective_chat.id)
     user_language = command_handler.get_user_language(str(chat_id)).short_name
     text_to_send = (
         translate_text(text=text, target_lang=user_language)
-        if user_language != "en"
+        if user_language != "en" and translate is True
         else text.replace("<not_translate>", "").replace("</not_translate>", "")
     )
 
