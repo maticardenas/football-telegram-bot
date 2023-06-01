@@ -667,9 +667,9 @@ class Fixture:
 
     def get_all_events_text(self) -> str:
         def is_valid_event(event: Event) -> bool:
-            if event.player is None or event.comments == "Penalty Shootout":
+            if event.player.name is None or event.comments == "Penalty Shootout":
                 return False
-            elif event.type == "subst" and event.assist is None:
+            elif event.type == "subst" and event.assist.name is None:
                 return False
 
             return True
@@ -681,7 +681,8 @@ class Fixture:
             [
                 str(event)
                 for event in self.events
-                if event.comments == "Penalty Shootout" and event.player is not None
+                if event.comments == "Penalty Shootout"
+                and event.player.name is not None
             ]
         )
 
