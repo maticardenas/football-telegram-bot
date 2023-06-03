@@ -329,13 +329,14 @@ def convert_db_fixture(
     )
 
 
-def get_all_events_goals(events: List[Event]) -> int:
+def get_all_events_goals(events: List[DBEvent]) -> int:
     return sum(
         1
         for event in events
         if event.type == "Goal"
         and event.detail != "Missed Penalty"
         and event.comments != "Penalty Shootout"
+        and event.player is not None
     )
 
 
