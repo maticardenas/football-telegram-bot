@@ -78,7 +78,7 @@ class Team(BaseModel):
                 team_name_words = self.name.split(" ")
 
                 if len(team_name_words) > 1:
-                    return f"{self.name[:3].upper()}{''.join([word[0] for word in team_name_words[1:]]).upper()}"
+                    return f"{self.name[:3].upper().replace(' ', '')}{''.join([word[0] for word in team_name_words[1:]]).upper()}"
                 else:
                     return self.name[:4].upper()
 
