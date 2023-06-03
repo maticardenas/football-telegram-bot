@@ -64,13 +64,23 @@ class Team(BaseModel):
     country: Optional[str] = ""
     picture: Optional[str] = ""
 
-    def abbrv_name(self) -> str:
-        team_name_words = self.name.split(" ")
+    def abbrv_name(self, rival_team_name: str = "") -> str:
+        team_abbrv_first_word = self.name[:3].upper()
 
-        if len(team_name_words) == 1:
-            return self.name[:3].upper()
+        if not rival_team_name:
+            return team_abbrv_first_word
         else:
-            return "".join([word[0] for word in team_name_words]).upper()
+            rival_abbrv_first_word = rival_team_name[:3].upper()
+
+            if rival_abbrv_first_word != team_abbrv_first_word:
+                return team_abbrv_first_word
+            else:
+                team_name_words = self.name.split(" ")
+
+                if len(team_name_words) > 1:
+                    return f"{self.name[:3].upper()}{''.join([word[0] for word in team_name_words[1:]]).upper()}"
+                else:
+                    return self.name[:4].upper()
 
 
 class Assist(BaseModel):
@@ -87,6 +97,7 @@ class Event(BaseModel):
     detail: str
     comments: Optional[str] = ""
     fixture_id: Optional[str] = ""
+    rival_team: Optional[Team] = None
 
     def __str__(self):
         if self.type == "Goal":
@@ -103,7 +114,7 @@ class Event(BaseModel):
             return ""
 
     def get_time(self) -> str:
-        return f"<em>{str(self.time)} <not_translate> ({self.team.abbrv_name()}) - </not_translate></em>"
+        return f"<em>{str(self.time)} <not_translate> ({self.team.abbrv_name(self.rival_team.name if self.rival_team else '')}) - </not_translate></em>"
 
     def get_goal(self) -> str:
         if self.detail == "Normal Goal":
@@ -614,7 +625,7 @@ class Fixture:
             ):
                 own_goal = " [OG]" if event.detail == "Own Goal" else ""
                 penalty_goal = " [PEN]" if event.detail == "Penalty" else ""
-                goal_text = f"{str(event.time)} {event.player.name} ({event.team.abbrv_name()}){own_goal}{penalty_goal}"
+                goal_text = f"{str(event.time)} {event.player.name} ({event.team.abbrv_name(event.rival_team.name if event.rival_team else '')}){own_goal}{penalty_goal}"
                 goal_events.append(goal_text)
 
         return (
@@ -630,7 +641,7 @@ class Fixture:
 
     def get_events_red_cards_text(self) -> str:
         red_card_players = [
-            f"{str(rc_event.time)} {rc_event.player.name} ({rc_event.team.abbrv_name()})"
+            f"{str(rc_event.time)} {rc_event.player.name} ({rc_event.team.abbrv_name(rc_event.rival_team.name if rc_event.rival_team else '')})"
             for rc_event in self.events
             if rc_event.type == "Card"
             and rc_event.detail == "Red Card"
@@ -650,7 +661,7 @@ class Fixture:
             if rc_event.type == "Card" and rc_event.detail == "Red Card"
         ]
         yellow_card_players = [
-            f"{str(yc_event.time)} {yc_event.player.name} ({yc_event.team.abbrv_name()})"
+            f"{str(yc_event.time)} {yc_event.player.name} ({yc_event.team.abbrv_name(yc_event.rival_team.name if yc_event.rival_team else '')})"
             for yc_event in self.events
             if yc_event.type == "Card"
             and yc_event.detail == "Yellow Card"

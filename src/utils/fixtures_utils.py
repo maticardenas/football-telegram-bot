@@ -202,7 +202,7 @@ def get_last_fixture(
     )
 
 
-def convert_db_event(event: DBEvent) -> Event:
+def convert_db_event(event: DBEvent, rival_team: Optional[DBTeam] = None) -> Event:
     event_db_player = FIXTURES_DB_MANAGER.get_player(event.player)
     event_db_assist = FIXTURES_DB_MANAGER.get_player(event.assist)
     event_db_team = FIXTURES_DB_MANAGER.get_team(event.team)
@@ -233,6 +233,13 @@ def convert_db_event(event: DBEvent) -> Event:
         detail=event.detail,
         comments=event.comments,
         fixture_id=event.fixture,
+        rival_team=Team(
+            id=rival_team.id,
+            name=rival_team.name,
+            logo=rival_team.picture,
+            country=rival_team.country,
+            picture=rival_team.picture,
+        ),
     )
 
 
@@ -269,7 +276,16 @@ def convert_db_fixture(
         select(DBTeam).where(DBTeam.id == fixture.away_team)
     )[0]
     fixture_db_events = FIXTURES_DB_MANAGER.get_fixture_events(fixture.id)
-    fixture_events = [convert_db_event(db_event) for db_event in fixture_db_events]
+    fixture_events = (
+        [
+            convert_db_event(
+                db_event, away_team if db_event.team == home_team.id else home_team
+            )
+            for db_event in fixture_db_events
+        ]
+        if has_all_events(fixture, fixture_db_events)
+        else []
+    )
 
     return Fixture(
         fixture.id,
@@ -311,6 +327,25 @@ def convert_db_fixture(
         main_time_zone=main_time_zone,
         events=fixture_events,
     )
+
+
+def get_all_events_goals(events: List[Event]) -> int:
+    return sum(
+        1
+        for event in events
+        if event.type == "Goal"
+        and event.detail != "Missed Penalty"
+        and event.comments != "Penalty Shootout"
+    )
+
+
+def has_all_events(fixture: DBFixture, events) -> bool:
+    if fixture.home_score is None or fixture.away_score is None:
+        return False
+
+    all_fixture_goals = fixture.home_score + fixture.away_score
+
+    return get_all_events_goals(events) == all_fixture_goals
 
 
 def convert_fixture_response(
@@ -473,72 +508,10 @@ def __teams_contain(fixture_response: Dict[str, Any], text: str) -> bool:
     )
 
 
-def get_image_search(query: str) -> str:
-    image_searcher = ImagesSearchClient()
-    images = image_searcher.get_images(query)
-
-    json_response = images.as_dict
-
-    for image in json_response["value"]:
-        url = image["contentUrl"]
-        if is_url_reachable(url):
-            return url
-
-    return ""
-
-
-def is_url_reachable(url: str) -> bool:
-    try:
-        response_code = urllib.request.urlopen(url).getcode()
-    except HTTPError:
-        print(f"The image url {url} is NOT reachable.")
-        return False
-
-    return response_code == 200
-
-
-def get_match_highlights(fixture: Fixture) -> List[MatchHighlights]:
-    videos_search_client = VideosSearchClient()
-    latest_videos = videos_search_client.search_football_videos()
-
-    match_highlights = []
-
-    for match in latest_videos.as_dict:
-        if is_corresponding_match_highlights(
-            fixture.home_team, fixture.away_team, match["title"]
-        ):
-            if -3 <= date_diff(match["date"]).days <= 0:
-                match_highlights = search_highlights_videos(match)
-                break
-
-    return [convert_match_highlights(highlights) for highlights in match_highlights]
-
-
-def is_corresponding_match_highlights(
-    home_team: Team, away_team: Team, match_title: str
-) -> bool:
-    return (
-        home_team.name.lower() in match_title.lower()
-        or away_team.name.lower() in match_title.lower()
-        or any(
-            [
-                team_alias.lower() == match_title.lower()
-                for team_alias in home_team.aliases + away_team.aliases
-            ]
-        )
-    )
-
-
 def convert_match_highlights(highlights: dict) -> MatchHighlights:
     url_match = re.search("http.*?'", highlights["embed"])
     highlights_url = highlights["embed"][url_match.span()[0] : url_match.span()[1] - 1]
     return MatchHighlights(highlights_url, highlights["embed"])
-
-
-def search_highlights_videos(match_response):
-    return [
-        video for video in match_response["videos"] if video["title"] == "Highlights"
-    ]
 
 
 def get_youtube_highlights_videos(
