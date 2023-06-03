@@ -686,7 +686,11 @@ class Fixture:
             return True
 
         all_events_text = "\n".join(
-            [str(event) for event in self.events if is_valid_event(event)]
+            [
+                str(event)
+                for event in self.events
+                if is_valid_event(event) and str(event)
+            ]
         )
         penalties_text = "\n".join(
             [
