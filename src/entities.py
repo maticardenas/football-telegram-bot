@@ -417,6 +417,7 @@ class Fixture:
             else:
                 repr = (
                     f"{date_text}"
+                    f"<not_translate>"
                     f"{Emojis.TELEVISION.value} {self.home_team.name} vs. {self.away_team.name}"
                     f"{league_text}"
                     f"</not_translate>"
@@ -440,7 +441,6 @@ class Fixture:
                 f"<not_translate>"
                 f"{Emojis.TELEVISION.value} {self.home_team.name} vs. {self.away_team.name}"
                 f"{league_text}"
-                f"</not_translate>"
                 f"</not_translate>"
                 f"{round_text}"
                 f"<not_translate>\n"
