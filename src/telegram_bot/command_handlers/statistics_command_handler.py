@@ -33,7 +33,9 @@ class TeamStatisticsBotCommandsHandler(NotifierBotCommandsHandler):
         ]
         scorers_texts = []
         for i, (player, goals) in enumerate(top_scorers.items()):
-            scorers_texts.append(f"{place_emojis[i].value} <em>{player}</em> ({goals})")
+            scorers_texts.append(
+                f"{place_emojis[i].value} <em><not_translate>{player}</not_translate></em> ({goals})"
+            )
 
         scorers_text = "\n".join(scorers_texts)
 
