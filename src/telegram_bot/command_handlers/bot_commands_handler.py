@@ -614,6 +614,16 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
             for team_id in favourite_teams
         ]
 
+    def _build_favourite_team_name(self, team) -> str:
+        name = team.name.title() if team.name.islower() else team.name
+        team.country = (
+            self._fixtures_db_manager.get_country(team.country)[0].name
+            if team.country
+            else ""
+        )
+        country = f" ({team.country[:3].upper()})" if team.country else ""
+        return f"{name}{country}"
+
     def get_favourite_teams_response(self) -> str:
         favourite_teams = self.get_favourite_teams()
         if len(favourite_teams):
@@ -623,8 +633,7 @@ class FavouriteTeamsCommandHandler(NotifierBotCommandsHandler):
             ]
 
             favourite_teams_texts = [
-                team.name.title() if team.name.islower() else team.name
-                for team in teams
+                self._build_favourite_team_name(team) for team in teams
             ]
 
             joined_text = "\n".join(favourite_teams_texts)
@@ -703,12 +712,18 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
             for league_id in favourite_leagues
         ]
 
+    @staticmethod
+    def _build_favourite_league_name(league) -> str:
+        name = league.name.title() if league.name.islower() else league.name
+        country = f" ({league.country[:3].upper()})" if league.country else ""
+        return f"{name}{country}"
+
     def get_favourite_leagues_response(self) -> str:
         favourite_leagues = self.get_favourite_leagues()
 
         if len(favourite_leagues):
             favourite_leagues_texts = [
-                league.name.title() if league.name.islower() else league.name
+                self._build_favourite_league_name(league)
                 for league in favourite_leagues
             ]
 
