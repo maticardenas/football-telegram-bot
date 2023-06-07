@@ -4,7 +4,12 @@ from pydantic import BaseModel, validator
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
+from src.entities import Event
 from src.notifier_constants import NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
+from src.notifier_logger import get_logger
+from src.utils.fixtures_utils import convert_db_event, has_all_events
+
+logger = get_logger(__name__)
 
 
 class TeamRecord(BaseModel):
@@ -14,6 +19,7 @@ class TeamRecord(BaseModel):
     games_played: int = 0
     all_record_matches_emojis: str = ""
     overall_emoji: str = ""
+    top_scorers: dict = {}
 
     @validator("overall_emoji", always=True, pre=True)
     def set_emoji(cls, v, values, **kwargs):
@@ -81,6 +87,30 @@ class TeamStats:
 
         return number_of_goals
 
+    def get_goal_scorers(self, events: list[Event]) -> dict:
+        all_goals = [
+            event
+            for event in events
+            if event.is_regular_goal()
+            and event.player.name is not None
+            and event.detail != "Own Goal"
+        ]
+        goal_scorers = {}
+
+        for goal in all_goals:
+            current_goals = (
+                goal_scorers[goal.player.name]
+                if goal.player.name in goal_scorers
+                else 0
+            )
+            goal_scorers[goal.player.name] = current_goals + 1
+
+        sorted_players_by_goals = sorted(
+            goal_scorers.items(), key=lambda scorer: scorer[1], reverse=True
+        )[:3]
+
+        return dict(sorted_players_by_goals)
+
     def team_record_in_last_n_matches(
         self, number_of_matches: int, year: Optional[str] = None
     ) -> TeamRecord:
@@ -90,7 +120,9 @@ class TeamStats:
         games_won = 0
         games_drawn = 0
         games_lost = 0
+
         record_emojis = []
+        fixt_events = []
 
         for fixt in last_n_fixtures:
             if (
@@ -100,6 +132,15 @@ class TeamStats:
                 or fixt.away_score is None
             ):
                 continue
+
+            events = self._fixtures_db_manager.get_fixture_events(fixt.id)
+
+            if has_all_events(fixt, events):
+                fixt_events.extend(
+                    convert_db_event(event)
+                    for event in events
+                    if event.team == self._team_id
+                )
 
             if fixt.home_team == self._team_id:
                 if fixt.home_score > fixt.away_score:
@@ -122,9 +163,12 @@ class TeamStats:
                     games_drawn += 1
                     record_emojis.append(Emojis.EQUAL.value)
 
+        top_scorers = self.get_goal_scorers(fixt_events)
+
         return TeamRecord(
             games_won=games_won,
             games_drawn=games_drawn,
             games_lost=games_lost,
             all_record_matches_emojis="".join(record_emojis),
+            top_scorers=top_scorers,
         )

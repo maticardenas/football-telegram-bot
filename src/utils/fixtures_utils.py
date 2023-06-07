@@ -239,7 +239,9 @@ def convert_db_event(event: DBEvent, rival_team: Optional[DBTeam] = None) -> Eve
             logo=rival_team.picture,
             country=rival_team.country,
             picture=rival_team.picture,
-        ),
+        )
+        if rival_team
+        else None,
     )
 
 

@@ -25,6 +25,20 @@ class TeamStatisticsBotCommandsHandler(NotifierBotCommandsHandler):
 
         return (summary_text, self._team.picture)
 
+    def _get_top_scorers_text(self, top_scorers: dict) -> str:
+        place_emojis = [
+            Emojis.FIRST_PLACE_MEDAL,
+            Emojis.SECOND_PLACE_MEDAL,
+            Emojis.THIRD_PLACE_MEDAL,
+        ]
+        scorers_texts = []
+        for i, (player, goals) in enumerate(top_scorers.items()):
+            scorers_texts.append(f"{place_emojis[i].value} <em>{player}</em> ({goals})")
+
+        scorers_text = "\n".join(scorers_texts)
+
+        return f"\n\nTop goal scorers:\n\n{scorers_text}" if scorers_texts else ""
+
     def _get_last_matches_record(self) -> str:
         last_matches_record = self._team_stats.team_record_in_last_n_matches(5)
         last_matches_record_text = ""
@@ -32,7 +46,7 @@ class TeamStatisticsBotCommandsHandler(NotifierBotCommandsHandler):
         if last_matches_record.games_played > 0:
             last_matches_record_text = f"""{Emojis.MAN_RUNNING.value} <strong>LAST MATCHES ({last_matches_record.games_played})</strong>\n\n{last_matches_record.overall_emoji} Record: {last_matches_record.all_record_matches_emojis}
 {Emojis.SOCCER_BALL.value} Goals scored: <strong>{self._team_stats.number_of_goals(scored=True)}</strong>
-{Emojis.GOAL_NET.value} Goals received: <strong>{self._team_stats.number_of_goals(scored=False)}</strong>
+{Emojis.GOAL_NET.value} Goals received: <strong>{self._team_stats.number_of_goals(scored=False)}</strong>{self._get_top_scorers_text(last_matches_record.top_scorers)}
             """
 
         return last_matches_record_text
@@ -50,7 +64,7 @@ class TeamStatisticsBotCommandsHandler(NotifierBotCommandsHandler):
 {Emojis.CROSS_MARK.value} Lost Games: <strong>{this_year_matches_record.games_lost}</strong>
 
 {Emojis.SOCCER_BALL.value} Goals scored: <strong>{self._team_stats.number_of_goals(scored=True, number_of_matches=100, year=datetime.now().year)}</strong>
-{Emojis.GOAL_NET.value} Goals received: <strong>{self._team_stats.number_of_goals(scored=False, number_of_matches=100, year=datetime.now().year)}</strong>
+{Emojis.GOAL_NET.value} Goals received: <strong>{self._team_stats.number_of_goals(scored=False, number_of_matches=100, year=datetime.now().year)}</strong>{self._get_top_scorers_text(this_year_matches_record.top_scorers)}
             """
 
         return this_year_text

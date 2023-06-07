@@ -139,6 +139,19 @@ class Event(BaseModel):
     def get_subst(self) -> str:
         return f"{Emojis.UPWARDS_BUTTON.value} {self.player.name} - {Emojis.DONWARDS_BUTTON.value} {self.assist.name}"
 
+    def is_regular_goal(self) -> str:
+        return (
+            self.type == "Goal"
+            and self.detail
+            in [
+                "Normal Goal",
+                "Own Goal",
+                "Penalty",
+            ]
+            and self.player.name is not None
+            and self.comments != "Penalty Shootout"
+        )
+
 
 @dataclass
 class Championship:
@@ -613,17 +626,7 @@ class Fixture:
         goal_events = []
 
         for event in self.events:
-            if (
-                event.type == "Goal"
-                and event.detail
-                in [
-                    "Normal Goal",
-                    "Own Goal",
-                    "Penalty",
-                ]
-                and event.player.name is not None
-                and event.comments != "Penalty Shootout"
-            ):
+            if event.is_regular_goal():
                 own_goal = " [OG]" if event.detail == "Own Goal" else ""
                 penalty_goal = " [PEN]" if event.detail == "Penalty" else ""
                 goal_text = f"{str(event.time)} {event.player.name} ({event.team.abbrv_name(event.rival_team.name if event.rival_team else '')}){own_goal}{penalty_goal}"

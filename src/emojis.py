@@ -78,3 +78,6 @@ class Emojis(Enum):
     UPWARDS_BUTTON = emoji.emojize(":upwards_button:", language="alias")
     DONWARDS_BUTTON = emoji.emojize(":downwards_button:", language="alias")
     FACEPALM = emoji.emojize(":man_facepalming_light_skin_tone:", language="alias")
+    FIRST_PLACE_MEDAL = emoji.emojize(":1st_place_medal:", language="alias")
+    SECOND_PLACE_MEDAL = emoji.emojize(":2nd_place_medal:", language="alias")
+    THIRD_PLACE_MEDAL = emoji.emojize(":3rd_place_medal:", language="alias")
