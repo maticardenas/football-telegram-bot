@@ -715,7 +715,13 @@ class FavouriteLeaguesCommandHandler(NotifierBotCommandsHandler):
     @staticmethod
     def _build_favourite_league_name(league) -> str:
         name = league.name.title() if league.name.islower() else league.name
-        country = f" ({league.country[:3].upper()})" if league.country else ""
+
+        country = (
+            f" ({league.country[:3].upper()})"
+            if league.country.lower() != "world"
+            else ""
+        )
+
         return f"{name}{country}"
 
     def get_favourite_leagues_response(self) -> str:
