@@ -115,8 +115,20 @@ class TeamStats:
         self, number_of_matches: int, year: Optional[str] = None
     ) -> TeamRecord:
         last_n_fixtures = self._fixtures_db_manager.get_last_fixture(
-            team_id=self._team_id, number_of_fixtures=number_of_matches, year=year
+            team_id=self._team_id, number_of_fixtures=120, year=year
         )
+
+        filtered_fixtures = [
+            fixt
+            for fixt in last_n_fixtures
+            if not (
+                fixt.match_status in NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
+                or "half" in fixt.match_status
+                or fixt.home_score is None
+                or fixt.away_score is None
+            )
+        ]
+
         games_won = 0
         games_drawn = 0
         games_lost = 0
@@ -124,15 +136,7 @@ class TeamStats:
         record_emojis = []
         fixt_events = []
 
-        for fixt in last_n_fixtures:
-            if (
-                fixt.match_status in NOT_PLAYED_OR_FINISHED_MATCH_STATUSES
-                or "half" in fixt.match_status
-                or fixt.home_score is None
-                or fixt.away_score is None
-            ):
-                continue
-
+        for fixt in filtered_fixtures[:number_of_matches]:
             events = self._fixtures_db_manager.get_fixture_events(fixt.id)
 
             if has_all_events(fixt, events):
