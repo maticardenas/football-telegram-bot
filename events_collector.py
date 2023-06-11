@@ -4,7 +4,6 @@ from src.api.fixtures_client import FixturesClient
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.entities import Event
 from src.notifier_logger import get_logger
-from src.utils.fixtures_utils import has_all_events
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
 FIXTURES_CLIENT = FixturesClient(
@@ -49,7 +48,7 @@ def get_all_fixtures_ids_to_collect_events() -> List[int]:
     for fixture in surrounding:
         fixture_events = FIXTURES_DB_MANAGER.get_fixture_events(fixture.id)
 
-        if len(fixture_events) and has_all_events(fixture, fixture_events):
+        if len(fixture_events):
             logger.info(
                 f"Events for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were already collected."
             )
