@@ -45,6 +45,8 @@ class Player(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     pos: Optional[str] = ""
+    number: Optional[int] = 0
+    grid: Optional[str] = ""
 
 
 class Time(BaseModel):

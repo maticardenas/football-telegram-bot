@@ -48,6 +48,17 @@ class Fixture(SQLModel, table=True):
     highlights: Optional[List[str]] = None
 
 
+class LineUp(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    id: int = Field(primary_key=True)
+    fixture: int = Field(foreign_key="fixture.id")
+    player: int = Field(foreign_key="player.id")
+    team: int = Field(foreign_key="team.id")
+    number: int
+    pos: str
+    grid: str
+
+
 class FavouriteTeam(SQLModel, table=True):
     __table_args__ = {"extend_existing": True}
     chat_id: str = Field(primary_key=True)
