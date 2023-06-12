@@ -629,7 +629,6 @@ class FixturesDBManager:
                 aliases=fixture_team.aliases,
                 country=fixture_team.country,
             )
-
         else:
             logger.info(
                 f"Updating Team '{fixture_team.name}' - it already exists in "

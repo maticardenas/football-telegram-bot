@@ -1,11 +1,18 @@
+from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.notif_sql_models import LineUp as DBLineUp
-from src.entities import LineUp
+from src.entities import LineUp, Player
 
 
 class LineUpConverter:
+    def __init__(self):
+        self._fixtures_db_manager = FixturesDBManager()
+
     @staticmethod
     def response_to_db_model(
-        fixture_id: int, team_id: int, formation: str, player_line_up_response: dict,
+        fixture_id: int,
+        team_id: int,
+        formation: str,
+        player_line_up_response: dict,
     ) -> DBLineUp:
         return DBLineUp(
             fixture=fixture_id,
@@ -17,12 +24,20 @@ class LineUpConverter:
             grid=player_line_up_response["grid"],
         )
 
-    @staticmethod
-    def db_model_to_entity(formation: str, line_up: list[DBLineUp]) -> LineUp:
+    def db_model_to_entity(self, formation: str, line_up: list[DBLineUp]) -> LineUp:
         return LineUp(
             formation=formation,
-            goalkeeper=filter(lambda lup: lup.pos == "G", line_up),
-            defenders=filter(lambda lup: lup.pos == "D", line_up),
-            midfielders=filter(lambda lup: lup.pos == "M", line_up),
-            forward_strikers=filter(lambda lup: lup.pos == "F", line_up),
+            goalkeeper=self.get_players_in_pos("G", line_up),
+            defenders=self.get_players_in_pos("D", line_up),
+            midfielders=self.get_players_in_pos("M", line_up),
+            forward_strikers=self.get_players_in_pos("F", line_up),
         )
+
+    def get_players_in_pos(self, pos: str, line_up: list[DBLineUp]) -> list[Player]:
+        return [
+            player
+            for player in [
+                self._fixtures_db_manager.get_player(play.player)[0]
+                for play in list(filter(lambda lup: lup.pos == pos, line_up))
+            ]
+        ]

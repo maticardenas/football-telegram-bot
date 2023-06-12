@@ -172,7 +172,7 @@ class MatchHighlights:
 @dataclass
 class LineUp:
     formation: str
-    goalkeeper: Player
+    goalkeeper: List[Player]
     defenders: List[Player]
     midfielders: List[Player]
     forward_strikers: List[Player]
@@ -180,7 +180,7 @@ class LineUp:
     def __str__(self):
         return (
             f"{Emojis.JOYSTICK.value} <strong>{self.formation}</strong>\n\n"
-            f"{Emojis.GLOVES.value} <strong>{self.goalkeeper.name}</strong>\n"
+            f"{Emojis.GLOVES.value} <strong>{', '.join(goalkeeper.name for goalkeeper in self.goalkeeper)}</strong>\n"
             f"{Emojis.SHIELD.value} <strong>{', '.join([defender.name for defender in self.defenders])} </strong>\n"
             f"{Emojis.MAGIC_WAND.value} <strong>{', '.join([midfielder.name for midfielder in self.midfielders])}</strong>\n"
             f"{Emojis.SCORING.value} <strong>{', '.join([strike.name for strike in self.forward_strikers])}</strong>\n"

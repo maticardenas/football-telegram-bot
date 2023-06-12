@@ -14,8 +14,14 @@ class LineUpsDBManager:
     def __init__(self) -> None:
         self._notifier_db_manager = NotifierDBManager()
 
-    def get_fixture_line_ups(self, fixture_id: int) -> Optional[DBLineUp]:
+    def get_fixture_line_ups(
+        self, fixture_id: int, team_id: int = 0
+    ) -> Optional[DBLineUp]:
         line_up_statement = select(DBLineUp).where(DBLineUp.fixture == fixture_id)
+
+        if team_id:
+            line_up_statement = line_up_statement.where(DBLineUp.team == team_id)
+
         return self._notifier_db_manager.select_records(line_up_statement)
 
     def insert_line_up(self, line_up: DBLineUp) -> DBLineUp:
