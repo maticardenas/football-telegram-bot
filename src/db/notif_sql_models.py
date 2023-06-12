@@ -46,6 +46,19 @@ class Fixture(SQLModel, table=True):
     penalty_home_score: Optional[int] = None
     penalty_away_score: Optional[int] = None
     highlights: Optional[List[str]] = None
+    line_up_check_attempt: Optional[int] = None
+
+
+class LineUp(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
+    id: int = Field(primary_key=True)
+    fixture: int = Field(foreign_key="fixture.id")
+    player: int = Field(foreign_key="player.id")
+    team: int = Field(foreign_key="team.id")
+    number: int
+    pos: str
+    grid: str
+    formation: str
 
 
 class FavouriteTeam(SQLModel, table=True):
