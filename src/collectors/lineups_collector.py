@@ -67,7 +67,7 @@ class LineUpsCollector:
         surrounding = self._fixtures_db_manager.get_games_in_surrounding_n_hours(
             hours=0.60, favourite=True
         ) + self._fixtures_db_manager.get_games_in_surrounding_n_hours(
-            hours=-0.60, favourite=True, status="finished"
+            hours=-0.60, favourite=True
         )
 
         filtered_fixtures_ids = []
