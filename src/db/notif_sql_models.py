@@ -57,6 +57,7 @@ class LineUp(SQLModel, table=True):
     number: int
     pos: str
     grid: str
+    formation: str
 
 
 class FavouriteTeam(SQLModel, table=True):

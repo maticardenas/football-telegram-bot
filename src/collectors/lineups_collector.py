@@ -30,12 +30,14 @@ class LineUpsCollector:
 
             for team in line_ups_response.as_dict.get("response", []):
                 team_id = team["team"]["id"]
+                formation = team["formation"] if team["formation"] is not None else ""
                 logger.info(f"Inserting line up for team {team_id}")
 
                 for player in team["startXI"]:
                     converted_player_line_up = LineUpConverter.response_to_db_model(
                         fixture_id=fixture_id,
                         team_id=team_id,
+                        formation=formation,
                         player_line_up_response=player["player"],
                     )
                     logger.info(
