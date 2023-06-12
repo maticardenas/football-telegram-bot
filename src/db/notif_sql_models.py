@@ -46,6 +46,7 @@ class Fixture(SQLModel, table=True):
     penalty_home_score: Optional[int] = None
     penalty_away_score: Optional[int] = None
     highlights: Optional[List[str]] = None
+    line_up_check_attempt: Optional[int] = None
 
 
 class LineUp(SQLModel, table=True):

@@ -7,8 +7,8 @@ class LineUpConverter:
     def __init__(self):
         self._fixtures_db_manager = FixturesDBManager()
 
-    @staticmethod
     def response_to_db_model(
+        self,
         fixture_id: int,
         team_id: int,
         formation: str,

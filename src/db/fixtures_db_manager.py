@@ -664,7 +664,7 @@ class FixturesDBManager:
             logger.info(
                 f"Updating Fixture {fixture.id} - it already exists in " f"the database"
             )
-            db_fixture = retrieved_fixture.pop()
+            db_fixture: DBFixture = retrieved_fixture.pop()
             db_fixture.id = fixture.id
             db_fixture.utc_date = fixture.utc_date
             db_fixture.bsas_date = fixture.bsas_date
@@ -681,6 +681,7 @@ class FixturesDBManager:
             db_fixture.venue = fixture.venue
             db_fixture.played_notified = fixture.played_notified
             db_fixture.approach_notified = fixture.approach_notified
+            db_fixture.line_up_check_attempt = fixture.line_up_check_attempt
 
         self._notifier_db_manager.insert_record(db_fixture)
 
