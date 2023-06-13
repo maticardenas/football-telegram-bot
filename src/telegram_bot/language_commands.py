@@ -19,7 +19,7 @@ logger = get_logger(__name__)
 async def set_language(update: Update, context):
     logger.info(f"'set_language' command initialized - by {update.effective_user.name}")
 
-    text = f"Please enter the name of the language you would like set {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
+    text = f"Please enter the name of the language (in its english form, e.g. Spanish) you would like set {Emojis.DOWN_FACING_FIST.value}\n\n{END_COMMAND_MESSAGE}"
 
     await reply_text(update, text)
 

@@ -594,7 +594,7 @@ class Fixture:
         events_text = (
             f"<not_translate>\n\n{fixture_events_text}\n\n</not_translate>"
             if fixture_events_text != "\n\n"
-            else "\n\n"
+            else "<not_translate>\n\n</not_translate>"
         )
 
         if any(
@@ -602,7 +602,7 @@ class Fixture:
             for time in ["finished", "half", "break", "extra"]
         ):
             match_in_progress_text = (
-                f"{Emojis.MAN_RUNNING.value} {self.match_status}<not_translate>\n\n</not_translate>"
+                f"<not_translate>\n</not_translate>{Emojis.MAN_RUNNING.value} {self.match_status}<not_translate>\n\n</not_translate>"
                 if any(
                     time in self.match_status.lower()
                     for time in ["half", "break", "extra"]
@@ -611,7 +611,7 @@ class Fixture:
             )
             match_notification = (
                 f"{match_in_progress_text}"
-                f"<not_translate>\n"
+                f"<not_translate>"
                 f"{Emojis.TELEVISION.value} {self.home_team.name} {self.match_score.get_home_score()} vs. "
                 f"{self.match_score.get_away_score()} {self.away_team.name}</not_translate>"
                 f"{events_text}"
