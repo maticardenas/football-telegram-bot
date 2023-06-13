@@ -48,14 +48,23 @@ async def next_match_handler(update: Update, context):
     if validated_input:
         await send_message(update, context, validated_input)
     else:
-        text, photo = command_handler.next_match_team_notif()
+        text, photo, fixture_id = command_handler.next_match_team_notif()
         logger.info(f"Fixture - text: {text} - photo: {photo}")
+        keyboard = [
+            [
+                InlineKeyboardButton("Line ups", callback_data=f"lineups {fixture_id}"),
+            ]
+        ]
+
+        reply_markup = InlineKeyboardMarkup(keyboard)
+
         if photo:
             await send_photo(
                 update=update,
                 context=context,
                 photo=photo,
                 caption=text,
+                reply_markup=reply_markup,
             )
         else:
             await send_message(update, context, text)
@@ -91,6 +100,9 @@ async def last_match_handler(update: Update, context):
         logger.info(f"Fixture - text: {text} - photo: {photo}")
         keyboard = [
             [
+                InlineKeyboardButton(
+                    "Initial line ups", callback_data=f"lineups {fixture_id}"
+                ),
                 InlineKeyboardButton(
                     "Show timeline", callback_data=f"timeline {fixture_id}"
                 ),
@@ -254,6 +266,17 @@ async def timeline_callback_handler(update: Update, context) -> None:
     await timeline(update, context)
 
 
+async def lineups_callback_handler(update: Update, context) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+
+    await query.answer()
+
+    context.args = [query.data.split()[1]]
+
+    await line_ups(update, context)
+
+
 async def timeline(update: Update, context):
     logger.info(
         f"/timeline {' '.join(context.args)}' command executed - by {update.effective_user.name}"
@@ -268,6 +291,24 @@ async def timeline(update: Update, context):
         timeline_text
         if timeline_text
         else "There is no timeline available yet for the game. Please check later."
+    )
+    await send_message(update, context, text, translate=False)
+
+
+async def line_ups(update: Update, context):
+    logger.info(
+        f"/lineups {' '.join(context.args)}' command executed - by {update.effective_user.name}"
+    )
+    command_handler = NextAndLastMatchCommandHandler(
+        context.args, update.effective_user.first_name, str(update.effective_chat.id)
+    )
+
+    fixture_id = context.args[0]
+    line_ups_text = command_handler.line_ups(fixture_id)
+    text = (
+        line_ups_text
+        if line_ups_text
+        else "There is no line ups available for any teams yet. Please check later."
     )
     await send_message(update, context, text, translate=False)
 

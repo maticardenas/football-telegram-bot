@@ -179,11 +179,11 @@ class LineUp:
 
     def __str__(self):
         return (
-            f"{Emojis.JOYSTICK.value} <strong>{self.formation}</strong>\n\n"
-            f"{Emojis.GLOVES.value} <strong>{', '.join(goalkeeper.name for goalkeeper in self.goalkeeper)}</strong>\n"
-            f"{Emojis.SHIELD.value} <strong>{', '.join([defender.name for defender in self.defenders])} </strong>\n"
-            f"{Emojis.MAGIC_WAND.value} <strong>{', '.join([midfielder.name for midfielder in self.midfielders])}</strong>\n"
-            f"{Emojis.SCORING.value} <strong>{', '.join([strike.name for strike in self.forward_strikers])}</strong>\n"
+            # f"{Emojis.JOYSTICK.value} <strong>{self.formation}</strong>\n\n"
+            f"{Emojis.GLOVES.value} {', '.join(goalkeeper.name for goalkeeper in self.goalkeeper)}\n"
+            f"{Emojis.SHIELD.value} {', '.join([defender.name for defender in self.defenders])} \n"
+            f"{Emojis.MAGIC_WAND.value} {', '.join([midfielder.name for midfielder in self.midfielders])}\n"
+            f"{Emojis.SCORING.value} {', '.join([strike.name for strike in self.forward_strikers])}\n"
         )
 
     def email_like_repr(self):
@@ -266,8 +266,9 @@ class Fixture:
     venue: str
     additional_time_zones: List[UserTimeZone]
     main_time_zone: TimeZone
+    home_team_line_up: Optional[LineUp]
+    away_team_line_up: Optional[LineUp]
     events: List[Event] = field(default_factory=list)
-    line_up: Optional[LineUp] = field(init=False)
     highlights: List[str] = field(init=False)
     head_to_head: List["Fixture"] = field(init=False)
 
@@ -476,7 +477,7 @@ class Fixture:
             f"{self.head_to_head_text()}"
         )
 
-    def telegram_like_repr(self) -> str:
+    def telegram_like_repr(self, line_ups: bool = False) -> str:
         referee_line = (
             f"{Emojis.POLICE_WOMAN.value} <strong>{self.referee}</strong>\n"
             if self.referee
@@ -494,6 +495,18 @@ class Fixture:
             else ""
         )
 
+        lineup_text = (
+            f"<not_translate>\n</not_translate>{Emojis.RIGHT_FACING_FIST.value} <strong>Line ups</strong> {Emojis.LEFT_FACING_FIST.value}<not_translate>\n\n{self.line_ups()}</not_translate>"
+            if self.line_ups() and line_ups is True
+            else ""
+        )
+
+        head_to_head = (
+            f"<not_translate>\n</not_translate>{self.head_to_head_text()}"
+            if self.head_to_head_text()
+            else ""
+        )
+
         telegram_like_text = (
             f"<not_translate>{self.fixtures_times_text()}\n\n</not_translate>"
             f"{Emojis.ALARM_CLOCK.value} {str(self.remaining_time())} left for the game."
@@ -505,22 +518,29 @@ class Fixture:
             f"<not_translate>\n"
             f"{stadium_line}"
             f"{referee_line}"
-            f"\n</not_translate>"
-            f"{self.head_to_head_text()}"
+            f"</not_translate>"
+            f"{lineup_text}"
+            f"{head_to_head}"
         )
 
         return telegram_like_text
 
-    def line_up_message(self) -> str:
-        return (
-            str(self.line_up)
-            if self.line_up
-            else f"<strong>Not yet available :(</strong>"
+    def line_ups(self) -> str:
+        home_line_up = (
+            f"{Emojis.JOYSTICK.value}<strong>{self.home_team.name}</strong>\n\n{str(self.home_team_line_up)}"
+            if self.home_team_line_up
+            else ""
+        )
+        away_line_up = (
+            f"{Emojis.JOYSTICK.value}<strong>{self.away_team.name}</strong>\n\n{str(self.away_team_line_up)}"
+            if self.away_team_line_up
+            else ""
         )
 
-    def line_up_email_message(self) -> str:
         return (
-            self.line_up.email_like_repr() if self.line_up else f"Not yet available :("
+            "\n".join([home_line_up, away_line_up])
+            if home_line_up or away_line_up
+            else ""
         )
 
     def matched_played_email_like_repr(self) -> str:

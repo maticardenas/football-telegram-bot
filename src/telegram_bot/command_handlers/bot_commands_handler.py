@@ -304,8 +304,9 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             telegram_next_team_or_league_fixture_notification(
                 converted_fixture, team.name, self._user, self.get_user_main_time_zone()
             )
+            + (next_team_db_fixture[0].id,)
             if converted_fixture
-            else (self.text_to_user_language("there were no games found."), None)
+            else (self.text_to_user_language("there were no games found."), None, "")
         )
 
     def last_match_team_notif(self) -> Tuple[str, str]:
@@ -441,6 +442,12 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         converted_fixture = convert_db_fixture(fixture)
 
         return converted_fixture.get_all_events_text()
+
+    def line_ups(self, fixture_id: int) -> str:
+        fixture = self._fixtures_db_manager.get_fixture_by_id(fixture_id)[0]
+        converted_fixture = convert_db_fixture(fixture)
+
+        return converted_fixture.line_ups()
 
 
 class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):

@@ -11,8 +11,10 @@ from src.api.fixtures_client import FixturesClient
 from src.api.images_search_client import ImagesSearchClient
 from src.api.videos_search_client import VideosSearchClient
 from src.api.youtube_search_client import YoutubeSearchClient
+from src.converters.converters import LineUpConverter
 from src.db.db_manager import NotifierDBManager
 from src.db.fixtures_db_manager import FixturesDBManager
+from src.db.line_ups_db_manager import LineUpsDBManager
 from src.db.notif_sql_models import Event as DBEvent
 from src.db.notif_sql_models import Fixture as DBFixture
 from src.db.notif_sql_models import League as DBLeague
@@ -36,13 +38,10 @@ from src.notifier_logger import get_logger
 from src.utils.date_utils import TimeZones, get_time_in_time_zone
 
 FIXTURES_DB_MANAGER = FixturesDBManager()
+LINE_UPS_DB_MANAGER = LineUpsDBManager()
 FIXTURES_CLIENT = FixturesClient()
 
 logger = get_logger(__name__)
-
-
-def get_team_aliases(team_id: str) -> list:
-    return []
 
 
 def date_diff(date: str) -> datetime:
@@ -289,6 +288,26 @@ def convert_db_fixture(
         else []
     )
 
+    home_line_up, away_line_up = None, None
+    db_line_ups = LINE_UPS_DB_MANAGER.get_fixture_line_ups(fixture_id=fixture.id)
+
+    if len(db_line_ups):
+        line_ups_converter = LineUpConverter()
+        home_team_line_up = list(
+            filter(lambda liup: liup.team == home_team.id, db_line_ups)
+        )
+        away_team_line_up = list(
+            filter(lambda liup: liup.team == away_team.id, db_line_ups)
+        )
+        home_line_up = line_ups_converter.db_model_to_entity(
+            formation=home_team_line_up[0].formation or "",
+            line_up=home_team_line_up,
+        )
+        away_line_up = line_ups_converter.db_model_to_entity(
+            formation=away_team_line_up[0].formation or "",
+            line_up=away_team_line_up,
+        )
+
     return Fixture(
         fixture.id,
         utc_date,
@@ -308,14 +327,14 @@ def convert_db_fixture(
             id=home_team.id,
             name=home_team.name,
             logo=home_team.picture,
-            aliases=get_team_aliases(str(home_team.id)),
+            aliases=[],
             country=home_team.country,
         ),
         Team(
             id=away_team.id,
             name=away_team.name,
             logo=away_team.picture,
-            aliases=get_team_aliases(str(away_team.id)),
+            aliases=[],
             country=away_team.country,
         ),
         MatchScore(
@@ -328,6 +347,8 @@ def convert_db_fixture(
         additional_time_zones=additional_time_zones,
         main_time_zone=main_time_zone,
         events=fixture_events,
+        home_team_line_up=home_line_up,
+        away_team_line_up=away_line_up,
     )
 
 
@@ -383,13 +404,13 @@ def convert_fixture_response(
             home_team_id,
             fixture_response["teams"]["home"]["name"],
             fixture_response["teams"]["home"]["logo"],
-            get_team_aliases(str(home_team_id)),
+            [],
         ),
         Team(
             away_team_id,
             fixture_response["teams"]["away"]["name"],
             fixture_response["teams"]["away"]["logo"],
-            get_team_aliases(str(away_team_id)),
+            [],
         ),
         MatchScore(
             fixture_response["goals"]["home"],
@@ -434,14 +455,14 @@ def convert_fixture_response_to_db_fixture(fixture_response: Dict[str, Any]) -> 
             id=home_team_id,
             name=fixture_response["teams"]["home"]["name"],
             logo=fixture_response["teams"]["home"]["logo"],
-            aliases=get_team_aliases(str(home_team_id)),
+            aliases=[],
             picture=fixture_response["teams"]["home"]["logo"],
         ),
         Team(
             id=away_team_id,
             name=fixture_response["teams"]["away"]["name"],
             logo=fixture_response["teams"]["away"]["logo"],
-            aliases=get_team_aliases(str(away_team_id)),
+            aliases=[],
             picture=fixture_response["teams"]["away"]["logo"],
         ),
         MatchScore(
