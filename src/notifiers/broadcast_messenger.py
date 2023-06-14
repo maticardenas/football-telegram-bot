@@ -13,6 +13,7 @@ from src.notifier_logger import get_logger
 from src.notifiers.user_messages import (
     GAMES_EVENTS_KICK_OFF,
     LANGUAGES_ENABLEMENT,
+    LINEUPS,
     STATISTICS_KICK_OFF,
     TIMELINES,
 )
@@ -41,4 +42,4 @@ def notify_all_users(message: str):
 
 
 if __name__ == "__main__":
-    notify_all_users(TIMELINES)
+    notify_all_users(LINEUPS)

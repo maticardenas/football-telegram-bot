@@ -98,3 +98,31 @@ Just use the /notif_config command, and you're back to a simpler, result-focused
 
 Happy football watching!
     """
+
+
+LINEUPS = f"""
+    {Emojis.PARTYING_FACE.value} {Emojis.PARTYING_FACE.value} Line-ups! {Emojis.PARTYING_FACE.value} {Emojis.PARTYING_FACE.value}
+
+🎉 Yes, as you read! And as promised, we are coming with more nice things and the so awaited feature is here! From now on you will be able to see the line-ups of your favourite teams' games {Emojis.SMILEY_FACE.value}
+
+{Emojis.RIGHT_FACING_FIST.value} Line-ups will be collected when your team's game is approaching and if available, notified to you. Or, you can 
+ retrieve them yourself making usage of /next_match and /last_match commands! 
+ 
+ {Emojis.RIGHT_FACING_FIST.value} How it would look! (example) {Emojis.LEFT_FACING_FIST.value}
+ 
+ 🕹️River Plate
+
+🧤 Franco Armani
+🛡️ Marcelo Herrera, Robert Rojas, Leandro González Pírez, Elías Gómez 
+🪄 Rodrigo Aliendro, Nicolás de la Cruz, Nacho Fernández, Esequiel Barco
+🤾🏿 Pablo Solari, Lucas Beltrán
+
+{Emojis.UPWARDS_BUTTON.value}{Emojis.UPWARDS_BUTTON.value}{Emojis.UPWARDS_BUTTON.value}{Emojis.UPWARDS_BUTTON.value}{Emojis.UPWARDS_BUTTON.value}
+ 
+{Emojis.RED_EXCLAMATION_MARK.value} Bare in mind that line-ups sometimes are not available until last moment of the game, so it's possible that not in 100%
+of the cases it will be available before the game starts. Nevertheless, with /last_match command, you will be able to see past and ongoing games, and retrieve its
+lineups if available as well.
+
+{Emojis.MAN_RUNNING.value} We will continue working on more features, so stay tuned as usual. And enjoy football! {Emojis.SOCCER_BALL.value}
+
+    """
