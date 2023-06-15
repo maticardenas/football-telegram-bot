@@ -607,7 +607,11 @@ class FixturesDBManager:
                 f"the database"
             )
             db_player = retrieved_player.pop()
-            db_player.name = player.name
+            db_player.name = (
+                player.name
+                if len(db_player.name.split(" ")[0]) < len(player.name.split(" ")[0])
+                else db_player.name
+            )
 
         self._notifier_db_manager.insert_record(db_player)
 
