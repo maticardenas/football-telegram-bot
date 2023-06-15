@@ -7,7 +7,7 @@ from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.line_ups_db_manager import LineUpsDBManager
 from src.entities import Player
 from src.notifier_logger import get_logger
-from src.utils.date_utils import get_formatted_date
+from src.utils.date_utils import get_formatted_date, get_date_diff
 
 logger = get_logger(__name__)
 
@@ -69,7 +69,6 @@ class LineUpsCollector:
         ) + self._fixtures_db_manager.get_games_in_surrounding_n_hours(
             hours=-0.33, favourite=True
         )
-
         filtered_fixtures_ids = []
 
         for fixture in surrounding:
@@ -86,13 +85,22 @@ class LineUpsCollector:
                 continue
             elif (
                 fixture_utc_date > datetime.datetime.utcnow()
+                and get_date_diff(fixture_utc_date).seconds > 600
                 and fixture.line_up_check_attempt == 1
             ):
                 logger.info(
                     f"Line Ups for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were already attempted to collect before the game."
                 )
                 continue
-            elif fixture.line_up_check_attempt == 2:
+            elif (
+                fixture_utc_date > datetime.datetime.utcnow()
+                and fixture.line_up_check_attempt == 2
+            ):
+                logger.info(
+                    f"Line Ups for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were already attempted to collect for second time before the game."
+                )
+                continue
+            elif fixture.line_up_check_attempt == 3:
                 logger.info(
                     f"Line Ups for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were already attempted to collect max. times"
                 )
