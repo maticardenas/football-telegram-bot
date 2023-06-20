@@ -302,11 +302,11 @@ def convert_db_fixture(
         home_line_up = line_ups_converter.db_model_to_entity(
             formation=home_team_line_up[0].formation or "",
             line_up=home_team_line_up,
-        )
+        ) if len(home_team_line_up) else None
         away_line_up = line_ups_converter.db_model_to_entity(
             formation=away_team_line_up[0].formation or "",
             line_up=away_team_line_up,
-        )
+        ) if len(away_team_line_up) else None
 
     return Fixture(
         fixture.id,
