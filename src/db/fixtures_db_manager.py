@@ -222,6 +222,7 @@ class FixturesDBManager:
         leagues: List[int] = [],
         teams: List[int] = [],
         time_zone: str = "UTC",
+        exclude_statuses: List[str] = [],
     ) -> List[Optional[DBFixture]]:
         days_to_grab = SURROUNDING_INDEXES.get(surround_type)
 
@@ -251,12 +252,13 @@ class FixturesDBManager:
         )
 
         for fixture in surrounding_fixtures:
-            fixture_date_in_time_zone = get_time_in_time_zone_str(
-                get_formatted_date(fixture.utc_date), time_zone
-            ).date()
+            if fixture.match_status not in exclude_statuses:
+                fixture_date_in_time_zone = get_time_in_time_zone_str(
+                    get_formatted_date(fixture.utc_date), time_zone
+                ).date()
 
-            if date_to_check_in_time_zone == fixture_date_in_time_zone:
-                today_games.append(fixture)
+                if date_to_check_in_time_zone == fixture_date_in_time_zone:
+                    today_games.append(fixture)
 
         return remove_duplicate_fixtures(today_games)
 

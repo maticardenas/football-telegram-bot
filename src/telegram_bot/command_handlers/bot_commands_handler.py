@@ -66,6 +66,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                 leagues=self._leagues,
                 teams=self._teams,
                 time_zone=self._user_main_time_zone,
+                exclude_statuses=["Time to be defined"],
             )
         )
 

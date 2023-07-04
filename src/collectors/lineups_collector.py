@@ -7,7 +7,7 @@ from src.db.fixtures_db_manager import FixturesDBManager
 from src.db.line_ups_db_manager import LineUpsDBManager
 from src.entities import Player
 from src.notifier_logger import get_logger
-from src.utils.date_utils import get_formatted_date, get_date_diff
+from src.utils.date_utils import get_date_diff, get_formatted_date
 
 logger = get_logger(__name__)
 

@@ -78,6 +78,7 @@ def notify_fl_leagues_playing() -> None:
             "today",
             leagues=favourite_leagues,
             time_zone=user_main_time_zone.name if user_main_time_zone else "",
+            exclude_statuses=["Time to be defined"],
         )
 
         for fixture in today_matches:

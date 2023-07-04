@@ -95,6 +95,7 @@ class DailyFTNotifier:
             surround_type="today",
             time_zone=user_main_time_zone.name if user_main_time_zone else "",
             teams=favourite_teams,
+            exclude_statuses=["Time to be defined"],
         )
 
         for fixture in today_matches:
