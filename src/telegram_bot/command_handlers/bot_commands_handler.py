@@ -4,7 +4,10 @@ from typing import List, Optional, Tuple
 
 from src.db.notif_sql_models import FavouriteLeague, FavouriteTeam
 from src.emojis import Emojis, get_emoji_text_by_name
-from src.notifier_constants import DAILY_NOTIF_TYPES
+from src.notifier_constants import (
+    DAILY_NOTIF_TYPES,
+    EXCLUDE_STATUS_FOR_UPCOMING_MATCHES,
+)
 from src.notifier_logger import get_logger
 from src.telegram_bot.command_handlers.notifier_bot_commands_handler import (
     NotifierBotCommandsHandler,
@@ -66,7 +69,7 @@ class SurroundingMatchesHandler(NotifierBotCommandsHandler):
                 leagues=self._leagues,
                 teams=self._teams,
                 time_zone=self._user_main_time_zone,
-                exclude_statuses=["Time to be defined"],
+                exclude_statuses=EXCLUDE_STATUS_FOR_UPCOMING_MATCHES,
             )
         )
 
@@ -245,6 +248,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         self._team = None
         self._favourite_teams = []
         self._favourite_leagues = []
+        self._exclude_statuses = EXCLUDE_STATUS_FOR_UPCOMING_MATCHES
 
     def validate_command_input(self) -> str:
         response = ""
@@ -285,7 +289,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         team = self._fixtures_db_manager.get_team(team_id)[0]
 
         next_team_db_fixture = self._fixtures_db_manager.get_next_fixture(
-            team_id=team_id
+            team_id=team_id, exclude_statuses=self._exclude_statuses
         )
 
         converted_fixture = None
@@ -315,7 +319,7 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
         team = self._fixtures_db_manager.get_team(team_id)[0]
 
         last_team_db_fixture = self._fixtures_db_manager.get_last_fixture(
-            team_id=team_id
+            team_id=team_id, exclude_statuses=self._exclude_statuses
         )
 
         converted_fixture = None
@@ -342,19 +346,21 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
 
         if self._team:
             upcoming_fixtures = self._fixtures_db_manager.get_next_fixture(
-                team_id=team_id, number_of_fixtures=5
+                team_id=team_id,
+                number_of_fixtures=5,
+                exclude_statuses=self._exclude_statuses,
             )
         elif self._favourite_teams:
             upcoming_fixtures = []
             for fav_team in self._favourite_teams:
                 upcoming_fixtures += self._fixtures_db_manager.get_next_fixture(
-                    team_id=fav_team
+                    team_id=fav_team, exclude_statuses=self._exclude_statuses
                 )
         else:
             upcoming_fixtures = []
             for fav_league in self._favourite_leagues:
                 upcoming_fixtures += self._fixtures_db_manager.get_next_fixture(
-                    league_id=fav_league
+                    league_id=fav_league, exclude_statuses=self._exclude_statuses
                 )
 
         if len(upcoming_fixtures):
@@ -491,7 +497,7 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             return ("No league was found for the given id.", "")
 
         next_league_db_fixture = self._fixtures_db_manager.get_next_fixture(
-            league_id=league.id
+            league_id=league.id, exclude_statuses=EXCLUDE_STATUS_FOR_UPCOMING_MATCHES
         )
 
         converted_fixture = None
@@ -550,7 +556,9 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
         league = self._fixtures_db_manager.get_league(league_id)[0]
 
         next_league_db_fixtures = self._fixtures_db_manager.get_next_fixture(
-            league_id=league.id, number_of_fixtures=5
+            league_id=league.id,
+            number_of_fixtures=5,
+            exclude_statuses=EXCLUDE_STATUS_FOR_UPCOMING_MATCHES,
         )
 
         if len(next_league_db_fixtures):

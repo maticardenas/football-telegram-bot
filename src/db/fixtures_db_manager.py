@@ -2,7 +2,7 @@ import random
 from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, List, Optional
 
-from sqlalchemy import asc, desc
+from sqlalchemy import asc, desc, not_
 from sqlmodel import func, or_, select
 
 from src.db.db_manager import NotifierDBManager
@@ -263,7 +263,11 @@ class FixturesDBManager:
         return remove_duplicate_fixtures(today_games)
 
     def get_games_in_surrounding_n_hours(
-        self, hours: int, favourite: bool = False, status: str = ""
+        self,
+        hours: int,
+        favourite: bool = False,
+        status: str = "",
+        exclude_statuses: List[str] = [],
     ) -> List[Optional[DBFixture]]:
         time_to_check = datetime.now() + timedelta(hours=hours)
         now_str = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
@@ -296,7 +300,8 @@ class FixturesDBManager:
                 filter(
                     lambda fixt: fixt.home_team in favourite_teams_in_db
                     or fixt.away_team in favourite_teams_in_db
-                    or fixt.league in favourite_leagues_in_db,
+                    or fixt.league in favourite_leagues_in_db
+                    or fixt.match_status not in exclude_statuses,
                     surr_fixtures,
                 )
             )
@@ -339,7 +344,11 @@ class FixturesDBManager:
         return self._notifier_db_manager.select_records(fixtures_statement)
 
     def get_next_fixture(
-        self, team_id: int = None, league_id: int = None, number_of_fixtures: int = 1
+        self,
+        team_id: int = None,
+        league_id: int = None,
+        number_of_fixtures: int = 1,
+        exclude_statuses: List[str] = [],
     ) -> Optional[List[DBFixture]]:
         today = datetime.strftime(datetime.utcnow(), "%Y-%m-%dT%H:%M:%S")
 
@@ -352,6 +361,11 @@ class FixturesDBManager:
 
         if league_id:
             statement = statement.where(DBFixture.league == league_id)
+
+        if len(exclude_statuses):
+            statement = statement.where(
+                not_(DBFixture.match_status.in_(exclude_statuses))
+            )
 
         statement = statement.order_by(asc(DBFixture.utc_date))
 

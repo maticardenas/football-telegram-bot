@@ -11,6 +11,8 @@ NOT_PLAYED_OR_FINISHED_MATCH_STATUSES = [
     "Match Interrupted",
 ]
 
+EXCLUDE_STATUS_FOR_UPCOMING_MATCHES = ["Time to be defined"]
+
 NOTIFICATION_TYPES = [
     {
         "name": "FT Today",

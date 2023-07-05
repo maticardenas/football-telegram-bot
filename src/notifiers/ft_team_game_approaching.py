@@ -27,7 +27,9 @@ logger = get_logger(__name__)
 
 
 def notify_ft_team_game_approaching() -> None:
-    surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(0.5)
+    surrounding_fixtures = fixtures_db_manager.get_games_in_surrounding_n_hours(
+        0.5, exclude_statuses=["Time to be defined"]
+    )
 
     for fixture in surrounding_fixtures:
         logger.info(f"Checking game approaching notification for fixture {fixture.id}")
