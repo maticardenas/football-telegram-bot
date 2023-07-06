@@ -381,6 +381,7 @@ class FixturesDBManager:
         league_id: int = None,
         number_of_fixtures: int = 1,
         year: str = None,
+        exclude_statuses: List[str] = [],
     ) -> Optional[List[DBFixture]]:
         today = datetime.strftime(datetime.utcnow(), "%Y-%m-%dT%H:%M:%S")
 
@@ -396,6 +397,11 @@ class FixturesDBManager:
 
         if year:
             statement = statement.where(DBFixture.utc_date.contains(year))
+
+        if len(exclude_statuses):
+            statement = statement.where(
+                not_(DBFixture.match_status.in_(exclude_statuses))
+            )
 
         statement = statement.order_by(desc(DBFixture.utc_date))
 

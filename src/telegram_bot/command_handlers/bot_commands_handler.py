@@ -412,7 +412,9 @@ class NextAndLastMatchCommandHandler(NotifierBotCommandsHandler):
             )
 
         last_team_fixtures = self._fixtures_db_manager.get_last_fixture(
-            team_id=team_id, number_of_fixtures=5
+            team_id=team_id,
+            number_of_fixtures=5,
+            exclude_statuses=self._exclude_statuses,
         )
 
         if len(last_team_fixtures):
@@ -530,7 +532,8 @@ class NextAndLastMatchLeagueCommandHandler(NotifierBotCommandsHandler):
             return ("No league was found for the given id.", "")
 
         last_league_db_fixture = self._fixtures_db_manager.get_last_fixture(
-            league_id=league.id
+            league_id=league.id,
+            exclude_statuses=EXCLUDE_STATUS_FOR_UPCOMING_MATCHES,
         )
 
         converted_fixture = None
