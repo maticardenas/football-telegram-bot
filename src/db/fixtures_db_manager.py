@@ -294,13 +294,11 @@ class FixturesDBManager:
         surr_fixtures = self._notifier_db_manager.select_records(statement)
 
         if favourite:
-            favourite_leagues_in_db = self.get_all_favourite_leagues()
             favourite_teams_in_db = self.get_all_favourite_teams()
             surr_fixtures = list(
                 filter(
                     lambda fixt: fixt.home_team in favourite_teams_in_db
                     or fixt.away_team in favourite_teams_in_db
-                    or fixt.league in favourite_leagues_in_db
                     or fixt.match_status not in exclude_statuses,
                     surr_fixtures,
                 )
