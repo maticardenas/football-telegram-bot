@@ -297,9 +297,11 @@ class FixturesDBManager:
             favourite_teams_in_db = self.get_all_favourite_teams()
             surr_fixtures = list(
                 filter(
-                    lambda fixt: fixt.home_team in favourite_teams_in_db
-                    or fixt.away_team in favourite_teams_in_db
-                    or fixt.match_status not in exclude_statuses,
+                    lambda fixt: (
+                        fixt.home_team in favourite_teams_in_db
+                        or fixt.away_team in favourite_teams_in_db
+                    )
+                    and fixt.match_status not in exclude_statuses,
                     surr_fixtures,
                 )
             )
