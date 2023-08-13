@@ -65,7 +65,7 @@ class LineUpsCollector:
 
     def get_all_fixtures_ids_to_collect(self) -> List[int]:
         surrounding = self._fixtures_db_manager.get_games_in_surrounding_n_hours(
-            hours=0.50, favourite=True
+            hours=0.35, favourite=True
         ) + self._fixtures_db_manager.get_games_in_surrounding_n_hours(
             hours=-0.50, favourite=True
         )
@@ -76,6 +76,9 @@ class LineUpsCollector:
                 fixture.id
             )
             fixture_utc_date = get_formatted_date(fixture.utc_date)
+            attempt_number = (
+                fixture.line_up_check_attempt if fixture.line_up_check_attempt else 0
+            )
 
             if len(fixture_line_ups):
                 logger.info(
@@ -83,29 +86,19 @@ class LineUpsCollector:
                     f"collected"
                 )
                 continue
-            elif (
-                fixture_utc_date > datetime.datetime.utcnow()
-                and get_date_diff(fixture_utc_date).seconds > 600
-                and fixture.line_up_check_attempt > 5
-            ):
-                logger.info(
-                    f"Line Ups for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were already attempted to collect before the game."
-                )
-                continue
-            elif (
-                fixture_utc_date > datetime.datetime.utcnow()
-                and get_date_diff(fixture_utc_date).seconds < 600
-                and fixture.line_up_check_attempt < 10
-            ):
-                logger.info(
-                    f"Line Ups for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were already attempted to collect for time #{fixture.line_up_check_attempt} before the game."
-                )
-                continue
-            elif fixture.line_up_check_attempt == 10:
-                logger.info(
-                    f"Line Ups for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were already attempted to collect max. times"
-                )
-                continue
+            elif fixture_utc_date > datetime.datetime.utcnow():
+                if (attempt_number if attempt_number else 0) == 10:
+                    logger.info(
+                        f"Line Ups for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were already attempted to collect before the game."
+                    )
+                    continue
+            elif fixture_utc_date < datetime.datetime.utcnow():
+                if (attempt_number if attempt_number else 0) == 15:
+                    logger.info(
+                        f"Line Ups for fixture {fixture.id} ({fixture.home_team} vs. {fixture.away_team}) were "
+                        f"already attempted to collect max. times"
+                    )
+                    continue
 
             filtered_fixtures_ids.append(fixture.id)
 
