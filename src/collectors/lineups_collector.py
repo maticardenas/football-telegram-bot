@@ -94,6 +94,7 @@ class LineUpsCollector:
                 continue
             elif (
                 fixture_utc_date > datetime.datetime.utcnow()
+                and get_date_diff(fixture_utc_date).seconds < 600
                 and fixture.line_up_check_attempt < 10
             ):
                 logger.info(
