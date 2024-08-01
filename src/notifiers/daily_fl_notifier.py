@@ -4,6 +4,7 @@ import sys
 from datetime import datetime
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+
 parent_dir = os.path.dirname(current_dir)
 project_dir = os.path.join(parent_dir, "..")
 sys.path.insert(0, parent_dir)
@@ -11,6 +12,7 @@ sys.path.insert(1, project_dir)
 
 from src.db.fixtures_db_manager import FixturesDBManager
 from src.emojis import Emojis
+from src.entities import Fixture
 from src.notifier_logger import get_logger
 from src.senders.telegram_sender import send_telegram_message
 from src.telegram_bot.command_handlers.bot_commands_handler import (
@@ -30,6 +32,16 @@ logger = get_logger(__name__)
 
 
 NOTIF_TYPE = 2
+
+
+def group_fixtures_by_league(fixtures: list[Fixture]):
+    fixtures_by_league = {}
+    for fixture in fixtures:
+        if fixture.championship.name not in fixtures_by_league:
+            fixtures_by_league[fixture.championship.name] = []
+        fixtures_by_league[fixture.championship.name].append(fixture)
+
+    return fixtures_by_league
 
 
 def notify_fl_leagues_playing() -> None:
@@ -89,12 +101,22 @@ def notify_fl_leagues_playing() -> None:
                 user_fixtures_to_notif.append(converted_fixture)
 
         if user_fixtures_to_notif:
+            grouped_fixtures = group_fixtures_by_league(user_fixtures_to_notif)
+
             initial_notif_text = f"{Emojis.BELL.value}{Emojis.BELL.value}{Emojis.BELL.value}\n\nHi! {Emojis.WAVING_HAND.value}\nThere are matches on your favourite leagues today {Emojis.TELEVISION.value}"
 
-            fixtures_text = "<not_translate>\n\n</not_translate>".join(
-                [fixture.one_line_telegram_repr() for fixture in user_fixtures_to_notif]
-            )
-            final_text = f"{initial_notif_text}<not_translate>\n\n</not_translate>{fixtures_text}"
+            # Build text to notify, by listing the matches with the league name as title
+            fixtures_text = ""
+            for league_name, fixtures in grouped_fixtures.items():
+                fixtures_text += f"<not_translate>\n\n{Emojis.TROPHY.value} {league_name} {Emojis.TROPHY.value}\n\n</not_translate>"
+                fixtures_text += "<not_translate>\n</not_translate>".join(
+                    [
+                        fixture.one_line_telegram_repr(with_league=False)
+                        for fixture in fixtures
+                    ]
+                )
+
+            final_text = f"{initial_notif_text}{fixtures_text}"
 
             logger.info(f"Notifying FL Games Today to user {user} - text: {final_text}")
             notifier_commands_handler = NotifierBotCommandsHandler(user)
