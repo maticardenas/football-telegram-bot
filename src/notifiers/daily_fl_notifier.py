@@ -108,8 +108,8 @@ def notify_fl_leagues_playing() -> None:
             # Build text to notify, by listing the matches with the league name as title
             fixtures_text = ""
             for league_name, fixtures in grouped_fixtures.items():
-                fixtures_text += f"<not_translate>\n\n{Emojis.TROPHY.value} {league_name} {Emojis.TROPHY.value}\n\n</not_translate>"
-                fixtures_text += "<not_translate>\n</not_translate>".join(
+                fixtures_text += f"<not_translate>\n\n{Emojis.TROPHY.value} <strong>{league_name}</strong> {Emojis.TROPHY.value}\n\n</not_translate>"
+                fixtures_text += "<not_translate>\n\n</not_translate>".join(
                     [
                         fixture.one_line_telegram_repr(with_league=False)
                         for fixture in fixtures
