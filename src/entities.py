@@ -448,7 +448,7 @@ class Fixture:
             )
 
             info_text = (
-                f"{Emojis.ALARM_CLOCK.value} {self.fixtures_times_text(one_line=True)}"
+                self.fixtures_times_text(one_line=True)
                 if not not_played_or_finished_match_text
                 else not_played_or_finished_match_text
             )
